@@ -7,7 +7,7 @@ A banking app written in python.
 - Python
 - PostgresSQL
 - Flask
-- Psycopg
+- Psycopg2
 - Postman
 - REST
 - Git
@@ -26,7 +26,8 @@ A banking app written in python.
 - Users can leave the bank.
 
 # To Do:
-- Get all accounts and get all customers API methods will not pass.  
+- Troubleshoot transaction to fix data types being sent.
+- Get all accounts API method will not pass.  
 - Front end HTML and JavaScript
 
 # Getting Started:
