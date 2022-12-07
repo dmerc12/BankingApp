@@ -1,8 +1,10 @@
 from DAL.BankAccountDAL.BankAccountDALImplementation import BankAccountDALImplementation
 from DAL.CustomerDAL.CustomerDALImplementation import CustomerDALImplementation
+from DAL.TransactionDAL.TransactionDALImplementation import TransactionDALImplementation
 
 customer_dao = CustomerDALImplementation()
 account_dao = BankAccountDALImplementation()
+transaction_dao = TransactionDALImplementation()
 
 def reset_database():
     sql1 = "truncate table banking.customers restart identity cascade;"
@@ -15,5 +17,6 @@ def reset_database():
     customer_dao.populate_test_customer(sql4)
     account_dao.truncate_bank_account_table(sql2)
     account_dao.populate_test_account(sql5)
+    transaction_dao.truncate_transaction_table(sql3)
 
 reset_database()
