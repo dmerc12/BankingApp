@@ -26,9 +26,13 @@ A banking app written in python.
 - Users can leave the bank.
 
 # To Do:
-- Troubleshoot transaction to fix data types being sent.
-- Get all accounts API method will not pass.  
+- BankAccount SAL
+- Main API 
 - Front end HTML and JavaScript
+- BankAccount implement withdrawing all funds before being able to delete an account
+- Integrate transactions into API
+- Transaction SAL
+- Test for get all accounts, going around test account needed in database
 
 # Getting Started:
 - to clone: 
