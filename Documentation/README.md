@@ -33,6 +33,7 @@ A banking app written in python.
 - Integrate transactions into API
 - Transaction SAL
 - Test for get all accounts, going around test account needed in database
+- Tests in deposit / withdraw / transfer for accounts not found
 
 # Getting Started:
 - to clone: 

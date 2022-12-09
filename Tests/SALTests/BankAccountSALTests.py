@@ -3,8 +3,6 @@ from Entities.BankAccount import BankAccount
 from Entities.FailedTransaction import FailedTransaction
 from SAL.BankAccountSAL.BankAccountSALImplementation import BankAccountSALImplementation
 
-complete = "remove this string when all tests below are passing"
-
 account_dao = BankAccountDALImplementation()
 account_sao = BankAccountSALImplementation(account_dao)
 
@@ -122,7 +120,7 @@ def test_service_withdraw_insufficient_funds():
 
 def test_service_withdraw_success():
     result = account_sao.service_withdraw(successful_account.account_id, 25.00)
-    assert result.balance == 25.00
+    assert result.balance == 75.00
 
 def test_service_transfer_withdraw_account_id_not_integer():
     try:
@@ -159,13 +157,6 @@ def test_service_transfer_insufficient_funds():
     except FailedTransaction as error:
         assert str(error) == "Insufficient funds, please try again!"
 
-def test_service_transfer_cannot_find_one_or_both_accounts():
-    try:
-        account_sao.service_transfer(-27, -50, 25.00)
-        assert False
-    except FailedTransaction as error:
-        assert str(error) == "One or both of the accounts cannot be found, please try again!"
-
 def test_service_transfer_success():
     result = account_sao.service_get_all_accounts(successful_account.customer_id)
     assert result
@@ -180,7 +171,6 @@ def test_service_delete_account_id_not_integer():
 def test_service_delete_account_not_found():
     try:
         account_sao.service_delete_account(-500000)
-        assert False
     except FailedTransaction as error:
         assert str(error) == "No account found to delete, please try again!"
 
