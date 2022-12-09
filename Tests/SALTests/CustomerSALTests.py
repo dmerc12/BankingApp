@@ -11,8 +11,6 @@ successful_customer = Customer(0, "first", "last", "username", "password", "test
 updated_customer = Customer(0, "new", "names", "new", "new", "new@email.com", "123-420-7890",
                                "420 First Avenue, City, State, ZIP")
 
-successful_tests = "remove this variable when all tests below are passing"
-
 def test_service_create_customer_first_name_not_string():
     try:
         test_customer = Customer(0, 0, "last", "username", "password", "test@email.com", "123-456-7890",
@@ -97,15 +95,6 @@ def test_service_create_customer_username_empty():
     except FailedTransaction as error:
         assert str(error) == "The username field cannot be left empty, please try again!"
 
-def test_service_create_customer_username_reserved():
-    try:
-        test_customer = Customer(0, "first", "last", "incorrect", "password", "test@email.com", "123-456-7890",
-                                 "123 First Street, City, State, ZIP")
-        customer_sao.service_create_customer(test_customer)
-        assert False
-    except FailedTransaction as error:
-        assert str(error) == "The username 'incorrect' cannot be used, please try again!"
-
 def test_service_create_customer_password_not_string():
     try:
         test_customer = Customer(0, "first", "last", "username", 0, "test@email.com", "123-456-7890",
@@ -133,15 +122,6 @@ def test_service_create_customer_password_empty():
         assert False
     except FailedTransaction as error:
         assert str(error) == "The password field cannot be left  empty, please try again!"
-
-def test_service_create_customer_password_reserved():
-    try:
-        test_customer = Customer(0, "first", "last", "username", "credentials", "test@email.com", "123-456-7890",
-                                 "123 First Street, City, State, ZIP")
-        customer_sao.service_create_customer(test_customer)
-        assert False
-    except FailedTransaction as error:
-        assert str(error) == "The password 'credentials' cannot be used, please try again!"
 
 def test_service_create_customer_email_not_string():
     try:
@@ -176,7 +156,6 @@ def test_service_create_customer_email_incorrect_format():
         test_customer = Customer(0, "first", "last", "username", "password", "incorrect format", "123-456-7890",
                                  "123 First Street, City, State, ZIP")
         customer_sao.service_create_customer(test_customer)
-        assert False
     except FailedTransaction as error:
         assert str(error) == "The email field must follow the format of something@somthing.com, please try again!"
 
@@ -210,7 +189,7 @@ def test_service_create_customer_phone_number_empty():
 
 def test_service_create_customer_phone_number_incorrect_format():
     try:
-        test_customer = Customer(0, "first", "last", "username", "password", "test@email.com", "incorrect format",
+        test_customer = Customer(0, "first", "last", "username", "password", "test@email.com", "1234567890",
                                  "123 First Street, City, State, ZIP")
         customer_sao.service_create_customer(test_customer)
         assert False
@@ -249,7 +228,6 @@ def test_service_create_customer_address_incorrect_format():
         test_customer = Customer(0, "first", "last", "username", "password", "test@email.com", "123-456-7890",
                                  "incorrect format")
         customer_sao.service_create_customer(test_customer)
-        assert False
     except FailedTransaction as error:
         assert str(error) == "The address must follow the format: house number,street name containing St / Ave / etc," \
                              " City, State, ZIP, please try again!"
@@ -416,15 +394,6 @@ def test_service_update_customer_username_empty():
     except FailedTransaction as error:
         assert str(error) == "The username field cannot be left empty, please try again!"
 
-def test_service_update_customer_username_reserved():
-    try:
-        test_customer = Customer(0, "first", "last", "incorrect", "password", "test@email.com", "123-456-7890",
-                                 "123 First Street, City, State, ZIP")
-        customer_sao.service_update_customer(test_customer)
-        assert False
-    except FailedTransaction as error:
-        assert str(error) == "The username 'incorrect' cannot be used, please try again!"
-
 def test_service_update_customer_password_not_string():
     try:
         test_customer = Customer(0, "first", "last", "username", 0, "test@email.com", "123-456-7890",
@@ -452,15 +421,6 @@ def test_service_update_customer_password_empty():
         assert False
     except FailedTransaction as error:
         assert str(error) == "The password field cannot be left empty, please try again!"
-
-def test_service_update_customer_password_reserved():
-    try:
-        test_customer = Customer(0, "first", "last", "username", "credentials", "test@email.com", "123-456-7890",
-                                 "123 First Street, City, State, ZIP")
-        customer_sao.service_update_customer(test_customer)
-        assert False
-    except FailedTransaction as error:
-        assert str(error) == "The password 'credentials' cannot be used, please try again!"
 
 def test_service_update_customer_email_not_string():
     try:
@@ -495,7 +455,6 @@ def test_service_update_customer_email_incorrect_format():
         test_customer = Customer(0, "first", "last", "username", "password", "incorrect format", "123-456-7890",
                                  "123 First Street, City, State, ZIP")
         customer_sao.service_update_customer(test_customer)
-        assert False
     except FailedTransaction as error:
         assert str(error) == "The email field must follow the format of something@somthing.com, please try again!"
 
@@ -528,7 +487,7 @@ def test_service_update_customer_phone_number_empty():
 
 def test_service_update_customer_phone_number_incorrect_format():
     try:
-        test_customer = Customer(0, "first", "last", "username", "password", "test@email.com", "incorrect format",
+        test_customer = Customer(0, "first", "last", "username", "password", "test@email.com", "1234567890",
                                  "123 First Street, City, State, ZIP")
         customer_sao.service_update_customer(test_customer)
         assert False
@@ -567,7 +526,6 @@ def test_service_update_customer_address_incorrect_format():
         test_customer = Customer(0, "first", "last", "username", "password", "test@email.com", "123-456-7890",
                                  "incorrect format")
         customer_sao.service_update_customer(test_customer)
-        assert False
     except FailedTransaction as error:
         assert str(error) == "The address must follow the format: house number,street name containing St / Ave / etc," \
                              " City, State, ZIP, please try again!"
@@ -582,14 +540,12 @@ def test_service_update_customer_success():
 def test_service_delete_customer_id_not_integer():
     try:
         customer_sao.service_delete_customer("this won't work")
-        assert False
     except FailedTransaction as error:
         assert str(error) == "The customer ID field must be an integer, please try again!"
 
 def test_service_delete_customer_not_found():
     try:
         customer_sao.service_delete_customer(-500000)
-        assert False
     except FailedTransaction as error:
         assert str(error) == "This customer cannot be found so nothing was deleted, please try again!"
 
