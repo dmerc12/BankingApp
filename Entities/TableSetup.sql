@@ -25,6 +25,7 @@ create table banking.transactions(
 	constraint accountfk foreign key (account_id) references Banking.bank_accounts(account_id)
 );
 
-insert into banking.customers values (-1, 'test', 'customer', 'please', 'work');
+insert into banking.customers values (-1, 'test', 'customer', 'please', 'work', 'test@email.com', '123-456-7890',
+'123 This Street, City, State, ZIP');
 
 insert into banking.bank_accounts values(-1, -1, 0.00);

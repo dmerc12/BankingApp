@@ -41,7 +41,7 @@ class CustomerDALImplementation(CustomerDALInterface):
         customer_info = cursor.fetchone()
         if customer_info is None:
             logging.warning("DAL method get customer by ID, cannot find customer")
-            raise FailedTransaction("The customer ID does not exist, please try again!")
+            raise FailedTransaction("This customer cannot be found, please try again!")
         customer = Customer(*customer_info)
         logging.info("Finishing DAL method get customer by ID")
         return customer
