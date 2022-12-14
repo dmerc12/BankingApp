@@ -21,7 +21,7 @@ class TransactionDALImplementation(TransactionDALInterface):
         cursor.execute(sql, (transaction.date_time, transaction.transaction_type, transaction.account_id,
                              transaction.amount))
         connection.commit()
-        transaction_id = cursor.fetchone()
+        transaction_id = cursor.fetchone()[0]
         transaction.transaction_id = transaction_id
         logging.info("Finishing DAL method create transaction")
         return transaction
@@ -48,12 +48,8 @@ class TransactionDALImplementation(TransactionDALInterface):
         transaction_list = []
         for transaction in transaction_records:
             transaction_list.append(Transaction(*transaction))
-            if len(transaction_list) <= 0:
-                logging.warning("DAL method get all transactions, no transactions found")
-                raise FailedTransaction("No transactions found, please try again!")
-            else:
-                logging.info("Finishing DAL method get all transactions")
-                return transaction_list
+        logging.info("Finishing DAL method get all transactions")
+        return transaction_list
 
     def delete_transaction(self, transaction_id: int) -> bool:
         logging.info("Beginning DAL method delete transaction")
