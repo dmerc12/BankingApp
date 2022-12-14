@@ -178,27 +178,9 @@ def get_account():
         app.logger.error(f"Error with API function get account with description: {str(error)}")
         return jsonify(message), 400
 
-# @app.route("/get/all/accounts", methods=["GET"])
-# def get_all_accounts():
-#    app.logger.info(f"{request.get_json()}, {request}, {request.path}, {datetime.datetime.now()}")
-#     logging.info("Beginning API function get all accounts")
-#     try:
-#         customer_information: dict = request.get_json()
-#         retrieved_id = customer_information["customerId"]
-#         result = account_sao.service_get_all_accounts(retrieved_id)
-#         json_list = []
-#         for account in result:
-#             account_dictionary = account.convert_to_dictionary()
-#             account_dictionary = jsonify(account_dictionary)
-#             json_list.append(account_dictionary)
-#         app.logger.info("Finishing API function get all accounts")
-#         return json_list, 201
-#     except FailedTransaction as error:
-#         message = {
-#             "message": str(error)
-#         }
-#         app.logger.error(f"Error with API function get all accounts with description: {str(error)}")
-#         return jsonify(message), 400
+@app.route("/get/all/accounts", methods=["GET"])
+def get_all_accounts():
+    pass
 
 @app.route("/deposit", methods=["PATCH"])
 def deposit():
