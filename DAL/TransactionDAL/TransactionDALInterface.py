@@ -19,3 +19,7 @@ class TransactionDALInterface(ABC):
     @abstractmethod
     def delete_transaction(self, transaction_id: int) -> bool:
         pass
+
+    @abstractmethod
+    def delete_all_transactions(self, account_id: int) -> bool:
+        pass

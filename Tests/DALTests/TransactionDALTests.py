@@ -21,3 +21,7 @@ def test_get_all_transactions_success():
 def test_delete_transaction_success():
     result = transaction_dao.delete_transaction(test_transaction.transaction_id)
     assert result
+
+def test_delete_all_transactions_success():
+    result = transaction_dao.delete_all_transactions(test_transaction.account_id)
+    assert result

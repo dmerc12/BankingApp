@@ -14,6 +14,13 @@ class TransactionDALImplementation(TransactionDALInterface):
         connection.commit()
         return True
 
+    @staticmethod
+    def populate_transaction_table(sql_query: str) -> bool:
+        cursor = connection.cursor()
+        cursor.execute(sql_query)
+        connection.commit()
+        return True
+
     def create_transaction(self, transaction: Transaction) -> Transaction:
         logging.info("Beginning DAL method create transaction")
         sql = "insert into banking.transactions values (default, %s, %s, %s, %s) returning transaction_id;"
@@ -58,4 +65,13 @@ class TransactionDALImplementation(TransactionDALInterface):
         cursor.execute(sql, [transaction_id])
         connection.commit()
         logging.info("Finishing DAL method delete transaction")
+        return True
+
+    def delete_all_transactions(self, account_id) -> bool:
+        logging.info("Beginning DAL method delete all transactions")
+        sql = "delete from banking.transactions where account_id=%s;"
+        cursor = connection.cursor()
+        cursor.execute(sql, [account_id])
+        connection.commit()
+        logging.info("Finishing DAL method delete all transactions")
         return True

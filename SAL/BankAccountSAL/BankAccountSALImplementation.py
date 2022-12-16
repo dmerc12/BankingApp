@@ -74,14 +74,9 @@ class BankAccountSALImplementation(BankAccountSALInterface):
             logging.warning("SAL method withdraw, withdraw amount negative")
             raise FailedTransaction("The withdraw amount field cannot be negative, please try again!")
         else:
-            current_account_info = self.account_dao.get_account_by_id(account_id)
-            if (current_account_info.balance - withdraw_amount) < 0.00:
-                logging.warning("SAL method withdraw, insufficient funds")
-                raise FailedTransaction("Insufficient funds, please try again!")
-            else:
-                updated_account_info = self.account_dao.deposit(account_id, withdraw_amount)
-                logging.info("Finishing SAL method withdraw")
-                return updated_account_info
+            updated_account_info = self.account_dao.deposit(account_id, withdraw_amount)
+            logging.info("Finishing SAL method withdraw")
+            return updated_account_info
 
     def service_transfer(self, withdraw_account_id: int, deposit_account_id: int, transfer_amount: float) -> bool:
         logging.info("Beginning SAL method transfer")

@@ -21,3 +21,7 @@ class TransactionSALInterface(ABC):
     @abstractmethod
     def service_delete_transaction(self, transaction_id: int) -> bool:
         pass
+
+    @abstractmethod
+    def service_delete_all_transactions(self, account_id: int) -> bool:
+        pass

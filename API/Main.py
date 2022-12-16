@@ -5,11 +5,14 @@ import os.path
 from flask import Flask, request, jsonify
 from DAL.BankAccountDAL.BankAccountDALImplementation import BankAccountDALImplementation
 from DAL.CustomerDAL.CustomerDALImplementation import CustomerDALImplementation
+from DAL.TransactionDAL.TransactionDALImplementation import TransactionDALImplementation
 from Entities.BankAccount import BankAccount
 from Entities.Customer import Customer
 from Entities.FailedTransaction import FailedTransaction
+from Entities.Transaction import Transaction
 from SAL.BankAccountSAL.BankAccountSALImplementation import BankAccountSALImplementation
 from SAL.CustomerSAL.CustomerSALImplementation import CustomerSALImplementation
+from SAL.TransactionSAL.TransactionSALImplementation import TransactionSALImplementation
 
 app: Flask = Flask(__name__)
 
@@ -17,6 +20,8 @@ customer_dao = CustomerDALImplementation()
 customer_sao = CustomerSALImplementation(customer_dao)
 account_dao = BankAccountDALImplementation()
 account_sao = BankAccountSALImplementation(account_dao)
+transaction_dao = TransactionDALImplementation()
+transaction_sao = TransactionSALImplementation(transaction_dao)
 
 @app.before_request
 def set_up_logs():
@@ -150,6 +155,11 @@ def create_account():
         result = account_sao.service_create_account(new_account)
         result_dictionary = result.convert_to_dictionary()
         result_json = jsonify(result_dictionary)
+        transaction_account_id = result.account_id
+        transaction_amount = result.balance
+        setup_transaction = Transaction(0, str(datetime.datetime.now()), "deposit", transaction_account_id,
+                                        transaction_amount)
+        transaction_sao.service_create_transaction(setup_transaction)
         app.logger.info("Finishing API function create account")
         return result_json, 201
     except FailedTransaction as error:
@@ -211,6 +221,11 @@ def deposit():
         result = account_sao.service_deposit(account_id, deposit_amount)
         result_dictionary = result.convert_to_dictionary()
         result_json = jsonify(result_dictionary)
+        transaction_account_id = account_id
+        transaction_amount = deposit_amount
+        deposit_transaction = Transaction(0, str(datetime.datetime.now()), "deposit", transaction_account_id,
+                                          transaction_amount)
+        transaction_sao.service_create_transaction(deposit_transaction)
         app.logger.info("Finishing API function deposit")
         return result_json, 201
     except FailedTransaction as error:
@@ -231,6 +246,11 @@ def withdraw():
         result = account_sao.service_withdraw(account_id, withdraw_amount)
         result_dictionary = result.convert_to_dictionary()
         result_json = jsonify(result_dictionary)
+        transaction_account_id = account_id
+        transaction_amount = withdraw_amount
+        withdraw_transaction = Transaction(0, str(datetime.datetime.now()), "withdraw", transaction_account_id,
+                                           transaction_amount)
+        transaction_sao.service_create_transaction(withdraw_transaction)
         app.logger.info("Finishing API function withdraw")
         return result_json, 201
     except FailedTransaction as error:
@@ -254,6 +274,16 @@ def transfer():
             "result": result
         }
         result_json = jsonify(result_dictionary)
+        withdraw_transaction_account_id = withdraw_account_id
+        withdraw_transaction_amount = transfer_amount
+        withdraw_transaction = Transaction(0, str(datetime.datetime.now()), "withdraw", withdraw_transaction_account_id,
+                                           withdraw_transaction_amount)
+        transaction_sao.service_create_transaction(withdraw_transaction)
+        deposit_transaction_account_id = deposit_account_id
+        deposit_transaction_amount = transfer_amount
+        deposit_transaction = Transaction(0, str(datetime.datetime.now()), "deposit", deposit_transaction_account_id,
+                                          deposit_transaction_amount)
+        transaction_sao.service_create_transaction(deposit_transaction)
         app.logger.info("Finishing API function transfer")
         return result_json, 201
     except FailedTransaction as error:
@@ -270,6 +300,7 @@ def delete_account():
     try:
         id_info: dict = request.get_json()
         account_id = id_info["accountId"]
+        transaction_sao.service_delete_all_transactions(account_id)
         result = account_sao.service_delete_account(account_id)
         result_dictionary = {
             "result": result

@@ -35,11 +35,6 @@ class TransactionSALImplementation(TransactionSALInterface):
         elif len(transaction.transaction_type) == 0:
             logging.warning("SAL method create transaction, transaction type left empty")
             raise FailedTransaction("The transaction type field cannot be left empty, please try again!")
-        elif transaction.transaction_type != ("deposit" or "withdraw" or "transfer" or "expense"):
-            logging.warning("SAL method create transaction, transaction type not deposit, withdraw, transfer, or "
-                            "expense")
-            raise FailedTransaction("The transaction type field must be one of the following: deposit, withdraw, "
-                                    "transfer, expense; please try again!")
         elif type(transaction.account_id) != int:
             logging.warning("SAL method create transaction, account ID not an integer")
             raise FailedTransaction("The account ID field must be an integer, please try again!")
@@ -91,3 +86,13 @@ class TransactionSALImplementation(TransactionSALInterface):
                 result = self.transaction_dao.delete_transaction(transaction_id)
                 logging.info("Finishing SAL method delete transaction")
                 return result
+
+    def service_delete_all_transactions(self, account_id: int) -> bool:
+        logging.info("Beginning SAL method delete all transactions")
+        if type(account_id) != int:
+            logging.warning("SAL method delete all transactions, account ID not an integer")
+            raise FailedTransaction("The account ID field must be an integer, please try again!")
+        else:
+            result = self.transaction_dao.delete_all_transactions(account_id)
+            logging.info("Finishing SAL method delete all transactions")
+            return result

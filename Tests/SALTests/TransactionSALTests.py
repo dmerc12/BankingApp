@@ -49,15 +49,6 @@ def test_service_create_transaction_type_too_long():
     except FailedTransaction as error:
         assert str(error) == "The transaction type field cannot exceed 8 characters, please try again!"
 
-def test_service_create_transaction_type_not_deposit_withdraw_transfer_or_expense():
-    try:
-        test_transaction = Transaction(0, str(datetime.now()), "no", 1, 25.00)
-        transaction_sao.service_create_transaction(test_transaction)
-        assert False
-    except FailedTransaction as error:
-        assert str(error) == "The transaction type field must be one of the following: deposit, withdraw, transfer, " \
-                             "expense; please try again!"
-
 def test_service_create_transaction_type_empty():
     try:
         test_transaction = Transaction(0, str(datetime.now()), "", 1, 25.00)
@@ -153,4 +144,15 @@ def test_delete_transaction_not_found():
 
 def test_service_delete_transaction_success():
     result = transaction_sao.service_delete_transaction(successful_transaction.transaction_id)
+    assert result
+
+def test_service_delete_all_transactions_account_id_not_integer():
+    try:
+        transaction_sao.service_delete_all_transactions("nope")
+        assert False
+    except FailedTransaction as error:
+        assert str(error) == "The account ID field must be an integer, please try again!"
+
+def test_service_delete_all_transactions_success():
+    result = transaction_sao.service_delete_all_transactions(successful_transaction.account_id)
     assert result
