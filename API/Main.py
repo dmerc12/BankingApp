@@ -180,7 +180,25 @@ def get_account():
 
 @app.route("/get/all/accounts", methods=["GET"])
 def get_all_accounts():
-    pass
+    app.logger.info(f"{request.get_json()}, {request}, {request.path}, {datetime.datetime.now()}")
+    app.logger.info("Beginning API function get all accounts")
+    try:
+        requested_info: dict = request.get_json()
+        customer_id = requested_info["customerId"]
+        result = account_sao.service_get_all_accounts(customer_id)
+        result_dictionary = {
+            "accountList": result
+        }
+        result_json = jsonify(result_dictionary)
+        app.logger.info("Finishing API function get all accounts")
+        return result_json, 201
+    except FailedTransaction as error:
+        message = {
+            "message":  str(error)
+        }
+        app.logger.error(f"Error with API function get all accounts with description: {str(error)}")
+        return jsonify(message), 400
+
 
 @app.route("/deposit", methods=["PATCH"])
 def deposit():

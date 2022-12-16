@@ -13,7 +13,7 @@ class BankAccountDALInterface(ABC):
         pass
 
     @abstractmethod
-    def get_all_accounts(self, customer_id: int) -> List[BankAccount]:
+    def get_all_accounts(self, customer_id: int) -> List[str]:
         pass
 
     @abstractmethod

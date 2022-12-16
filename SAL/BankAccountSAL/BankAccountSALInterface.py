@@ -15,7 +15,7 @@ class BankAccountSALInterface(ABC):
         pass
 
     @abstractmethod
-    def service_get_all_accounts(self, customer_id: int) -> List[BankAccount]:
+    def service_get_all_accounts(self, customer_id: int) -> List[str]:
         pass
 
     @abstractmethod

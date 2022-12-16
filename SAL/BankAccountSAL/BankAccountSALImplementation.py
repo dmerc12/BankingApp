@@ -36,7 +36,7 @@ class BankAccountSALImplementation(BankAccountSALInterface):
             logging.info("Finishing SAL method get account by ID")
             return account
 
-    def service_get_all_accounts(self, customer_id: int) -> List[BankAccount]:
+    def service_get_all_accounts(self, customer_id: int) -> List[str]:
         logging.info("Beginning SAL method get all accounts")
         if type(customer_id) != int:
             logging.warning("SAL method get all accounts, customer ID not an integer")
