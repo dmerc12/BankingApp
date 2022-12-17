@@ -315,4 +315,65 @@ def delete_account():
         app.logger.error(f"Error with API function delete account with description: {str(error)}")
         return jsonify(message), 400
 
+@app.route("/get/transaction", methods=["GET"])
+def get_transaction_by_id():
+    app.logger.info(f"{request.get_json()}, {request}, {request.path}, {datetime.datetime.now()}")
+    app.logger.info("Beginning API function get transaction by ID")
+    try:
+        id_info: dict = request.get_json()
+        transaction_id = id_info["transactionId"]
+        result = transaction_sao.service_get_transaction_by_id(transaction_id)
+        result_dictionary = result.convert_to_dictionary()
+        result_json = jsonify(result_dictionary)
+        app.logger.info("Finishing API function get transaction by ID")
+        return result_json, 201
+    except FailedTransaction as error:
+        message = {
+            "message": str(error)
+        }
+        app.logger.error(f"{request.get_json()}, {request.path}, {datetime.datetime}")
+        return jsonify(message), 400
+
+@app.route("/get/all/transactions", methods=["GET"])
+def get_all_transactions():
+    app.logger.info(f"{request.get_json()}, {request}, {request.path}, {datetime.datetime.now()}")
+    app.logger.info("Beginning API function get all transactions")
+    try:
+        id_info: dict = request.get_json()
+        account_id = id_info["accountId"]
+        result = transaction_sao.service_get_all_transactions(account_id)
+        result_dictionary = {
+            "result": result
+        }
+        result_json = jsonify(result_dictionary)
+        app.logger.info("Finishing API function get all transactions")
+        return result_json, 201
+    except FailedTransaction as error:
+        message = {
+            "message": str(error)
+        }
+        app.logger.error(f"{request.get_json()}, {request.path}, {datetime.datetime}")
+        return jsonify(message), 400
+
+@app.route("/delete/transaction", methods=["DELETE"])
+def delete_transaction():
+    app.logger.info(f"{request.get_json()}, {request}, {request.path}, {datetime.datetime.now()}")
+    app.logger.info("Beginning API function get delete transaction")
+    try:
+        id_info: dict = request.get_json()
+        transaction_id = id_info["transactionId"]
+        result = transaction_sao.service_delete_transaction(transaction_id)
+        result_dictionary = {
+            "result": result
+        }
+        result_json = jsonify(result_dictionary)
+        app.logger.info("Finishing API function delete transaction")
+        return result_json, 201
+    except FailedTransaction as error:
+        message = {
+            "message": str(error)
+        }
+        app.logger.error(f"{request.get_json()}, {request.path}, {datetime.datetime}")
+        return jsonify(message), 400
+
 app.run()

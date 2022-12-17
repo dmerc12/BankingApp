@@ -54,7 +54,12 @@ class TransactionDALImplementation(TransactionDALInterface):
         transaction_records = cursor.fetchall()
         transaction_list = []
         for transaction in transaction_records:
-            transaction_list.append(Transaction(*transaction))
+            transaction = Transaction(*transaction)
+            transaction_dictionary = transaction.convert_to_dictionary()
+            transaction_list.append(transaction_dictionary)
+        if len(transaction_list) == 0:
+            logging.warning("DAL method get all transactions, none found")
+            raise FailedTransaction("No transactions were found, please try again!")
         logging.info("Finishing DAL method get all transactions")
         return transaction_list
 
