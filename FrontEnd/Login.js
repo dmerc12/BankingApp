@@ -15,9 +15,7 @@ async function doLogin() {
 
     let loginInfo = {
         method: "POST",
-        mode: "cors",
         headers: {
-            "Access-Control-Allow-Origin": true,
             "Content-Type": "application/json"
         },
         body: JSON.stringify(loginJSON)
@@ -27,20 +25,14 @@ async function doLogin() {
 
     if (response.status === 201) {
         const apiResponse = await response.json();
-        alert('Successful login, click continue!').then(function (result) {
-            if (result.isConfirmed) {
-                window.open("CustotmerHome.html")
-            }
-        });
-        window.sessionStorage.setItem("token".apiResponse.token)
+        alert('Successful login, click continue!');
+        window.sessionStorage.setItem("token", apiResponse.token);
+        window.open("CustotmerHome.html");
     } else if (response.status === 400) {
         const apiResponse = await response.json();
-        alert(
-            'Unsuccessful login attempt!',
-            apiResponse.message
-        );
+        alert(apiResponse.message);
     } else {
-        alert("Something went horribly wrong if I'm visible...")
+        alert("Something went horribly wrong if I'm visible...");
     }
 }
 
