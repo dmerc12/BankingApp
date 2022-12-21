@@ -355,25 +355,4 @@ def get_all_transactions():
         app.logger.error(f"{request.get_json()}, {request.path}, {datetime.datetime}")
         return jsonify(message), 400
 
-@app.route("/delete/transaction", methods=["DELETE"])
-def delete_transaction():
-    app.logger.info(f"{request.get_json()}, {request}, {request.path}, {datetime.datetime.now()}")
-    app.logger.info("Beginning API function get delete transaction")
-    try:
-        id_info: dict = request.get_json()
-        transaction_id = id_info["transactionId"]
-        result = transaction_sao.service_delete_transaction(transaction_id)
-        result_dictionary = {
-            "result": result
-        }
-        result_json = jsonify(result_dictionary)
-        app.logger.info("Finishing API function delete transaction")
-        return result_json, 201
-    except FailedTransaction as error:
-        message = {
-            "message": str(error)
-        }
-        app.logger.error(f"{request.get_json()}, {request.path}, {datetime.datetime}")
-        return jsonify(message), 400
-
 app.run()
