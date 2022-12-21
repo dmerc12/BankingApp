@@ -59,7 +59,7 @@ class TransactionDALImplementation(TransactionDALInterface):
             transaction_list.append(transaction_dictionary)
         if len(transaction_list) == 0:
             logging.warning("DAL method get all transactions, none found")
-            raise FailedTransaction("No transactions were found, please try again!")
+            raise FailedTransaction("No transactions found, please try again!")
         logging.info("Finishing DAL method get all transactions")
         return transaction_list
 
