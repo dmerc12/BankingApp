@@ -1,41 +1,47 @@
 
-
 async function doLogin() {
+    // initializing URL variable
     const loginURL = "http://127.0.0.1:5000/login"
 
+    // grabbing inputs from DOM
     const username = document.getElementById("usernameInput").value;
     const password = document.getElementById("passwordInput").value;
 
+    // preparing JSON
     let loginJSON = {
         "username": username,
         "password": password
     }
 
+    // initializing local storage token
     token = null;
 
+    // preparing login request
     let loginInfo = {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
         body: JSON.stringify(loginJSON)
-    }
+    };
 
+    // sending request and awaiting API response
     let response = await fetch(loginURL, loginInfo);
 
+    // handling API response appropriately
     if (response.status === 201) {
         const apiResponse = await response.json();
         alert('Successful login, click continue!');
         window.sessionStorage.setItem("token", apiResponse.token);
-        window.open("CustotmerHome.html");
+        window.location.href = "CustotmerHome.html";
     } else if (response.status === 400) {
         const apiResponse = await response.json();
         alert(apiResponse.message);
     } else {
         alert("Something went horribly wrong if I'm visible...");
-    }
-}
+    };
+};
 
 function goToNewCustomer() {
-    window.open("NewCustomer.html")
-}
+    window.location.href = "NewCustomer.html";
+};
