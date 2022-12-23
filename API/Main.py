@@ -1,7 +1,7 @@
 import datetime
 import logging
 import os.path
-
+from flask_cors import CORS, cross_origin
 from flask import Flask, request, jsonify
 from DAL.BankAccountDAL.BankAccountDALImplementation import BankAccountDALImplementation
 from DAL.CustomerDAL.CustomerDALImplementation import CustomerDALImplementation
@@ -15,6 +15,7 @@ from SAL.CustomerSAL.CustomerSALImplementation import CustomerSALImplementation
 from SAL.TransactionSAL.TransactionSALImplementation import TransactionSALImplementation
 
 app: Flask = Flask(__name__)
+CORS(app, resources={"/api*": {"origins": "*"}})
 
 customer_dao = CustomerDALImplementation()
 customer_sao = CustomerSALImplementation(customer_dao)
