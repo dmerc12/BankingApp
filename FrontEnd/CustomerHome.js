@@ -110,17 +110,17 @@ async function viewAccountBalance() {
     // preparing JSON
     getAccountJSON = {
         'accountId': accountId
-    }
+    };
 
     // preparing request
     let getAccountRequest = {
         method: "PATCH",
         headers: {'Content-Type': "application/json"},
         body: JSON.stringify(getAccountJSON)
-    }
+    };
 
     // sending request and awaiting response
-    const response = await fetch(viewAccountBalanceURL, getAccountRequest)
+    const response = await fetch(viewAccountBalanceURL, getAccountRequest);
 
     // handling API response approapriately
     if (response.status === 201) {
@@ -158,24 +158,24 @@ async function deposit() {
     const depositURL = "http://127.0.0.1:5000/deposit";
 
     // grabbing input from the DOM
-    const accountId = document.getElementById("depositAccountIdInput").value;
+    const depositAccountId = document.getElementById("depositAccountIdInput").value;
     const depositAmount = document.getElementById("depositAmountInput").value;
 
     // preparing JSON
     depositJSON = {
-        'accountId': accountId,
+        'accountId': depositAccountId,
         'depositAmount': depositAmount
-    }
+    };
 
     // preparing request
     let depositRequest = {
         method: "PATCH",
         headers: {'Content-Type': "application/json"},
         body: JSON.stringify(depositJSON)
-    }
+    };
 
     // sending request and awaiting response
-    const response = await fetch(depositURL, depositRequest)
+    const response = await fetch(depositURL, depositRequest);
 
     // handling API response approapriately
     if (response.status === 201) {
@@ -197,8 +197,14 @@ async function withdraw() {
     const depositURL = "http://127.0.0.1:5000/withdraw";
 
     // grabbing input from the DOM
+    const withdrawAccountId = document.getElementById("withdrawAccountIdInput").value;
+    const withdrawAmount = document.getElementById("withdrawAmountInput").value;
 
     // preparing JSON
+    withdrawJSON = {
+        'accountId': withdrawAccountId,
+        'withdrawAmount': withdrawAmount
+    };
 
     // preparing request
 
