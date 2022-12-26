@@ -24,46 +24,46 @@ function resetInputs() {
 
 };
 
-// once back end methods are written this can be uncommented
-// async function viewCustomerId() {
-//     // initializing URL varible
-//     const viewCustomeURL = "http://127.0.0.1:5000/view/customer/id";
+// needs back end functions build to work
+async function viewCustomerId() {
+    // initializing URL varible
+    const viewCustomeURL = "http://127.0.0.1:5000/get/customer/id";
 
-//     // grabbing input from the DOM
-//     const username = document.getElementById("usernameInput").value;
-//     const password = document.getElementById("passwordInput").value;
+    // grabbing input from the DOM
+    const username = document.getElementById("usernameInput").value;
+    const password = document.getElementById("passwordInput").value;
 
-//     // preparing JSON
-//     validationCredentialsJSON = {
-//         'username': username,
-//         'password': password
-//     };
+    // preparing JSON
+    validationCredentialsJSON = {
+        'username': username,
+        'password': password
+    };
 
-//     // preparing request
-//     let validationRequest = {
-//         method: "POST",
-//         headers: {'Content-Type': "application/json"},
-//         body: JSON.stringify(validationCredentialsJSON)
-//     };
+    // preparing request
+    let validationRequest = {
+        method: "POST",
+        headers: {'Content-Type': "application/json"},
+        body: JSON.stringify(validationCredentialsJSON)
+    };
 
-//     // sending request and awaiting response
-//     const response = await fetch(viewCustomeURL, validationRequest)
+    // sending request and awaiting response
+    const response = await fetch(viewCustomeURL, validationRequest)
 
-//     // handling API response approapriately
-//     if (response.status === 201) {
-//         const apiResponse = await response.json();
-//         alert(`Your assigned customer ID is j${apiResponse.customerId}`);
-//     } else if (response.status === 400) {
-//         const apiResponse = await response.json();
-//         alert(`${apiResponse.message}`);
-//     } else {
-//         alert("Someting weent horribly wrong...");
-//     };
-// };
+    // handling API response approapriately
+    if (response.status === 201) {
+        const apiResponse = await response.json();
+        alert(`Your assigned customer ID is j${apiResponse.customerId}`);
+    } else if (response.status === 400) {
+        const apiResponse = await response.json();
+        alert(`${apiResponse.message}`);
+    } else {
+        alert("Someting weent horribly wrong...");
+    };
+};
 
 async function createAccount() {
     // initializing URL varible
-    const viewCustomeURL = "http://127.0.0.1:5000/create/account";
+    const createAccountURL = "http://127.0.0.1:5000/create/account";
 
     // grabbing input from the DOM
     const customerId = document.getElementById("createAccountCustomerIdInput").value;
@@ -77,14 +77,13 @@ async function createAccount() {
 
     // preparing request
     let newAccountRequest = {
-        mode: 'cors',
         method: "POST",
         headers: {'Content-Type': "application/json"},
         body: JSON.stringify(newAccountJSON)
     };
 
     // sending request and awaiting response
-    const response = await fetch(newAccountRequest, newAccountJSON);
+    const response = await fetch(createAccountURL, newAccountRequest);
 
     // handling API response approapriately
     if (response.status === 201) {
@@ -103,20 +102,45 @@ async function createAccount() {
 
 async function viewAccountBalance() {
     // initializing URL varible
+    const viewAccountBalanceURL = "http://127.0.0.1:5000/get/account";
 
     // grabbing input from the DOM
+    const accountId = document.getElementById("viewAccountIdInput").value;
 
     // preparing JSON
+    getAccountJSON = {
+        'accountId': accountId
+    }
 
     // preparing request
+    let getAccountRequest = {
+        method: "PATCH",
+        headers: {'Content-Type': "application/json"},
+        body: JSON.stringify(getAccountJSON)
+    }
 
     // sending request and awaiting response
+    const response = await fetch(viewAccountBalanceURL, getAccountRequest)
 
     // handling API response approapriately
+    if (response.status === 201) {
+        const apiResponse = await response.json();
+        alert(`The current balance of this account is: $ ${apiResponse.balance}`);
+        resetInputs();
+    } else if (response.status === 400) {
+        const apiResponse = await response.json();
+        alert(`${apiResponse.message}`);
+        resetInputs();
+    } else {
+        alert("Something went horribly wrong...")
+        resetInputs();
+    };
+
 };
 
 async function viewAllAccounts() {
     // initializing URL varible
+    const viewAllAccountsURL = "http://127.0.0.1:5000/get/all/accounts";
 
     // grabbing input from the DOM
 
@@ -131,20 +155,46 @@ async function viewAllAccounts() {
 
 async function deposit() {
     // initializing URL varible
+    const depositURL = "http://127.0.0.1:5000/deposit";
 
     // grabbing input from the DOM
+    const accountId = document.getElementById("depositAccountIdInput").value;
+    const depositAmount = document.getElementById("depositAmountInput").value;
 
     // preparing JSON
+    depositJSON = {
+        'accountId': accountId,
+        'depositAmount': depositAmount
+    }
 
     // preparing request
+    let depositRequest = {
+        method: "PATCH",
+        headers: {'Content-Type': "application/json"},
+        body: JSON.stringify(depositJSON)
+    }
 
     // sending request and awaiting response
+    const response = await fetch(depositURL, depositRequest)
 
     // handling API response approapriately
+    if (response.status === 201) {
+        const apiResponse = await response.json();
+        alert(`Your deposit was successful and now has a balance of: $ ${apiResponse.balance}`);
+        resetInputs();
+    } else if (response.status === 400) {
+        const apiResponse = await response.json();
+        alert(`${apiResponse.message}`);
+        resetInputs();
+    } else {
+        alert("Something went horribly wrong...")
+        resetInputs();
+    };
 };
 
 async function withdraw() {
     // initializing URL varible
+    const depositURL = "http://127.0.0.1:5000/withdraw";
 
     // grabbing input from the DOM
 

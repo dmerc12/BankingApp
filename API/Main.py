@@ -15,7 +15,7 @@ from SAL.CustomerSAL.CustomerSALImplementation import CustomerSALImplementation
 from SAL.TransactionSAL.TransactionSALImplementation import TransactionSALImplementation
 
 app: Flask = Flask(__name__)
-CORS(app, resources={"/api*": {"origins": "*"}})
+CORS(app)
 
 customer_dao = CustomerDALImplementation()
 customer_sao = CustomerSALImplementation(customer_dao)
@@ -151,8 +151,10 @@ def create_account():
     app.logger.info("Beginning API function create account")
     try:
         account_data: dict = request.get_json()
-        new_account: BankAccount = BankAccount(account_data["accountId"], account_data["customerId"],
-                                               account_data["balance"])
+        customer_id = account_data["customerId"]
+        balance = account_data["balance"]
+        new_account: BankAccount = BankAccount(0, customer_id,
+                                               balance)
         result = account_sao.service_create_account(new_account)
         result_dictionary = result.convert_to_dictionary()
         result_json = jsonify(result_dictionary)
@@ -170,7 +172,7 @@ def create_account():
         app.logger.error(f"Error with API function create account with description: {str(error)}")
         return jsonify(message), 400
 
-@app.route("/get/account", methods=["GET"])
+@app.route("/get/account", methods=["PATCH"])
 def get_account():
     app.logger.info(f"{request.get_json()}, {request}, {request.path}, {datetime.datetime.now()}")
     app.logger.info("Beginning API function get account")
@@ -217,8 +219,8 @@ def deposit():
     app.logger.info("Beginning API function deposit")
     try:
         deposit_info: dict = request.get_json()
-        deposit_amount = deposit_info["depositAmount"]
-        account_id = deposit_info["accountId"]
+        deposit_amount = float(deposit_info["depositAmount"])
+        account_id = int(deposit_info["accountId"])
         result = account_sao.service_deposit(account_id, deposit_amount)
         result_dictionary = result.convert_to_dictionary()
         result_json = jsonify(result_dictionary)
@@ -242,8 +244,8 @@ def withdraw():
     app.logger.info("Beginning API function withdraw")
     try:
         withdraw_info: dict = request.get_json()
-        withdraw_amount = withdraw_info["withdrawAmount"]
-        account_id = withdraw_info["accountId"]
+        withdraw_amount = float(withdraw_info["withdrawAmount"])
+        account_id = int(withdraw_info["accountId"])
         result = account_sao.service_withdraw(account_id, withdraw_amount)
         result_dictionary = result.convert_to_dictionary()
         result_json = jsonify(result_dictionary)
