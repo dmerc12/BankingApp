@@ -537,12 +537,6 @@ def test_service_update_customer_success():
            and result.email == updated_customer.email and result.phone_number == updated_customer.phone_number \
            and result.address == updated_customer.address
 
-def test_service_delete_customer_id_not_integer():
-    try:
-        customer_sao.service_delete_customer("this won't work")
-    except FailedTransaction as error:
-        assert str(error) == "The customer ID field must be an integer, please try again!"
-
 def test_service_delete_customer_not_found():
     try:
         customer_sao.service_delete_customer(-500000)

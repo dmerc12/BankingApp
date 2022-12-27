@@ -216,15 +216,11 @@ class CustomerSALImplementation(CustomerSALInterface):
 
     def service_delete_customer(self, customer_id: int) -> bool:
         logging.info("Beginning SAL method delete customer")
-        if type(customer_id) != int:
-            logging.warning("SAL method delete customer, customer ID not an integer")
-            raise FailedTransaction("The customer ID field must be an integer, please try again!")
+        result = self.customer_dao.delete_customer(customer_id)
+        if result is False:
+            logging.warning("SAL method delete customer, no customer found to delete")
+            raise FailedTransaction("This customer cannot be found so nothing was deleted, please try again!")
         else:
-            result = self.customer_dao.delete_customer(customer_id)
-            if result is False:
-                logging.warning("SAL method delete customer, no customer found to delete")
-                raise FailedTransaction("This customer cannot be found so nothing was deleted, please try again!")
-            else:
-                logging.info("Finishing SAL method delete customer")
-                return result
+            logging.info("Finishing SAL method delete customer")
+            return result
 

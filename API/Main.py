@@ -85,7 +85,7 @@ def get_customer():
     app.logger.info("Beginning API function get customer")
     try:
         requested_id: dict = request.get_json()
-        customer_id = requested_id["customerId"]
+        customer_id = int(requested_id["customerId"])
         result = customer_sao.service_get_customer_by_id(customer_id)
         result_dictionary = result.convert_to_dictionary()
         result_json = jsonify(result_dictionary)
@@ -151,8 +151,8 @@ def create_account():
     app.logger.info("Beginning API function create account")
     try:
         account_data: dict = request.get_json()
-        customer_id = account_data["customerId"]
-        balance = account_data["balance"]
+        customer_id = int(account_data["customerId"])
+        balance = float(account_data["balance"])
         new_account: BankAccount = BankAccount(0, customer_id,
                                                balance)
         result = account_sao.service_create_account(new_account)
@@ -178,7 +178,7 @@ def get_account():
     app.logger.info("Beginning API function get account")
     try:
         account_information: dict = request.get_json()
-        retrieved_id = account_information["accountId"]
+        retrieved_id = int(account_information["accountId"])
         result = account_sao.service_get_account_by_id(retrieved_id)
         result_dictionary = result.convert_to_dictionary()
         result_json = jsonify(result_dictionary)
@@ -197,7 +197,7 @@ def get_all_accounts():
     app.logger.info("Beginning API function get all accounts")
     try:
         requested_info: dict = request.get_json()
-        customer_id = requested_info["customerId"]
+        customer_id = int(requested_info["customerId"])
         result = account_sao.service_get_all_accounts(customer_id)
         result_dictionary = {
             "accountList": result
@@ -269,9 +269,9 @@ def transfer():
     app.logger.info("Beginning API function transfer")
     try:
         transfer_info: dict = request.get_json()
-        transfer_amount = transfer_info["transferAmount"]
-        withdraw_account_id = transfer_info["withdrawAccountId"]
-        deposit_account_id = transfer_info["depositAccountId"]
+        transfer_amount = float(transfer_info["transferAmount"])
+        withdraw_account_id = int(transfer_info["withdrawAccountId"])
+        deposit_account_id = int(transfer_info["depositAccountId"])
         result = account_sao.service_transfer(withdraw_account_id, deposit_account_id, transfer_amount)
         result_dictionary = {
             "result": result
@@ -302,7 +302,7 @@ def delete_account():
     app.logger.info("Beginning API function delete account")
     try:
         id_info: dict = request.get_json()
-        account_id = id_info["accountId"]
+        account_id = int(id_info["accountId"])
         transaction_sao.service_delete_all_transactions(account_id)
         result = account_sao.service_delete_account(account_id)
         result_dictionary = {
@@ -324,7 +324,7 @@ def get_transaction_by_id():
     app.logger.info("Beginning API function get transaction by ID")
     try:
         id_info: dict = request.get_json()
-        transaction_id = id_info["transactionId"]
+        transaction_id = int(id_info["transactionId"])
         result = transaction_sao.service_get_transaction_by_id(transaction_id)
         result_dictionary = result.convert_to_dictionary()
         result_json = jsonify(result_dictionary)
@@ -343,7 +343,7 @@ def get_all_transactions():
     app.logger.info("Beginning API function get all transactions")
     try:
         id_info: dict = request.get_json()
-        account_id = id_info["accountId"]
+        account_id = int(id_info["accountId"])
         result = transaction_sao.service_get_all_transactions(account_id)
         result_dictionary = {
             "result": result

@@ -25,7 +25,7 @@ class BankAccountDALImplementation(BankAccountDALInterface):
         logging.info("Beginning DAL method create account")
         sql = "insert into banking.bank_accounts values (default, %s, %s) returning account_id;"
         cursor = connection.cursor()
-        cursor.execute(sql, (int(account.customer_id), float(account.balance)))
+        cursor.execute(sql, (account.customer_id, account.balance))
         connection.commit()
         account_id = cursor.fetchone()[0]
         account.account_id = account_id
@@ -36,7 +36,7 @@ class BankAccountDALImplementation(BankAccountDALInterface):
         logging.info("Beginning DAL method get account by ID")
         sql = "select * from banking.bank_accounts where account_id=%s;"
         cursor = connection.cursor()
-        cursor.execute(sql, [int(account_id)])
+        cursor.execute(sql, [account_id])
         account_info = cursor.fetchone()
         if account_info is None:
             logging.warning("DAL method get account by ID, account not found")
@@ -49,7 +49,7 @@ class BankAccountDALImplementation(BankAccountDALInterface):
         logging.info("Beginning DAL method get all accounts")
         sql = "select * from banking.bank_accounts where customer_id=%s;"
         cursor = connection.cursor()
-        cursor.execute(sql, [int(customer_id)])
+        cursor.execute(sql, [customer_id])
         account_records = cursor.fetchall()
         account_list = []
         for account in account_records:
@@ -67,7 +67,7 @@ class BankAccountDALImplementation(BankAccountDALInterface):
         logging.info("Beginning DAL method deposit")
         sql = "update banking.bank_accounts set balance=(balance + %s) where account_id=%s returning *;"
         cursor = connection.cursor()
-        cursor.execute(sql, (float(deposit_amount), int(account_id)))
+        cursor.execute(sql, (deposit_amount, account_id))
         connection.commit()
         updated_info = cursor.fetchone()
         updated_account = BankAccount(*updated_info)
@@ -78,7 +78,7 @@ class BankAccountDALImplementation(BankAccountDALInterface):
         logging.info("Beginning DAL method withdraw")
         sql = "update banking.bank_accounts set balance=(balance - %s) where account_id=%s returning *;"
         cursor = connection.cursor()
-        cursor.execute(sql, (float(withdraw_amount), int(account_id)))
+        cursor.execute(sql, (withdraw_amount, account_id))
         connection.commit()
         updated_info = cursor.fetchone()
         updated_account = BankAccount(* updated_info)
@@ -90,8 +90,8 @@ class BankAccountDALImplementation(BankAccountDALInterface):
         sql1 = "update banking.bank_accounts set balance=(balance - %s) where account_id=%s;"
         sql2 = "update banking.bank_accounts set balance=(balance + %s) where account_id=%s;"
         cursor = connection.cursor()
-        cursor.execute(sql1, (float(transfer_amount), int(withdraw_account_id)))
-        cursor.execute(sql2, (float(transfer_amount), int(deposit_account_id)))
+        cursor.execute(sql1, (transfer_amount, withdraw_account_id))
+        cursor.execute(sql2, (transfer_amount, deposit_account_id))
         connection.commit()
         logging.info("Finishing DAL method transfer")
         return True
@@ -100,7 +100,7 @@ class BankAccountDALImplementation(BankAccountDALInterface):
         logging.info("Beginning DAL method delete account")
         sql = "delete from banking.bank_accounts where account_id=%s;"
         cursor = connection.cursor()
-        cursor.execute(sql, [int(account_id)])
+        cursor.execute(sql, [account_id])
         connection.commit()
         logging.info("Finishing DAL method delete account")
         return True
