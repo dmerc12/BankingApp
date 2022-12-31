@@ -14,8 +14,13 @@ for (i = 0; i < coll.length; i++) {
     });
 };
 
+if (!window.sessionStorage.getItem("customerId")) {
+    alert("You do not have access to this page! Please continue to log in or create your own credentials!");
+    window.location.href = "Login.html";
+};
+
 function doLogout() {
-    window.sessionStorage.removeItem("token");
+    window.sessionStorage.removeItem("customerId");
     alert("Goodbye!");
     window.location.href = "Login.html";
 ;}
@@ -33,57 +38,57 @@ function resetInputs() {
     document.getElementById("transferAmountInput").value = "";
     document.getElementById("delteAccountIdInput").value = "";
     document.getElementById("delteCustomerIdInput").value = "";
-    document.getElementById("usernameInput").value = "";
-    document.getElementById("passwordInput").value = "";
+    // document.getElementById("usernameInput").value = "";
+    // document.getElementById("passwordInput").value = "";
 };
 
-async function viewCustomerId() {
-    // initializing URL varible
-    const viewCustomeURL = "http://127.0.0.1:5000/login";
+// async function viewCustomerId() {
+//     // initializing URL varible
+//     const viewCustomeURL = "http://127.0.0.1:5000/login";
 
-    // grabbing input from the DOM
-    const username = document.getElementById("usernameInput").value;
-    const password = document.getElementById("passwordInput").value;
+//     // grabbing input from the DOM
+//     const username = document.getElementById("usernameInput").value;
+//     const password = document.getElementById("passwordInput").value;
 
-    // preparing JSON
-    validationCredentialsJSON = {
-        'username': username,
-        'password': password
-    };
+//     // preparing JSON
+//     validationCredentialsJSON = {
+//         'username': username,
+//         'password': password
+//     };
 
-    // preparing request
-    let validationRequest = {
-        method: "POST",
-        headers: {'Content-Type': "application/json"},
-        body: JSON.stringify(validationCredentialsJSON)
-    };
+//     // preparing request
+//     let validationRequest = {
+//         method: "POST",
+//         headers: {'Content-Type': "application/json"},
+//         body: JSON.stringify(validationCredentialsJSON)
+//     };
 
-    // sending request and awaiting response
-    const response = await fetch(viewCustomeURL, validationRequest)
+//     // sending request and awaiting response
+//     const response = await fetch(viewCustomeURL, validationRequest)
 
-    // handling API response approapriately
-    if (response.status === 201) {
-        const apiResponse = await response.json();
-        alert(`Your assigned customer ID is ${apiResponse.customerId}`);
-    } else if (response.status === 400) {
-        const apiResponse = await response.json();
-        alert(`${apiResponse.message}`);
-    } else {
-        alert("Someting weent horribly wrong...");
-    };
-};
+//     // handling API response approapriately
+//     if (response.status === 201) {
+//         const apiResponse = await response.json();
+//         alert(`Your assigned customer ID is ${apiResponse.customerId}`);
+//     } else if (response.status === 400) {
+//         const apiResponse = await response.json();
+//         alert(`${apiResponse.message}`);
+//     } else {
+//         alert("Someting weent horribly wrong...");
+//     };
+// };
 
 async function createAccount() {
     // initializing URL varible
     const createAccountURL = "http://127.0.0.1:5000/create/account";
 
     // grabbing input from the DOM
-    const customerId = document.getElementById("createAccountCustomerIdInput").value;
+    // const customerId = document.getElementById("createAccountCustomerIdInput").value;
     const balance = document.getElementById("startingAmountInput").value;
 
     // preparing JSON
     newAccountJSON = {
-        'customerId': customerId,
+        'customerId': window.sessionStorage.getItem("customerId"),
         'balance': balance
     };
 
@@ -358,11 +363,11 @@ async function deleteCustomer() {
      const deleteCustomerURL = "http://127.0.0.1:5000//delete/customer";
 
      // grabbing input from the DOM
-     const deleteCustomerId = document.getElementById("delteCustomerIdInput").value;
+    //  const deleteCustomerId = document.getElementById("delteCustomerIdInput").value;
  
      // preparing JSON
      deleteCustomerJSON = {
-         'customerId': deleteCustomerId
+         'customerId': window.sessionStorage.getItem("customerId")
      };
  
      // preparing request
