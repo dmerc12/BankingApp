@@ -21,13 +21,25 @@ function doLogout() {
 ;}
 
 function resetInputs() {
-
+    document.getElementById("createAccountCustomerIdInput").value = "";
+    document.getElementById("startingAmountInput").value = "";
+    document.getElementById("viewAccountIdInput").value = "";
+    document.getElementById("depositAccountIdInput").value = "";
+    document.getElementById("depositAmountInput").value = "";
+    document.getElementById("withdrawAccountIdInput").value = "";
+    document.getElementById("withdrawAmountInput").value = "";
+    document.getElementById("transferWithdrawIdInput").value = "";
+    document.getElementById("transferDepositIdInput").value = "";
+    document.getElementById("transferAmountInput").value = "";
+    document.getElementById("delteAccountIdInput").value = "";
+    document.getElementById("delteCustomerIdInput").value = "";
+    document.getElementById("usernameInput").value = "";
+    document.getElementById("passwordInput").value = "";
 };
 
-// needs back end functions build to work
 async function viewCustomerId() {
     // initializing URL varible
-    const viewCustomeURL = "http://127.0.0.1:5000/get/customer/id";
+    const viewCustomeURL = "http://127.0.0.1:5000/login";
 
     // grabbing input from the DOM
     const username = document.getElementById("usernameInput").value;
@@ -52,7 +64,7 @@ async function viewCustomerId() {
     // handling API response approapriately
     if (response.status === 201) {
         const apiResponse = await response.json();
-        alert(`Your assigned customer ID is j${apiResponse.customerId}`);
+        alert(`Your assigned customer ID is ${apiResponse.customerId}`);
     } else if (response.status === 400) {
         const apiResponse = await response.json();
         alert(`${apiResponse.message}`);
@@ -138,6 +150,7 @@ async function viewAccountBalance() {
 
 };
 
+// not set up
 async function viewAllAccounts() {
     // initializing URL varible
     const viewAllAccountsURL = "http://127.0.0.1:5000/get/all/accounts";
@@ -194,7 +207,7 @@ async function deposit() {
 
 async function withdraw() {
     // initializing URL varible
-    const depositURL = "http://127.0.0.1:5000/withdraw";
+    const withdrawURL = "http://127.0.0.1:5000/withdraw";
 
     // grabbing input from the DOM
     const withdrawAccountId = document.getElementById("withdrawAccountIdInput").value;
@@ -207,26 +220,72 @@ async function withdraw() {
     };
 
     // preparing request
+    let withdrawRequest = {
+        method: "PATCH",
+        headers: {'Content-Type': "application/json"},
+        body: JSON.stringify(withdrawJSON)
+    };
 
     // sending request and awaiting response
+    const response = await fetch(withdrawURL, withdrawRequest);
 
     // handling API response approapriately
+    if (response.status === 201) {
+        const apiResponse = await response.json();
+        alert(`Your withdrawl was successful and now has a balance of: $ ${apiResponse.balance}`);
+        resetInputs();
+    } else if (response.status === 400) {
+        const apiResponse = await response.json();
+        alert(`${apiResponse.message}`);
+        resetInputs();
+    } else {
+        alert("Something went horribly wrong...")
+        resetInputs();
+    };
 };
 
 async function transfer() {
     // initializing URL varible
+    const transferURL = "http://127.0.0.1:5000/transfer";
 
     // grabbing input from the DOM
+    const transferWithdrawAccountId = document.getElementById("transferWithdrawIdInput").value;
+    const transferDepositAccountId = document.getElementById("transferDepositIdInput").value;
+    const transferAmount = document.getElementById("transferAmountInput").value;
 
     // preparing JSON
+    transferJSON = {
+        'withdrawAccountId': transferWithdrawAccountId,
+        'depositAccountId': transferDepositAccountId,
+        'transferAmount': transferAmount
+    };
 
     // preparing request
+    let transferRequest = {
+        method: "PATCH",
+        headers: {'Content-Type': "application/json"},
+        body: JSON.stringify(transferJSON)
+    };
 
     // sending request and awaiting response
+    const response = await fetch(transferURL, transferRequest);
 
     // handling API response approapriately
+    if (response.status === 201) {
+        const apiResponse = await response.json();
+        alert("Your transfer was successful!");
+        resetInputs();
+    } else if (response.status === 400) {
+        const apiResponse = await response.json();
+        alert(`${apiResponse.message}`);
+        resetInputs();
+    } else {
+        alert("Something went horribly wrong...")
+        resetInputs();
+    };
 };
 
+// not set up
 async function viewTransactions() {
     // initializing URL varible
 
@@ -243,18 +302,42 @@ async function viewTransactions() {
 
 async function deleteAccount() {
     // initializing URL varible
+    const deleteAccountURL = "http://127.0.0.1:5000//delete/account";
 
     // grabbing input from the DOM
+    const deleteAccountId = document.getElementById("delteAccountIdInput").value;
 
     // preparing JSON
+    deleteAccountJSON = {
+        'accountId': deleteAccountId
+    };
 
     // preparing request
+    let deleteRequest = {
+        method: "DELETE",
+        headers: {'Content-Type': "application/json"},
+        body: JSON.stringify(deleteAccountJSON)
+    };
 
     // sending request and awaiting response
+    const response = await fetch(deleteAccountURL, deleteRequest);
 
     // handling API response approapriately
+    if (response.status === 201) {
+        const apiResponse = await response.json();
+        alert("This account has been successfully delteted!");
+        resetInputs();
+    } else if (response.status === 400) {
+        const apiResponse = await response.json();
+        alert(`${apiResponse.message}`);
+        resetInputs();
+    } else {
+        alert("Something went horribly wrong...")
+        resetInputs();
+    };
 };
 
+// not set up
 async function updateCustomer() {
     // initializing URL varible
 
@@ -269,16 +352,40 @@ async function updateCustomer() {
     // handling API response approapriately
 };
 
+// not tested
 async function deleteCustomer() {
-    // initializing URL varible
+     // initializing URL varible
+     const deleteCustomerURL = "http://127.0.0.1:5000//delete/customer";
 
-    // grabbing input from the DOM
-
-    // preparing JSON
-
-    // preparing request
-
-    // sending request and awaiting response
-
-    // handling API response approapriately
+     // grabbing input from the DOM
+     const deleteCustomerId = document.getElementById("delteCustomerIdInput").value;
+ 
+     // preparing JSON
+     deleteCustomerJSON = {
+         'customerId': deleteCustomerId
+     };
+ 
+     // preparing request
+     let deleteCustomerRequest = {
+         method: "DELETE",
+         headers: {'Content-Type': "application/json"},
+         body: JSON.stringify(deleteCustomerJSON)
+     };
+ 
+     // sending request and awaiting response
+     const response = await fetch(deleteCustomerURL, deleteCustomerRequest);
+ 
+     // handling API response approapriately
+     if (response.status === 201) {
+         const apiResponse = await response.json();
+         alert("Your information has been successfully delteted!");
+         resetInputs();
+     } else if (response.status === 400) {
+         const apiResponse = await response.json();
+         alert(`${apiResponse.message}`);
+         resetInputs();
+     } else {
+         alert("Something went horribly wrong...")
+         resetInputs();
+     };
 };

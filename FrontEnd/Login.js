@@ -13,15 +13,10 @@ async function doLogin() {
         "password": password
     }
 
-    // initializing local storage token
-    token = null;
-
     // preparing login request
     let loginInfo = {
         method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
+        headers: {"Content-Type": "application/json"},
         body: JSON.stringify(loginJSON)
     };
 
@@ -32,8 +27,8 @@ async function doLogin() {
     if (response.status === 201) {
         const apiResponse = await response.json();
         alert('Successful login, click continue!');
-        window.sessionStorage.setItem("token", apiResponse.token);
-        window.location.href = "CustotmerHome.html";
+        window.sessionStorage.setItem("customerId", apiResponse.customerId);
+        window.location.href = "CustomerHome.html";
     } else if (response.status === 400) {
         const apiResponse = await response.json();
         alert(apiResponse.message);

@@ -16,7 +16,7 @@
             </tr>
         </table>
     </div>
-    <!-- <button type="button" class="collapsible" id="viewCustomerIdCollapseButton">Forget your Customer ID?</button>
+    <button type="button" class="collapsible" id="viewCustomerIdCollapseButton">Forget your Customer ID?</button>
     <div class="content">
         <table>
             <tr>
@@ -31,7 +31,7 @@
                 <td><button id="viewCustomerButton" onclick="viewCustomerId()">View Your Assigned Customer ID</button></td>
             </tr>
         </table>
-    </div> -->
+    </div>
     <button type="button" class="collapsible" id="createAccountCollapseButton">Create a New Account</button>
     <div class="content">
         <table>
@@ -134,11 +134,20 @@
     </div>
     <button type="button" class="collapsible" id="updateCustomerCollapseButtton">Update Customer Information</button>
     <div class="content">
+        <table>
+            <tr>
+                <td><h3>Updated first name:</h3></td>
 
+            </tr>
+        </table>
     </div>
     <button type="button" class="collapsible" id="deleteCustomerCollapseButton">Leave the Bank</button>
     <div class="content">
         <table>
+            <tr>
+                <td><h3>Please enter your customer ID to confirm:</h3></td>
+                <td><input type="number" id="delteCustomerIdInput"></td>
+            </tr>
             <tr>
                 <td><h3>Are you sure?</h3></td>
                 <td><button id="deleteCustomerButton" onclick="deleteCustomer()">Confirm Leaving the Bank</button></td>
