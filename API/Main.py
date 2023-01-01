@@ -337,7 +337,7 @@ def get_transaction_by_id():
         app.logger.error(f"{request.get_json()}, {request.path}, {datetime.datetime}")
         return jsonify(message), 400
 
-@app.route("/get/all/transactions", methods=["GET"])
+@app.route("/get/all/transactions", methods=["PATCH"])
 def get_all_transactions():
     app.logger.info(f"{request.get_json()}, {request}, {request.path}, {datetime.datetime.now()}")
     app.logger.info("Beginning API function get all transactions")

@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="style.css">
     <title>Customer Home</title>
 </head>
-<body onload="viewAllAccounts()">
+<body>
     <button type="button" class="collapsible" id="logoutCollapseButton">Log Out</button>
     <div class="content">
         <table>
@@ -40,7 +40,7 @@
             </tr>
         </table>
     </div>
-    <button type="button" class="collapsible" id="viewAllAccountsCollapseButton">View All Accounts</button>
+    <button type="button" class="collapsible" id="viewAllAccountsCollapseButton" onclick="viewAllAccounts()">View All Accounts</button>
     <div class="content">
         <table>
             <thead></thead>
@@ -101,7 +101,19 @@
     </div>
     <button type="button" class="collapsible" id="viewTransactionsCollapseButton">View Transactions by Account</button>
     <div class="content">
-
+        <table>
+            <tr>
+                <td><h3>Please enter an account number:</h3></td>
+                <td><input type="number" id="viewTransactionsAccountIdInput"></td>
+            </tr>
+            <tr>
+                <td><button id="viewTransactionsButton" onclick="viewTransactions()">View Transactions</button></td>
+            </tr>
+        </table>
+        <table>
+            <thead></thead>
+            <tbody id="viewTransactionsTable"></tbody>
+        </table>
     </div>
     <button type="button" class="collapsible" id="deleteAccountCollapseButton">Delete an Account</button>
     <div class="content">

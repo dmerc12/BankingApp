@@ -50,6 +50,7 @@ function resetInputs() {
     document.getElementById("updatedEmailAddressInput").value = "";
     document.getElementById("updatedPhoneNumberInput").value = "";
     document.getElementById("updatedAddressInput").value = "";
+    document.getElementById("viewTransactionsAccountIdInput").value = "";
 };
 
 async function createAccount() {
@@ -171,7 +172,7 @@ function populateAccounts(accountData) {
         accountTable.appendChild(row);
     
         const square1 = document.createElement("td");
-        square1.textContent = `Account ID: ${Number(accountData[account][0].split(", ")[0])}`;
+        square1.textContent = `Account number: ${Number(accountData[account][0].split(", ")[0])}`;
         row.appendChild(square1);
 
         const square2 = document.createElement("td");
@@ -302,8 +303,10 @@ async function transfer() {
 // not set up
 async function viewTransactions() {
     // initializing URL varible
+    const viewTransactionsURL = "http://127.0.0.1:5000/get/all/transactions";
 
     // grabbing input from the DOM
+    const accountId = document.getElementById("viewTransactionsAccountIdInput").value;
 
     // preparing JSON
 
