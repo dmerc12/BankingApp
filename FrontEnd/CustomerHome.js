@@ -21,6 +21,13 @@ if (!window.sessionStorage.getItem("customerId")) {
 
 function doLogout() {
     window.sessionStorage.removeItem("customerId");
+    window.sessionStorage.removeItem("firstName");
+    window.sessionStorage.removeItem("lastName");
+    window.sessionStorage.removeItem("username");
+    window.sessionStorage.removeItem("password");
+    window.sessionStorage.removeItem("email");
+    window.sessionStorage.removeItem("phoneNumber");
+    window.sessionStorage.removeItem("address");
     alert("Goodbye!");
     window.location.href = "Login.html";
 ;}
@@ -122,20 +129,49 @@ async function viewAccountBalance() {
 
 };
 
-// not set up
+// not finished
 async function viewAllAccounts() {
     // initializing URL varible
     const viewAllAccountsURL = "http://127.0.0.1:5000/get/all/accounts";
 
-    // grabbing input from the DOM
+    // grabbing customer ID from the browser and DOM
+    const customerId = window.sessionStorage.getItem("customerId");
+    const accountTable = document.getElementById("viewAllAccountsTable");
 
     // preparing JSON
+    viewAccountsJSON = {
+        'customerId': customerId
+    };
 
     // preparing request
+    let viewAccountsRequest = {
+        method: "PATCH",
+        headers: {'Content-Type': "application/json"},
+        body: JSON.stringify(viewAccountsJSON)
+    }
 
     // sending request and awaiting response
+    const response = await fetch(viewAllAccountsURL, viewAccountsRequest)
 
     // handling API response approapriately
+    if (response.status === 201) {
+        const accountList = await response.json();
+        accountTable.innerHTML = "";
+        for (account in accountList) {
+            const row = document.createElement("tr");
+            accountTable.appendChild(row);
+    
+            const square1 = document.createElement("td");
+            square1.textContent = `Account number: ${accountList[account]}`;
+            row.appendChild(square1);
+
+        }
+    } else if (response.status === 400) {
+        const apiResponse = await response.json();
+        alert(`${apiResponse.message}`);
+    } else {
+        alert("Something went horribly wrong...")
+    }
 };
 
 async function deposit() {

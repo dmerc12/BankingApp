@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="style.css">
     <title>Customer Home</title>
 </head>
-<body>
+<body onload="viewAllAccounts()">
     <button type="button" class="collapsible" id="logoutCollapseButton">Log Out</button>
     <div class="content">
         <table>
@@ -42,7 +42,10 @@
     </div>
     <button type="button" class="collapsible" id="viewAllAccountsCollapseButton">View All Accounts</button>
     <div class="content">
-
+        <table>
+            <thead></thead>
+            <tbody id="viewAllAccountsTable"></tbody>
+        </table>
     </div>
     <button type="button" class="collapsible" id="depositCollapseButton">Make a Deposit</button>
     <div class="content">

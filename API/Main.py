@@ -191,7 +191,7 @@ def get_account():
         app.logger.error(f"Error with API function get account with description: {str(error)}")
         return jsonify(message), 400
 
-@app.route("/get/all/accounts", methods=["GET"])
+@app.route("/get/all/accounts", methods=["PATCH"])
 def get_all_accounts():
     app.logger.info(f"{request.get_json()}, {request}, {request.path}, {datetime.datetime.now()}")
     app.logger.info("Beginning API function get all accounts")
