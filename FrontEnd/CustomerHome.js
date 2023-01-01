@@ -33,7 +33,6 @@ function doLogout() {
 ;}
 
 function resetInputs() {
-    document.getElementById("createAccountCustomerIdInput").value = "";
     document.getElementById("startingAmountInput").value = "";
     document.getElementById("viewAccountIdInput").value = "";
     document.getElementById("depositAccountIdInput").value = "";
@@ -136,7 +135,6 @@ async function viewAllAccounts() {
 
     // grabbing customer ID from the browser and DOM
     const customerId = window.sessionStorage.getItem("customerId");
-    const accountTable = document.getElementById("viewAllAccountsTable");
 
     // preparing JSON
     viewAccountsJSON = {
@@ -155,23 +153,31 @@ async function viewAllAccounts() {
 
     // handling API response approapriately
     if (response.status === 201) {
-        const accountList = await response.json();
-        accountTable.innerHTML = "";
-        for (account in accountList) {
-            const row = document.createElement("tr");
-            accountTable.appendChild(row);
-    
-            const square1 = document.createElement("td");
-            square1.textContent = `Account number: ${accountList[account]}`;
-            row.appendChild(square1);
-
-        }
+        const accountData = await response.json();
+        populateAccounts(accountData);
     } else if (response.status === 400) {
         const apiResponse = await response.json();
         alert(`${apiResponse.message}`);
     } else {
         alert("Something went horribly wrong...")
-    }
+    };
+};
+
+function populateAccounts(accountData) {
+    const accountTable = document.getElementById("viewAllAccountsTable");
+    accountTable.innerHTML = "";
+    for (account in accountData) {
+        const row = document.createElement("tr");
+        accountTable.appendChild(row);
+    
+        const square1 = document.createElement("td");
+        square1.textContent = `Account ID: ${Number(accountData[account][0].split(", ")[0])}`;
+        row.appendChild(square1);
+
+        const square2 = document.createElement("td");
+        square2.textContent = `Balance: ${accountData[account][0].split(", ")[2]}`;
+        row.appendChild(square2)
+        };
 };
 
 async function deposit() {
