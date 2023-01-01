@@ -56,12 +56,12 @@ class BankAccountDALImplementation(BankAccountDALInterface):
             account = BankAccount(*account)
             account_string = f"{account.account_id}, {account.customer_id}, {account.balance}"
             account_list.append(account_string)
-            if len(account_list) == 0:
-                logging.warning("DAL method get all accounts, no accounts found")
-                raise FailedTransaction("No accounts found, please try again!")
-            else:
-                logging.info("Finishing DAL method get all accounts")
-                return account_list
+        if len(account_list) == 0:
+            logging.warning("DAL method get all accounts, no accounts found")
+            raise FailedTransaction("No accounts found, please try again!")
+        else:
+            logging.info("Finishing DAL method get all accounts")
+            return account_list
 
     def deposit(self, account_id: int, deposit_amount: float) -> BankAccount:
         logging.info("Beginning DAL method deposit")
