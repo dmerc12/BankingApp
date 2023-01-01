@@ -309,7 +309,7 @@ async function deleteAccount() {
     };
 };
 
-// not set up
+// not tested
 async function updateCustomer() {
     // initializing URL varible
     const updateCustomerURL = "http://127.0.0.1:5000/update/customer";
@@ -322,6 +322,29 @@ async function updateCustomer() {
     const updatedEmailAddress = document.getElementById("updatedEmailAddressInput").value;
     const updatedPhoneNumber = document.getElementById("updatedPhoneNumberInput").value;
     const updatedAddress = document.getElementById("updatedAddressInput").value;
+
+    // checking for empty inputs to fill in with existing values
+    if (updatedFirstName === "") {
+        updatedFirstName = window.sessionStorage.getItem("firstName");
+    };
+    if (updatedLastName === "") {
+        updatedLastName = window.sessionStorage.getItem("lastName");
+    };
+    if (updatedUsername === "") {
+        updatedUsername = window.sessionStorage.getItem("username");
+    };
+    if (updatedPassword === "") {
+        updatedPassword = window.sessionStorage.getItem("password");
+    };
+    if (updatedEmailAddress === "") {
+        updatedEmailAddress = window.sessionStorage.getItem("email");
+    };
+    if (updatedPhoneNumber === "") {
+        updatedPhoneNumber = window.sessionStorage.getItem("phoneNumber");
+    };
+    if (updatedAddress === "") {
+        updatedAddress = window.sessionStorage.getItem("address");
+    };
 
     // preparing JSON
     updateCustomerJSON = {

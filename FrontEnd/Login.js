@@ -28,6 +28,13 @@ async function doLogin() {
         const apiResponse = await response.json();
         alert('Successful login, click continue!');
         window.sessionStorage.setItem("customerId", apiResponse.customerId);
+        window.sessionStorage.setItem("firstName", apiResponse.firstName);
+        window.sessionStorage.setItem("lastName", apiResponse.lastName);
+        window.sessionStorage.setItem("username", apiResponse.username);
+        window.sessionStorage.setItem("password", apiResponse.password);
+        window.sessionStorage.setItem("email", apiResponse.email);
+        window.sessionStorage.setItem("phoneNumber", apiResponse.phoneNumber);
+        window.sessionStorage.setItem("address", apiResponse.address);
         window.location.href = "CustomerHome.html";
     } else if (response.status === 400) {
         const apiResponse = await response.json();
