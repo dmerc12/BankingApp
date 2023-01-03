@@ -129,7 +129,6 @@ async function viewAccountBalance() {
 
 };
 
-// not finished
 async function viewAllAccounts() {
 
     // initializing URL varible
@@ -148,15 +147,15 @@ async function viewAllAccounts() {
         method: "PATCH",
         headers: {'Content-Type': "application/json"},
         body: JSON.stringify(viewAccountsJSON)
-    }
+    };
 
     // sending request and awaiting response
-    const response = await fetch(viewAllAccountsURL, viewAccountsRequest)
+    const response = await fetch(viewAllAccountsURL, viewAccountsRequest);
 
     // handling API response approapriately
     if (response.status === 201) {
         const accountData = await response.json();
-        accountList = accountData.accountList
+        const accountList = accountData.accountList
         populateAccounts(accountList);
     } else if (response.status === 400) {
         const apiResponse = await response.json();
@@ -167,12 +166,12 @@ async function viewAllAccounts() {
 };
 
 function populateAccounts(accountList) {
-    count = 0;
+    let count = 0;
     const accountTable = document.getElementById("viewAllAccountsTable");
     accountTable.innerHTML = "";
     for (account in accountList) {        
-        accountId = Number(accountList[count].split(", ")[0])
-        balance = Number(accountList[count].split(", ")[2])
+        const accountId = Number(accountList[count].split(", ")[0]);
+        const balance = Number(accountList[count].split(", ")[2]);
         const row = document.createElement("tr");
         accountTable.appendChild(row);
         
@@ -183,9 +182,19 @@ function populateAccounts(accountList) {
         const square2 = document.createElement("td");
         square2.textContent = `Balance: ${balance}`;
         row.appendChild(square2);
+
+        const square3 = document.createElement("button");
+        square3.textContent = "View associated transactions";
+        square3.id = `viewTransaction${accountId}`;
+        square3.onclick = `viewAssociatedTransactions(${accountId})`
+        row.appendChild(square3);
         count = count + 1;
-        console.log(count)
-        };
+    };
+};
+
+function viewAssociatedTransactions(accountId) {
+    window.sessionStorage.setItem("accountId", accountId);
+    window.location.href = "Transactions.html";
 };
 
 async function deposit() {
@@ -305,24 +314,7 @@ async function transfer() {
         alert("Something went horribly wrong...")
         resetInputs();
     };
-};
-
-// not set up
-async function viewTransactions() {
-    // initializing URL varible
-    const viewTransactionsURL = "http://127.0.0.1:5000/get/all/transactions";
-
-    // grabbing input from the DOM
-    const accountId = document.getElementById("viewTransactionsAccountIdInput").value;
-
-    // preparing JSON
-
-    // preparing request
-
-    // sending request and awaiting response
-
-    // handling API response approapriately
-};
+}
 
 async function deleteAccount() {
     // initializing URL varible

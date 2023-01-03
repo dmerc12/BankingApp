@@ -346,7 +346,7 @@ def get_all_transactions():
         account_id = int(id_info["accountId"])
         result = transaction_sao.service_get_all_transactions(account_id)
         result_dictionary = {
-            "result": result
+            "transactionList": result
         }
         result_json = jsonify(result_dictionary)
         app.logger.info("Finishing API function get all transactions")
