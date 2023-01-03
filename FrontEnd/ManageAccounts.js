@@ -32,6 +32,10 @@ function doLogout() {
     window.location.href = "Login.html";
 ;}
 
+function goHome() {
+    window.location.href = "CustomerHome.html";
+};
+
 function resetInputs() {
     document.getElementById("startingAmountInput").value = "";
     document.getElementById("viewAccountIdInput").value = "";
@@ -185,8 +189,8 @@ function populateAccounts(accountList) {
 };
 
 function viewAssociatedTransactions(accountId) {
-    window.sessionStorage.setItem("accountId", accountId);
-    window.location.href = "Transactions.html";
+    // window.sessionStorage.setItem("accountId", accountId);
+    // window.location.href = "Transactions.html";
 };
 
 async function deposit() {

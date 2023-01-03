@@ -31,7 +31,11 @@ function doLogout() {
     window.sessionStorage.removeItem("address");
     alert("Goodbye!");
     window.location.href = "Login.html";
-;}
+};
+
+function goHome() {
+    window.location.href = "CustomerHome.html";
+};
 
 function resetInputs() {
     document.getElementById("updatedFirstNameInput").value = "";
@@ -112,7 +116,7 @@ async function updateCustomer() {
         alert(`${apiResponse.message}`);
         resetInputs();
     } else {
-        alert("Something went horribly wrong...")
+        alert("Something went horribly wrong...");
         resetInputs();
     };
 };
@@ -145,6 +149,6 @@ async function deleteCustomer() {
          const apiResponse = await response.json();
          alert(`${apiResponse.message}`);
      } else {
-         alert("Something went horribly wrong...")
+         alert("Something went horribly wrong...");
      };
 };
