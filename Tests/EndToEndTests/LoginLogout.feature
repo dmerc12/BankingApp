@@ -87,7 +87,7 @@ Feature: Customers need to manage their relationships with banks and subsequent 
     When  I am on a page with the title Customer Home
     When  I click "Manage Accounts"
     When  I click the Create and Manage Accounts button
-    Then  I am on a page with the title Managing Accounts
+    Then  I should be on a page with the title Managing Accounts
 
     Examples:
       | username | password |

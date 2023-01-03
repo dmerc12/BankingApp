@@ -6,7 +6,10 @@ Feature:
     When  I enter <password> in the password
     When  I click the Login button
     When  I click the Continue button
-    Then  I should be on a page with the title Customer Home
+    When  I am on a page with the title Customer Home
+    When  I click "Manage Accounts"
+    When  I click the Create and Manage Accounts button
+    Then  I should be on a page with the title Managing Accounts
 
     Examples:
       | username | password |
