@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Managing Accounts</title>
+</head>
+<body>
+    <button type="button" class="collapsible" id="createAccountCollapseButton">Create a New Account</button>
+    <div class="content">
+        <table>
+            <tr>
+                <td><h3>Starting amount for the account:</h3></td>
+                <td><input type="number" id="startingAmountInput"></td>
+            </tr>
+            <tr>
+                <td><button id="createAccountButton" onclick="createAccount()">Create Account</button></td>
+            </tr>
+        </table>
+    </div>
+    <button type="button" class="collapsible" id="viewAllAccountsCollapseButton" onclick="viewAllAccounts()">View All Accounts</button>
+    <div class="content">
+        <table>
+            <thead></thead>
+            <tbody id="viewAllAccountsTable"></tbody>
+        </table>
+    </div>
+    <button type="button" class="collapsible" id="viewAccountBalanceCollapsibleButton">Check an Account Balance</button>
+    <div class="content">
+        <table>
+            <tr>
+                <td><h3>Please enter the account number:</h3></td>
+                <td><input type="number" id="viewAccountIdInput"></td>
+            </tr>
+            <tr>
+                <td><button id="viewAccountBalanceButton" onclick="viewAccountBalance()">View Account Balance</button></td>
+            </tr>
+        </table>
+    </div>
+    <button type="button" class="collapsible" id="depositCollapseButton">Make a Deposit</button>
+    <div class="content">
+        <table>
+            <tr>
+                <td><h3>Please enter the account number:</h3></td>
+                <td><input type="number" id="depositAccountIdInput"></td>
+            </tr>
+            <tr>
+                <td><h3>Please enter the depositing amount:</h3></td>
+                <td><input type="number" id="depositAmountInput"></td>
+            </tr>
+            <tr>
+                <td><button id="depositButton" onclick="deposit()">Make the Deposit</button></td>
+            </tr>
+        </table>
+    </div>
+    <button type="button" class="collapsible" id="withdrawCollapseButton">Make a Withdraw</button>
+    <div class="content">
+        <table>
+            <tr>
+                <td><h3>Please enter the account number:</h3></td>
+                <td><input type="number" id="withdrawAccountIdInput"></td>
+            </tr>
+            <tr>
+                <td><h3>Please enter the withdraw amount:</h3></td>
+                <td><input type="number" id="withdrawAmountInput"></td>
+            </tr>
+            <tr>
+                <td><button id="withdrawButton" onclick="withdraw()">Make the Withdraw</button></td>
+            </tr>
+        </table>
+    </div>
+    <button type="button" class="collapsible" id="transferCollapseButton">Transfer Money Between Accounts</button>
+    <div class="content">
+        <table>
+            <tr>
+                <td><h3>Please enter the withdrawing account number:</h3></td>
+                <td><input type="number" id="transferWithdrawIdInput"></td>
+            </tr>
+            <tr>
+                <td><h3>Please enter the depositing account number:</h3></td>
+                <td><input type="number" id="transferDepositIdInput"></td>
+            </tr>
+            <tr>
+                <td><h3>Please enter the desired amount to transfer:</h3></td>
+                <td><input type="number" id="transferAmountInput"></td>
+            </tr>
+            <tr>
+                <td><button id="transferButton" onclick="transfer()">Make the Transfer</button></td>
+            </tr>
+        </table>
+    </div>
+    <button type="button" class="collapsible" id="deleteAccountCollapseButton">Delete an Account</button>
+    <div class="content">
+        <table>
+            <tr>
+                <td><h3>Please enter account number for the account to be deleted:</h3></td>
+                <td><input type="number" id="delteAccountIdInput"></td>
+            </tr>
+            <tr>
+                <td><button id="deleteAccountButton" onclick="deleteAccount()">Delete Account</button></td>
+            </tr>
+        </table>
+    </div>
+</body>
+<script src="ManageAccounts.js"></script>
+</html>
