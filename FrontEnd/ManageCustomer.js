@@ -20,6 +20,19 @@ if (!window.sessionStorage.getItem("customerId")) {
     window.location.href = "Login.html";
 };
 
+function doLogout() {
+    window.sessionStorage.removeItem("customerId");
+    window.sessionStorage.removeItem("firstName");
+    window.sessionStorage.removeItem("lastName");
+    window.sessionStorage.removeItem("username");
+    window.sessionStorage.removeItem("password");
+    window.sessionStorage.removeItem("email");
+    window.sessionStorage.removeItem("phoneNumber");
+    window.sessionStorage.removeItem("address");
+    alert("Goodbye!");
+    window.location.href = "Login.html";
+;}
+
 function resetInputs() {
     document.getElementById("updatedFirstNameInput").value = "";
     document.getElementById("updatedLastNameInput").value = "";

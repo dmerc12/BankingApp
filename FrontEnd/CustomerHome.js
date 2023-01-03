@@ -32,7 +32,7 @@ function doLogout() {
     window.location.href = "Login.html";
 ;}
 
-function navigateToMangeAccounts() {
+function navigateToManageAccounts() {
 
 }
 

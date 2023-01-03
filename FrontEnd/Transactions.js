@@ -19,6 +19,19 @@ if (!window.sessionStorage.getItem("customerId")) {
     window.location.href = "Login.html";
 };
 
+function doLogout() {
+    window.sessionStorage.removeItem("customerId");
+    window.sessionStorage.removeItem("firstName");
+    window.sessionStorage.removeItem("lastName");
+    window.sessionStorage.removeItem("username");
+    window.sessionStorage.removeItem("password");
+    window.sessionStorage.removeItem("email");
+    window.sessionStorage.removeItem("phoneNumber");
+    window.sessionStorage.removeItem("address");
+    alert("Goodbye!");
+    window.location.href = "Login.html";
+;}
+
 async function viewTransactions() {
     // initializing URL varible
     const viewTransactionsURL = "http://127.0.0.1:5000/get/all/transactions";
