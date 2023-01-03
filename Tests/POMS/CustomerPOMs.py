@@ -6,4 +6,3 @@ class CustomerPOMs:
     def __init__(self, driver: WebDriver):
         self.driver = driver
 
-        
