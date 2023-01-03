@@ -131,6 +131,7 @@ async function viewAccountBalance() {
 
 // not finished
 async function viewAllAccounts() {
+
     // initializing URL varible
     const viewAllAccountsURL = "http://127.0.0.1:5000/get/all/accounts";
 
@@ -155,7 +156,8 @@ async function viewAllAccounts() {
     // handling API response approapriately
     if (response.status === 201) {
         const accountData = await response.json();
-        populateAccounts(accountData);
+        accountList = accountData.accountList
+        populateAccounts(accountList);
     } else if (response.status === 400) {
         const apiResponse = await response.json();
         alert(`${apiResponse.message}`);
@@ -164,20 +166,25 @@ async function viewAllAccounts() {
     };
 };
 
-function populateAccounts(accountData) {
+function populateAccounts(accountList) {
+    count = 0;
     const accountTable = document.getElementById("viewAllAccountsTable");
     accountTable.innerHTML = "";
-    for (account in accountData) {
+    for (account in accountList) {        
+        accountId = Number(accountList[count].split(", ")[0])
+        balance = Number(accountList[count].split(", ")[2])
         const row = document.createElement("tr");
         accountTable.appendChild(row);
-    
+        
         const square1 = document.createElement("td");
-        square1.textContent = `Account number: ${Number(accountData[account][0].split(", ")[0])}`;
+        square1.textContent = `Account number: ${accountId}`;
         row.appendChild(square1);
 
         const square2 = document.createElement("td");
-        square2.textContent = `Balance: ${accountData[account][0].split(", ")[2]}`;
-        row.appendChild(square2)
+        square2.textContent = `Balance: ${balance}`;
+        row.appendChild(square2);
+        count = count + 1;
+        console.log(count)
         };
 };
 
