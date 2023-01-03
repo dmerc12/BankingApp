@@ -33,9 +33,9 @@ function doLogout() {
 ;}
 
 function navigateToManageAccounts() {
-
+    window.location.href = "ManageAccounts.html";
 }
 
 function navigateToManageCustomer() {
-    
+    window.location.href = "ManageCustomer.html";
 }
