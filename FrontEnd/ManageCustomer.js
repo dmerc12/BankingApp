@@ -41,7 +41,6 @@ function resetInputs() {
     document.getElementById("updatedEmailAddressInput").value = "";
     document.getElementById("updatedPhoneNumberInput").value = "";
     document.getElementById("updatedAddressInput").value = "";
-    document.getElementById("viewTransactionsAccountIdInput").value = "";
 };
 
 async function updateCustomer() {
@@ -49,13 +48,14 @@ async function updateCustomer() {
     const updateCustomerURL = "http://127.0.0.1:5000/update/customer";
 
     // grabbing input from the DOM
-    const updatedFirstName = document.getElementById("updatedFirstNameInput").value;
-    const updatedLastName = document.getElementById("updatedLastNameInput").value;
-    const updatedUsername = document.getElementById("updatedUsernameInput").value;
-    const updatedPassword = document.getElementById("updatedPasswordInput").value;
-    const updatedEmailAddress = document.getElementById("updatedEmailAddressInput").value;
-    const updatedPhoneNumber = document.getElementById("updatedPhoneNumberInput").value;
-    const updatedAddress = document.getElementById("updatedAddressInput").value;
+    const customerId = window.sessionStorage.getItem("customerId");
+    let updatedFirstName = document.getElementById("updatedFirstNameInput").value;
+    let updatedLastName = document.getElementById("updatedLastNameInput").value;
+    let updatedUsername = document.getElementById("updatedUsernameInput").value;
+    let updatedPassword = document.getElementById("updatedPasswordInput").value;
+    let updatedEmailAddress = document.getElementById("updatedEmailAddressInput").value;
+    let updatedPhoneNumber = document.getElementById("updatedPhoneNumberInput").value;
+    let updatedAddress = document.getElementById("updatedAddressInput").value;
 
     // checking for empty inputs to fill in with existing values
     if (updatedFirstName === "") {
@@ -82,7 +82,7 @@ async function updateCustomer() {
 
     // preparing JSON
     updateCustomerJSON = {
-        "customerId": window.sessionStorage.getItem(customerId),
+        "customerId": customerId,
         "firstName": updatedFirstName,
         "lastName": updatedLastName,
         "username": updatedUsername, 
