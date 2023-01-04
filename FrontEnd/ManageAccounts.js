@@ -87,44 +87,6 @@ async function createAccount() {
     };
 }; 
 
-async function viewAccountBalance() {
-    // initializing URL varible
-    const viewAccountBalanceURL = "http://127.0.0.1:5000/get/account";
-
-    // grabbing input from the DOM
-    const accountId = document.getElementById("viewAccountIdInput").value;
-
-    // preparing JSON
-    getAccountJSON = {
-        'accountId': accountId
-    };
-
-    // preparing request
-    let getAccountRequest = {
-        method: "PATCH",
-        headers: {'Content-Type': "application/json"},
-        body: JSON.stringify(getAccountJSON)
-    };
-
-    // sending request and awaiting response
-    const response = await fetch(viewAccountBalanceURL, getAccountRequest);
-
-    // handling API response approapriately
-    if (response.status === 201) {
-        const apiResponse = await response.json();
-        alert(`The current balance of this account is: $ ${apiResponse.balance}`);
-        resetInputs();
-    } else if (response.status === 400) {
-        const apiResponse = await response.json();
-        alert(`${apiResponse.message}`);
-        resetInputs();
-    } else {
-        alert("Something went horribly wrong...")
-        resetInputs();
-    };
-
-};
-
 async function viewAllAccounts() {
 
     // initializing URL varible

@@ -112,3 +112,9 @@ class CustomerPOMs:
         element: WebElement = self.driver.find_element(By.ID("Value"))
         element.send_keys(Keys.ENTER)
         return element
+
+    def home_log_out_button(self):
+        pass
+
+    def manage_customer_information_logout_button(self):
+        pass
