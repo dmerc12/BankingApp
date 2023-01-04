@@ -1,4 +1,4 @@
-Feature:
+Feature: Customers need to create accounts
 
   Scenario: As a customer, I should not be allowed access to the managing accounts page without logging in first
     Given I am on the managing accounts
