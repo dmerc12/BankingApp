@@ -1,7 +1,7 @@
 from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
-
+from selenium.webdriver.common.keys import Keys
 
 class CustomerPOMs:
 
@@ -106,4 +106,9 @@ class CustomerPOMs:
 
     def delete_customer_button(self):
         element: WebElement = self.driver.find_element(By.ID, "deleteCustomerButton")
+        return element
+
+    def press_enter_key(self):
+        element: WebElement = self.driver.find_element(By.ID("Value"))
+        element.send_keys(Keys.ENTER)
         return element
