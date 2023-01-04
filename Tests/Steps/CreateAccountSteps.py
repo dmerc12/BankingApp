@@ -1,9 +1,4 @@
-from behave import given, when
-
-@given(u'I am on the managing accounts')
-def step_impl(context):
-    raise NotImplementedError(u'STEP: Given I am on the managing accounts')
-
+from behave import when
 
 @when(u'I click "Create a New Account"')
 def step_impl(context):
