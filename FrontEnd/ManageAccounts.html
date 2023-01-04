@@ -8,11 +8,11 @@
     <title>Managing Accounts</title>
 </head>
 <body>
-    <button type="button" class="collapsible" id="logoutCollapseButton">Log Out</button>
+    <button type="button" class="collapsible" id="manageAccountsLogOutCollapseButton">Log Out</button>
     <div class="content">
         <table>
             <tr>
-                <td><button id="logOutButton" onclick="doLogout()">Log Out</button></td>
+                <td><button id="manageAccountsLogOutButton" onclick="doLogout()">Log Out</button></td>
             </tr>
         </table>
     </div>
@@ -100,7 +100,7 @@
         <table>
             <tr>
                 <td><h3>Please enter account number for the account to be deleted:</h3></td>
-                <td><input type="number" id="delteAccountIdInput"></td>
+                <td><input type="number" id="deleteAccountIdInput"></td>
             </tr>
             <tr>
                 <td><button id="deleteAccountButton" onclick="deleteAccount()">Delete Account</button></td>

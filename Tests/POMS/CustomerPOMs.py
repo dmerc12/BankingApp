@@ -114,7 +114,17 @@ class CustomerPOMs:
         return element
 
     def home_log_out_button(self):
-        pass
+        element: WebElement = self.driver.find_element(By.ID, "logOutButton")
+        return element
+
+    def home_log_out_collapse_button(self):
+        element: WebElement = self.driver.find_element(By.ID, "logoutCollapseButton")
+        return element
+
+    def manage_customer_information_logout_collapse_button(self):
+        element: WebElement = self.driver.find_element(By.ID, "manageCustomerLogoutCollapseButton")
+        return element
 
     def manage_customer_information_logout_button(self):
-        pass
+        element: WebElement = self.driver.find_element(By.ID, "logOutButton")
+        return element
