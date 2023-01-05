@@ -1,19 +1,12 @@
 from behave import given, when, then
 
-@when(u'I click the New Customer button')
-def step_impl(context):
-    raise NotImplementedError(u'STEP: When I click the New Customer button')
-
-
-@then(u'I should be on a page with the title New Customer')
-def step_impl(context):
-    raise NotImplementedError(u'STEP: Then I should be on a page with the title New Customer')
-
-
 @given(u'I am on the new customer page')
 def step_impl(context):
     raise NotImplementedError(u'STEP: Given I am on the new customer page')
 
+@when(u'I click the New Customer button')
+def step_impl(context):
+    raise NotImplementedError(u'STEP: When I click the New Customer button')
 
 @when(u'I {first name} in the first name')
 def step_impl(context, first_name):
@@ -43,3 +36,7 @@ def step_impl(context):
 @when(u'I click the Create New Customer button')
 def step_impl(context):
     raise NotImplementedError(u'STEP: When I click the Create New Customer button')
+
+@then(u'I should be on a page with the title New Customer')
+def step_impl(context):
+    raise NotImplementedError(u'STEP: Then I should be on a page with the title New Customer')

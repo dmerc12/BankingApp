@@ -15,6 +15,6 @@ def step_impl(context):
     raise NotImplementedError(u'STEP: When I click the Create Account button')
 
 
-@when(u'I enter 250.00 in the starting amount')
+@when(u'I enter {amount} in the starting amount')
 def step_impl(context):
-    raise NotImplementedError(u'STEP: When I enter 250.00 in the starting amount')
+    raise NotImplementedError(u'STEP: When I enter {amount} in the starting amount')
