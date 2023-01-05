@@ -31,8 +31,8 @@ Feature: Customers need to manage their relationships with banks and subsequent 
 
   Scenario: As a customer, I should be able to log out
     Given I am on the home page
-    When  I click "Log Out"
-    When  I click the Log Out button
+    When  I click "Log Out" from the home page
+    When  I click the Log Out button from the home page
     When  I click the Continue button
     Then  I should be on a page with the title Login Page
 
@@ -42,7 +42,6 @@ Feature: Customers need to manage their relationships with banks and subsequent 
     When  I enter <password> in the password
     When  I click the Login button
     When  I click the Continue button
-    When  I am on a page with the title Customer Home
     When  I click "Manage Accounts"
     When  I click the Create and Manage Accounts button
     Then  I should be on a page with the title Managing Accounts
@@ -53,8 +52,8 @@ Feature: Customers need to manage their relationships with banks and subsequent 
 
   Scenario: As a customer, I should be able to log out
     Given I am on the home page
-    When  I click "Log Out"
-    When  I click the Log Out button
+    When  I click "Log Out" from the managing accounts page
+    When  I click the Log Out button from the managing accounts page
     When  I click the Continue button
     Then  I should be on a page with the title Login Page
 
@@ -64,7 +63,6 @@ Feature: Customers need to manage their relationships with banks and subsequent 
     When  I enter <password> in the password
     When  I click the Login button
     When  I click the Continue button
-    When  I am on a page with the title Customer Home
     When  I click "Manage Customer Information"
     When  I click the Manage Customer Information button
     Then  I am on a page with the title Managing Customer
@@ -75,7 +73,7 @@ Feature: Customers need to manage their relationships with banks and subsequent 
 
   Scenario: As a customer, I should be able to log out
     Given I am on the managing customer information page
-    When  I click "Log Out"
-    When  I click the Log Out button
+    When  I click "Log Out" from the managing customer information page
+    When  I click the Log Out button from the manage customer information page
     When  I click the Continue button
     Then  I should be on a page with the title Login Page
