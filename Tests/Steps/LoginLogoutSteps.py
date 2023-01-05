@@ -52,7 +52,7 @@ def step_impl(context):
 def step_impl(context):
     context.customer_poms.home_log_out_button().click()
 
-@when(u'I click the Log Out button from the managing customer information page')
+@when(u'I click the Log Out button from the manage customer information page')
 def step_impl(context):
     context.customer_poms.manage_customer_information_logout_button().click()
 
