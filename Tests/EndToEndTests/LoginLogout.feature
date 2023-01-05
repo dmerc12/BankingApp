@@ -10,60 +10,19 @@ Feature: Customers need to manage their relationships with banks and subsequent 
     When  I enter <username> in the username
     When  I enter <password> in the password
     When  I click the Login button
-    When  I am not logged in and see an error
-    When  I click the Continue button
     Then  I should be on a page with the title Login Page
 
     Examples:
-      | username  | password |
-      | incorrect | customer |
+      | username  | password  |
+      | incorrect | customer  |
+      | new       | incorrect |
 
-  Scenario Outline: As a customer, I should not be able to log into my account with incorrect login credentials
-    Given I am on the login page
-    When  I enter <username> in the username
-    When  I enter <password> in the password
-    When  I click the Login button
-    When  I am not logged in and see an error
-    When  I click the Continue button
-    Then  I should be on a page with the title Login Page
-
-    Examples:
-      | username | password  |
-      | new      | incorrect |
-
-  Scenario Outline: As a customer, I should not be able to log into my account with empty login credentials
-    Given I am on the login page
-    When  I enter <username> in the username
-    When  I enter <password> in the password
-    When  I click the Login button
-    When  I am not logged in and see an error
-    When  I click the Continue button
-    Then  I should be on a page with the title Login Page
-
-    Examples:
-      | username | password  |
-      |          | incorrect |
-
-  Scenario Outline: As a customer, I should not be able to log into my account with empty login credentials
-    Given I am on the login page
-    When  I enter <username> in the username
-    When  I enter <password> in the password
-    When  I click the Login button
-    When  I am not logged in and see an error
-    When  I click the Continue button
-    Then  I should be on a page with the title Login Page
-
-    Examples:
-      | username | password |
-      | new      |          |
 
   Scenario Outline: As a customer, I should be able to log into my account with correct login credentials
     Given I am on the login page
     When  I enter <username> in the username
     When  I enter <password> in the password
     When  I click the Login button
-    When  I am not logged in and see an error
-    When  I click the Continue button
     Then  I should be on a page with the title Customer Home
 
     Examples:
@@ -82,7 +41,6 @@ Feature: Customers need to manage their relationships with banks and subsequent 
     When  I enter <username> in the username
     When  I enter <password> in the password
     When  I click the Login button
-    When  I am not logged in and see an error
     When  I click the Continue button
     When  I am on a page with the title Customer Home
     When  I click "Manage Accounts"
@@ -105,7 +63,6 @@ Feature: Customers need to manage their relationships with banks and subsequent 
     When  I enter <username> in the username
     When  I enter <password> in the password
     When  I click the Login button
-    When  I am not logged in and see an error
     When  I click the Continue button
     When  I am on a page with the title Customer Home
     When  I click "Manage Customer Information"

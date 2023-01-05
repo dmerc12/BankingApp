@@ -1,7 +1,7 @@
 from selenium.webdriver.chrome.webdriver import WebDriver
+from selenium.webdriver.common.alert import Alert
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
-from selenium.webdriver.common.keys import Keys
 
 class CustomerPOMs:
 
@@ -108,10 +108,9 @@ class CustomerPOMs:
         element: WebElement = self.driver.find_element(By.ID, "deleteCustomerButton")
         return element
 
-    def press_enter_key(self):
-        element: WebElement = self.driver.find_element(By.ID("Value"))
-        element.send_keys(Keys.ENTER)
-        return element
+    def press_ok_on_alert(self):
+        alert: Alert = self.driver.switch_to.alert.accept()
+        return alert
 
     def home_log_out_button(self):
         element: WebElement = self.driver.find_element(By.ID, "logOutButton")

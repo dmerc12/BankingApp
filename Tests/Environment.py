@@ -1,7 +1,7 @@
 from behave.runner import Context
 from selenium.webdriver.chrome.webdriver import WebDriver
 from Tests.POMS.BankingPOMs import BankingPOMs
-from Tests.POMS.CustomerPOMs import CustomerPOMs
+from Tests.POMS.customer_POMs import CustomerPOMs
 
 def before_all(context: Context):
     context.driver = WebDriver()
