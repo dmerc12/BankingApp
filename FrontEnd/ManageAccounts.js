@@ -38,7 +38,6 @@ function goHome() {
 
 function resetInputs() {
     document.getElementById("startingAmountInput").value = "";
-    document.getElementById("viewAccountIdInput").value = "";
     document.getElementById("depositAccountIdInput").value = "";
     document.getElementById("depositAmountInput").value = "";
     document.getElementById("withdrawAccountIdInput").value = "";
@@ -46,7 +45,7 @@ function resetInputs() {
     document.getElementById("transferWithdrawIdInput").value = "";
     document.getElementById("transferDepositIdInput").value = "";
     document.getElementById("transferAmountInput").value = "";
-    document.getElementById("delteAccountIdInput").value = "";
+    document.getElementById("deleteAccountIdInput").value = "";
 };
 
 async function createAccount() {
@@ -279,7 +278,7 @@ async function deleteAccount() {
     const deleteAccountURL = "http://127.0.0.1:5000/delete/account";
 
     // grabbing input from the DOM
-    const deleteAccountId = document.getElementById("delteAccountIdInput").value;
+    const deleteAccountId = document.getElementById("deleteAccountIdInput").value;
 
     // preparing JSON
     deleteAccountJSON = {

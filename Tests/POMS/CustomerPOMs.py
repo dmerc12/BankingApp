@@ -1,4 +1,6 @@
+from selenium.webdriver import Keys
 from selenium.webdriver.chrome.webdriver import WebDriver
+from selenium.webdriver.common import keys
 from selenium.webdriver.common.alert import Alert
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
@@ -89,7 +91,7 @@ class CustomerPOMs:
         return element
 
     def manage_customer_information_collapse_button(self):
-        element: WebElement = self.driver.find_element(By.ID, "manageCustomerCollapseButton")
+        element: WebElement = self.driver.find_element(By.XPATH, "/html/body/button[3]")
         return element
 
     def manage_customer_information_button(self):
@@ -109,19 +111,19 @@ class CustomerPOMs:
         return element
 
     def press_ok_on_alert(self):
-        alert: Alert = self.driver.switch_to.alert.accept()
-        return alert
+        element: Alert = self.driver.switch_to.alert.send_keys(Keys.ENTER)
+        return element
 
     def home_log_out_button(self):
         element: WebElement = self.driver.find_element(By.ID, "logOutButton")
         return element
 
     def home_log_out_collapse_button(self):
-        element: WebElement = self.driver.find_element(By.ID, "logoutCollapseButton")
+        element: WebElement = self.driver.find_element(By.XPATH, "/html/body/button[1]")
         return element
 
     def manage_customer_information_logout_collapse_button(self):
-        element: WebElement = self.driver.find_element(By.ID, "manageCustomerLogoutCollapseButton")
+        element: WebElement = self.driver.find_element(By.XPATH, "/html/body/button[3]")
         return element
 
     def manage_customer_information_logout_button(self):

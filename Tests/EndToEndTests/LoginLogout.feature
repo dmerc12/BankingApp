@@ -5,20 +5,6 @@ Feature: Customers need to manage their relationships with banks and subsequent 
     When  I click the Continue button
     Then  I should be on a page with the title Login Page
 
-  Scenario Outline: As a customer, I should be able to log into my account with correct login credentials
-    Given I am on the login page
-    When  I enter <username> in the username
-    When  I enter <password> in the password
-    When  I click the Login button
-    When  I click the Continue button
-    When  I click "Manage Accounts"
-    When  I click the Create and Manage Accounts button
-    Then  I should be on a page with the title Managing Accounts
-
-    Examples:
-      | username | password |
-      | please   | work     |
-
   Scenario Outline: As a customer, I should not be able to log into my account with incorrect login credentials
     Given I am on the login page
     When  I enter <username> in the username
@@ -30,6 +16,17 @@ Feature: Customers need to manage their relationships with banks and subsequent 
       | username  | password  |
       | incorrect | customer  |
       | new       | incorrect |
+
+  Scenario Outline: As a customer, I should be able to log in with the correct credentials
+    Given I am on the login page
+    When  I enter <username> in the username
+    When  I enter <password> in the password
+    When  I click the Login button
+    Then  I should be on a page with the title Customer Home
+
+    Examples:
+      | username | password |
+      | please   | work     |
 
   Scenario Outline: As a customer, I should be able to log out from the home page
     Given I am on the login page
@@ -47,10 +44,10 @@ Feature: Customers need to manage their relationships with banks and subsequent 
 
   Scenario Outline: As a customer, I should be able to log out from the managing accounts page
     Given I am on the login page
+    When  I click the Continue button
     When  I enter <username> in the username
     When  I enter <password> in the password
     When  I click the Login button
-    When  I click the Continue button
     When  I click "Manage Accounts"
     When  I click the Create and Manage Accounts button
     When  I click "Log Out" from the managing accounts page
@@ -67,7 +64,6 @@ Feature: Customers need to manage their relationships with banks and subsequent 
     When  I enter <username> in the username
     When  I enter <password> in the password
     When  I click the Login button
-    When  I click the Continue button
     When  I click "Manage Customer Information"
     When  I click the Manage Customer Information button
     When  I click "Log Out" from the managing customer information page

@@ -81,7 +81,7 @@ class BankAccountDALImplementation(BankAccountDALInterface):
         cursor.execute(sql, (withdraw_amount, account_id))
         connection.commit()
         updated_info = cursor.fetchone()
-        updated_account = BankAccount(* updated_info)
+        updated_account = BankAccount(*updated_info)
         logging.info("Finishing DAL method withdraw")
         return updated_account
 

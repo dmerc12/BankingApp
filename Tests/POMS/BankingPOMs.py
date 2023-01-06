@@ -14,7 +14,7 @@ class BankingPOMs:
         return element
 
     def manage_accounts_logout_collapse_button(self):
-        element: WebElement = self.driver.find_element(By.ID, "manageAccountsLogOutCollapseButton")
+        element: WebElement = self.driver.find_element(By.XPATH, "/html/body/button[2]")
         return element
 
     def manage_accounts_collapse_button(self):
