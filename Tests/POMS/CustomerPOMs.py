@@ -128,7 +128,7 @@ class CustomerPOMs:
         return element
 
     def home_log_out_collapse_button(self):
-        element: WebElement = self.driver.find_element(By.XPATH, "/html/body/button[1]")
+        element: WebElement = self.driver.find_element(By.XPATH, "logoutCollapseButton")
         return element
 
     def manage_customer_information_logout_collapse_button(self):

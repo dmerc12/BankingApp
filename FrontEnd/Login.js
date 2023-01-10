@@ -26,7 +26,6 @@ async function doLogin() {
     // handling API response appropriately
     if (response.status === 201) {
         const apiResponse = await response.json();
-        alert('Successful login, click continue!');
         window.sessionStorage.setItem("customerId", apiResponse.customerId);
         window.sessionStorage.setItem("firstName", apiResponse.firstName);
         window.sessionStorage.setItem("lastName", apiResponse.lastName);

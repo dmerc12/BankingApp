@@ -8,22 +8,10 @@
     <title>Customer Home</title>
 </head>
 <body>
-    <button type="button" class="collapsible" id="logoutCollapseButton">Log Out</button>
-    <div class="content">
-        <table>
-            <tr>
-                <td><button id="logOutButton" onclick="doLogout()">Log Out</button></td>
-            </tr>
-        </table>
-    </div>
-    <button type="button" class="collapsible" id="manageAccountsCollapseButton">Manage Accounts</button>
-    <div class="content">
-        <button id="navigateToManageAccountsButton" onclick="navigateToManageAccounts()">Create and Manage Accounts</button>
-    </div>
-    <button type="button" class="collapsible" id="manageCustomerCollapseButton">Manage Customer Information</button>
-    <div class="content">
-        <button id="navigateToManageCustomerButton" onclick="navigateToManageCustomer()">Manage Customer Information</button>
-    </div>
+    <button id="logOutButton" onclick="doLogout()">Log Out</button>
+    <button id="navigateToManageAccountsButton" onclick="navigateToManageAccounts()">Create and Manage Accounts</button><br>
+    <button type="button" class="collapsible" id="manageCustomerCollapseButton">Manage Customer Information</button><br>
+    <button id="navigateToManageCustomerButton" onclick="navigateToManageCustomer()">Manage Customer Information</button><br>
 </body>
 <script src="CustomerHome.js"></script>
 </html>

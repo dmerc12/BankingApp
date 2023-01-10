@@ -22,7 +22,7 @@ def step_impl(context):
 
 @when(u'I click the Continue button')
 def step_impl(context):
-    context.customer_poms.login_continue_button().click()
+    context.customer_poms.press_ok_on_positive_alert()
 
 @when(u'I enter {username} in the username')
 def step_impl(context, username):
