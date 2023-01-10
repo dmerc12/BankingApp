@@ -31,5 +31,5 @@ class BankAccountSALInterface(ABC):
         pass
 
     @abstractmethod
-    def service_delete_account(self, account_id: int) -> bool:
+    def service_delete_account(self, account_id: str) -> bool:
         pass

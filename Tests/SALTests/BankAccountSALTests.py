@@ -82,12 +82,19 @@ def test_service_transfer_success():
     result = account_sao.service_get_all_accounts(successful_account.customer_id)
     assert result
 
+def test_service_delete_account_left_empty():
+    try:
+        account_sao.service_delete_account("")
+        assert False
+    except FailedTransaction as error:
+        assert str(error) == "The account ID field cannot be left empty, please try again!"
+
 def test_service_delete_account_not_found():
     try:
-        account_sao.service_delete_account(-500000)
+        account_sao.service_delete_account(str(-500000))
     except FailedTransaction as error:
         assert str(error) == "No account found to delete, please try again!"
 
 def test_service_delete_account_success():
-    result = account_sao.service_delete_account(successful_account.account_id)
+    result = account_sao.service_delete_account(str(successful_account.account_id))
     assert result

@@ -1,7 +1,7 @@
 import datetime
 import logging
 import os.path
-from flask_cors import CORS, cross_origin
+from flask_cors import CORS
 from flask import Flask, request, jsonify
 from DAL.BankAccountDAL.BankAccountDALImplementation import BankAccountDALImplementation
 from DAL.CustomerDAL.CustomerDALImplementation import CustomerDALImplementation
@@ -302,8 +302,7 @@ def delete_account():
     app.logger.info("Beginning API function delete account")
     try:
         id_info: dict = request.get_json()
-        account_id = int(id_info["accountId"])
-        transaction_sao.service_delete_all_transactions(account_id)
+        account_id = str(id_info["accountId"])
         result = account_sao.service_delete_account(account_id)
         result_dictionary = {
             "result": result

@@ -1,11 +1,16 @@
 import logging
 from typing import List
 from DAL.BankAccountDAL.BankAccountDALImplementation import BankAccountDALImplementation
+from DAL.TransactionDAL.TransactionDALImplementation import TransactionDALImplementation
 from Entities.BankAccount import BankAccount
 from Entities.FailedTransaction import FailedTransaction
 from SAL.BankAccountSAL.BankAccountSALInterface import BankAccountSALInterface
+from SAL.TransactionSAL.TransactionSALImplementation import TransactionSALImplementation
+
 
 class BankAccountSALImplementation(BankAccountSALInterface):
+    transaction_dao = TransactionDALImplementation()
+    transaction_sao = TransactionSALImplementation(transaction_dao)
 
     def __init__(self, account_dao: BankAccountDALImplementation):
         self.account_dao = account_dao
@@ -72,9 +77,14 @@ class BankAccountSALImplementation(BankAccountSALInterface):
                 logging.info("Finishing SAL method transfer")
                 return result
 
-    def service_delete_account(self, account_id: int) -> bool:
+    def service_delete_account(self, account_id: str) -> bool:
         logging.info("Beginning SAL method delete account")
-        result = self.account_dao.delete_account(account_id)
+        if account_id == "":
+            logging.warning("SAL method delete account, account ID left empty")
+            raise FailedTransaction("The account ID field cannot be left empty, please try again!")
+        account_id_as_int = int(account_id)
+        self.transaction_sao.service_delete_all_transactions(account_id_as_int)
+        result = self.account_dao.delete_account(account_id_as_int)
         if result is False:
             logging.warning("SAL method delete account, no account found to delete")
             raise FailedTransaction("No account found to delete, please try again!")
