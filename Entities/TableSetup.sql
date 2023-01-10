@@ -25,6 +25,14 @@ create table banking.transactions(
 	constraint accountfk foreign key (account_id) references Banking.bank_accounts(account_id)
 );
 
+create table banking.sessions(
+	session_number serial primary key,
+	session_id varchar(150),
+	customer_id int,
+	constraint customerfk foreign key (customer_id) references Banking.customers(customer_id)
+);
+
+
 insert into banking.customers values (-1, 'test', 'customer', 'please', 'work', 'test@email.com', '123-456-7890',
 '123 This Street, City, State, ZIP');
 
