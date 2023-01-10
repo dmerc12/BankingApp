@@ -2,7 +2,7 @@ Feature: Customers need to manage their relationships with banks and subsequent 
 
   Scenario: As a customer, I should not be allowed access to the home page without logging in first
     Given I am on the home page
-    When  I click the Continue button
+    When  I click the Negative Continue button
     Then  I should be on a page with the title Login Page
 
   Scenario Outline: As a customer, I should not be able to log into my account with incorrect login credentials
@@ -22,6 +22,7 @@ Feature: Customers need to manage their relationships with banks and subsequent 
     When  I enter <username> in the username
     When  I enter <password> in the password
     When  I click the Login button
+    When  I click the Continue button
     Then  I should be on a page with the title Customer Home
 
     Examples:
@@ -44,10 +45,10 @@ Feature: Customers need to manage their relationships with banks and subsequent 
 
   Scenario Outline: As a customer, I should be able to log out from the managing accounts page
     Given I am on the login page
-    When  I click the Continue button
     When  I enter <username> in the username
     When  I enter <password> in the password
     When  I click the Login button
+    When  I click the Continue button
     When  I click "Manage Accounts"
     When  I click the Create and Manage Accounts button
     When  I click "Log Out" from the managing accounts page

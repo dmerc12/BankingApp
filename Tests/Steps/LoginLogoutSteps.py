@@ -16,9 +16,13 @@ def step_impl(context):
 def step_impl(context):
     context.driver.get("C:/Users/Dylan/OneDrive/Desktop/personal projects/PythonBank/FrontEnd/ManageAccounts.html")
 
+@when(u'I click the Negative Continue button')
+def step_impl(context):
+    context.customer_poms.press_ok_on_negative_alert()
+
 @when(u'I click the Continue button')
 def step_impl(context):
-    context.customer_poms.press_ok_on_alert
+    context.customer_poms.login_continue_button().click()
 
 @when(u'I enter {username} in the username')
 def step_impl(context, username):

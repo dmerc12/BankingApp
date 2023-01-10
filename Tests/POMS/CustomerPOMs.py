@@ -22,6 +22,10 @@ class CustomerPOMs:
         element: WebElement = self.driver.find_element(By.ID, "submitInfo")
         return element
 
+    def login_continue_button(self):
+        element: WebElement = self.driver.find_element(By.XPATH, "/html/body/div/div/div[3]/button[1]")
+        return element
+
     def indicate_new_customer(self):
         element: WebElement = self.driver.find_element(By.ID, "indicateNewUser")
         return element
@@ -110,8 +114,13 @@ class CustomerPOMs:
         element: WebElement = self.driver.find_element(By.ID, "deleteCustomerButton")
         return element
 
-    def press_ok_on_alert(self):
-        element: Alert = self.driver.switch_to.alert.send_keys(Keys.ENTER)
+    def press_ok_on_negative_alert(self):
+        element: Alert = self.driver.switch_to.alert.dismiss()
+        return element
+
+    # not working yet, trying separate continue buttons
+    def press_ok_on_positive_alert(self):
+        element: Alert = self.driver.switch_to.alert.accept()
         return element
 
     def home_log_out_button(self):
