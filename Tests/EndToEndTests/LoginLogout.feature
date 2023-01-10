@@ -47,7 +47,6 @@ Feature: Customers need to manage their relationships with banks and subsequent 
     When  I enter <password> in the password
     When  I click the Login button
     When  I click the Create and Manage Accounts button
-    When  I click "Log Out" from the managing accounts page
     When  I click the Log Out button from the managing accounts page
     When  I click the Continue button
     Then  I should be on a page with the title Login Page
@@ -62,7 +61,6 @@ Feature: Customers need to manage their relationships with banks and subsequent 
     When  I enter <password> in the password
     When  I click the Login button
     When  I click the Manage Customer Information button
-    When  I click "Log Out" from the managing customer information page
     When  I click the Log Out button from the manage customer information page
     When  I click the Continue button
     Then  I should be on a page with the title Login Page

@@ -22,10 +22,6 @@ class CustomerPOMs:
         element: WebElement = self.driver.find_element(By.ID, "submitInfo")
         return element
 
-    def login_continue_button(self):
-        element: WebElement = self.driver.find_element(By.XPATH, "/html/body/div/div/div[3]/button[1]")
-        return element
-
     def indicate_new_customer(self):
         element: WebElement = self.driver.find_element(By.ID, "indicateNewUser")
         return element
@@ -94,16 +90,8 @@ class CustomerPOMs:
         element: WebElement = self.driver.find_element(By.ID, "updateCustomerButton")
         return element
 
-    def manage_customer_information_collapse_button(self):
-        element: WebElement = self.driver.find_element(By.XPATH, "/html/body/button[3]")
-        return element
-
     def manage_customer_information_button(self):
         element: WebElement = self.driver.find_element(By.ID, "navigateToManageCustomerButton")
-        return element
-
-    def update_customer_information_collapse_button(self):
-        element: WebElement = self.driver.find_element(By.ID, "updateCustomerCollapseButton")
         return element
 
     def delete_customer_collapse_button(self):
@@ -125,14 +113,6 @@ class CustomerPOMs:
 
     def home_log_out_button(self):
         element: WebElement = self.driver.find_element(By.ID, "logOutButton")
-        return element
-
-    def home_log_out_collapse_button(self):
-        element: WebElement = self.driver.find_element(By.XPATH, "logoutCollapseButton")
-        return element
-
-    def manage_customer_information_logout_collapse_button(self):
-        element: WebElement = self.driver.find_element(By.XPATH, "/html/body/button[3]")
         return element
 
     def manage_customer_information_logout_button(self):
