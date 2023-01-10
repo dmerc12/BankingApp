@@ -17,7 +17,7 @@ Feature: Customers need to manage their relationships with banks and subsequent 
       | incorrect | customer  |
       | new       | incorrect |
 
-  Scenario Outline: As a customer, I should be able to log in with the correct credentials
+  Scenario Outline: As a customer, I should be able to log in with the correct credentials and visit the home page
     Given I am on the login page
     When  I enter <username> in the username
     When  I enter <password> in the password
