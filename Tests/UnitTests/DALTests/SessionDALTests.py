@@ -7,6 +7,8 @@ session_start_date = datetime.now()
 session_expire_time = session_start_date.minute + 30
 test_session = Session(0, -1, str(session_start_date), str(session_expire_time))
 
+complete = "remove when all tests pass"
+
 def test_create_session_success():
     result = session_dao.create_session(test_session)
     assert result.session_id != 0
