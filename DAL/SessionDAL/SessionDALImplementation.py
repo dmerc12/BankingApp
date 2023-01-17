@@ -2,6 +2,7 @@ import logging
 
 from DAL.DBConnection import connection
 from DAL.SessionDAL.SessionDALInterface import SessionDALInterface
+from Entities.FailedTransaction import FailedTransaction
 from Entities.Session import Session
 
 
@@ -26,7 +27,23 @@ class SessionDALImplementation(SessionDALInterface):
         return session
 
     def get_session(self, session_id: int) -> Session:
-        pass
+        logging.info("Beginning DAL method get session")
+        sql = "select * from banking.sessions where session_id=%s;"
+        cursor = connection.cursor()
+        cursor.execute(sql, [session_id])
+        session_info = cursor.fetchone()
+        if session_info is None:
+            logging.warning("DAL method get session")
+            raise FailedTransaction("No session found, please try again!")
+        session = Session(*session_info)
+        logging.info("Finishing DAL method get session")
+        return session
 
     def delete_session(self, session_id) -> bool:
-        pass
+        logging.info("Beginning DAL method delete session")
+        sql = "delete from banking.sessions where session_id=%s;"
+        cursor = connection.cursor()
+        cursor.execute(sql, [session_id])
+        connection.commit()
+        logging.info("Finishing DAL method delete session")
+        return True
