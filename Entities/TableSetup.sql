@@ -29,6 +29,8 @@ create table banking.sessions(
 	session_number serial primary key,
 	session_id varchar(150),
 	customer_id int,
+	issue_date_time varchar(26),
+	expire_date_time varchar(26),
 	constraint customerfk foreign key (customer_id) references Banking.customers(customer_id)
 );
 
