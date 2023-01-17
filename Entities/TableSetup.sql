@@ -26,8 +26,7 @@ create table banking.transactions(
 );
 
 create table banking.sessions(
-	session_number serial primary key,
-	session_id varchar(150),
+	session_id serial primary key,
 	customer_id int,
 	issue_date_time varchar(26),
 	expire_date_time varchar(26),
