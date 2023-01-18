@@ -1,5 +1,3 @@
-from datetime import time
-
 from behave import given, when, then
 from selenium.webdriver.support.expected_conditions import title_contains
 from selenium.webdriver.support.wait import WebDriverWait
@@ -89,6 +87,7 @@ def step_impl(context):
 
 @then(u'I am on a page with the title Managing Customer')
 def step_impl(context):
+    WebDriverWait(context.driver, 10).until(title_contains("Managing Customer"))
     assert context.driver.title == "Managing Customer"
 
 @then(u'I should be on a page with the title Login Page')
@@ -102,4 +101,5 @@ def step_impl(context):
 
 @then(u'I should be on a page with the title Managing Accounts')
 def step_impl(context):
+    WebDriverWait(context.driver, 10).until(title_contains("Managing Accounts"))
     assert context.driver.title == "Managing Accounts"

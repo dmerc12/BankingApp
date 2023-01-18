@@ -1,6 +1,7 @@
 from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
+from selenium.webdriver.common.alert import Alert
 
 
 class BankingPOMs:
@@ -13,7 +14,7 @@ class BankingPOMs:
         return element
 
     def create_and_manage_accounts_button(self):
-        element: WebElement = self.driver.find_element(By.ID, "navigateToManageCustomerButton")
+        element: WebElement = self.driver.find_element(By.ID, "navigateToManageAccountsButton")
         return element
 
     def create_new_account_collapse_button(self):
@@ -94,4 +95,8 @@ class BankingPOMs:
 
     def delete_button(self):
         element: WebElement = self.driver.find_element(By.ID, "deleteAccountButton")
+        return element
+
+    def press_ok_on_alert(self):
+        element: Alert = self.driver.switch_to_alert().accept()
         return element

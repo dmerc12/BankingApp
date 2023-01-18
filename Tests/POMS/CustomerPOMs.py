@@ -1,10 +1,8 @@
-from selenium.webdriver import Keys
 from selenium.webdriver.chrome.webdriver import WebDriver
-from selenium.webdriver.common import keys
 from selenium.webdriver.common.alert import Alert
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
-
+from selenium.webdriver.common.keys import Keys
 class CustomerPOMs:
 
     def __init__(self, driver: WebDriver):
@@ -102,7 +100,6 @@ class CustomerPOMs:
         element: WebElement = self.driver.find_element(By.ID, "deleteCustomerButton")
         return element
 
-    # not working yet, trying separate continue buttons
     def press_ok_on_positive_alert(self):
         element: Alert = self.driver.switch_to.alert.send_keys(Keys.ENTER)
         return element
