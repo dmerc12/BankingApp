@@ -15,7 +15,7 @@ Feature: Customers need to create a relationship with the bank
     When  I enter <phone_number> in the phone number
     When  I enter <address> in the address
     When  I click the Create New Customer button
-    When  I click the Continue button
+    When  I click ok on the alert
     Then  I should be on a page with the title New Customer
 
     Examples:
@@ -41,7 +41,7 @@ Feature: Customers need to create a relationship with the bank
     When  I enter <phone_number> in the phone number
     When  I enter <address> in the address
     When  I click the Create New Customer button
-    When  I click the Continue button
+    When  I click ok on the alert
     Then  I should be on a page with the title Login Page
 
     Examples:

@@ -34,6 +34,7 @@ async function doLogin() {
         window.sessionStorage.setItem("email", apiResponse.email);
         window.sessionStorage.setItem("phoneNumber", apiResponse.phoneNumber);
         window.sessionStorage.setItem("address", apiResponse.address);
+        alert("Successful login attempt, please continue!")
         window.location.href = "CustomerHome.html";
     } else if (response.status === 400) {
         const apiResponse = await response.json();

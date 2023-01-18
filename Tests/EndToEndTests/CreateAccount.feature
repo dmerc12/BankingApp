@@ -2,6 +2,7 @@ Feature: Customers need to create accounts
 
   Scenario: As a customer, I should not be allowed access to the managing accounts page without logging in first
     Given I am on the managing accounts page
+    When  I click ok on the alert
     Then  I should be on a page with the title Login Page
 
   Scenario Outline: As a customer, I should be able to log in
@@ -9,6 +10,7 @@ Feature: Customers need to create accounts
     When  I enter <username> in the username
     When  I enter <password> in the password
     When  I click the Login button
+    When  I click ok on the alert
     When  I click the Create and Manage Accounts button
     Then  I should be on a page with the title Managing Accounts
 
