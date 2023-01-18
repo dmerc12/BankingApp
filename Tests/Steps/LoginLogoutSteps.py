@@ -24,11 +24,6 @@ def step_impl(context):
     WebDriverWait(context.driver, 10).until(title_contains("Customer Home"))
     context.customer_poms.press_ok_on_negative_alert()
 
-@when(u'I click the Continue button')
-def step_impl(context):
-    WebDriverWait(context.driver, 10).until(title_contains("Customer Home"))
-    context.customer_poms.press_ok_on_positive_alert()
-
 @when(u'I enter {username} in the username')
 def step_impl(context, username):
     context.customer_poms.login_username_input().send_keys(username)
