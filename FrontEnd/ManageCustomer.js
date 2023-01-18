@@ -16,7 +16,6 @@ for (i = 0; i < coll.length; i++) {
 };
 
 if (!window.sessionStorage.getItem("customerId")) {
-    alert("You do not have access to this page! Please continue to log in or create your own credentials!");
     window.location.href = "Login.html";
 };
 

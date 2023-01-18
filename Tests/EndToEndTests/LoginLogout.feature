@@ -4,6 +4,14 @@ Feature: Customers need to manage their relationships with banks and subsequent 
     Given I am on the home page
     Then  I should be on a page with the title Login Page
 
+  Scenario: As a customer, I should not be allowed access to the manage customer page without logging in first
+    Given I am on the managing customer information page
+    Then  I should be on a page with the title Login Page
+
+  Scenario: As a customer, I should not be allowed access to the manage accounts page without logging in first
+    Given I am on the managing accounts page
+    Then  I should be on a page with the title Login Page
+
   Scenario Outline: As a customer, I should not be able to log into my account with incorrect login credentials
     Given I am on the login page
     When  I enter <username> in the username
