@@ -15,7 +15,6 @@ for (i = 0; i < coll.length; i++) {
 };
 
 if (!window.sessionStorage.getItem("customerId")) {
-    alert("You do not have access to this page! Please continue to log in or create your own credentials!");
     window.location.href = "Login.html";
 };
 
@@ -28,7 +27,6 @@ function doLogout() {
     window.sessionStorage.removeItem("email");
     window.sessionStorage.removeItem("phoneNumber");
     window.sessionStorage.removeItem("address");
-    alert("Goodbye!");
     window.location.href = "Login.html";
 ;}
 

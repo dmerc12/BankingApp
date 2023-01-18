@@ -28,7 +28,6 @@ function doLogout() {
     window.sessionStorage.removeItem("email");
     window.sessionStorage.removeItem("phoneNumber");
     window.sessionStorage.removeItem("address");
-    alert("Goodbye!");
     window.location.href = "Login.html";
 ;}
 

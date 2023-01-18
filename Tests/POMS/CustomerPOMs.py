@@ -108,7 +108,7 @@ class CustomerPOMs:
 
     # not working yet, trying separate continue buttons
     def press_ok_on_positive_alert(self):
-        element: Alert = self.driver.switch_to.alert.accept()
+        element: Alert = self.driver.switch_to.alert.send_keys(Keys.ENTER)
         return element
 
     def home_log_out_button(self):
