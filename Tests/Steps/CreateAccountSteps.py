@@ -1,5 +1,6 @@
+import time
+
 from behave import when
-from selenium.webdriver.support.expected_conditions import title_contains
 from selenium.webdriver.support.wait import WebDriverWait
 
 
@@ -17,5 +18,5 @@ def step_impl(context, amount: float):
 
 @when(u'I click ok on the alert')
 def step_impl(context):
-    WebDriverWait(context.driver, 10).until(title_contains("Customer Home"))
-    context.banking_poms.press_ok_on_alert().click()
+    time.sleep(1)
+    context.banking_poms.press_ok_on_alert().accept()

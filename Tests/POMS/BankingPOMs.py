@@ -1,7 +1,10 @@
+from datetime import time
+
 from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.common.alert import Alert
+from selenium.webdriver.support.wait import WebDriverWait
 
 
 class BankingPOMs:
@@ -98,5 +101,5 @@ class BankingPOMs:
         return element
 
     def press_ok_on_alert(self):
-        element: Alert = self.driver.switch_to_alert().accept()
-        return element
+        alert: Alert = Alert(self.driver)
+        return alert
