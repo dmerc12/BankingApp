@@ -10,9 +10,6 @@ session_sao = SessionSALImplementation(session_dao)
 session_start = datetime.now()
 session_expire = session_start.minute + 30
 successful_session = Session(0, -1, str(session_start), str(session_expire))
-expired_session_to_be_created = Session(0, -1, str(session_start), str(session_start))
-# inserting expired session for later test
-expired_session = session_sao.service_create_session(expired_session_to_be_created)
 
 complete = "remove this string when the tests are passing and the implementation is complete"
 

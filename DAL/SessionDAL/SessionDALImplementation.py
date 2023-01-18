@@ -15,6 +15,13 @@ class SessionDALImplementation(SessionDALInterface):
         connection.commit()
         return True
 
+    @staticmethod
+    def populate_expired_test_session(sql_query: str) -> bool:
+        cursor = connection.cursor()
+        cursor.execute(sql_query)
+        connection.commit()
+        return True
+
     def create_session(self, session: Session) -> Session:
         logging.info("Beginning DAL method create session")
         sql = "insert into banking.sessions values (default, %s, %s, %s) returning session_id;"
