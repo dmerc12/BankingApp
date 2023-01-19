@@ -132,20 +132,26 @@ function populateAccounts(accountList) {
         const row = document.createElement("tr");
         accountTable.appendChild(row);
         
-        const square1 = document.createElement("td");
+        const tableData1 = document.createElement("td");
+        const square1 = document.createElement("h3");
         square1.textContent = `Account number: ${accountId}`;
-        row.appendChild(square1);
+        row.appendChild(tableData1);
+        tableData1.appendChild(square1);
 
-        const square2 = document.createElement("td");
+        const tableData2 = document.createElement("td");
+        const square2 = document.createElement("h3");
         square2.textContent = `Balance: $${balance}`;
-        row.appendChild(square2);
+        row.appendChild(tableData2);
+        tableData2.appendChild(square2);
 
+        const tableData3 = document.createElement("td");
         const square3 = document.createElement("button");
         square3.textContent = "View associated transactions";
         square3.id = `viewTransaction${accountId}`;
         square3.className = 'btn';
         square3.addEventListener('onclick', viewAssociatedTransactions(accountId));
-        row.appendChild(square3);
+        row.appendChild(tableData3);
+        tableData3.appendChild(square3)
         count = count + 1;
     };
 };

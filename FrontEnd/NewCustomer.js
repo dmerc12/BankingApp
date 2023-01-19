@@ -36,7 +36,7 @@ async function createCustomer() {
     //handling API response appropriately
     if (response.status === 201) {
         const apiResponse = await response.json();
-        alert(`Customer successfully create with a customer ID of ${apiResponse.customerId}`);
+        alert(`Customer successfully created!`);
         window.location.href = "Login.html";
     } else if (response.status === 400) {
         const apiResponse = await response.json();

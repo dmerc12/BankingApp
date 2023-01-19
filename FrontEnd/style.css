@@ -1,5 +1,5 @@
 .collapsible {
-    background-color: darkslategrey;
+    background-color: rgb(90, 90, 90);
     color: black;
     cursor: pointer;
     padding: 18px;
@@ -14,7 +14,7 @@
 }
 
 .active, .collapsible:hover {
-    background-color: darkslategray;
+    background-color: rgb(90, 90, 90);
 }
 
 .content {
@@ -22,7 +22,7 @@
     display: none;
     overflow: hidden;
     color: black;
-    background-color: darkslategrey;
+    background-color: rgb(90, 90, 90);
     width: 75%;
     margin-left: 10%;
     margin-right: 10%;
@@ -31,29 +31,24 @@
 }
 
 body {
+    padding: 25px;
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: 1800px, 1800px;
     width: auto;
     height: auto;
-    background-color: black;
+    background-color: rgb(90, 90, 90);
 }
 
-td {
-    padding: 18px;
-    color: black;
-    background-color: darkslategrey;
-    width: 50%;
-    margin-top: 2%;
-    margin-bottom: 2%;
-    margin-left: 5%;
-    margin-right: 5%;
+h3 {
+    color: white;
+    text-align: center;
 }
 
 .nav {
     padding: 18px;
     color: black;
-    background-color: darkslategrey;
+    background-color: rgb(90, 90, 90);
     width: 50%;
     margin-top: 2%;
     margin-bottom: 2%;
@@ -64,5 +59,5 @@ td {
 .btn {
     padding: 18px;
     color: white;
-    background-color: rgb(90, 90, 90);
+    background-color: darkslategrey;
 }
