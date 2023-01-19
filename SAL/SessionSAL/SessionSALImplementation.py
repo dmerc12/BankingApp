@@ -1,5 +1,4 @@
 import logging
-import sys
 from datetime import datetime
 from DAL.CustomerDAL.CustomerDALImplementation import CustomerDALImplementation
 from DAL.SessionDAL.SessionDALImplementation import SessionDALImplementation

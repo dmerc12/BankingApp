@@ -1,19 +1,14 @@
 from datetime import datetime, timedelta
-import sys
 from DAL.SessionDAL.SessionDALImplementation import SessionDALImplementation
 from Entities.FailedTransaction import FailedTransaction
 from Entities.Session import Session
 from SAL.SessionSAL.SessionSALImplementation import SessionSALImplementation
 
-print(sys.getrecursionlimit())
-sys.setrecursionlimit(5000)
 session_dao = SessionDALImplementation()
 session_sao = SessionSALImplementation(session_dao)
 session_start = datetime.now()
 session_expire = datetime.now() + timedelta(days=1)
 successful_session = Session(0, -1, str(session_start), str(session_expire))
-
-complete = "remove this string when the tests are passing and the implementation is complete"
 
 def test_service_create_session_customer_id_not_integer():
     try:
