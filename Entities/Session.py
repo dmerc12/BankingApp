@@ -29,7 +29,6 @@ class Session:
 
     @staticmethod
     def convert_expire_date_time(self) -> datetime:
-        sys.setrecursionlimit(5000)
         date_and_time_separated = self.expire_date_time.split(" ")
         date = date_and_time_separated[0]
         date_separated = date.split("-")

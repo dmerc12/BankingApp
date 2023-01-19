@@ -67,6 +67,6 @@ class SessionSALImplementation(SessionSALInterface):
             raise FailedTransaction("The session ID field must be an integer, please try again!")
         else:
             self.service_get_session(session_id)
-            self.service_delete_session(session_id)
+            self.session_dao.delete_session(session_id)
             logging.info("Finishing SAL method delete session")
             return True

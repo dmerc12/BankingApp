@@ -5,6 +5,8 @@ from Entities.FailedTransaction import FailedTransaction
 from Entities.Session import Session
 from SAL.SessionSAL.SessionSALImplementation import SessionSALImplementation
 
+print(sys.getrecursionlimit())
+sys.setrecursionlimit(5000)
 session_dao = SessionDALImplementation()
 session_sao = SessionSALImplementation(session_dao)
 session_start = datetime.now()
