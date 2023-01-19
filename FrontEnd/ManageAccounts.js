@@ -137,12 +137,13 @@ function populateAccounts(accountList) {
         row.appendChild(square1);
 
         const square2 = document.createElement("td");
-        square2.textContent = `Balance: ${balance}`;
+        square2.textContent = `Balance: $${balance}`;
         row.appendChild(square2);
 
         const square3 = document.createElement("button");
         square3.textContent = "View associated transactions";
         square3.id = `viewTransaction${accountId}`;
+        square3.className = 'btn';
         square3.addEventListener('onclick', viewAssociatedTransactions(accountId));
         row.appendChild(square3);
         count = count + 1;

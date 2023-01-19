@@ -8,9 +8,9 @@
     <title>Managing Accounts</title>
 </head>
 <body>
-    <button id="manageAccountsLogOutButton" onclick="doLogout()">Log Out</button><br>
-    <button id="homeButton" onclick="goHome()">Home</button><br>
-    <button type="button" class="collapsible" id="createAccountCollapseButton">Create a New Account</button>
+    <button class="nav" id="manageAccountsLogOutButton" onclick="doLogout()">Log Out</button><br>
+    <button class="nav" id="homeButton" onclick="goHome()">Home</button><br>
+    <button type="button" class="collapsible nav" id="createAccountCollapseButton">Create a New Account</button>
     <div class="content">
         <table>
             <tr>
@@ -18,18 +18,18 @@
                 <td><input type="number" id="startingAmountInput"></td>
             </tr>
             <tr>
-                <td><button id="createAccountButton" onclick="createAccount()">Create Account</button></td>
+                <td><button class="btn" id="createAccountButton" onclick="createAccount()">Create Account</button></td>
             </tr>
         </table>
     </div>
-    <button type="button" class="collapsible" id="viewAllAccountsCollapseButton" onclick="viewAllAccounts()">View All Accounts</button>
+    <button type="button" class="collapsible nav" id="viewAllAccountsCollapseButton" onclick="viewAllAccounts()">View All Accounts</button>
     <div class="content">
         <table>
             <thead></thead>
             <tbody id="viewAllAccountsTable"></tbody>
         </table>
     </div>
-    <button type="button" class="collapsible" id="depositCollapseButton">Make a Deposit</button>
+    <button type="button" class="collapsible nav" id="depositCollapseButton">Make a Deposit</button>
     <div class="content">
         <table>
             <tr>
@@ -41,11 +41,11 @@
                 <td><input type="number" id="depositAmountInput"></td>
             </tr>
             <tr>
-                <td><button id="depositButton" onclick="deposit()">Make the Deposit</button></td>
+                <td><button class="btn" id="depositButton" onclick="deposit()">Make the Deposit</button></td>
             </tr>
         </table>
     </div>
-    <button type="button" class="collapsible" id="withdrawCollapseButton">Make a Withdraw</button>
+    <button type="button" class="collapsible nav" id="withdrawCollapseButton">Make a Withdraw</button>
     <div class="content">
         <table>
             <tr>
@@ -57,11 +57,11 @@
                 <td><input type="number" id="withdrawAmountInput"></td>
             </tr>
             <tr>
-                <td><button id="withdrawButton" onclick="withdraw()">Make the Withdraw</button></td>
+                <td><button class="btn" id="withdrawButton" onclick="withdraw()">Make the Withdraw</button></td>
             </tr>
         </table>
     </div>
-    <button type="button" class="collapsible" id="transferCollapseButton">Transfer Money Between Accounts</button>
+    <button type="button" class="collapsible nav" id="transferCollapseButton">Transfer Money Between Accounts</button>
     <div class="content">
         <table>
             <tr>
@@ -77,11 +77,11 @@
                 <td><input type="number" id="transferAmountInput"></td>
             </tr>
             <tr>
-                <td><button id="transferButton" onclick="transfer()">Make the Transfer</button></td>
+                <td><button class="btn" id="transferButton" onclick="transfer()">Make the Transfer</button></td>
             </tr>
         </table>
     </div>
-    <button type="button" class="collapsible" id="deleteAccountCollapseButton">Delete an Account</button>
+    <button type="button" class="collapsible nav" id="deleteAccountCollapseButton">Delete an Account</button>
     <div class="content">
         <table>
             <tr>
@@ -89,7 +89,7 @@
                 <td><input type="number" id="deleteAccountIdInput"></td>
             </tr>
             <tr>
-                <td><button id="deleteAccountButton" onclick="deleteAccount()">Delete Account</button></td>
+                <td><button class="btn" id="deleteAccountButton" onclick="deleteAccount()">Delete Account</button></td>
             </tr>
         </table>
     </div>
