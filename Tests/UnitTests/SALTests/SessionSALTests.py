@@ -1,5 +1,5 @@
-from datetime import datetime
-
+from datetime import datetime, timedelta
+import sys
 from DAL.SessionDAL.SessionDALImplementation import SessionDALImplementation
 from Entities.FailedTransaction import FailedTransaction
 from Entities.Session import Session
@@ -8,7 +8,7 @@ from SAL.SessionSAL.SessionSALImplementation import SessionSALImplementation
 session_dao = SessionDALImplementation()
 session_sao = SessionSALImplementation(session_dao)
 session_start = datetime.now()
-session_expire = session_start.minute + 30
+session_expire = datetime.now() + timedelta(days=1)
 successful_session = Session(0, -1, str(session_start), str(session_expire))
 
 complete = "remove this string when the tests are passing and the implementation is complete"
@@ -27,7 +27,7 @@ def test_service_create_session_customer_not_found():
         session_sao.service_create_session(test_session)
         assert False
     except FailedTransaction as error:
-        assert str(error) == "No customer found, please try again!"
+        assert str(error) == "This customer cannot be found, please try again!"
 
 def test_service_create_session_issue_date_time_not_string():
     try:
@@ -97,7 +97,8 @@ def test_service_get_session_not_found():
 
 def test_service_get_session_expired():
     try:
-        session_sao.service_get_session(expired_session.session_id)
+        result = session_sao.service_get_session(-1)
+        print(result)
         assert False
     except FailedTransaction as error:
         assert str(error) == "Session has expired, please log in!"
