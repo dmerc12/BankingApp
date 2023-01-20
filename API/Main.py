@@ -5,13 +5,16 @@ from flask_cors import CORS
 from flask import Flask, request, jsonify
 from DAL.BankAccountDAL.BankAccountDALImplementation import BankAccountDALImplementation
 from DAL.CustomerDAL.CustomerDALImplementation import CustomerDALImplementation
+from DAL.SessionDAL.SessionDALImplementation import SessionDALImplementation
 from DAL.TransactionDAL.TransactionDALImplementation import TransactionDALImplementation
 from Entities.BankAccount import BankAccount
 from Entities.Customer import Customer
 from Entities.FailedTransaction import FailedTransaction
+from Entities.Session import Session
 from Entities.Transaction import Transaction
 from SAL.BankAccountSAL.BankAccountSALImplementation import BankAccountSALImplementation
 from SAL.CustomerSAL.CustomerSALImplementation import CustomerSALImplementation
+from SAL.SessionSAL.SessionSALImplementation import SessionSALImplementation
 from SAL.TransactionSAL.TransactionSALImplementation import TransactionSALImplementation
 
 app: Flask = Flask(__name__)
@@ -23,6 +26,8 @@ account_dao = BankAccountDALImplementation()
 account_sao = BankAccountSALImplementation(account_dao)
 transaction_dao = TransactionDALImplementation()
 transaction_sao = TransactionSALImplementation(transaction_dao)
+session_dao = SessionDALImplementation()
+session_sao = SessionSALImplementation(session_dao)
 
 @app.before_request
 def set_up_logs():
@@ -40,6 +45,11 @@ def set_up_logs():
 
 @app.route("/login", methods=["POST"])
 def login():
+    app.config.update(
+        SESSION_COOKIE_SECURE=True,
+        SESSION_COOKIE_HTTPONLY=True,
+        SESSION_COOKIE_SAMESITE='Lax',
+    )
     app.logger.info(f"{request.get_json()}, {request}, {request.path}, {datetime.datetime.now()}")
     app.logger.info("Beginning API function login")
     try:
@@ -47,7 +57,13 @@ def login():
         username = login_credentials["username"]
         password = login_credentials["password"]
         result = customer_sao.service_login(username, password)
-        result_dictionary = result.convert_to_dictionary()
+        new_session_info = Session(0, result.customer_id, str(datetime.datetime.now()), str(datetime.datetime.now() +
+                                                                                            datetime.timedelta(1)))
+        new_session = session_sao.service_create_session(new_session_info)
+        # use to send session ID to be stored in session storage, will change here when implementing cookies
+        result_dictionary = {
+            "sessionId": new_session.session_id
+        }
         result_json = jsonify(result_dictionary)
         app.logger.info("Finishing API function login")
         return result_json, 201
@@ -77,25 +93,6 @@ def create_customer():
             "message": str(error)
         }
         app.logger.error(f"Error with API function create customer with description: {str(error)}")
-        return jsonify(message), 400
-
-@app.route("/get/customer", methods=["GET"])
-def get_customer():
-    app.logger.info(f"{request.get_json()}, {request}, {request.path}, {datetime.datetime.now()}")
-    app.logger.info("Beginning API function get customer")
-    try:
-        requested_id: dict = request.get_json()
-        customer_id = int(requested_id["customerId"])
-        result = customer_sao.service_get_customer_by_id(customer_id)
-        result_dictionary = result.convert_to_dictionary()
-        result_json = jsonify(result_dictionary)
-        app.logger.info("Finishing API function get customer")
-        return result_json, 201
-    except FailedTransaction as error:
-        message = {
-            "message": str(error)
-        }
-        app.logger.error(f"Error with API function get customer with description: {str(error)}")
         return jsonify(message), 400
 
 @app.route("/update/customer", methods=["PATCH"])

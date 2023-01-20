@@ -14,20 +14,13 @@ for (i = 0; i < coll.length; i++) {
     });
 };
 
-if (!window.sessionStorage.getItem("customerId")) {
+if (!window.sessionStorage.getItem("sessionId")) {
     alert("You do not have access to this page! Please continue to log in or create your own credentials!");
     window.location.href = "Login.html";
 };
 
 function doLogout() {
-    window.sessionStorage.removeItem("customerId");
-    window.sessionStorage.removeItem("firstName");
-    window.sessionStorage.removeItem("lastName");
-    window.sessionStorage.removeItem("username");
-    window.sessionStorage.removeItem("password");
-    window.sessionStorage.removeItem("email");
-    window.sessionStorage.removeItem("phoneNumber");
-    window.sessionStorage.removeItem("address");
+    window.sessionStorage.removeItem("sessionId");
     alert("Goodbye!");
     window.location.href = "Login.html";
 ;}
