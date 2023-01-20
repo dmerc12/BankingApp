@@ -206,9 +206,11 @@ async function deposit() {
     // grabbing input from the DOM
     const depositAccountId = document.getElementById("depositAccountIdInput").value;
     const depositAmount = document.getElementById("depositAmountInput").value;
+    const sessionId = window.sessionStorage.getItem("sessionId")
 
     // preparing JSON
     depositDictionary = {
+        'sessionId': sessionId,
         'accountId': depositAccountId,
         'depositAmount': depositAmount
     };
@@ -226,11 +228,14 @@ async function deposit() {
     // handling API response approapriately
     if (response.status === 201) {
         const apiResponse = await response.json();
-        alert(`Your deposit was successful and now has a balance of: $ ${apiResponse.balance}`);
+        alert(`Your deposit into account ${apiResponse.accountId} was successful and now has a balance of: $ ${apiResponse.balance}`);
         resetInputs();
     } else if (response.status === 400) {
         const apiResponse = await response.json();
         alert(`${apiResponse.message}`);
+        if (apiResponse.message === "Session has expired, please log in!") {
+            doLogout();
+        };
         resetInputs();
     } else {
         alert("Something went horribly wrong...")
@@ -245,9 +250,11 @@ async function withdraw() {
     // grabbing input from the DOM
     const withdrawAccountId = document.getElementById("withdrawAccountIdInput").value;
     const withdrawAmount = document.getElementById("withdrawAmountInput").value;
+    const sessionId = window.sessionStorage.getItem("sessionId")
 
     // preparing JSON
     withdrawDictionary = {
+        'sessionId': sessionId,
         'accountId': withdrawAccountId,
         'withdrawAmount': withdrawAmount
     };
@@ -265,11 +272,14 @@ async function withdraw() {
     // handling API response approapriately
     if (response.status === 201) {
         const apiResponse = await response.json();
-        alert(`Your withdrawl was successful and now has a balance of: $ ${apiResponse.balance}`);
+        alert(`Your withdrawl from account ${apiResponse.accountId} was successful and now has a balance of: $ ${apiResponse.balance}`);
         resetInputs();
     } else if (response.status === 400) {
         const apiResponse = await response.json();
         alert(`${apiResponse.message}`);
+        if (apiResponse.message === "Session has expired, please log in!") {
+            doLogout();
+        };
         resetInputs();
     } else {
         alert("Something went horribly wrong...")
@@ -285,9 +295,11 @@ async function transfer() {
     const transferWithdrawAccountId = document.getElementById("transferWithdrawIdInput").value;
     const transferDepositAccountId = document.getElementById("transferDepositIdInput").value;
     const transferAmount = document.getElementById("transferAmountInput").value;
+    const sessionId = window.sessionStorage.getItem("sessionId")
 
     // preparing JSON
     transferDictionary = {
+        'sessionId': sessionId,    
         'withdrawAccountId': transferWithdrawAccountId,
         'depositAccountId': transferDepositAccountId,
         'transferAmount': transferAmount
@@ -306,11 +318,14 @@ async function transfer() {
     // handling API response approapriately
     if (response.status === 201) {
         const apiResponse = await response.json();
-        alert("Your transfer was successful!");
+        alert(`Your transfer of $${transferAmount} from account ${transferWithdrawAccountId} into account ${transferDepositAccountId} was successful!`);
         resetInputs();
     } else if (response.status === 400) {
         const apiResponse = await response.json();
         alert(`${apiResponse.message}`);
+        if (apiResponse.message === "Session has expired, please log in!") {
+            doLogout();
+        };
         resetInputs();
     } else {
         alert("Something went horribly wrong...")
@@ -348,6 +363,9 @@ async function deleteAccount() {
     } else if (response.status === 400) {
         const apiResponse = await response.json();
         alert(`${apiResponse.message}`);
+        if (apiResponse.message === "Session has expired, please log in!") {
+            doLogout();
+        };
         resetInputs();
     } else {
         alert("Something went horribly wrong...")

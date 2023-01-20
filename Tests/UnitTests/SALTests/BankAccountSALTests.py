@@ -40,7 +40,7 @@ def test_service_deposit_amount_negative():
         account_sao.service_deposit(successful_account.account_id, -25.00)
         assert False
     except FailedTransaction as error:
-        assert str(error) == "The deposit amount field cannot be negative, please try again!"
+        assert str(error) == "The deposit amount field cannot be negative or 0.00, please try again!"
 
 def test_service_deposit_success():
     result = account_sao.service_deposit(successful_account.account_id, 25.00)
@@ -51,7 +51,7 @@ def test_service_withdraw_amount_negative():
         account_sao.service_withdraw(successful_account.account_id, -25.00)
         assert False
     except FailedTransaction as error:
-        assert str(error) == "The withdraw amount field cannot be negative, please try again!"
+        assert str(error) == "The withdraw amount field cannot be negative or 0,00, please try again!"
 
 def test_service_withdraw_insufficient_funds():
     try:
@@ -104,7 +104,7 @@ def test_service_transfer_amount_negative():
         account_sao.service_transfer(successful_account.account_id, -1, -25.00)
         assert False
     except FailedTransaction as error:
-        assert str(error) == "The transfer amount field cannot be negative, please try again!"
+        assert str(error) == "The transfer amount field cannot be negative or 0.00, please try again!"
 
 def test_service_transfer_insufficient_funds():
     try:

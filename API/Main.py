@@ -241,10 +241,21 @@ def deposit():
     app.logger.info("Beginning API function deposit")
     try:
         deposit_info: dict = request.get_json()
-        deposit_amount = float(deposit_info["depositAmount"])
-        account_id = int(deposit_info["accountId"])
+        session_id = int(deposit_info["sessionId"])
+        deposit_amount_string = deposit_info["depositAmount"]
+        if deposit_amount_string == "":
+            deposit_amount_string = 0.00
+        deposit_amount = float(deposit_amount_string)
+        account_id_string = deposit_info["accountId"]
+        if account_id_string == "":
+            account_id_string = 0
+        account_id = int(account_id_string)
+        session_sao.service_get_session(session_id)
         result = account_sao.service_deposit(account_id, deposit_amount)
-        result_dictionary = result.convert_to_dictionary()
+        result_dictionary = {
+            "accountId": result.account_id,
+            "balance": result.balance
+        }
         result_json = jsonify(result_dictionary)
         transaction_account_id = account_id
         transaction_amount = deposit_amount
@@ -266,10 +277,21 @@ def withdraw():
     app.logger.info("Beginning API function withdraw")
     try:
         withdraw_info: dict = request.get_json()
-        withdraw_amount = float(withdraw_info["withdrawAmount"])
-        account_id = int(withdraw_info["accountId"])
+        session_id = int(withdraw_info["sessionId"])
+        withdraw_amount_string = withdraw_info["withdrawAmount"]
+        if withdraw_amount_string == "":
+            withdraw_amount_string = 0.00
+        withdraw_amount = float(withdraw_amount_string)
+        account_id_string = withdraw_info["accountId"]
+        if account_id_string == "":
+            account_id_string = 0
+        account_id = int(account_id_string)
+        session_sao.service_get_session(session_id)
         result = account_sao.service_withdraw(account_id, withdraw_amount)
-        result_dictionary = result.convert_to_dictionary()
+        result_dictionary = {
+            "accountId": result.account_id,
+            "balance": result.balance
+        }
         result_json = jsonify(result_dictionary)
         transaction_account_id = account_id
         transaction_amount = withdraw_amount
@@ -291,9 +313,20 @@ def transfer():
     app.logger.info("Beginning API function transfer")
     try:
         transfer_info: dict = request.get_json()
-        transfer_amount = float(transfer_info["transferAmount"])
-        withdraw_account_id = int(transfer_info["withdrawAccountId"])
-        deposit_account_id = int(transfer_info["depositAccountId"])
+        session_id = int(transfer_info["sessionId"])
+        session_sao.service_get_session(session_id)
+        transfer_amount_string = transfer_info["transferAmount"]
+        if transfer_amount_string == "":
+            transfer_amount_string = 0.00
+        transfer_amount = float(transfer_amount_string)
+        withdraw_account_id_string = transfer_info["withdrawAccountId"]
+        if withdraw_account_id_string == "":
+            withdraw_account_id_string = 0
+        withdraw_account_id = int(withdraw_account_id_string)
+        deposit_account_id_string = transfer_info["depositAccountId"]
+        if deposit_account_id_string == "":
+            deposit_account_id_string = 0
+        deposit_account_id = int(deposit_account_id_string)
         result = account_sao.service_transfer(withdraw_account_id, deposit_account_id, transfer_amount)
         result_dictionary = {
             "result": result

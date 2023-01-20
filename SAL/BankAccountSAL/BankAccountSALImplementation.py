@@ -40,8 +40,8 @@ class BankAccountSALImplementation(BankAccountSALInterface):
     def service_deposit(self, account_id: int, deposit_amount: float) -> BankAccount:
         logging.info("Beginning SAL method deposit")
         if deposit_amount <= 0.00:
-            logging.warning("SAL method deposit, deposit amount negative")
-            raise FailedTransaction("The deposit amount field cannot be negative, please try again!")
+            logging.warning("SAL method deposit, deposit amount negative or 0")
+            raise FailedTransaction("The deposit amount field cannot be negative or 0.00, please try again!")
         else:
             deposit_result = self.account_dao.deposit(account_id, deposit_amount)
             logging.info("Finishing SAL method deposit")
@@ -51,7 +51,7 @@ class BankAccountSALImplementation(BankAccountSALInterface):
         logging.info("Beginning SAL method withdraw")
         if withdraw_amount <= 0.00:
             logging.warning("SAL method withdraw, withdraw amount negative")
-            raise FailedTransaction("The withdraw amount field cannot be negative, please try again!")
+            raise FailedTransaction("The withdraw amount field cannot be negative or 0.00, please try again!")
         else:
             current_account_balance = self.account_dao.get_account_by_id(account_id).balance
             if (current_account_balance - withdraw_amount) < 0:
@@ -78,7 +78,7 @@ class BankAccountSALImplementation(BankAccountSALInterface):
             self.account_dao.get_account_by_id(deposit_account_id)
             if transfer_amount <= 0.00:
                 logging.warning("SAL method transfer, transfer amount negative")
-                raise FailedTransaction("The transfer amount field cannot be negative, please try again!")
+                raise FailedTransaction("The transfer amount field cannot be negative or 0.00, please try again!")
             else:
                 current_withdraw_account_info = self.account_dao.get_account_by_id(withdraw_account_id)
                 if (current_withdraw_account_info.balance - transfer_amount) < 0.00:
