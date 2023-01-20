@@ -350,32 +350,15 @@ def delete_account():
         app.logger.error(f"Error with API function delete account with description: {str(error)}")
         return jsonify(message), 400
 
-@app.route("/get/transaction", methods=["GET"])
-def get_transaction_by_id():
-    app.logger.info(f"{request.get_json()}, {request}, {request.path}, {datetime.datetime.now()}")
-    app.logger.info("Beginning API function get transaction by ID")
-    try:
-        id_info: dict = request.get_json()
-        transaction_id = int(id_info["transactionId"])
-        result = transaction_sao.service_get_transaction_by_id(transaction_id)
-        result_dictionary = result.convert_to_dictionary()
-        result_json = jsonify(result_dictionary)
-        app.logger.info("Finishing API function get transaction by ID")
-        return result_json, 201
-    except FailedTransaction as error:
-        message = {
-            "message": str(error)
-        }
-        app.logger.error(f"{request.get_json()}, {request.path}, {datetime.datetime}")
-        return jsonify(message), 400
-
 @app.route("/get/all/transactions", methods=["PATCH"])
 def get_all_transactions():
     app.logger.info(f"{request.get_json()}, {request}, {request.path}, {datetime.datetime.now()}")
     app.logger.info("Beginning API function get all transactions")
     try:
         id_info: dict = request.get_json()
+        session_id = int(id_info["sessionId"])
         account_id = int(id_info["accountId"])
+        session_sao.service_get_session(session_id)
         result = transaction_sao.service_get_all_transactions(account_id)
         result_dictionary = {
             "transactionList": result
