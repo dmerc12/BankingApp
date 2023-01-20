@@ -40,7 +40,7 @@ class SessionDALImplementation(SessionDALInterface):
         cursor.execute(sql, [session_id])
         session_info = cursor.fetchone()
         if session_info is None:
-            logging.warning("DAL method get session")
+            logging.warning("DAL method get session, no session found")
             raise FailedTransaction("No session found, please try again!")
         session = Session(*session_info)
         logging.info("Finishing DAL method get session")

@@ -21,7 +21,7 @@ if (!window.sessionStorage.getItem("sessionId")) {
 
 async function doLogout() {
     // initializing URL varible
-    logoutURL = "http://127.0.0.1:5000/delete/session"
+    logoutURL = "http://127.0.0.1:5000/logout"
 
     // grabbing input from the DOM
     const sessionId = window.sessionStorage.getItem("sessionId");
@@ -88,7 +88,7 @@ async function createAccount() {
 
     // preparing JSON
     newAccountJSON = {
-        'customerId': window.sessionStorage.getItem("customerId"),
+        'sessionId': window.sessionStorage.getItem("sessionId"),
         'balance': balance
     };
 
@@ -105,7 +105,7 @@ async function createAccount() {
     // handling API response approapriately
     if (response.status === 201) {
         const apiResponse = await response.json();
-        alert(`Account successfully created with a generated account number of ${apiResponse.accountId}`);
+        alert(`Account successfully created with a generated account number of ${apiResponse.accountId} with a balance of $${apiResponse.balance}`);
         resetInputs();
     } else if (response.status === 400) {
         const apiResponse = await response.json();
@@ -126,7 +126,7 @@ async function viewAllAccounts() {
     const customerId = window.sessionStorage.getItem("customerId");
 
     // preparing JSON
-    viewAccountsJSON = {
+    viewAccountsDictionary = {
         'customerId': customerId
     };
 
@@ -134,7 +134,7 @@ async function viewAllAccounts() {
     let viewAccountsRequest = {
         method: "PATCH",
         headers: {'Content-Type': "application/json"},
-        body: JSON.stringify(viewAccountsJSON)
+        body: JSON.stringify(viewAccountsDictionary)
     };
 
     // sending request and awaiting response
@@ -201,7 +201,7 @@ async function deposit() {
     const depositAmount = document.getElementById("depositAmountInput").value;
 
     // preparing JSON
-    depositJSON = {
+    depositDictionary = {
         'accountId': depositAccountId,
         'depositAmount': depositAmount
     };
@@ -210,7 +210,7 @@ async function deposit() {
     let depositRequest = {
         method: "PATCH",
         headers: {'Content-Type': "application/json"},
-        body: JSON.stringify(depositJSON)
+        body: JSON.stringify(depositDictionary)
     };
 
     // sending request and awaiting response
@@ -240,7 +240,7 @@ async function withdraw() {
     const withdrawAmount = document.getElementById("withdrawAmountInput").value;
 
     // preparing JSON
-    withdrawJSON = {
+    withdrawDictionary = {
         'accountId': withdrawAccountId,
         'withdrawAmount': withdrawAmount
     };
@@ -249,7 +249,7 @@ async function withdraw() {
     let withdrawRequest = {
         method: "PATCH",
         headers: {'Content-Type': "application/json"},
-        body: JSON.stringify(withdrawJSON)
+        body: JSON.stringify(withdrawDictionary)
     };
 
     // sending request and awaiting response
@@ -280,7 +280,7 @@ async function transfer() {
     const transferAmount = document.getElementById("transferAmountInput").value;
 
     // preparing JSON
-    transferJSON = {
+    transferDictionary = {
         'withdrawAccountId': transferWithdrawAccountId,
         'depositAccountId': transferDepositAccountId,
         'transferAmount': transferAmount
@@ -290,7 +290,7 @@ async function transfer() {
     let transferRequest = {
         method: "PATCH",
         headers: {'Content-Type': "application/json"},
-        body: JSON.stringify(transferJSON)
+        body: JSON.stringify(transferDictionary)
     };
 
     // sending request and awaiting response
@@ -319,7 +319,7 @@ async function deleteAccount() {
     const deleteAccountId = document.getElementById("deleteAccountIdInput").value;
 
     // preparing JSON
-    deleteAccountJSON = {
+    deleteAccountDictionary = {
         'accountId': deleteAccountId
     };
 
@@ -327,7 +327,7 @@ async function deleteAccount() {
     let deleteRequest = {
         method: "DELETE",
         headers: {'Content-Type': "application/json"},
-        body: JSON.stringify(deleteAccountJSON)
+        body: JSON.stringify(deleteAccountDitionary)
     };
 
     // sending request and awaiting response

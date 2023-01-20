@@ -57,7 +57,8 @@ def login():
         username = login_credentials["username"]
         password = login_credentials["password"]
         result = customer_sao.service_login(username, password)
-        new_session_info = Session(0, result.customer_id, str(datetime.datetime.now()), str(datetime.datetime.now()))
+        new_session_info = Session(0, result.customer_id, str(datetime.datetime.now()),
+                                   str(datetime.datetime.now() + datetime.timedelta(0, 0, 0, 0, 0, 1)))
         new_session = session_sao.service_create_session(new_session_info)
         # use to send session ID to be stored in session storage, will change here when implementing cookies
         result_dictionary = {
@@ -73,7 +74,7 @@ def login():
         app.logger.error(f"Error with API function login with description: {str(error)}")
         return jsonify(message), 400
 
-@app.route("/delete/session", methods=["DELETE"])
+@app.route("/logout", methods=["DELETE"])
 def delete_session():
     app.logger.info("Beginning API function delete session")
     try:
@@ -178,12 +179,16 @@ def create_account():
     app.logger.info("Beginning API function create account")
     try:
         account_data: dict = request.get_json()
-        customer_id = int(account_data["customerId"])
+        session_id = int(account_data["sessionId"])
         balance = float(account_data["balance"])
+        customer_id = session_sao.service_get_session(session_id).customer_id
         new_account: BankAccount = BankAccount(0, customer_id,
                                                balance)
         result = account_sao.service_create_account(new_account)
-        result_dictionary = result.convert_to_dictionary()
+        result_dictionary = {
+            "accountId": result.account_id,
+            "balance": result.balance
+        }
         result_json = jsonify(result_dictionary)
         transaction_account_id = result.account_id
         transaction_amount = result.balance

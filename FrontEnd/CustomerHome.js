@@ -21,7 +21,7 @@ if (!window.sessionStorage.getItem("sessionId")) {
 
 async function doLogout() {
     // initializing URL varible
-    logoutURL = "http://127.0.0.1:5000/delete/session"
+    logoutURL = "http://127.0.0.1:5000/logout"
 
     // grabbing input from the DOM
     const sessionId = window.sessionStorage.getItem("sessionId");
