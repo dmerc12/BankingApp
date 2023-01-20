@@ -73,6 +73,26 @@ def login():
         app.logger.error(f"Error with API function login with description: {str(error)}")
         return jsonify(message), 400
 
+@app.route("/delete/session", methods=["DELETE"])
+def delete_session():
+    app.logger.info("Beginning API function delete session")
+    try:
+        session_info: dict = request.get_json()
+        session_id = int(session_info["sessionId"])
+        result = session_sao.service_delete_session(session_id)
+        result_dictionary = {
+            "result": result
+        }
+        result_json = jsonify(result_dictionary)
+        app.logger.info("Finishing API function delete session")
+        return result_json, 201
+    except FailedTransaction as error:
+        message = {
+            "message": str(error)
+        }
+        app.logger.error(f"Error with API function create customer with description: {str(error)}")
+        return jsonify(message), 400
+
 @app.route("/create/customer", methods=["POST"])
 def create_customer():
     app.logger.info(f"{request.get_json()}, {request}, {request.path}, {datetime.datetime.now()}")
@@ -136,8 +156,9 @@ def delete_customer():
     app.logger.info("Beginning API function delete customer")
     try:
         requested_info = request.get_json()
-        requested_id = requested_info["customerId"]
-        result = customer_sao.service_delete_customer(requested_id)
+        session_id = int(requested_info["sessionId"])
+        customer_id = session_sao.service_get_session(session_id).customer_id
+        result = customer_sao.service_delete_customer(customer_id)
         result_dictionary = {
             "result": result
         }
