@@ -90,7 +90,7 @@ class BankAccountSALImplementation(BankAccountSALInterface):
                         logging.warning("SAL method withdraw, insufficient funds")
                         raise FailedTransaction("Insufficient funds, please try again!")
                     else:
-                        updated_account_info = self.account_dao.deposit(account_id, withdraw_amount)
+                        updated_account_info = self.account_dao.withdraw(account_id, withdraw_amount)
                         logging.info("Finishing SAL method withdraw")
                         return updated_account_info
 

@@ -65,9 +65,11 @@ class BankAccountDALImplementation(BankAccountDALInterface):
 
     def deposit(self, account_id: int, deposit_amount: float) -> BankAccount:
         logging.info("Beginning DAL method deposit")
-        sql = "update banking.bank_accounts set balance=(balance + %s) where account_id=%s returning *;"
+        sql = "update banking.bank_accounts set balance=%s where account_id=%s returning *;"
         cursor = connection.cursor()
-        cursor.execute(sql, (deposit_amount, account_id))
+        current_balance = self.get_account_by_id(account_id).balance
+        new_balance = current_balance + deposit_amount
+        cursor.execute(sql, (new_balance, account_id))
         connection.commit()
         updated_info = cursor.fetchone()
         updated_account = BankAccount(*updated_info)
@@ -76,9 +78,11 @@ class BankAccountDALImplementation(BankAccountDALInterface):
 
     def withdraw(self, account_id: int, withdraw_amount: float) -> BankAccount:
         logging.info("Beginning DAL method withdraw")
-        sql = "update banking.bank_accounts set balance=(balance - %s) where account_id=%s returning *;"
+        sql = "update banking.bank_accounts set balance=%s where account_id=%s returning *;"
         cursor = connection.cursor()
-        cursor.execute(sql, (withdraw_amount, account_id))
+        current_balance = self.get_account_by_id(account_id).balance
+        new_balance = current_balance - withdraw_amount
+        cursor.execute(sql, (new_balance, account_id))
         connection.commit()
         updated_info = cursor.fetchone()
         updated_account = BankAccount(*updated_info)
