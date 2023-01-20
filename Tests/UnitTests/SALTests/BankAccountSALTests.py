@@ -97,7 +97,7 @@ def test_service_transfer_amount_not_float():
         account_sao.service_transfer(successful_account.account_id, -1, "25.00")
         assert False
     except FailedTransaction as error:
-        assert str(error) == "The withdraw amount field must be a float, please try again!"
+        assert str(error) == "The transfer amount field must be a float, please try again!"
 
 def test_service_transfer_amount_negative():
     try:
@@ -127,8 +127,9 @@ def test_service_delete_account_left_empty():
 def test_service_delete_account_not_found():
     try:
         account_sao.service_delete_account(str(-500000))
+        assert False
     except FailedTransaction as error:
-        assert str(error) == "No account found to delete, please try again!"
+        assert str(error) == "This account cannot be found, please try again!"
 
 def test_service_delete_account_success():
     result = account_sao.service_delete_account(str(successful_account.account_id))
