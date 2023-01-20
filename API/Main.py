@@ -57,8 +57,7 @@ def login():
         username = login_credentials["username"]
         password = login_credentials["password"]
         result = customer_sao.service_login(username, password)
-        new_session_info = Session(0, result.customer_id, str(datetime.datetime.now()), str(datetime.datetime.now() +
-                                                                                            datetime.timedelta(1)))
+        new_session_info = Session(0, result.customer_id, str(datetime.datetime.now()), str(datetime.datetime.now()))
         new_session = session_sao.service_create_session(new_session_info)
         # use to send session ID to be stored in session storage, will change here when implementing cookies
         result_dictionary = {
@@ -101,7 +100,9 @@ def update_customer():
     app.logger.info("Beginning API function update customer")
     try:
         new_customer_information: dict = request.get_json()
-        updated_customer_information = Customer(new_customer_information["customerId"],
+        session_id = int(new_customer_information["sessionId"])
+        current_customer_id = session_sao.service_get_session(session_id).customer_id
+        updated_customer_information = Customer(current_customer_id,
                                                 new_customer_information["firstName"],
                                                 new_customer_information["lastName"],
                                                 new_customer_information["username"],
@@ -110,7 +111,15 @@ def update_customer():
                                                 new_customer_information["phoneNumber"],
                                                 new_customer_information["address"])
         result = customer_sao.service_update_customer(updated_customer_information)
-        result_dictionary = result.convert_to_dictionary()
+        result_dictionary = {
+            "firstName": result.first_name,
+            "lastName": result.last_name,
+            "username": result.username,
+            "password": result.password,
+            "email": result.email,
+            "phoneNumber": result.phone_number,
+            "address": result.address
+        }
         result_json = jsonify(result_dictionary)
         app.logger.info("Finishing API function update customer")
         return result_json, 201

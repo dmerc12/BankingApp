@@ -45,41 +45,18 @@ async function updateCustomer() {
     const updateCustomerURL = "http://127.0.0.1:5000/update/customer";
 
     // grabbing input from the DOM
-    const customerId = window.sessionStorage.getItem("customerId");
-    let updatedFirstName = document.getElementById("updatedFirstNameInput").value;
-    let updatedLastName = document.getElementById("updatedLastNameInput").value;
-    let updatedUsername = document.getElementById("updatedUsernameInput").value;
-    let updatedPassword = document.getElementById("updatedPasswordInput").value;
-    let updatedEmailAddress = document.getElementById("updatedEmailAddressInput").value;
-    let updatedPhoneNumber = document.getElementById("updatedPhoneNumberInput").value;
-    let updatedAddress = document.getElementById("updatedAddressInput").value;
-
-    // checking for empty inputs to fill in with existing values
-    if (updatedFirstName === "") {
-        updatedFirstName = window.sessionStorage.getItem("firstName");
-    };
-    if (updatedLastName === "") {
-        updatedLastName = window.sessionStorage.getItem("lastName");
-    };
-    if (updatedUsername === "") {
-        updatedUsername = window.sessionStorage.getItem("username");
-    };
-    if (updatedPassword === "") {
-        updatedPassword = window.sessionStorage.getItem("password");
-    };
-    if (updatedEmailAddress === "") {
-        updatedEmailAddress = window.sessionStorage.getItem("email");
-    };
-    if (updatedPhoneNumber === "") {
-        updatedPhoneNumber = window.sessionStorage.getItem("phoneNumber");
-    };
-    if (updatedAddress === "") {
-        updatedAddress = window.sessionStorage.getItem("address");
-    };
+    const sessionId = window.sessionStorage.getItem("sessionId");
+    const updatedFirstName = document.getElementById("updatedFirstNameInput").value;
+    const updatedLastName = document.getElementById("updatedLastNameInput").value;
+    const updatedUsername = document.getElementById("updatedUsernameInput").value;
+    const updatedPassword = document.getElementById("updatedPasswordInput").value;
+    const updatedEmailAddress = document.getElementById("updatedEmailAddressInput").value;
+    const updatedPhoneNumber = document.getElementById("updatedPhoneNumberInput").value;
+    const updatedAddress = document.getElementById("updatedAddressInput").value;
 
     // preparing JSON
     updateCustomerJSON = {
-        "customerId": customerId,
+        "sessionId": sessionId,
         "firstName": updatedFirstName,
         "lastName": updatedLastName,
         "username": updatedUsername, 
@@ -107,6 +84,11 @@ async function updateCustomer() {
     } else if (response.status === 400) {
         const apiResponse = await response.json();
         alert(`${apiResponse.message}`);
+        if (apiResponse.message === "Session has expired, please log in!") {
+            alert("Goodbye!")
+            window.sessionStorage.removeItem("sessionId");
+            window.location.href = "Login.html"
+        }
         resetInputs();
     } else {
         alert("Something went horribly wrong...");

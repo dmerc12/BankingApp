@@ -131,6 +131,21 @@ class CustomerSALImplementation(CustomerSALInterface):
 
     def service_update_customer(self, customer: Customer) -> Customer:
         logging.info("Beginning SAL method update customer")
+        current_customer_information = self.service_get_customer_by_id(customer.customer_id)
+        if customer.first_name == "":
+            customer.first_name = current_customer_information.first_name
+        if customer.last_name == "":
+            customer.last_name = current_customer_information.last_name
+        if customer.username == "":
+            customer.username = current_customer_information.username
+        if customer.password == "":
+            customer.password = current_customer_information.password
+        if customer.email == "":
+            customer.email = current_customer_information.email
+        if customer.phone_number == "":
+            customer.phone_number = current_customer_information.phone_number
+        if customer.address == "":
+            customer.address = current_customer_information.address
         if type(customer.first_name) != str:
             logging.warning("SAL method update customer, first name not a string")
             raise FailedTransaction("The first name field must be a string, please try again!")
@@ -211,7 +226,7 @@ class CustomerSALImplementation(CustomerSALInterface):
                                     "/ etc, City, State, ZIP, please try again!")
         else:
             logging.info("Finishing SAL method update customer")
-            updated_customer = self.customer_dao.create_customer(customer)
+            updated_customer = self.customer_dao.update_customer(customer)
             return updated_customer
 
     def service_delete_customer(self, customer_id: int) -> bool:
