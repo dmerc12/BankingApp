@@ -85,10 +85,11 @@ async function createAccount() {
 
     // grabbing input from the DOM
     const balance = document.getElementById("startingAmountInput").value;
+    const sessionId = window.sessionStorage.getItem("sessionId");
 
     // preparing JSON
     newAccountJSON = {
-        'sessionId': window.sessionStorage.getItem("sessionId"),
+        'sessionId': sessionId,
         'balance': balance
     };
 
@@ -111,6 +112,9 @@ async function createAccount() {
         const apiResponse = await response.json();
         alert(`${apiResponse.message}`);
         resetInputs();
+        if (apiResponse.message === "Session has expired, please log in!") {
+            doLogout();
+        };
     } else {
         alert("Something went horribly wrong...")
         resetInputs();
@@ -123,11 +127,11 @@ async function viewAllAccounts() {
     const viewAllAccountsURL = "http://127.0.0.1:5000/get/all/accounts";
 
     // grabbing customer ID from the browser and DOM
-    const customerId = window.sessionStorage.getItem("customerId");
+    const sessionId = window.sessionStorage.getItem("sessionId");
 
     // preparing JSON
     viewAccountsDictionary = {
-        'customerId': customerId
+        'sessionId': sessionId
     };
 
     // preparing request
@@ -148,6 +152,9 @@ async function viewAllAccounts() {
     } else if (response.status === 400) {
         const apiResponse = await response.json();
         alert(`${apiResponse.message}`);
+        if (apiResponse.message === "Session has expired, please log in!") {
+            doLogout();
+        };
     } else {
         alert("Something went horribly wrong...")
     };

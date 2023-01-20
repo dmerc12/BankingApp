@@ -29,6 +29,7 @@ transaction_sao = TransactionSALImplementation(transaction_dao)
 session_dao = SessionDALImplementation()
 session_sao = SessionSALImplementation(session_dao)
 
+
 @app.before_request
 def set_up_logs():
     log_level = logging.DEBUG
@@ -42,6 +43,7 @@ def set_up_logs():
     handler.setLevel(log_level)
     app.logger.addHandler(handler)
     app.logger.setLevel(log_level)
+
 
 @app.route("/login", methods=["POST"])
 def login():
@@ -74,6 +76,7 @@ def login():
         app.logger.error(f"Error with API function login with description: {str(error)}")
         return jsonify(message), 400
 
+
 @app.route("/logout", methods=["DELETE"])
 def delete_session():
     app.logger.info("Beginning API function delete session")
@@ -93,6 +96,7 @@ def delete_session():
         }
         app.logger.error(f"Error with API function create customer with description: {str(error)}")
         return jsonify(message), 400
+
 
 @app.route("/create/customer", methods=["POST"])
 def create_customer():
@@ -114,6 +118,7 @@ def create_customer():
         }
         app.logger.error(f"Error with API function create customer with description: {str(error)}")
         return jsonify(message), 400
+
 
 @app.route("/update/customer", methods=["PATCH"])
 def update_customer():
@@ -151,6 +156,7 @@ def update_customer():
         app.logger.error(f"Error with API function update customer with description: {str(error)}")
         return jsonify(message), 400
 
+
 @app.route("/delete/customer", methods=["DELETE"])
 def delete_customer():
     app.logger.info(f"{request.get_json()}, {request}, {request.path}, {datetime.datetime.now()}")
@@ -172,6 +178,7 @@ def delete_customer():
         }
         app.logger.error(f"Error with API function delete customer with description: {str(error)}")
         return jsonify(message), 400
+
 
 @app.route("/create/account", methods=["POST"])
 def create_account():
@@ -204,24 +211,6 @@ def create_account():
         app.logger.error(f"Error with API function create account with description: {str(error)}")
         return jsonify(message), 400
 
-@app.route("/get/account", methods=["PATCH"])
-def get_account():
-    app.logger.info(f"{request.get_json()}, {request}, {request.path}, {datetime.datetime.now()}")
-    app.logger.info("Beginning API function get account")
-    try:
-        account_information: dict = request.get_json()
-        retrieved_id = int(account_information["accountId"])
-        result = account_sao.service_get_account_by_id(retrieved_id)
-        result_dictionary = result.convert_to_dictionary()
-        result_json = jsonify(result_dictionary)
-        app.logger.info("Finishing API function get account")
-        return result_json, 201
-    except FailedTransaction as error:
-        message = {
-            "message": str(error)
-        }
-        app.logger.error(f"Error with API function get account with description: {str(error)}")
-        return jsonify(message), 400
 
 @app.route("/get/all/accounts", methods=["PATCH"])
 def get_all_accounts():
@@ -229,7 +218,8 @@ def get_all_accounts():
     app.logger.info("Beginning API function get all accounts")
     try:
         requested_info: dict = request.get_json()
-        customer_id = int(requested_info["customerId"])
+        session_id = int(requested_info["sessionId"])
+        customer_id = session_sao.service_get_session(session_id).customer_id
         result = account_sao.service_get_all_accounts(customer_id)
         result_dictionary = {
             "accountList": result
