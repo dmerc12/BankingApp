@@ -219,7 +219,7 @@ def get_all_accounts():
     try:
         requested_info: dict = request.get_json()
         session_id = int(requested_info["sessionId"])
-        customer_id = session_sao.service_get_session(session_id).customer_id
+        customer_id = str(session_sao.service_get_session(session_id).customer_id)
         result = account_sao.service_get_all_accounts(customer_id)
         result_dictionary = {
             "accountList": result
@@ -242,14 +242,8 @@ def deposit():
     try:
         deposit_info: dict = request.get_json()
         session_id = int(deposit_info["sessionId"])
-        deposit_amount_string = deposit_info["depositAmount"]
-        if deposit_amount_string == "":
-            deposit_amount_string = 0.00
-        deposit_amount = float(deposit_amount_string)
-        account_id_string = deposit_info["accountId"]
-        if account_id_string == "":
-            account_id_string = 0
-        account_id = int(account_id_string)
+        deposit_amount = deposit_info["depositAmount"]
+        account_id = deposit_info["accountId"]
         session_sao.service_get_session(session_id)
         result = account_sao.service_deposit(account_id, deposit_amount)
         result_dictionary = {
@@ -259,8 +253,8 @@ def deposit():
         result_json = jsonify(result_dictionary)
         transaction_account_id = account_id
         transaction_amount = deposit_amount
-        deposit_transaction = Transaction(0, str(datetime.datetime.now()), "deposit", transaction_account_id,
-                                          transaction_amount)
+        deposit_transaction = Transaction(0, str(datetime.datetime.now()), "deposit", int(transaction_account_id),
+                                          float(transaction_amount))
         transaction_sao.service_create_transaction(deposit_transaction)
         app.logger.info("Finishing API function deposit")
         return result_json, 201
@@ -278,14 +272,8 @@ def withdraw():
     try:
         withdraw_info: dict = request.get_json()
         session_id = int(withdraw_info["sessionId"])
-        withdraw_amount_string = withdraw_info["withdrawAmount"]
-        if withdraw_amount_string == "":
-            withdraw_amount_string = 0.00
-        withdraw_amount = float(withdraw_amount_string)
-        account_id_string = withdraw_info["accountId"]
-        if account_id_string == "":
-            account_id_string = 0
-        account_id = int(account_id_string)
+        withdraw_amount = withdraw_info["withdrawAmount"]
+        account_id = withdraw_info["accountId"]
         session_sao.service_get_session(session_id)
         result = account_sao.service_withdraw(account_id, withdraw_amount)
         result_dictionary = {
@@ -295,8 +283,8 @@ def withdraw():
         result_json = jsonify(result_dictionary)
         transaction_account_id = account_id
         transaction_amount = withdraw_amount
-        withdraw_transaction = Transaction(0, str(datetime.datetime.now()), "withdraw", transaction_account_id,
-                                           transaction_amount)
+        withdraw_transaction = Transaction(0, str(datetime.datetime.now()), "withdraw", int(transaction_account_id),
+                                           float(transaction_amount))
         transaction_sao.service_create_transaction(withdraw_transaction)
         app.logger.info("Finishing API function withdraw")
         return result_json, 201
@@ -315,18 +303,9 @@ def transfer():
         transfer_info: dict = request.get_json()
         session_id = int(transfer_info["sessionId"])
         session_sao.service_get_session(session_id)
-        transfer_amount_string = transfer_info["transferAmount"]
-        if transfer_amount_string == "":
-            transfer_amount_string = 0.00
-        transfer_amount = float(transfer_amount_string)
-        withdraw_account_id_string = transfer_info["withdrawAccountId"]
-        if withdraw_account_id_string == "":
-            withdraw_account_id_string = 0
-        withdraw_account_id = int(withdraw_account_id_string)
-        deposit_account_id_string = transfer_info["depositAccountId"]
-        if deposit_account_id_string == "":
-            deposit_account_id_string = 0
-        deposit_account_id = int(deposit_account_id_string)
+        transfer_amount = transfer_info["transferAmount"]
+        withdraw_account_id = transfer_info["withdrawAccountId"]
+        deposit_account_id = transfer_info["depositAccountId"]
         result = account_sao.service_transfer(withdraw_account_id, deposit_account_id, transfer_amount)
         result_dictionary = {
             "result": result
@@ -334,13 +313,13 @@ def transfer():
         result_json = jsonify(result_dictionary)
         withdraw_transaction_account_id = withdraw_account_id
         withdraw_transaction_amount = transfer_amount
-        withdraw_transaction = Transaction(0, str(datetime.datetime.now()), "withdraw", withdraw_transaction_account_id,
-                                           withdraw_transaction_amount)
+        withdraw_transaction = Transaction(0, str(datetime.datetime.now()), "withdraw",
+                                           int(withdraw_transaction_account_id), float(withdraw_transaction_amount))
         transaction_sao.service_create_transaction(withdraw_transaction)
         deposit_transaction_account_id = deposit_account_id
         deposit_transaction_amount = transfer_amount
-        deposit_transaction = Transaction(0, str(datetime.datetime.now()), "deposit", deposit_transaction_account_id,
-                                          deposit_transaction_amount)
+        deposit_transaction = Transaction(0, str(datetime.datetime.now()), "deposit",
+                                          int(deposit_transaction_account_id), float(deposit_transaction_amount))
         transaction_sao.service_create_transaction(deposit_transaction)
         app.logger.info("Finishing API function transfer")
         return result_json, 201
@@ -357,12 +336,11 @@ def delete_account():
     app.logger.info("Beginning API function delete account")
     try:
         id_info: dict = request.get_json()
-        account_id = str(id_info["accountId"])
+        session_id = int(id_info["sessionId"])
+        account_id = id_info["accountId"]
+        session_sao.service_get_session(session_id)
         result = account_sao.service_delete_account(account_id)
-        result_dictionary = {
-            "result": result
-        }
-        result_json = jsonify(result_dictionary)
+        result_json = jsonify(result)
         app.logger.info("Finishing API function delete account")
         return result_json, 201
     except FailedTransaction as error:

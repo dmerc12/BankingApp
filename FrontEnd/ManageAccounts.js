@@ -206,7 +206,7 @@ async function deposit() {
     // grabbing input from the DOM
     const depositAccountId = document.getElementById("depositAccountIdInput").value;
     const depositAmount = document.getElementById("depositAmountInput").value;
-    const sessionId = window.sessionStorage.getItem("sessionId")
+    const sessionId = window.sessionStorage.getItem("sessionId");
 
     // preparing JSON
     depositDictionary = {
@@ -250,7 +250,7 @@ async function withdraw() {
     // grabbing input from the DOM
     const withdrawAccountId = document.getElementById("withdrawAccountIdInput").value;
     const withdrawAmount = document.getElementById("withdrawAmountInput").value;
-    const sessionId = window.sessionStorage.getItem("sessionId")
+    const sessionId = window.sessionStorage.getItem("sessionId");
 
     // preparing JSON
     withdrawDictionary = {
@@ -295,7 +295,7 @@ async function transfer() {
     const transferWithdrawAccountId = document.getElementById("transferWithdrawIdInput").value;
     const transferDepositAccountId = document.getElementById("transferDepositIdInput").value;
     const transferAmount = document.getElementById("transferAmountInput").value;
-    const sessionId = window.sessionStorage.getItem("sessionId")
+    const sessionId = window.sessionStorage.getItem("sessionId");
 
     // preparing JSON
     transferDictionary = {
@@ -339,9 +339,11 @@ async function deleteAccount() {
 
     // grabbing input from the DOM
     const deleteAccountId = document.getElementById("deleteAccountIdInput").value;
+    const sessionId = window.sessionStorage.getItem("sessionId");
 
     // preparing JSON
     deleteAccountDictionary = {
+        'sessionId': sessionId,
         'accountId': deleteAccountId
     };
 
@@ -349,7 +351,7 @@ async function deleteAccount() {
     let deleteRequest = {
         method: "DELETE",
         headers: {'Content-Type': "application/json"},
-        body: JSON.stringify(deleteAccountDitionary)
+        body: JSON.stringify(deleteAccountDictionary)
     };
 
     // sending request and awaiting response

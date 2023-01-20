@@ -11,23 +11,23 @@ class BankAccountSALInterface(ABC):
         pass
 
     @abstractmethod
-    def service_get_account_by_id(self, account_id: int) -> BankAccount:
+    def service_get_account_by_id(self, account_id: str) -> BankAccount:
         pass
 
     @abstractmethod
-    def service_get_all_accounts(self, customer_id: int) -> List[str]:
+    def service_get_all_accounts(self, customer_id: str) -> List[str]:
         pass
 
     @abstractmethod
-    def service_deposit(self, account_id: int, deposit_amount: float) -> BankAccount:
+    def service_deposit(self, account_id: str, deposit_amount: str) -> BankAccount:
         pass
 
     @abstractmethod
-    def service_withdraw(self, account_id: int, withdraw_amount: float) -> BankAccount:
+    def service_withdraw(self, account_id: str, withdraw_amount: str) -> BankAccount:
         pass
 
     @abstractmethod
-    def service_transfer(self, withdraw_account_id: int, deposit_account_id: int, transfer_amount: float) -> bool:
+    def service_transfer(self, withdraw_account_id: str, deposit_account_id: str, transfer_amount: str) -> bool:
         pass
 
     @abstractmethod
