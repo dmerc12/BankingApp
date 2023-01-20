@@ -6,7 +6,7 @@ from SAL.BankAccountSAL.BankAccountSALImplementation import BankAccountSALImplem
 account_dao = BankAccountDALImplementation()
 account_sao = BankAccountSALImplementation(account_dao)
 
-successful_account = BankAccount(0, -1, 25.00)
+successful_account = BankAccount(0, -1, 50.00)
 
 def test_service_create_account_balance_negative():
     try:
@@ -79,7 +79,7 @@ def test_service_deposit_amount_negative():
 
 def test_service_deposit_success():
     result = account_sao.service_deposit(str(successful_account.account_id), "25.00")
-    assert result.balance == 50.00
+    assert result.balance == 75.00
 
 def test_service_withdraw_amount_left_empty():
     try:
@@ -118,7 +118,7 @@ def test_service_withdraw_insufficient_funds():
 
 def test_service_withdraw_success():
     result = account_sao.service_withdraw(str(successful_account.account_id), "25.00")
-    assert result.balance == 75.00
+    assert result.balance == 50.00
 
 def test_service_transfer_withdraw_account_id_left_empty():
     try:
