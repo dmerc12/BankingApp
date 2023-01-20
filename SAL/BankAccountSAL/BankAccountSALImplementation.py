@@ -86,10 +86,7 @@ class BankAccountSALImplementation(BankAccountSALInterface):
             raise FailedTransaction("The account ID field cannot be left empty, please try again!")
         account_id_as_int = int(account_id)
         self.transaction_sao.service_delete_all_transactions(account_id_as_int)
+        self.service_get_account_by_id(account_id_as_int)
         result = self.account_dao.delete_account(account_id_as_int)
-        if result is False:
-            logging.warning("SAL method delete account, no account found to delete")
-            raise FailedTransaction("No account found to delete, please try again!")
-        else:
-            logging.info("Finishing SAL method delete account")
-            return result
+        logging.info("Finishing SAL method delete account")
+        return result
