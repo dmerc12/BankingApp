@@ -21,6 +21,8 @@ def reset_database():
     sql7 = "insert into banking.transactions values (-1, 'that one time', 'deposit', -1, 1.00);"
     sql8 = f"insert into banking.sessions values (-1, -1, '{datetime.datetime.now()}', '{datetime.datetime.now()}');"
     sql9 = "insert into banking.bank_accounts values (-2, -1, 5000.00);"
+    sql10 = "insert into banking.customers values (-2, 'test', 'customer', 'no', 'money', 'no@money.com', " \
+            "'123-456-7890', '123 This Street, City, State, ZIP');"
     customer_dao.truncate_customer_table(sql1)
     customer_dao.populate_test_customer(sql5)
     account_dao.truncate_bank_account_table(sql2)
@@ -30,5 +32,6 @@ def reset_database():
     transaction_dao.populate_transaction_table(sql7)
     session_dao.populate_expired_test_session(sql8)
     account_dao.populate_test_account(sql9)
+    customer_dao.populate_test_customer(sql10)
 
 reset_database()

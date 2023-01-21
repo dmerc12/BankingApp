@@ -14,5 +14,9 @@ class SessionDALInterface(ABC):
         pass
 
     @abstractmethod
-    def delete_session(self, session_id) -> bool:
+    def delete_session(self, session_id: int) -> bool:
+        pass
+
+    @abstractmethod
+    def delete_all_sessions(self, session_id: int) -> bool:
         pass

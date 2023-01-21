@@ -165,6 +165,7 @@ def delete_customer():
         requested_info = request.get_json()
         session_id = int(requested_info["sessionId"])
         customer_id = session_sao.service_get_session(session_id).customer_id
+        session_sao.service_delete_all_sessions(session_id)
         result = customer_sao.service_delete_customer(customer_id)
         result_dictionary = {
             "result": result

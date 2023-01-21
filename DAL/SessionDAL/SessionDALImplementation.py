@@ -54,3 +54,12 @@ class SessionDALImplementation(SessionDALInterface):
         connection.commit()
         logging.info("Finishing DAL method delete session")
         return True
+
+    def delete_all_sessions(self, session_id: int) -> bool:
+        logging.info("Beginning DAL method delete all sessions")
+        sql = "delete from banking.sessions where session_id=%s;"
+        cursor = connection.cursor()
+        cursor.execute(sql, [session_id])
+        connection.commit()
+        logging.info("Finishing DAL method delete all sessions")
+        return True

@@ -38,12 +38,19 @@ def test_service_get_account_by_id_success():
     result = account_sao.service_get_account_by_id(str(successful_account.account_id))
     assert result is not None
 
-def test_service_get_all_accounts_by_id_account_id_left_empty():
+def test_service_get_all_accounts_by_id_customer_id_left_empty():
     try:
         account_sao.service_get_all_accounts("")
         assert False
     except FailedTransaction as error:
         assert str(error) == "The customer ID field cannot be left empty, please try again!"
+
+def test_service_get_all_accounts_by_id_none_found():
+    try:
+        account_sao.service_get_all_accounts("-2")
+        assert False
+    except FailedTransaction as error:
+        assert str(error) == "No accounts found, please try again!"
 
 def test_service_get_all_accounts_success():
     result = account_sao.service_get_all_accounts(str(successful_account.customer_id))

@@ -387,7 +387,7 @@ def test_service_update_customer_email_too_long():
         assert False
     except FailedTransaction as error:
         assert str(error) == "The email field cannot exceed 36 characters, please try again!"
-        
+
 def test_service_update_customer_phone_number_not_string():
     try:
         test_customer = Customer(successful_customer.customer_id, "first", "last", "username", "password",

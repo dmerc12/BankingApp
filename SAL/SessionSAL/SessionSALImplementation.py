@@ -69,3 +69,9 @@ class SessionSALImplementation(SessionSALInterface):
             self.session_dao.delete_session(session_id)
             logging.info("Finishing SAL method delete session")
             return True
+
+    def service_delete_all_sessions(self, session_id: int) -> bool:
+        logging.info("Beginning SAL method delete all sessions")
+        result = self.session_dao.delete_all_sessions(session_id)
+        logging.info("Finishing SAL method delete all sessions")
+        return result
