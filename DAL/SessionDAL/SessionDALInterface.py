@@ -18,5 +18,5 @@ class SessionDALInterface(ABC):
         pass
 
     @abstractmethod
-    def delete_all_sessions(self, session_id: int) -> bool:
+    def delete_all_sessions(self, customer_id: int) -> bool:
         pass

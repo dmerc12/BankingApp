@@ -17,5 +17,5 @@ class SessionSALInterface(ABC):
         pass
 
     @abstractmethod
-    def service_delete_all_sessions(self, session_id: int) -> bool:
+    def service_delete_all_sessions(self, customer_id: int) -> bool:
         pass
