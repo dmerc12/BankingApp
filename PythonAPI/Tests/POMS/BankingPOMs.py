@@ -100,6 +100,6 @@ class BankingPOMs:
         element: WebElement = self.driver.find_element(By.ID, "deleteAccountButton")
         return element
 
-    def press_ok_on_alert(self):
+    def alert(self):
         alert: Alert = Alert(self.driver)
         return alert

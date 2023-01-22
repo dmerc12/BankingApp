@@ -19,11 +19,6 @@ def step_impl(context):
 def step_impl(context):
     context.driver.get("C:/Users/Dylan/OneDrive/Desktop/personal projects/BankingApp/FrontEnd/ManageAccounts.html")
 
-@when(u'I click the Negative Continue button')
-def step_impl(context):
-    WebDriverWait(context.driver, 10).until(title_contains("Customer Home"))
-    context.customer_poms.press_ok_on_negative_alert()
-
 @when(u'I enter {username} in the username')
 def step_impl(context, username):
     context.customer_poms.login_username_input().send_keys(username)
@@ -38,7 +33,7 @@ def step_impl(context):
 
 @when(u'I am not logged in and see an error and I click the Continue button')
 def step_impl(context):
-    context.customer_poms.press_ok_on_alert()
+    context.customer_poms.alert()
 
 @when(u'I click "Log Out" from the home page')
 def step_impl(context):
@@ -87,6 +82,7 @@ def step_impl(context):
 
 @then(u'I should be on a page with the title Login Page')
 def step_impl(context):
+    WebDriverWait(context.driver, 10).until(title_contains("Login Page"))
     assert context.driver.title == "Login Page"
 
 @then(u'I should be on a page with the title Customer Home')

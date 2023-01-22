@@ -56,6 +56,10 @@ class CustomerPOMs:
         element: WebElement = self.driver.find_element(By.ID, "createCustomerButton")
         return element
 
+    def update_customer_collapsable(self):
+        element: WebElement = self.driver.find_element(By.ID, "updateCustomerCollapseButton")
+        return element
+
     def update_first_name_input(self):
         element: WebElement = self.driver.find_element(By.ID, "updatedFirstNameInput")
         return element
@@ -98,10 +102,6 @@ class CustomerPOMs:
 
     def delete_customer_button(self):
         element: WebElement = self.driver.find_element(By.ID, "deleteCustomerButton")
-        return element
-
-    def press_ok_on_positive_alert(self):
-        element: Alert = self.driver.switch_to.alert.send_keys(Keys.ENTER)
         return element
 
     def home_log_out_button(self):
