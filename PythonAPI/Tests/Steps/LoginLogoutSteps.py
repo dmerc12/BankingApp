@@ -82,6 +82,7 @@ def step_impl(context):
 
 @then(u'I should be on a page with the title Login Page')
 def step_impl(context):
+    WebDriverWait(context.driver, 10).until(title_contains("Login Page"))
     assert context.driver.title == "Login Page"
 
 @then(u'I should be on a page with the title Customer Home')
