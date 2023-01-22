@@ -2,12 +2,16 @@
 A banking app written in python.
 
 # Technologies Used:
-- HTML
+- HTML and CSS
 - JavaScript
 - Python
+- Gherkin
 - PostgresSQL
 - Flask
+- Flask-CORS
 - Psycopg2
+- Selenium
+- Behave
 - Postman
 - REST
 - Git
@@ -19,21 +23,16 @@ A banking app written in python.
 
 # Usage and Features:
 - Users can join the bank.
+- Users can log in and log out.
 - Users can create a bank account.
-- Users can deposit and withdraw money.
-- Users can view their accounts individually or collectively.
+- Users can deposit into accounts.
+- Users can withdraw from accounts.
+- Users can transfer money between accounts
+- Users can view their accounts collectively.
+- Users can the transactions for their associated accounts
+- Users can update their current information.
 - Users can close their accounts.
 - Users can leave the bank.
-
-# To Do:
-- BankAccount SAL
-- Main API 
-- Front end HTML and JavaScript
-- BankAccount implement withdrawing all funds before being able to delete an account
-- Integrate transactions into API
-- Transaction SAL
-- Test for get all accounts, going around test account needed in database
-- Tests in deposit / withdraw / transfer for accounts not found
 
 # Getting Started:
 - to clone: 

@@ -19,7 +19,6 @@
     - SAL methods:
       - 1 positive test.
       - all business logic must have a negative test.
-      - mocking and stubbing should be used where appropriate.
     - API methods:
       - all must have a positive test using Postman.
       - all must have negative tests for all possible errors.

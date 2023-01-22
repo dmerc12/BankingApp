@@ -1,6 +1,15 @@
 # Business Rules:
-- Bank accounts may not have a negative value.
+- Bank accounts may not have a negative balance.
 - Bank accounts must work with numbers.
 - Bank accounts must have unique ID's.
 - Customer first and last names may not exceed 20 characters. 
+- Customer usernames, passwords, and emails may not exceed 36 characters.
+- Customer phone numbers may not exceed 13 characters.
+- Customer phone numbers may not stray from the format of xxx-xxx-xxxx.
+- Customer addresses may not exceed 50 characters.
+- No fields can be left empty for any of the tables of information.
 - Customers must have unique ID's.
+- Transactions must have unique ID's.
+- Sessions must have unique ID's.
+- Users must log back in when their session is expired.
+- Withdraws and transfers cannot result in bank accounts with negative balances.
