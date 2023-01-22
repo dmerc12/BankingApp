@@ -5,11 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9ebc972b-66d1-4bc2-aa2a-13c5b119eb73" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FrontEnd/ManageCustomer.js" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/ManageCustomer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PythonAPI/Tests/Steps/CreateAccountSteps.py" beforeDir="false" afterPath="$PROJECT_DIR$/PythonAPI/Tests/Steps/CreateAccountSteps.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PythonAPI/Tests/Steps/DeleteCustomerSteps.py" beforeDir="false" afterPath="$PROJECT_DIR$/PythonAPI/Tests/Steps/DeleteCustomerSteps.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PythonAPI/Tests/Steps/LoginLogoutSteps.py" beforeDir="false" afterPath="$PROJECT_DIR$/PythonAPI/Tests/Steps/LoginLogoutSteps.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PythonAPI/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PythonAPI/.idea/PythonAPI.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PythonAPI/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PythonAPI/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PythonAPI/.idea/inspectionProfiles/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PythonAPI/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PythonAPI/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PythonAPI/.idea/vcs.xml" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
