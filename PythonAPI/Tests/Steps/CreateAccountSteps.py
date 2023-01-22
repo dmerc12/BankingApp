@@ -17,4 +17,4 @@ def step_impl(context, amount: float):
 @when(u'I click ok on the alert')
 def step_impl(context):
     time.sleep(2)
-    context.banking_poms.press_ok_on_alert().accept()
+    context.banking_poms.alert().accept()
