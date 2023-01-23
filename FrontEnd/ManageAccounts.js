@@ -667,10 +667,10 @@ function populateDeleteAccountsDropdown(accountList) {
     accountDeleteDropdownMenu.innerHTML = "";
     for (account in accountList) {        
         const accountId = Number(accountList[count].split(", ")[0]);
-        const account = document.createElement("option");
-        account.value = accountId;
-        account.innerHTML = accountId;
-        accountDeleteDropdownMenu.appendChild(account);
+        const accountOption = document.createElement("option");
+        accountOption.value = accountId;
+        accountOption.innerHTML = accountId;
+        accountDeleteDropdownMenu.appendChild(accountOption);
         count = count + 1;
     };
 };
