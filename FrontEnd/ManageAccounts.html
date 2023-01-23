@@ -34,7 +34,7 @@
         <table>
             <tr>
                 <td><h3>Please enter the account number:</h3></td>
-                <td><input type="number" id="depositAccountIdInput"></td>
+                <td><select id="accountDepositDropDownMenu" onclick="getDepositAccountsDropdown()"><option value="">Please select an account number</option></select></td>
             </tr>
             <tr>
                 <td><h3>Please enter the depositing amount:</h3></td>
@@ -50,7 +50,7 @@
         <table>
             <tr>
                 <td><h3>Please enter the account number:</h3></td>
-                <td><input type="number" id="withdrawAccountIdInput"></td>
+                <td><select id="accountWithdrawDropDownMenu" onclick="getWithdrawAccountsDropdown()"><option value="">Please select an account number</option></select></td>
             </tr>
             <tr>
                 <td><h3>Please enter the withdraw amount:</h3></td>
@@ -66,11 +66,11 @@
         <table>
             <tr>
                 <td><h3>Please enter the withdrawing account number:</h3></td>
-                <td><input type="number" id="transferWithdrawIdInput"></td>
+                <td><select id="accountTransferWithdrawDropDownMenu" onclick="getTransferWithdrawAccountsDropdown()"><option value="">Please select an account number</option></select></td>
             </tr>
             <tr>
                 <td><h3>Please enter the depositing account number:</h3></td>
-                <td><input type="number" id="transferDepositIdInput"></td>
+                <td><select id="accountTransferDepositDropDownMenu" onclick="getTransferDepositAccountsDropdown()"><option value="">Please select an account number</option></select></td>
             </tr>
             <tr>
                 <td><h3>Please enter the desired amount to transfer:</h3></td>
@@ -86,7 +86,7 @@
         <table>
             <tr>
                 <td><h3>Please enter account number for the account to be deleted:</h3></td>
-                <td><input type="number" id="deleteAccountIdInput"></td>
+                <td><select id="accountDeleteDropDownMenu" onclick="getDeleteAccountsDropdown()"><option value="">Please select an account number</option></select></td>
             </tr>
             <tr>
                 <td><button class="btn" id="deleteAccountButton" onclick="deleteAccount()">Delete Account</button></td>

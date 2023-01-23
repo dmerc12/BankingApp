@@ -69,14 +69,47 @@ function goHome() {
 
 function resetInputs() {
     document.getElementById("startingAmountInput").value = "";
-    document.getElementById("depositAccountIdInput").value = "";
+
+    accountDepositDropdownMenu = document.getElementById("accountDepositDropDownMenu");
+    accountDepositDropdownMenu.value = "";
+    accountDepositDropdownMenu.innerHTML = "";
+    initialDepositOption = document.createElement("option");
+    initialDepositOption.innerHTML = "Please select an account number"
+    accountDepositDropdownMenu.appendChild(initialDepositOption);
+
     document.getElementById("depositAmountInput").value = "";
-    document.getElementById("withdrawAccountIdInput").value = "";
+
+    accountWithdrawDropDownMenu = document.getElementById("accountWithdrawDropDownMenu");
+    accountWithdrawDropDownMenu.value = "";
+    accountWithdrawDropDownMenu.innerHTML = "";
+    initialWithdrawOption = document.createElement("option");
+    initialWithdrawOption.innerHTML = "Please select an account number"
+    accountWithdrawDropDownMenu.appendChild(initialWithdrawOption);
+
     document.getElementById("withdrawAmountInput").value = "";
-    document.getElementById("transferWithdrawIdInput").value = "";
-    document.getElementById("transferDepositIdInput").value = "";
+
+    accountTransferWithdrawDropDownMenu = document.getElementById("accountTransferWithdrawDropDownMenu");
+    accountTransferWithdrawDropDownMenu.value = "";
+    accountTransferWithdrawDropDownMenu.innerHTML = "";
+    initialTransferWithdrawOption = document.createElement("option");
+    initialTransferWithdrawOption.innerHTML = "Please select an account number"
+    accountTransferWithdrawDropDownMenu.appendChild(initialTransferWithdrawOption);
+
+    accountTransferDepositDropDownMenu = document.getElementById("accountTransferDepositDropDownMenu");
+    accountTransferDepositDropDownMenu.value = "";
+    accountTransferDepositDropDownMenu.innerHTML = "";
+    initialTransferDepositOption = document.createElement("option");
+    initialTransferDepositOption.innerHTML = "Please select an account number"
+    accountTransferDepositDropDownMenu.appendChild(initialTransferDepositOption);
+
     document.getElementById("transferAmountInput").value = "";
-    document.getElementById("deleteAccountIdInput").value = "";
+
+    accountDeleteDropDownMenu = document.getElementById("accountDeleteDropDownMenu");
+    accountDeleteDropDownMenu.value = "";
+    accountDeleteDropDownMenu.innerHTML = "";
+    initialDeleteOption = document.createElement("option");
+    initialDeleteOption.innerHTML = "Please select an account number"
+    accountDeleteDropDownMenu.appendChild(initialDeleteOption);
 };
 
 async function createAccount() {
@@ -204,7 +237,7 @@ async function deposit() {
     const depositURL = "http://127.0.0.1:5000/deposit";
 
     // grabbing input from the DOM
-    const depositAccountId = document.getElementById("depositAccountIdInput").value;
+    const depositAccountId = document.getElementById("accountDepositDropDownMenu").value;
     const depositAmount = document.getElementById("depositAmountInput").value;
     const sessionId = window.sessionStorage.getItem("sessionId");
 
@@ -243,12 +276,66 @@ async function deposit() {
     };
 };
 
+async function getDepositAccountsDropdown(){
+
+    // initializing URL varible
+    const viewAllAccountsURL = "http://127.0.0.1:5000/get/all/accounts";
+
+    // grabbing customer ID from the browser and DOM
+    const sessionId = window.sessionStorage.getItem("sessionId");
+
+    // preparing JSON
+    viewAccountsDictionary = {
+        'sessionId': sessionId
+    };
+
+    // preparing request
+    let viewAccountsRequest = {
+        method: "PATCH",
+        headers: {'Content-Type': "application/json"},
+        body: JSON.stringify(viewAccountsDictionary)
+    };
+
+    // sending request and awaiting response
+    const response = await fetch(viewAllAccountsURL, viewAccountsRequest);
+
+    // handling API response approapriately
+    if (response.status === 201) {
+        const accountData = await response.json();
+        const accountList = accountData.accountList
+        populateDepositAccountsDropdown(accountList);
+    } else if (response.status === 400) {
+        const apiResponse = await response.json();
+        alert(`${apiResponse.message}`);
+        if (apiResponse.message === "Session has expired, please log in!") {
+            doLogout();
+        };
+    } else {
+        alert("Something went horribly wrong...")
+    };
+};
+
+function populateDepositAccountsDropdown(accountList) {
+    let count = 0;
+    const accountDepositDropdownMenu = document.getElementById("accountDepositDropDownMenu");
+    accountDepositDropdownMenu.innerHTML = "";
+    for (account in accountList) {        
+        const accountId = Number(accountList[count].split(", ")[0]);
+        const account = document.createElement("option");
+        account.value = accountId;
+        account.innerHTML = accountId;
+        accountDepositDropdownMenu.appendChild(account);
+        count = count + 1;
+    };
+};
+
+
 async function withdraw() {
     // initializing URL varible
     const withdrawURL = "http://127.0.0.1:5000/withdraw";
 
     // grabbing input from the DOM
-    const withdrawAccountId = document.getElementById("withdrawAccountIdInput").value;
+    const withdrawAccountId = document.getElementById("accountWithdrawDropDownMenu").value;
     const withdrawAmount = document.getElementById("withdrawAmountInput").value;
     const sessionId = window.sessionStorage.getItem("sessionId");
 
@@ -287,13 +374,67 @@ async function withdraw() {
     };
 };
 
+async function getWithdrawAccountsDropdown(){
+
+    // initializing URL varible
+    const viewAllAccountsURL = "http://127.0.0.1:5000/get/all/accounts";
+
+    // grabbing customer ID from the browser and DOM
+    const sessionId = window.sessionStorage.getItem("sessionId");
+
+    // preparing JSON
+    viewAccountsDictionary = {
+        'sessionId': sessionId
+    };
+
+    // preparing request
+    let viewAccountsRequest = {
+        method: "PATCH",
+        headers: {'Content-Type': "application/json"},
+        body: JSON.stringify(viewAccountsDictionary)
+    };
+
+    // sending request and awaiting response
+    const response = await fetch(viewAllAccountsURL, viewAccountsRequest);
+
+    // handling API response approapriately
+    if (response.status === 201) {
+        const accountData = await response.json();
+        const accountList = accountData.accountList
+        populateWithdrawAccountsDropdown(accountList);
+    } else if (response.status === 400) {
+        const apiResponse = await response.json();
+        alert(`${apiResponse.message}`);
+        if (apiResponse.message === "Session has expired, please log in!") {
+            doLogout();
+        };
+    } else {
+        alert("Something went horribly wrong...")
+    };
+};
+
+function populateWithdrawAccountsDropdown(accountList) {
+    let count = 0;
+    const accountWithdrawDropdownMenu = document.getElementById("accountWithdrawDropDownMenu");
+    accountWithdrawDropdownMenu.innerHTML = "";
+    for (account in accountList) {        
+        const accountId = Number(accountList[count].split(", ")[0]);
+        const account = document.createElement("option");
+        account.value = accountId;
+        account.innerHTML = accountId;
+        accountWithdrawDropdownMenu.appendChild(account);
+        count = count + 1;
+    };
+};
+
+
 async function transfer() {
     // initializing URL varible
     const transferURL = "http://127.0.0.1:5000/transfer";
 
     // grabbing input from the DOM
-    const transferWithdrawAccountId = document.getElementById("transferWithdrawIdInput").value;
-    const transferDepositAccountId = document.getElementById("transferDepositIdInput").value;
+    const transferWithdrawAccountId = document.getElementById("accountTransferWithdrawDropDownMenu").value;
+    const transferDepositAccountId = document.getElementById("accountTransferDepositDropDownMenu").value;
     const transferAmount = document.getElementById("transferAmountInput").value;
     const sessionId = window.sessionStorage.getItem("sessionId");
 
@@ -331,14 +472,120 @@ async function transfer() {
         alert("Something went horribly wrong...")
         resetInputs();
     };
-}
+};
+
+async function getTransferDepositAccountsDropdown(){
+
+    // initializing URL varible
+    const viewAllAccountsURL = "http://127.0.0.1:5000/get/all/accounts";
+
+    // grabbing customer ID from the browser and DOM
+    const sessionId = window.sessionStorage.getItem("sessionId");
+
+    // preparing JSON
+    viewAccountsDictionary = {
+        'sessionId': sessionId
+    };
+
+    // preparing request
+    let viewAccountsRequest = {
+        method: "PATCH",
+        headers: {'Content-Type': "application/json"},
+        body: JSON.stringify(viewAccountsDictionary)
+    };
+
+    // sending request and awaiting response
+    const response = await fetch(viewAllAccountsURL, viewAccountsRequest);
+
+    // handling API response approapriately
+    if (response.status === 201) {
+        const accountData = await response.json();
+        const accountList = accountData.accountList
+        populateTransferDepositAccountsDropdown(accountList);
+    } else if (response.status === 400) {
+        const apiResponse = await response.json();
+        alert(`${apiResponse.message}`);
+        if (apiResponse.message === "Session has expired, please log in!") {
+            doLogout();
+        };
+    } else {
+        alert("Something went horribly wrong...")
+    };
+};
+
+function populateTransferDepositAccountsDropdown(accountList) {
+    let count = 0;
+    const accountTransferDepositDropdownMenu = document.getElementById("accountTransferDepositDropDownMenu");
+    accountTransferDepositDropdownMenu.innerHTML = "";
+    for (account in accountList) {        
+        const accountId = Number(accountList[count].split(", ")[0]);
+        const account = document.createElement("option");
+        account.value = accountId;
+        account.innerHTML = accountId;
+        accountTransferDepositDropdownMenu.appendChild(account);
+        count = count + 1;
+    };
+};
+
+async function getTransferWithdrawAccountsDropdown(){
+
+    // initializing URL varible
+    const viewAllAccountsURL = "http://127.0.0.1:5000/get/all/accounts";
+
+    // grabbing customer ID from the browser and DOM
+    const sessionId = window.sessionStorage.getItem("sessionId");
+
+    // preparing JSON
+    viewAccountsDictionary = {
+        'sessionId': sessionId
+    };
+
+    // preparing request
+    let viewAccountsRequest = {
+        method: "PATCH",
+        headers: {'Content-Type': "application/json"},
+        body: JSON.stringify(viewAccountsDictionary)
+    };
+
+    // sending request and awaiting response
+    const response = await fetch(viewAllAccountsURL, viewAccountsRequest);
+
+    // handling API response approapriately
+    if (response.status === 201) {
+        const accountData = await response.json();
+        const accountList = accountData.accountList
+        populateTransferWithdrawAccountsDropdown(accountList);
+    } else if (response.status === 400) {
+        const apiResponse = await response.json();
+        alert(`${apiResponse.message}`);
+        if (apiResponse.message === "Session has expired, please log in!") {
+            doLogout();
+        };
+    } else {
+        alert("Something went horribly wrong...")
+    };
+};
+
+function populateTransferWithdrawAccountsDropdown(accountList) {
+    let count = 0;
+    const accountTransferWithdrawDropdownMenu = document.getElementById("accountTransferWithdrawDropDownMenu");
+    accountTransferWithdrawDropdownMenu.innerHTML = "";
+    for (account in accountList) {        
+        const accountId = Number(accountList[count].split(", ")[0]);
+        const account = document.createElement("option");
+        account.value = accountId;
+        account.innerHTML = accountId;
+        accountTransferWithdrawDropdownMenu.appendChild(account);
+        count = count + 1;
+    };
+};
 
 async function deleteAccount() {
     // initializing URL varible
     const deleteAccountURL = "http://127.0.0.1:5000/delete/account";
 
     // grabbing input from the DOM
-    const deleteAccountId = document.getElementById("deleteAccountIdInput").value;
+    const deleteAccountId = document.getElementById("accountDeleteDropDownMenu").value;
     const sessionId = window.sessionStorage.getItem("sessionId");
 
     // preparing JSON
@@ -372,5 +619,58 @@ async function deleteAccount() {
     } else {
         alert("Something went horribly wrong...")
         resetInputs();
+    };
+};
+
+async function getDeleteAccountsDropdown(){
+
+    // initializing URL varible
+    const viewAllAccountsURL = "http://127.0.0.1:5000/get/all/accounts";
+
+    // grabbing customer ID from the browser and DOM
+    const sessionId = window.sessionStorage.getItem("sessionId");
+
+    // preparing JSON
+    viewAccountsDictionary = {
+        'sessionId': sessionId
+    };
+
+    // preparing request
+    let viewAccountsRequest = {
+        method: "PATCH",
+        headers: {'Content-Type': "application/json"},
+        body: JSON.stringify(viewAccountsDictionary)
+    };
+
+    // sending request and awaiting response
+    const response = await fetch(viewAllAccountsURL, viewAccountsRequest);
+
+    // handling API response approapriately
+    if (response.status === 201) {
+        const accountData = await response.json();
+        const accountList = accountData.accountList
+        populateDeleteAccountsDropdown(accountList);
+    } else if (response.status === 400) {
+        const apiResponse = await response.json();
+        alert(`${apiResponse.message}`);
+        if (apiResponse.message === "Session has expired, please log in!") {
+            doLogout();
+        };
+    } else {
+        alert("Something went horribly wrong...")
+    };
+};
+
+function populateDeleteAccountsDropdown(accountList) {
+    let count = 0;
+    const accountDeleteDropdownMenu = document.getElementById("accountDeleteDropDownMenu");
+    accountDeleteDropdownMenu.innerHTML = "";
+    for (account in accountList) {        
+        const accountId = Number(accountList[count].split(", ")[0]);
+        const account = document.createElement("option");
+        account.value = accountId;
+        account.innerHTML = accountId;
+        accountDeleteDropdownMenu.appendChild(account);
+        count = count + 1;
     };
 };
