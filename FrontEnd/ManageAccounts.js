@@ -668,7 +668,7 @@ function populateDeleteAccountsDropdown(accountList) {
     for (account in accountList) {        
         const accountId = Number(accountList[count].split(", ")[0]);
         const accountOption = document.createElement("option");
-        accountOption.value = accountId;
+        accountOption.name = `accountToDelete${accountId}`;
         accountOption.innerHTML = accountId;
         accountDeleteDropdownMenu.appendChild(accountOption);
         count = count + 1;

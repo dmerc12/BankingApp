@@ -2,7 +2,7 @@ from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.common.alert import Alert
-from selenium.webdriver.support.select import Select
+from selenium.webdriver.support.ui import Select
 
 
 class BankingPOMs:
@@ -70,12 +70,12 @@ class BankingPOMs:
         element: WebElement = self.driver.find_element(By.ID, "transferCollapseButton")
         return element
 
-    def transfer_withdraw_account_input(self):
-        element: WebElement = self.driver.find_element(By.ID, "transferWithdrawIdInput")
+    def transfer_withdraw_account_select(self):
+        element: Select = Select(self.driver.find_element(By.ID, "accountTransferWithdrawDropDownMenu"))
         return element
 
-    def transfer_deposit_account_input(self):
-        element: WebElement = self.driver.find_element(By.ID, "transferDepositIdInput")
+    def transfer_deposit_account_select(self):
+        element: Select = Select(self.driver.find_element(By.ID, "accountTransferDepositDropDownMenu"))
         return element
 
     def transfer_amount_input(self):

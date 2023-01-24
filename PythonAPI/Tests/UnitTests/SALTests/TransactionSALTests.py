@@ -1,9 +1,9 @@
 from datetime import datetime
 
-from DAL.TransactionDAL.TransactionDALImplementation import TransactionDALImplementation
-from Entities.FailedTransaction import FailedTransaction
-from Entities.Transaction import Transaction
-from SAL.TransactionSAL.TransactionSALImplementation import TransactionSALImplementation
+from PythonAPI.DAL.TransactionDAL.TransactionDALImplementation import TransactionDALImplementation
+from PythonAPI.Entities.FailedTransaction import FailedTransaction
+from PythonAPI.Entities.Transaction import Transaction
+from PythonAPI.SAL.TransactionSAL.TransactionSALImplementation import TransactionSALImplementation
 
 transaction_dao = TransactionDALImplementation()
 transaction_sao = TransactionSALImplementation(transaction_dao)

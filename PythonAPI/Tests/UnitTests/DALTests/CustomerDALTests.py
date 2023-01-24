@@ -1,5 +1,5 @@
-from DAL.CustomerDAL.CustomerDALImplementation import CustomerDALImplementation
-from Entities.Customer import Customer
+from PythonAPI.DAL.CustomerDAL.CustomerDALImplementation import CustomerDALImplementation
+from PythonAPI.Entities.Customer import Customer
 
 customer_dao = CustomerDALImplementation()
 test_customer = Customer(0, "A test", "This is", "username", "password", "test@email.com", "123-456-7890",

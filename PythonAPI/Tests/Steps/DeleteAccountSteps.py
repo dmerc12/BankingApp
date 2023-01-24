@@ -9,8 +9,7 @@ def step_impl(context):
 
 @when(u'I select an account')
 def step_impl(context):
-    time.sleep(0.5)
-    context.banking_poms.select_account_to_delete().select_by_visible_text("-1")
+    context.banking_poms.select_account_to_delete()
 
 @when(u'I click the Delete Account button')
 def step_impl(context):

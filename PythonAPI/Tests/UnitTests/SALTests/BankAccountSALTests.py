@@ -1,7 +1,7 @@
-from DAL.BankAccountDAL.BankAccountDALImplementation import BankAccountDALImplementation
-from Entities.BankAccount import BankAccount
-from Entities.FailedTransaction import FailedTransaction
-from SAL.BankAccountSAL.BankAccountSALImplementation import BankAccountSALImplementation
+from PythonAPI.DAL.BankAccountDAL.BankAccountDALImplementation import BankAccountDALImplementation
+from PythonAPI.Entities.BankAccount import BankAccount
+from PythonAPI.Entities.FailedTransaction import FailedTransaction
+from PythonAPI.SAL.BankAccountSAL.BankAccountSALImplementation import BankAccountSALImplementation
 
 account_dao = BankAccountDALImplementation()
 account_sao = BankAccountSALImplementation(account_dao)

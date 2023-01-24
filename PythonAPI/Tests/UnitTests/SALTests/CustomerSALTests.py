@@ -1,7 +1,7 @@
-from DAL.CustomerDAL.CustomerDALImplementation import CustomerDALImplementation
-from Entities.Customer import Customer
-from Entities.FailedTransaction import FailedTransaction
-from SAL.CustomerSAL.CustomerSALImplementation import CustomerSALImplementation
+from PythonAPI.DAL.CustomerDAL.CustomerDALImplementation import CustomerDALImplementation
+from PythonAPI.Entities.Customer import Customer
+from PythonAPI.Entities.FailedTransaction import FailedTransaction
+from PythonAPI.SAL.CustomerSAL.CustomerSALImplementation import CustomerSALImplementation
 
 customer_dao = CustomerDALImplementation()
 customer_sao = CustomerSALImplementation(customer_dao)
