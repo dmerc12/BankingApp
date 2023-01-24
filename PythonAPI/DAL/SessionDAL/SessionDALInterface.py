@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from PythonAPI.Entities import Session
+from Entities import Session
 
 
 class SessionDALInterface(ABC):

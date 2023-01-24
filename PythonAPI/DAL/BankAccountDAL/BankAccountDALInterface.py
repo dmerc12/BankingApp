@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import List
-from PythonAPI.Entities.BankAccount import BankAccount
+from Entities.BankAccount import BankAccount
 
 class BankAccountDALInterface(ABC):
 

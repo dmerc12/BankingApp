@@ -1,7 +1,7 @@
 import datetime
 
-from PythonAPI.DAL.TransactionDAL.TransactionDALImplementation import TransactionDALImplementation
-from PythonAPI.Entities.Transaction import Transaction
+from DAL.TransactionDAL.TransactionDALImplementation import TransactionDALImplementation
+from Entities.Transaction import Transaction
 
 transaction_dao = TransactionDALImplementation()
 test_transaction = Transaction(0, str(datetime.datetime.now()), "deposit", -1, 50.00)

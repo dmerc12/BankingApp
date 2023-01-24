@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import List
-from PythonAPI.Entities.Transaction import Transaction
+from Entities.Transaction import Transaction
 
 class TransactionDALInterface(ABC):
 

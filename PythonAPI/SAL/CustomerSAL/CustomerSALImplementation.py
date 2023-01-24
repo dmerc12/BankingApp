@@ -1,9 +1,9 @@
 import logging
 
-from PythonAPI.DAL.CustomerDAL.CustomerDALImplementation import CustomerDALImplementation
-from PythonAPI.Entities.Customer import Customer
-from PythonAPI.Entities.FailedTransaction import FailedTransaction
-from PythonAPI.SAL.CustomerSAL.CustomerSALInterface import CustomerSALInterface
+from DAL.CustomerDAL.CustomerDALImplementation import CustomerDALImplementation
+from Entities.Customer import Customer
+from Entities.FailedTransaction import FailedTransaction
+from SAL.CustomerSAL.CustomerSALInterface import CustomerSALInterface
 
 
 class CustomerSALImplementation(CustomerSALInterface):

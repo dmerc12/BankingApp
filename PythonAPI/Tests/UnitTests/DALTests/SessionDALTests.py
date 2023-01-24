@@ -1,7 +1,7 @@
 from datetime import datetime
 
-from PythonAPI.DAL.SessionDAL.SessionDALImplementation import SessionDALImplementation
-from PythonAPI.Entities.Session import Session
+from DAL.SessionDAL.SessionDALImplementation import SessionDALImplementation
+from Entities.Session import Session
 
 session_dao = SessionDALImplementation()
 session_start_date = datetime.now()

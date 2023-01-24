@@ -1,11 +1,11 @@
 import logging
 from typing import List
-from PythonAPI.DAL.BankAccountDAL.BankAccountDALImplementation import BankAccountDALImplementation
-from PythonAPI.DAL.TransactionDAL.TransactionDALImplementation import TransactionDALImplementation
-from PythonAPI.Entities.BankAccount import BankAccount
-from PythonAPI.Entities.FailedTransaction import FailedTransaction
-from PythonAPI.SAL.BankAccountSAL.BankAccountSALInterface import BankAccountSALInterface
-from PythonAPI.SAL.TransactionSAL.TransactionSALImplementation import TransactionSALImplementation
+from DAL.BankAccountDAL.BankAccountDALImplementation import BankAccountDALImplementation
+from DAL.TransactionDAL.TransactionDALImplementation import TransactionDALImplementation
+from Entities.BankAccount import BankAccount
+from Entities.FailedTransaction import FailedTransaction
+from SAL.BankAccountSAL.BankAccountSALInterface import BankAccountSALInterface
+from SAL.TransactionSAL.TransactionSALImplementation import TransactionSALImplementation
 
 
 class BankAccountSALImplementation(BankAccountSALInterface):
