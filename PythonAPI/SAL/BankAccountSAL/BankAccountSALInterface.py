@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import List
 
-from Entities.BankAccount import BankAccount
+from PythonAPI.Entities.BankAccount import BankAccount
 
 
 class BankAccountSALInterface(ABC):

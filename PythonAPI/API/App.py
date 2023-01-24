@@ -4,19 +4,19 @@ import os.path
 from flask_cors import CORS
 from flask import Flask, request, jsonify
 
-from DAL.BankAccountDAL.BankAccountDALImplementation import BankAccountDALImplementation
-from DAL.CustomerDAL.CustomerDALImplementation import CustomerDALImplementation
-from DAL.SessionDAL.SessionDALImplementation import SessionDALImplementation
-from DAL.TransactionDAL.TransactionDALImplementation import TransactionDALImplementation
-from Entities.BankAccount import BankAccount
-from Entities.Customer import Customer
-from Entities.FailedTransaction import FailedTransaction
-from Entities.Session import Session
-from Entities.Transaction import Transaction
-from SAL.BankAccountSAL.BankAccountSALImplementation import BankAccountSALImplementation
-from SAL.CustomerSAL.CustomerSALImplementation import CustomerSALImplementation
-from SAL.SessionSAL.SessionSALImplementation import SessionSALImplementation
-from SAL.TransactionSAL.TransactionSALImplementation import TransactionSALImplementation
+from PythonAPI.DAL.BankAccountDAL.BankAccountDALImplementation import BankAccountDALImplementation
+from PythonAPI.DAL.CustomerDAL.CustomerDALImplementation import CustomerDALImplementation
+from PythonAPI.DAL.SessionDAL.SessionDALImplementation import SessionDALImplementation
+from PythonAPI.DAL.TransactionDAL.TransactionDALImplementation import TransactionDALImplementation
+from PythonAPI.Entities.BankAccount import BankAccount
+from PythonAPI.Entities.Customer import Customer
+from PythonAPI.Entities.FailedTransaction import FailedTransaction
+from PythonAPI.Entities.Session import Session
+from PythonAPI.Entities.Transaction import Transaction
+from PythonAPI.SAL.BankAccountSAL.BankAccountSALImplementation import BankAccountSALImplementation
+from PythonAPI.SAL.CustomerSAL.CustomerSALImplementation import CustomerSALImplementation
+from PythonAPI.SAL.SessionSAL.SessionSALImplementation import SessionSALImplementation
+from PythonAPI.SAL.TransactionSAL.TransactionSALImplementation import TransactionSALImplementation
 
 app: Flask = Flask(__name__)
 CORS(app)

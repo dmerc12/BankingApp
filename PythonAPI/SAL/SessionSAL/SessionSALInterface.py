@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from Entities import Session
+from PythonAPI.Entities import Session
 
 
 class SessionSALInterface(ABC):

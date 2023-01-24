@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import List
 
-from Entities.Transaction import Transaction
+from PythonAPI.Entities.Transaction import Transaction
 
 
 class TransactionSALInterface(ABC):

@@ -1,9 +1,9 @@
 import logging
 from typing import List
-from DAL.DBConnection import connection
-from DAL.TransactionDAL.TransactionDALInterface import TransactionDALInterface
-from Entities.FailedTransaction import FailedTransaction
-from Entities.Transaction import Transaction
+from PythonAPI.DAL.DBConnection import connection
+from PythonAPI.DAL.TransactionDAL.TransactionDALInterface import TransactionDALInterface
+from PythonAPI.Entities.FailedTransaction import FailedTransaction
+from PythonAPI.Entities.Transaction import Transaction
 
 class TransactionDALImplementation(TransactionDALInterface):
 

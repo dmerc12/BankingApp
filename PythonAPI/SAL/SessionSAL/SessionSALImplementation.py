@@ -1,12 +1,12 @@
 import logging
 from datetime import datetime
 
-from DAL.CustomerDAL.CustomerDALImplementation import CustomerDALImplementation
-from DAL.SessionDAL.SessionDALImplementation import SessionDALImplementation
-from Entities.FailedTransaction import FailedTransaction
-from Entities.Session import Session
-from SAL.CustomerSAL.CustomerSALImplementation import CustomerSALImplementation
-from SAL.SessionSAL.SessionSALInterface import SessionSALInterface
+from PythonAPI.DAL.CustomerDAL.CustomerDALImplementation import CustomerDALImplementation
+from PythonAPI.DAL.SessionDAL.SessionDALImplementation import SessionDALImplementation
+from PythonAPI.Entities.FailedTransaction import FailedTransaction
+from PythonAPI.Entities.Session import Session
+from PythonAPI.SAL.CustomerSAL.CustomerSALImplementation import CustomerSALImplementation
+from PythonAPI.SAL.SessionSAL.SessionSALInterface import SessionSALInterface
 
 
 class SessionSALImplementation(SessionSALInterface):

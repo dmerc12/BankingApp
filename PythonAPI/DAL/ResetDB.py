@@ -1,9 +1,9 @@
 import datetime
 
-from DAL.BankAccountDAL.BankAccountDALImplementation import BankAccountDALImplementation
-from DAL.CustomerDAL.CustomerDALImplementation import CustomerDALImplementation
-from DAL.SessionDAL.SessionDALImplementation import SessionDALImplementation
-from DAL.TransactionDAL.TransactionDALImplementation import TransactionDALImplementation
+from PythonAPI.DAL.BankAccountDAL.BankAccountDALImplementation import BankAccountDALImplementation
+from PythonAPI.DAL.CustomerDAL.CustomerDALImplementation import CustomerDALImplementation
+from PythonAPI.DAL.SessionDAL.SessionDALImplementation import SessionDALImplementation
+from PythonAPI.DAL.TransactionDAL.TransactionDALImplementation import TransactionDALImplementation
 
 customer_dao = CustomerDALImplementation()
 account_dao = BankAccountDALImplementation()
