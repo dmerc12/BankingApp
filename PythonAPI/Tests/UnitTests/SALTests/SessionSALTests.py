@@ -1,9 +1,9 @@
 from datetime import datetime, timedelta
 
-from PythonAPI.DAL.SessionDAL.SessionDALImplementation import SessionDALImplementation
-from PythonAPI.Entities.FailedTransaction import FailedTransaction
-from PythonAPI.Entities.Session import Session
-from PythonAPI.SAL.SessionSAL.SessionSALImplementation import SessionSALImplementation
+from DAL.SessionDAL.SessionDALImplementation import SessionDALImplementation
+from Entities.FailedTransaction import FailedTransaction
+from Entities.Session import Session
+from SAL.SessionSAL.SessionSALImplementation import SessionSALImplementation
 
 session_dao = SessionDALImplementation()
 session_sao = SessionSALImplementation(session_dao)

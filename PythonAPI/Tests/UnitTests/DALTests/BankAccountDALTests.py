@@ -1,5 +1,5 @@
-from PythonAPI.DAL.BankAccountDAL.BankAccountDALImplementation import BankAccountDALImplementation
-from PythonAPI.Entities.BankAccount import BankAccount
+from DAL.BankAccountDAL.BankAccountDALImplementation import BankAccountDALImplementation
+from Entities.BankAccount import BankAccount
 
 account_dao = BankAccountDALImplementation()
 test_account = BankAccount(0, -1, 50.00)

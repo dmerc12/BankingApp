@@ -1,4 +1,4 @@
-from behave import when, then
+from behave import when
 
 @when(u'I click "Leave the bank"')
 def step_impl(context):

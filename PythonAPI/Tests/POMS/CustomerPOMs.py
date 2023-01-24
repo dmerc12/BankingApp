@@ -1,8 +1,6 @@
 from selenium.webdriver.chrome.webdriver import WebDriver
-from selenium.webdriver.common.alert import Alert
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
-from selenium.webdriver.common.keys import Keys
 class CustomerPOMs:
 
     def __init__(self, driver: WebDriver):

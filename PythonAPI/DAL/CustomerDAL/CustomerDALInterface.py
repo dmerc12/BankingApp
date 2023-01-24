@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from PythonAPI.Entities import Customer
+from Entities import Customer
 
 
 class CustomerDALInterface(ABC):

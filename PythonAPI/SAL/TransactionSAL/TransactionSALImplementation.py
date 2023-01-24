@@ -1,11 +1,11 @@
 import logging
 from typing import List
 
-from PythonAPI.DAL.BankAccountDAL.BankAccountDALImplementation import BankAccountDALImplementation
-from PythonAPI.DAL.TransactionDAL.TransactionDALImplementation import TransactionDALImplementation
-from PythonAPI.Entities.FailedTransaction import FailedTransaction
-from PythonAPI.Entities.Transaction import Transaction
-from PythonAPI.SAL.TransactionSAL.TransactionSALInterface import TransactionSALInterface
+from DAL.BankAccountDAL.BankAccountDALImplementation import BankAccountDALImplementation
+from DAL.TransactionDAL.TransactionDALImplementation import TransactionDALImplementation
+from Entities.FailedTransaction import FailedTransaction
+from Entities.Transaction import Transaction
+from SAL.TransactionSAL.TransactionSALInterface import TransactionSALInterface
 
 account_dao = BankAccountDALImplementation()
 

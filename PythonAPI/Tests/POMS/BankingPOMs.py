@@ -1,10 +1,8 @@
-from datetime import time
-
 from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.common.alert import Alert
-from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support.select import Select
 
 
 class BankingPOMs:
@@ -92,8 +90,8 @@ class BankingPOMs:
         element: WebElement = self.driver.find_element(By.ID, "deleteAccountCollapseButton")
         return element
 
-    def delete_account_input(self):
-        element: WebElement = self.driver.find_element(By.ID, "deleteAccountIdInput")
+    def select_account_to_delete(self):
+        element: Select = Select(self.driver.find_element(By.ID, "accountDeleteDropDownMenu"))
         return element
 
     def delete_button(self):
