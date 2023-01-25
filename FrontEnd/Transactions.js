@@ -42,14 +42,13 @@ async function viewTransactions() {
 function populateTransactions(transactionList) {
     let count = 0;
     const transactionTable = document.getElementById("viewTransactionsTable");
-    transactionTable.innerHTML = "";
     for (transaction in transactionList) {        
         const transactionId = Number(transactionList[count].split(", ")[0]);
         const dateTime = String(transactionList[count].split(", ")[1]);
         const transactionType = String(transactionList[count].split(", ")[2]);
         const amount = String(transactionList[count].split(", ")[4]);
-        const row = document.createElement("tr");
-        accountTable.appendChild(row);
+        const row = document.createElement(tr);
+        transactionTable.appendChild(row);
         
         const square1 = document.createElement("td");
         square1.textContent = `Transaction ID: ${transactionId}`;
@@ -97,7 +96,7 @@ async function getTransactionsAccountsDropDown(){
     // handling API response approapriately
     if (response.status === 201) {
         const accountData = await response.json();
-        const accountList = accountData.accountList
+        const accountList = accountData.accountList;
         populateTransactionAccountsDropdown(accountList);
     } else if (response.status === 400) {
         const apiResponse = await response.json();
@@ -105,8 +104,10 @@ async function getTransactionsAccountsDropDown(){
         if (apiResponse.message === "Session has expired, please log in!") {
             doLogout();
         };
+        resetInputs();
     } else {
         alert("Something went horribly wrong...")
+        resetInputs();
     };
 };
 

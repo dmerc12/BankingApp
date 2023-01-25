@@ -19,10 +19,6 @@ if (!window.sessionStorage.getItem("sessionId")) {
     window.location.href = "Login.html";
 };
 
-function transactionGoBack(){
-    window.location.href = "ManageAccounts.html"
-}
-
 function goHome() {
     window.location.href = "CustomerHome.html";
 };
@@ -33,4 +29,8 @@ function navigateToManageAccounts() {
 
 function navigateToManageCustomer() {
     window.location.href = "ManageCustomer.html";
+}
+
+function navigateToTransactions() {
+    window.location.href = "Transactions.html"
 }
