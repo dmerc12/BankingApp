@@ -1,9 +1,3 @@
-
-if (!window.sessionStorage.getItem("sesssionId") || !window.sessionStorage.getItem("accountId")) {
-    alert("You do not have access to this page! Please continue to log in or create your own credentials!");
-    window.location.href = "Login.html";
-};
-
 async function viewTransactions() {
     // initializing URL varible
     const viewTransactionsURL = "http://127.0.0.1:5000/get/all/transactions";
