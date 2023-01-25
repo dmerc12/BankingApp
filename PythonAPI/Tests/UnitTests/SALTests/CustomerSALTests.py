@@ -407,15 +407,6 @@ def test_service_update_customer_phone_number_too_long():
     except FailedTransaction as error:
         assert str(error) == "The phone number field cannot exceed 13 characters, please try again!"
 
-def test_service_update_customer_phone_number_incorrect_format():
-    try:
-        test_customer = Customer(successful_customer.customer_id, "first", "last", "username", "password",
-                                 "test@email.com", "1234567890", "123 First Street, City, State, ZIP")
-        customer_sao.service_update_customer(test_customer)
-        assert False
-    except FailedTransaction as error:
-        assert str(error) == "The phone number must follow the format xxx-xxx-xxxx, please try again!"
-
 def test_service_update_customer_address_not_string():
     try:
         test_customer = Customer(successful_customer.customer_id, "first", "last", "username", "password",

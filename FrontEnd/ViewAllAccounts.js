@@ -64,9 +64,9 @@ function populateAccounts(accountList) {
         square3.textContent = "View associated transactions";
         square3.id = `viewTransaction${accountId}`;
         square3.className = 'btn';
-        tableData3.addEventListener('onclick', viewAssociatedTransactions(accountId));
+        tableData3.addEventListener("click", viewAssociatedTransactions(accountId));
         row.appendChild(tableData3);
-        tableData3.appendChild(square3)
+        tableData3.appendChild(square3);
         count = count + 1;
     };
 };

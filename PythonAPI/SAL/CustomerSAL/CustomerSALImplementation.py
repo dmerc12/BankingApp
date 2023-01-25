@@ -157,9 +157,6 @@ class CustomerSALImplementation(CustomerSALInterface):
         elif len(customer.phone_number) > 13:
             logging.warning("SAL method update customer, phone number longer than 13 characters")
             raise FailedTransaction("The phone number field cannot exceed 13 characters, please try again!")
-        elif (customer.phone_number[3] and customer.phone_number[7]) != "-":
-            logging.warning("SAL method update customer, phone number in incorrect format")
-            raise FailedTransaction("The phone number must follow the format xxx-xxx-xxxx, please try again!")
         elif type(customer.address) != str:
             logging.warning("SAL method update customer, address not a string")
             raise FailedTransaction("The address field must be a string, please try again!")
