@@ -58,20 +58,6 @@ function populateAccounts(accountList) {
         square2.textContent = `Balance: $${balance}`;
         row.appendChild(tableData2);
         tableData2.appendChild(square2);
-
-        const tableData3 = document.createElement("td");
-        const square3 = document.createElement("button");
-        square3.textContent = "View associated transactions";
-        square3.id = `viewTransaction${accountId}`;
-        square3.className = 'btn';
-        tableData3.addEventListener("click", viewAssociatedTransactions(accountId));
-        row.appendChild(tableData3);
-        tableData3.appendChild(square3);
         count = count + 1;
     };
-};
-
-function viewAssociatedTransactions(accountId) {
-    window.sessionStorage.setItem("accountId", accountId);
-    window.location.href = "Transactions.html";
 };

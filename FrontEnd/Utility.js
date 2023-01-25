@@ -19,7 +19,9 @@ if (!window.sessionStorage.getItem("sessionId")) {
     window.location.href = "Login.html";
 };
 
-
+function transactionGoBack(){
+    window.location.href = "ManageAccounts.html"
+}
 
 function goHome() {
     window.location.href = "CustomerHome.html";

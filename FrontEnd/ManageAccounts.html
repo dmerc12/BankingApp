@@ -29,6 +29,18 @@
             <tbody id="viewAllAccountsTable"></tbody>
         </table>
     </div>
+    <button type="button" class="collapsible nav btn" id="viewTransactionsCollapseButton">View Transactions by Account</button>
+    <div class="content">
+        <table>
+            <tr>
+                <td><h3>Please choose an accout:</h3></td>
+                <td><select id="accountTransactionDropDownMenu" onclick="getTransactionsAccountsDropDown()"><option value="">Please select an account number</option></select></td>
+            </tr>
+            <tr>
+                <td><button class="btn" id="viewTransactionsButton" onclick="viewTransactions()">View Transactions</button></td>
+            </tr>
+        </table>
+    </div>
     <button type="button" class="collapsible nav btn" id="depositCollapseButton">Make a Deposit</button>
     <div class="content">
         <table>
@@ -98,6 +110,7 @@
 <script src="Utility.js"></script>
 <script src="CreateAccount.js"></script>
 <script src="ViewAllAccounts.js"></script>
+<script src="Transactions.js"></script>
 <script src="Deposit.js"></script>
 <script src="Withdraw.js"></script>
 <script src="Transfer.js"></script>
