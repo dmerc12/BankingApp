@@ -2,7 +2,7 @@ import datetime
 import logging
 import os.path
 from flask_cors import CORS
-from flask import Flask, request, jsonify, make_response, render_template
+from flask import Flask, request, jsonify, make_response, render_template, url_for
 
 from PythonAPI.DAL.BankAccountDAL.BankAccountDALImplementation import BankAccountDALImplementation
 from PythonAPI.DAL.CustomerDAL.CustomerDALImplementation import CustomerDALImplementation
@@ -48,14 +48,30 @@ def set_up_logs():
 
 @app.route("/")
 def landing_page():
-    return render_template("Login.html")
+    return render_template("login.html")
 
 @app.route("/customer/home")
-def customer_home():
-    return render_template("CustomerHome.html")
+def home():
+    return render_template("home.html")
+
+@app.route("/analyze/transactions")
+def view_transactions():
+    return render_template("transactions.html")
+
+@app.route("/manage/my/information")
+def manage_customer_information():
+    return render_template("manage_customer_information.html")
+
+@app.route("/manage/my/accounts")
+def manage_accounts():
+    return render_template("manage_accounts.html")
+
+@app.route("/register")
+def register():
+    return render_template("new_user.html")
 
 @app.route("/login", methods=["POST"])
-def login():
+def request_login():
     app.logger.info(f"{request.get_json()}, {request}, {request.path}, {datetime.datetime.now()}")
     app.logger.info("Beginning API function login")
     try:
