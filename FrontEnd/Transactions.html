@@ -7,21 +7,15 @@
     <title>Transaction List</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<header>
     <button class="nav btn" id="logOutButton" onclick="doLogout()">Log Out</button>
-    <button class="nav btn" id="homeButton" onclick="goHome()">Home</button><br>
-    <button type="button" class="collapsible nav btn" id="viewTransactionsCollapseButton">View Transactions by Account</button>
-    <div class="content">
-        <table>
-            <tr>
-                <td><h3>Please choose an accout:</h3></td>
-                <td><select id="accountTransactionDropDownMenu" onclick="getTransactionsAccountsDropDown()"><option value="">Please select an account number</option></select></td>
-            </tr>
-            <tr>
-                <td><button class="btn" id="viewTransactionsButton" onclick="viewTransactions()">View Transactions</button></td>
-                <table id="viewTransactionsTable"></table>
-            </tr>
-        </table>
+    <button class="nav btn" id="homeButton" onclick="goHome()">Home</button>
+</header>
+<body>
+    <div>
+        <select id="accountTransactionDropDownMenu" onclick="getTransactionsAccountsDropDown()"><option value="">Please select an account number</option></select>
+        <button class="btn" id="viewTransactionsButton" onclick="viewTransactions()">View Transactions</button>
+        <table id="viewTransactionsTable"></table>
     </div>
     
 </body>

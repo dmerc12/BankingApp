@@ -7,8 +7,11 @@
     <link rel="stylesheet" href="style.css">
     <title>Customer Home</title>
 </head>
+<header>
+    <button class="nav btn" id="logOutButton" onclick="doLogout()">Log Out</button>
+    <button class="nav btn" id="homeButton" onclick="goHome()">Home</button>
+</header>
 <body>
-    <button class="nav btn" id="logOutButton" onclick="doLogout()">Log Out</button><br>
     <button class="nav btn" id="navigateToManageAccountsButton" onclick="navigateToManageAccounts()">Create and Manage Accounts</button><br>
     <button class="nav btn" id="navigateToManageCustomerButton" onclick="navigateToManageCustomer()">Manage Customer Information</button><br>
     <button class="nav btn" id="navigateToAnalyzeTransactinsButton" onclick="navigateToTransactions()">Analyze Account Transactions</button>

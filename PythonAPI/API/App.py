@@ -2,7 +2,7 @@ import datetime
 import logging
 import os.path
 from flask_cors import CORS
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, make_response, render_template
 
 from PythonAPI.DAL.BankAccountDAL.BankAccountDALImplementation import BankAccountDALImplementation
 from PythonAPI.DAL.CustomerDAL.CustomerDALImplementation import CustomerDALImplementation
@@ -46,14 +46,16 @@ def set_up_logs():
     app.logger.addHandler(handler)
     app.logger.setLevel(log_level)
 
+@app.route("/")
+def landing_page():
+    return render_template("Login.html")
+
+@app.route("/customer/home")
+def customer_home():
+    return render_template("CustomerHome.html")
 
 @app.route("/login", methods=["POST"])
 def login():
-    app.config.update(
-        SESSION_COOKIE_SECURE=True,
-        SESSION_COOKIE_HTTPONLY=True,
-        SESSION_COOKIE_SAMESITE='Lax',
-    )
     app.logger.info(f"{request.get_json()}, {request}, {request.path}, {datetime.datetime.now()}")
     app.logger.info("Beginning API function login")
     try:
@@ -69,8 +71,11 @@ def login():
             "sessionId": new_session.session_id
         }
         result_json = jsonify(result_dictionary)
+        response = make_response(result_json, 201)
+        # for some reason the cookie below is not being set in the browser
+        response.set_cookie("session_id", str(new_session.session_id))
         app.logger.info("Finishing API function login")
-        return result_json, 201
+        return response
     except FailedTransaction as error:
         message = {
             "message": str(error)
@@ -376,4 +381,5 @@ def get_all_transactions():
         app.logger.error(f"{request.get_json()}, {request.path}, {datetime.datetime}")
         return jsonify(message), 400
 
-app.run()
+if __name__ == '__main__':
+    app.run(debug=True)

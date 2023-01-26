@@ -27,6 +27,7 @@ async function doLogin() {
     if (response.status === 201) {
         const apiResponse = await response.json();
         window.sessionStorage.setItem("sessionId", apiResponse.sessionId);
+        document.cookie = `sessionId=${apiResponse.sessionId}`
         alert("Successful login attempt, please continue!")
         window.location.href = "CustomerHome.html";
     } else if (response.status === 400) {
