@@ -14,6 +14,10 @@ class CustomerDALInterface(ABC):
         pass
 
     @abstractmethod
+    def get_customer_by_email(self, email: str) -> Customer:
+        pass
+
+    @abstractmethod
     def login(self, username: str, password: str) -> Customer:
         pass
 

@@ -1,7 +1,7 @@
 import logging
 from typing import List
 from PythonAPI.DAL.BankAccountDAL.BankAccountDALInterface import BankAccountDALInterface
-from PythonAPI.DAL.DBConnection import connection
+from DBConnection import connection
 from PythonAPI.Entities.BankAccount import BankAccount
 from PythonAPI.Entities.FailedTransaction import FailedTransaction
 

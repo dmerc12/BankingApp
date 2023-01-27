@@ -2,8 +2,9 @@ import datetime
 import logging
 import os.path
 from flask_cors import CORS
-from flask import Flask, request, jsonify, make_response, render_template, url_for
-
+from flask import Flask, request, jsonify, make_response, render_template, url_for, redirect
+from flask_login import login_user, current_user, logout_user, login_required
+from PythonAPI.API.customers.forms import LoginForm
 from PythonAPI.DAL.BankAccountDAL.BankAccountDALImplementation import BankAccountDALImplementation
 from PythonAPI.DAL.CustomerDAL.CustomerDALImplementation import CustomerDALImplementation
 from PythonAPI.DAL.SessionDAL.SessionDALImplementation import SessionDALImplementation
@@ -47,8 +48,15 @@ def set_up_logs():
     app.logger.setLevel(log_level)
 
 @app.route("/")
+@app.route("/login")
 def landing_page():
-    return render_template("login.html")
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
+    form = LoginForm()
+    if form.validate_on_submit():
+        # currently working here
+        pass
+    return render_template("login.html", title="Login")
 
 @app.route("/customer/home")
 def home():
@@ -56,19 +64,19 @@ def home():
 
 @app.route("/analyze/transactions")
 def view_transactions():
-    return render_template("transactions.html")
+    return render_template("transactions.html", title="Transactions")
 
 @app.route("/manage/my/information")
 def manage_customer_information():
-    return render_template("manage_customer_information.html")
+    return render_template("manage_customer_information.html", title="Customer Information")
 
 @app.route("/manage/my/accounts")
 def manage_accounts():
-    return render_template("manage_accounts.html")
+    return render_template("manage_accounts.html", title="Accounts")
 
 @app.route("/register")
 def register():
-    return render_template("new_user.html")
+    return render_template("new_user.html", title="Register")
 
 @app.route("/login", methods=["POST"])
 def request_login():
@@ -397,5 +405,3 @@ def get_all_transactions():
         app.logger.error(f"{request.get_json()}, {request.path}, {datetime.datetime}")
         return jsonify(message), 400
 
-if __name__ == '__main__':
-    app.run(debug=True)

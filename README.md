@@ -9,6 +9,7 @@ A banking app written in python.
 - PostgresSQL
 - Flask
 - Flask-CORS
+- Flask-WTF
 - Psycopg2
 - Selenium
 - Behave

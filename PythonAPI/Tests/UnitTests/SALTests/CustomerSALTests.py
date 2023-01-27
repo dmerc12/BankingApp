@@ -235,6 +235,22 @@ def test_service_get_customer_by_id_success():
     result = customer_sao.service_get_customer_by_id(successful_customer.customer_id)
     assert result is not None
 
+def test_service_get_customer_by_email_not_a_string():
+    try:
+        pass
+    except FailedTransaction as error:
+        assert str(error) == "Email field must be a string, please try again!"
+
+def test_service_get_customer_by_email_not_found():
+    try:
+        pass
+    except FailedTransaction as error:
+        assert str(error) == "This customer cannot be found, please try again!"
+
+def test_service_get_customer_by_email_success():
+    result = customer_sao.service_get_customer_by_email(successful_customer.email)
+    assert result is not None
+
 def test_service_login_username_not_string():
     try:
         customer_sao.service_login(0, successful_customer.password)

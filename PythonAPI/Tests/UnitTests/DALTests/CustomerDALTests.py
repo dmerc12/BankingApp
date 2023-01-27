@@ -18,6 +18,10 @@ def test_get_customer_by_id_success():
     result = customer_dao.get_customer_by_id(test_customer.customer_id)
     assert result.customer_id == test_customer.customer_id
 
+def test_get_customer_by_email_success():
+    result = customer_dao.get_customer_by_email(test_customer.email)
+    assert result is not None
+
 def test_login_success():
     result = customer_dao.login("please", "work")
     assert result is not None

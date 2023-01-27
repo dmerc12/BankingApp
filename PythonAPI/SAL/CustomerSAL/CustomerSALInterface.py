@@ -13,6 +13,10 @@ class CustomerSALInterface(ABC):
         pass
 
     @abstractmethod
+    def service_get_customer_by_email(self, email: str) -> Customer:
+        pass
+
+    @abstractmethod
     def service_login(self, username: str, password: str) -> Customer:
         pass
 

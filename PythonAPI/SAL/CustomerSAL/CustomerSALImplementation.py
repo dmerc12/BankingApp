@@ -94,6 +94,16 @@ class CustomerSALImplementation(CustomerSALInterface):
             customer = self.customer_dao.get_customer_by_id(customer_id)
             return customer
 
+    def service_get_customer_by_email(self, email: str) -> Customer:
+        logging.info("Beginning SAL method get customer by email")
+        if type(email) != str:
+            logging.warning("SAL method get customer by email, email not a string")
+            raise FailedTransaction("Email field must be a string, please try again!")
+        else:
+            logging.info("Finishing SAL method get customer by email")
+            customer = self.customer_dao.get_customer_by_email(email)
+            return customer
+
     def service_login(self, username: str, password: str) -> Customer:
         logging.info("Beginning SAL method login")
         if type(username) != str:

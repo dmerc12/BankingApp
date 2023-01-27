@@ -1,7 +1,7 @@
 import logging
 
 from PythonAPI.DAL.CustomerDAL.CustomerDALInterface import CustomerDALInterface
-from PythonAPI.DAL.DBConnection import connection
+from DBConnection import connection
 from PythonAPI.Entities.Customer import Customer
 from PythonAPI.Entities.FailedTransaction import FailedTransaction
 
@@ -43,9 +43,25 @@ class CustomerDALImplementation(CustomerDALInterface):
         if customer_info is None:
             logging.warning("DAL method get customer by ID, cannot find customer")
             raise FailedTransaction("This customer cannot be found, please try again!")
-        customer = Customer(*customer_info)
-        logging.info("Finishing DAL method get customer by ID")
-        return customer
+        else:
+            customer = Customer(*customer_info)
+            logging.info("Finishing DAL method get customer by ID")
+            return customer
+
+    def get_customer_by_email(self, email: str) -> Customer:
+        logging.info("Beginning DAL method get customer by email")
+        sql = "select * from banking.Customers where Customers.email=%s;"
+        cursor = connection.cursor()
+        cursor.execute(sql, [email])
+        connection.commit()
+        customer_info = cursor.fetchone()
+        if customer_info is None:
+            logging.warning("DAL method get customer by email, cannot find customer")
+            raise FailedTransaction("This customer cannot be found, please try again!")
+        else:
+            customer = Customer(*customer_info)
+            logging.info("Finishing DAL method get customer by email")
+            return customer
 
     def login(self, username: str, password: str) -> Customer:
         logging.info("Beginning DAL method login")
@@ -57,9 +73,10 @@ class CustomerDALImplementation(CustomerDALInterface):
         if customer_info is None:
             logging.warning("DAL method login, cannot validate credentials")
             raise FailedTransaction("Either the username or password are incorrect, please try again!")
-        customer = Customer(*customer_info)
-        logging.info("Finishing DAL method login")
-        return customer
+        else:
+            customer = Customer(*customer_info)
+            logging.info("Finishing DAL method login")
+            return customer
 
     def update_customer(self, customer: Customer) -> Customer:
         logging.info("Beginning DAL method update customer")
