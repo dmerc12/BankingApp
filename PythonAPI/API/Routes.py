@@ -54,7 +54,9 @@ def landing_page():
         return redirect(url_for('home'))
     form = LoginForm()
     if form.validate_on_submit():
-        # currently working here
+        email = form.email.data
+        user = customer_sao.service_get_customer_by_email(email)
+        # currently here
         pass
     return render_template("login.html", title="Login")
 

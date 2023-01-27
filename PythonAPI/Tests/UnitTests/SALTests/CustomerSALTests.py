@@ -237,13 +237,15 @@ def test_service_get_customer_by_id_success():
 
 def test_service_get_customer_by_email_not_a_string():
     try:
-        pass
+        customer_sao.service_get_customer_by_email(50)
+        assert False
     except FailedTransaction as error:
         assert str(error) == "Email field must be a string, please try again!"
 
 def test_service_get_customer_by_email_not_found():
     try:
-        pass
+        customer_sao.service_get_customer_by_email("cannotbefound@email.com")
+        assert False
     except FailedTransaction as error:
         assert str(error) == "This customer cannot be found, please try again!"
 
