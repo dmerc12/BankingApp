@@ -56,8 +56,8 @@ class CustomerDALImplementation(CustomerDALInterface):
         Connect.connection.commit()
         customer_info = cursor.fetchone()
         if customer_info is None:
-            logging.warning("DAL method get customer by email, cannot find customer")
-            raise FailedTransaction("This customer cannot be found, please try again!")
+            customer = Customer(0, "", "", "", "", "", "", "")
+            return customer
         else:
             customer = Customer(*customer_info)
             logging.info("Finishing DAL method get customer by email")

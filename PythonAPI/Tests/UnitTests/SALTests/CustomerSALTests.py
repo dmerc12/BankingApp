@@ -6,7 +6,7 @@ from PythonAPI.SAL.CustomerSAL.CustomerSALImplementation import CustomerSALImple
 customer_dao = CustomerDALImplementation()
 customer_sao = CustomerSALImplementation(customer_dao)
 
-successful_customer = Customer(0, "first", "last", "username", "password", "test@email.com", "123-456-7890",
+successful_customer = Customer(0, "first", "last", "username", "password", "new@email.com", "123-456-7890",
                                "123 First Street, City, State, ZIP")
 
 def test_service_create_customer_first_name_not_string():
@@ -101,16 +101,6 @@ def test_service_create_customer_password_not_string():
         assert False
     except FailedTransaction as error:
         assert str(error) == "The password field must be a string, please try again!"
-
-def test_service_create_customer_password_too_long():
-    try:
-        test_customer = Customer(0, "first", "last", "username",
-                                 "this has too many characters and so it should raise the desired exception",
-                                 "test@email.com", "123-456-7890", "123 First Street, City, State, ZIP")
-        customer_sao.service_create_customer(test_customer)
-        assert False
-    except FailedTransaction as error:
-        assert str(error) == "The password field cannot exceed 36 characters, please try again!"
 
 def test_service_create_customer_password_empty():
     try:
@@ -217,6 +207,15 @@ def test_service_create_customer_success():
     result = customer_sao.service_create_customer(successful_customer)
     assert result.customer_id != 0
 
+def test_service_create_customer_already_exists():
+    try:
+        test_customer = Customer(0, "first", "last", "username", "password", "new@email.com", "123-456-7890",
+                                 "123 S 1st St, Dallas, Texas, 78999")
+        customer_sao.service_create_customer(test_customer)
+        assert False
+    except FailedTransaction as error:
+        assert str(error) == "A customer already exists with this username, please log in!"
+
 def test_service_get_customer_by_id_not_integer():
     try:
         customer_sao.service_get_customer_by_id("this won't work")
@@ -241,13 +240,6 @@ def test_service_get_customer_by_email_not_a_string():
         assert False
     except FailedTransaction as error:
         assert str(error) == "Email field must be a string, please try again!"
-
-def test_service_get_customer_by_email_not_found():
-    try:
-        customer_sao.service_get_customer_by_email("cannotbefound@email.com")
-        assert False
-    except FailedTransaction as error:
-        assert str(error) == "This customer cannot be found, please try again!"
 
 def test_service_get_customer_by_email_success():
     result = customer_sao.service_get_customer_by_email(successful_customer.email)

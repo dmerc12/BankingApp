@@ -43,9 +43,6 @@ class CustomerSALImplementation(CustomerSALInterface):
         elif type(customer.password) != str:
             logging.warning("SAL method create customer, password not a string")
             raise FailedTransaction("The password field must be a string, please try again!")
-        elif len(customer.password) > 36:
-            logging.warning("SAL method create customer, password longer than 36 characters")
-            raise FailedTransaction("The password field cannot exceed 36 characters, please try again!")
         elif len(customer.password) == 0:
             logging.warning("SAL method create customer, password left empty")
             raise FailedTransaction("The password field cannot be left  empty, please try again!")
@@ -80,9 +77,14 @@ class CustomerSALImplementation(CustomerSALInterface):
             logging.warning("SAL method create customer, address left empty")
             raise FailedTransaction("The address field cannot be left empty, please try again!")
         else:
-            logging.info("Finishing SAL method create customer")
-            new_customer = self.customer_dao.create_customer(customer)
-            return new_customer
+            existing_customer_check = self.service_get_customer_by_email(customer.email).email
+            if customer.email == existing_customer_check:
+                logging.warning("SAL method create customer, customer already exists")
+                raise FailedTransaction("A customer already exists with this username, please log in!")
+            else:
+                logging.info("Finishing SAL method create customer")
+                new_customer = self.customer_dao.create_customer(customer)
+                return new_customer
 
     def service_get_customer_by_id(self, customer_id: int) -> Customer:
         logging.info("Beginning SAL method get customer by ID")

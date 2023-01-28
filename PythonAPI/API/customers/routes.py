@@ -3,7 +3,7 @@ from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_login import current_user, login_user, logout_user
 from PythonAPI.API import bcrypt, login_manager
 from PythonAPI.API.customers.forms import LoginForm, RegistrationForm, RequestResetForm, ResetPasswordForm
-from PythonAPI.API.customers.utils import send_reset_email
+from PythonAPI.API.customers.utils import send_reset_email, verify_reset_token
 from PythonAPI.DAL.CustomerDAL.CustomerDALImplementation import CustomerDALImplementation
 from PythonAPI.Entities.Customer import Customer
 from PythonAPI.SAL.CustomerSAL.CustomerSALImplementation import CustomerSALImplementation
@@ -30,7 +30,7 @@ def register():
                         phone_number=register_form.phone_number.data, address=register_form.address.data)
         customer_sao.service_create_customer(user)
         flash('Your account has been created and you are now able to log in!', 'success')
-        return redirect(url_for('users.login'))
+        return redirect(url_for('customers.login'))
     return render_template("register.html", title="Register", form=register_form)
 
 @users.route("/")
@@ -53,7 +53,7 @@ def login():
 @users.route("/logout")
 def logout():
     logout_user()
-    return redirect(url_for("users.login"))
+    return redirect(url_for("customers.login"))
 
 @users.route("/manage/my/information")
 def manage_customer_information():
@@ -76,7 +76,7 @@ def reset_request():
 def reset_token(token):
     if current_user.is_authenticated:
         return redirect(url_for("main.home"))
-    user = Customer.verify_reset_token(token)
+    user = verify_reset_token(token)
     if user is None:
         flash("That is an invalid or expired token", "warning")
         return redirect(url_for("customers.reset_request"))
@@ -91,3 +91,4 @@ def reset_token(token):
         flash("Your password has been updated! You are now able to log in", "success")
         return redirect(url_for("customers.login"))
     return render_template('reset_token.html', title='Reset Password', form=form)
+

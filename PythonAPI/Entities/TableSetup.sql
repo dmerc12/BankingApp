@@ -3,10 +3,10 @@ create table banking.customers(
 	first_name varchar(36),
 	last_name varchar(36),
 	username varchar(36),
-	passwrd varchar(36),
-	email varchar(36),
+	passwrd varchar(60),
+	email varchar(60),
 	phone_number varchar(13),
-	address varchar(50)
+	address varchar(60)
 );
 
 create table banking.bank_accounts(
