@@ -34,14 +34,15 @@ def register():
     return render_template("register.html", title="Register", form=register_form)
 
 @users.route("/")
-@users.route("/login")
+@users.route("/login", methods=["GET", "POST"])
 def login():
     if current_user.is_authenticated:
         return redirect(url_for('home'))
     form = LoginForm()
     if form.validate_on_submit():
         email = form.email.data
-        user = customer_sao.service_get_customer_by_email(email)
+        password = bcrypt.generate_password_hash(form.password.data).decode("utf-8")
+        user = customer_sao.service_login(email, password)
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user, remember=form.remember.data)
             next_page = request.args.get('next')
