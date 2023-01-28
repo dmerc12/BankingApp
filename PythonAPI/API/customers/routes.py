@@ -2,7 +2,8 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_login import current_user, login_user, logout_user
 from PythonAPI.API import bcrypt, login_manager
-from PythonAPI.API.customers.forms import LoginForm, RegistrationForm
+from PythonAPI.API.customers.forms import LoginForm, RegistrationForm, RequestResetForm, ResetPasswordForm
+from PythonAPI.API.customers.utils import send_reset_email
 from PythonAPI.DAL.CustomerDAL.CustomerDALImplementation import CustomerDALImplementation
 from PythonAPI.Entities.Customer import Customer
 from PythonAPI.SAL.CustomerSAL.CustomerSALImplementation import CustomerSALImplementation
@@ -58,3 +59,35 @@ def logout():
 def manage_customer_information():
     return render_template("manage_customer_information.html", title="Customer Information")
 
+@users.route("/reset_password", methods=["GET", "POST"])
+def reset_request():
+    if current_user.is_authenticated:
+        return redirect(url_for('main.home'))
+    form = RequestResetForm()
+    if form.validate_on_submit():
+        email = form.email.data
+        user = customer_sao.service_get_customer_by_email(email)
+        send_reset_email(user.email)
+        flash("An email has been sent with instructions to reset your password.", "info")
+        return redirect(url_for('customers.login'))
+    return render_template("reset_request.html", title="Reset Password", form=form)
+
+@users.route("/reset_password/<token>", methods=["GET", "POST"])
+def reset_token(token):
+    if current_user.is_authenticated:
+        return redirect(url_for("main.home"))
+    user = Customer.verify_reset_token(token)
+    if user is None:
+        flash("That is an invalid or expired token", "warning")
+        return redirect(url_for("customers.reset_request"))
+    form = ResetPasswordForm()
+    if form.validate_on_submit():
+        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        current_info = customer_sao.service_get_customer_by_email(form.email.data)
+        customer_sao.service_update_customer(Customer(current_info.customer_id, current_info.first_name,
+                                                      current_info.last_name, current_info.username, hashed_password,
+                                                      current_info.email,  current_info.phone_number,
+                                                      current_info.address))
+        flash("Your password has been updated! You are now able to log in", "success")
+        return redirect(url_for("customers.login"))
+    return render_template('reset_token.html', title='Reset Password', form=form)

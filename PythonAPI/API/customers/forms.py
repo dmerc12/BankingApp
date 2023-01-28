@@ -1,7 +1,12 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, PasswordField, BooleanField
-from wtforms.validators import DataRequired, Length, EqualTo, Email
+from wtforms.validators import DataRequired, Length, EqualTo, Email, ValidationError
 
+from PythonAPI.DAL.CustomerDAL.CustomerDALImplementation import CustomerDALImplementation
+from PythonAPI.SAL.CustomerSAL.CustomerSALImplementation import CustomerSALImplementation
+
+customer_dao = CustomerDALImplementation()
+customer_sao = CustomerSALImplementation(customer_dao)
 
 class RegistrationForm(FlaskForm):
     first_name = StringField('First Name', validators=[DataRequired(), Length(min=2)])
@@ -20,3 +25,19 @@ class LoginForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
     remember = BooleanField('Remember Me')
     submit = SubmitField('Login')
+
+class RequestResetForm(FlaskForm):
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    submit = SubmitField('Request Password Reset')
+
+    @staticmethod
+    def validate_email(email):
+        user = customer_sao.service_get_customer_by_email(email)
+        if user is None:
+            raise ValidationError('There is no account with that email.')
+
+class ResetPasswordForm(FlaskForm):
+    email = StringField('Current Email', validators=[DataRequired(), Email()])
+    password = PasswordField('Password', validators=[DataRequired()])
+    confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField('Reset Password')
