@@ -1,7 +1,7 @@
 
 from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_login import current_user, login_user, logout_user
-from PythonAPI.API import bcrypt
+from PythonAPI.API import bcrypt, login_manager
 from PythonAPI.API.customers.forms import LoginForm, RegistrationForm
 from PythonAPI.DAL.CustomerDAL.CustomerDALImplementation import CustomerDALImplementation
 from PythonAPI.Entities.Customer import Customer
@@ -12,20 +12,25 @@ users = Blueprint('customers', __name__)
 customer_dao = CustomerDALImplementation()
 customer_sao = CustomerSALImplementation(customer_dao)
 
+@login_manager.user_loader
+def load_user(customer_id):
+    user = customer_sao.service_get_customer_by_id(customer_id)
+    return user
+
 @users.route("/register", methods=["GET", "POST"])
 def register():
-    if current_user.is_authenticated():
+    if current_user.is_authenticated:
         return redirect(url_for('main.home'))
-    form = RegistrationForm()
-    if form.validate_on_submit():
-        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-        user = Customer(customer_id=0, first_name=form.first_name.data, last_name=form.last_name.data,
-                        username=form.username.data, password=hashed_password, email=form.email.data,
-                        phone_number=form.phone_number.data, address=form.address.data)
+    register_form = RegistrationForm()
+    if register_form.validate_on_submit():
+        hashed_password = bcrypt.generate_password_hash(register_form.password.data).decode('utf-8')
+        user = Customer(customer_id=0, first_name=register_form.first_name.data, last_name=register_form.last_name.data,
+                        username=register_form.username.data, password=hashed_password, email=register_form.email.data,
+                        phone_number=register_form.phone_number.data, address=register_form.address.data)
         customer_sao.service_create_customer(user)
         flash('Your account has been created and you are now able to log in!', 'success')
         return redirect(url_for('users.login'))
-    return render_template("register.html", title="Register", form=form)
+    return render_template("register.html", title="Register", form=register_form)
 
 @users.route("/")
 @users.route("/login")
