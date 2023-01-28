@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template
 
-accounts = Blueprint('main', __name__)
+accounts = Blueprint('accounts', __name__)
 
 @accounts.route("/analyze/transactions")
 def view_transactions():

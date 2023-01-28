@@ -1,14 +1,13 @@
 
-from flask_bcrypt import Bcrypt
 from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_login import current_user, login_user, logout_user
-
+from PythonAPI.API import bcrypt
 from PythonAPI.API.customers.forms import LoginForm, RegistrationForm
 from PythonAPI.DAL.CustomerDAL.CustomerDALImplementation import CustomerDALImplementation
 from PythonAPI.Entities.Customer import Customer
 from PythonAPI.SAL.CustomerSAL.CustomerSALImplementation import CustomerSALImplementation
 
-users = Blueprint('main', __name__)
+users = Blueprint('customers', __name__)
 
 customer_dao = CustomerDALImplementation()
 customer_sao = CustomerSALImplementation(customer_dao)
