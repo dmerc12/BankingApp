@@ -2,9 +2,7 @@ import datetime
 import logging
 import os.path
 from flask_cors import CORS
-from flask import Flask, request, jsonify, make_response, render_template, url_for, redirect
-from flask_login import login_user, current_user, logout_user, login_required
-from PythonAPI.API.customers.forms import LoginForm
+from flask import Flask, request, jsonify, make_response, render_template
 from PythonAPI.DAL.BankAccountDAL.BankAccountDALImplementation import BankAccountDALImplementation
 from PythonAPI.DAL.CustomerDAL.CustomerDALImplementation import CustomerDALImplementation
 from PythonAPI.DAL.SessionDAL.SessionDALImplementation import SessionDALImplementation
@@ -31,6 +29,11 @@ transaction_sao = TransactionSALImplementation(transaction_dao)
 session_dao = SessionDALImplementation()
 session_sao = SessionSALImplementation(session_dao)
 
+app: Flask = Flask(__name__)
+CORS(app)
+
+# below is the old API interface
+
 
 @app.before_request
 def set_up_logs():
@@ -46,39 +49,6 @@ def set_up_logs():
     handler.setLevel(log_level)
     app.logger.addHandler(handler)
     app.logger.setLevel(log_level)
-
-@app.route("/")
-@app.route("/login")
-def landing_page():
-    if current_user.is_authenticated:
-        return redirect(url_for('home'))
-    form = LoginForm()
-    if form.validate_on_submit():
-        email = form.email.data
-        user = customer_sao.service_get_customer_by_email(email)
-        # currently here
-        pass
-    return render_template("login.html", title="Login")
-
-@app.route("/customer/home")
-def home():
-    return render_template("home.html")
-
-@app.route("/analyze/transactions")
-def view_transactions():
-    return render_template("transactions.html", title="Transactions")
-
-@app.route("/manage/my/information")
-def manage_customer_information():
-    return render_template("manage_customer_information.html", title="Customer Information")
-
-@app.route("/manage/my/accounts")
-def manage_accounts():
-    return render_template("manage_accounts.html", title="Accounts")
-
-@app.route("/register")
-def register():
-    return render_template("new_user.html", title="Register")
 
 @app.route("/login", methods=["POST"])
 def request_login():
