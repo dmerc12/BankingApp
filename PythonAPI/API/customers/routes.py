@@ -1,17 +1,24 @@
+import datetime
 
-from flask import Blueprint, render_template, redirect, url_for, flash, request
+from flask import Blueprint, render_template, redirect, url_for, flash, request, jsonify, make_response
 from flask_login import current_user, login_user, logout_user
 from PythonAPI.API import bcrypt, login_manager
 from PythonAPI.API.customers.forms import LoginForm, RegistrationForm, RequestResetForm, ResetPasswordForm
 from PythonAPI.API.customers.utils import send_reset_email, verify_reset_token
 from PythonAPI.DAL.CustomerDAL.CustomerDALImplementation import CustomerDALImplementation
+from PythonAPI.DAL.SessionDAL.SessionDALImplementation import SessionDALImplementation
 from PythonAPI.Entities.Customer import Customer
+from PythonAPI.Entities.FailedTransaction import FailedTransaction
+from PythonAPI.Entities.Session import Session
 from PythonAPI.SAL.CustomerSAL.CustomerSALImplementation import CustomerSALImplementation
+from PythonAPI.SAL.SessionSAL.SessionSALImplementation import SessionSALImplementation
 
 users = Blueprint('customers', __name__)
 
 customer_dao = CustomerDALImplementation()
 customer_sao = CustomerSALImplementation(customer_dao)
+session_dao = SessionDALImplementation()
+session_sao = SessionSALImplementation(session_dao)
 
 @login_manager.user_loader
 def load_user(customer_id):
@@ -20,36 +27,55 @@ def load_user(customer_id):
 
 @users.route("/register", methods=["GET", "POST"])
 def register():
-    if current_user.is_authenticated:
-        return redirect(url_for('main.home'))
-    register_form = RegistrationForm()
-    if register_form.validate_on_submit():
-        hashed_password = bcrypt.generate_password_hash(register_form.password.data).decode('utf-8')
-        user = Customer(customer_id=0, first_name=register_form.first_name.data, last_name=register_form.last_name.data,
-                        username=register_form.username.data, password=hashed_password, email=register_form.email.data,
-                        phone_number=register_form.phone_number.data, address=register_form.address.data)
-        customer_sao.service_create_customer(user)
-        flash('Your account has been created and you are now able to log in!', 'success')
-        return redirect(url_for('customers.login'))
-    return render_template("register.html", title="Register", form=register_form)
+    try:
+        if current_user.is_authenticated:
+            return redirect(url_for('main.home'))
+        register_form = RegistrationForm()
+        if register_form.validate_on_submit():
+            hashed_password = bcrypt.generate_password_hash(register_form.password.data).decode('utf-8')
+            user = Customer(customer_id=0, first_name=register_form.first_name.data, last_name=register_form.last_name.data,
+                            username=register_form.username.data, password=hashed_password, email=register_form.email.data,
+                            phone_number=register_form.phone_number.data, address=register_form.address.data)
+            customer_sao.service_create_customer(user)
+            flash('Your account has been created and you are now able to log in!', 'success')
+            return redirect(url_for('customers.login'))
+        return render_template("register.html", title="Register", form=register_form)
+    except FailedTransaction as error:
+        message = {
+            "message": str(error)
+        }
+        return jsonify(message), 400
+
 
 @users.route("/")
 @users.route("/login", methods=["GET", "POST"])
 def login():
-    if current_user.is_authenticated:
-        return redirect(url_for('home'))
-    form = LoginForm()
-    if form.validate_on_submit():
-        email = form.email.data
-        password = bcrypt.generate_password_hash(form.password.data).decode("utf-8")
-        user = customer_sao.service_login(email, password)
-        if user and bcrypt.check_password_hash(user.password, form.password.data):
-            login_user(user, remember=form.remember.data)
-            next_page = request.args.get('next')
-            return redirect(next_page) if next_page else redirect(url_for('main.home'))
-        else:
-            flash('Login Unsuccessful, please check email and password!', 'danger')
-    return render_template("login.html", title="Login", form=form)
+    try:
+        if current_user.is_authenticated:
+            return redirect(url_for('home'))
+        form = LoginForm()
+        if form.validate_on_submit():
+            email = form.email.data
+            password = bcrypt.generate_password_hash(form.password.data).decode("utf-8")
+            user = customer_sao.service_login(email, password)
+            if user and bcrypt.check_password_hash(user.password, form.password.data):
+                login_user(user, remember=form.remember.data)
+                new_session_info = Session(0, user.customer_id, str(datetime.datetime.now()),
+                                           str(datetime.datetime.now() + datetime.timedelta(0, 0, 0, 0, 0, 1)))
+                new_session = session_sao.service_create_session(new_session_info)
+                # use to send session ID to be stored in session storage, will change here when implementing cookie
+                response = make_response(redirect("/home"), 201)
+                # for some reason the cookie below is not being set in the browser
+                response.set_cookie("session_id", str(new_session.session_id))
+                return response
+            else:
+                flash('Login Unsuccessful, please check email and password!', 'danger')
+        return render_template("login.html", title="Login", form=form)
+    except FailedTransaction as error:
+        message = {
+            "message": str(error)
+        }
+        return jsonify(message), 400
 
 @users.route("/logout")
 def logout():

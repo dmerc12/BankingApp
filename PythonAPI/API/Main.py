@@ -377,3 +377,4 @@ def get_all_transactions():
         banking_app.logger.error(f"{request.get_json()}, {request.path}, {datetime.datetime}")
         return jsonify(message), 400
 
+banking_app.run()
