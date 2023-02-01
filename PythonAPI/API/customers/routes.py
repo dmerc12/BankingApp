@@ -46,36 +46,28 @@ def register():
         }
         return jsonify(message), 400
 
-
-@users.route("/")
-@users.route("/login", methods=["GET", "POST"])
+@users.route("/login", methods=['GET', 'POST'])
 def login():
-    try:
-        if current_user.is_authenticated:
-            return redirect(url_for('home'))
-        form = LoginForm()
-        if form.validate_on_submit():
-            email = form.email.data
-            password = bcrypt.generate_password_hash(form.password.data).decode("utf-8")
-            user = customer_sao.service_login(email, password)
-            if user and bcrypt.check_password_hash(user.password, form.password.data):
-                login_user(user, remember=form.remember.data)
-                new_session_info = Session(0, user.customer_id, str(datetime.datetime.now()),
-                                           str(datetime.datetime.now() + datetime.timedelta(0, 0, 0, 0, 0, 1)))
-                new_session = session_sao.service_create_session(new_session_info)
-                # use to send session ID to be stored in session storage, will change here when implementing cookie
-                response = make_response(redirect("/home"), 201)
-                # for some reason the cookie below is not being set in the browser
-                response.set_cookie("session_id", str(new_session.session_id))
-                return response
-            else:
-                flash('Login Unsuccessful, please check email and password!', 'danger')
-        return render_template("login.html", title="Login", form=form)
-    except FailedTransaction as error:
-        message = {
-            "message": str(error)
-        }
-        return jsonify(message), 400
+    if current_user.is_authenticated:
+        return redirect(url_for('main.home'))
+    form = LoginForm()
+    if form.validate_on_submit():
+        email = form.email.data
+        password = bcrypt.generate_password_hash(form.password.data).decode("utf-8")
+        user = customer_sao.service_login(email, password)
+        if user and bcrypt.check_password_hash(user.password, form.password.data):
+            login_user(user, remember=form.remember.data)
+            new_session_info = Session(0, user.customer_id, str(datetime.datetime.now()),
+                                       str(datetime.datetime.now() + datetime.timedelta(0, 0, 0, 0, 0, 1)))
+            new_session = session_sao.service_create_session(new_session_info)
+            next_page = request.args.get('next')
+            response = redirect(next_page) if next_page else redirect(url_for('main.home'))
+            response.set_cookie("sessionId", str(new_session.session_id))
+            return response
+        else:
+            flash('Login Unsuccessful. Please check email and password', 'danger')
+    return render_template('login.html', title='Login', form=form)
+
 
 @users.route("/logout")
 def logout():

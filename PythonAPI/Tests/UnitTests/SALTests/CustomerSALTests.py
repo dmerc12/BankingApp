@@ -259,14 +259,6 @@ def test_service_login_username_empty():
     except FailedTransaction as error:
         assert str(error) == "The username field cannot be left empty, please try again!"
 
-def test_service_login_username_too_long():
-    try:
-        customer_sao.service_login("this is too long so it should raise the desired exception",
-                                   successful_customer.password)
-        assert False
-    except FailedTransaction as error:
-        assert str(error) == "The username field cannot exceed 36 characters, please try again!"
-
 def test_service_login_password_not_string():
     try:
         customer_sao.service_login(successful_customer.username, 0)
@@ -280,15 +272,6 @@ def test_service_login_password_empty():
         assert False
     except FailedTransaction as error:
         assert str(error) == "The password field cannot be left empty, please try again!"
-
-def test_service_login_password_too_long():
-    try:
-        customer_sao.service_login(successful_customer.username, "this is too long so it should raise the desired "
-                                                                 "exception")
-        assert False
-    except FailedTransaction as error:
-        assert str(error) == "The password field cannot exceed 36 characters, please try again!"
-
 
 def test_service_login_username_or_password_incorrect():
     try:

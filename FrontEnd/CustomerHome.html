@@ -30,9 +30,10 @@
               <a class="nav-item nav-link" href="ManageAccounts.html">Manage Accounts</a>
             </div>
             <!-- Navbar Right Side -->
-            <div class="navbar-nav">
+            <div id="navLoginRegisterLogout" class="navbar-nav" onload="toggleVisibleLoginOrLogoutNav()">
               <a class="nav-item nav-link" href="Login.html">Login</a>
               <a class="nav-item nav-link" href="NewCustomer.html">Register</a>
+              <a class="nav-item nav-link" href="Login.html" onclick="doLogout()">Logout</a>
             </div>
           </div>
         </div>

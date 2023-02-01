@@ -114,18 +114,12 @@ class CustomerSALImplementation(CustomerSALInterface):
         elif len(username) == 0:
             logging.warning("SAL method login, username left empty")
             raise FailedTransaction("The username field cannot be left empty, please try again!")
-        elif len(username) > 36:
-            logging.warning("SAL method login, username cannot exceed 36 characters")
-            raise FailedTransaction("The username field cannot exceed 36 characters, please try again!")
         elif type(password) != str:
             logging.warning("SAL method login, password not a string")
             raise FailedTransaction("The password field must be a string, please try again!")
         elif len(password) == 0:
             logging.warning("SAL method login, password left empty")
             raise FailedTransaction("The password field cannot be left empty, please try again!")
-        elif len(password) > 36:
-            logging.warning("SAL method login, password longer than 36 characters")
-            raise FailedTransaction("The password field cannot exceed 36 characters, please try again!")
         else:
             logging.info("Finishing SAL method login")
             customer = self.customer_dao.login(username, password)
