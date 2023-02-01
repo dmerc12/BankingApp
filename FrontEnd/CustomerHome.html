@@ -1,27 +1,4 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <title>Customer Home</title>
-</head>
-<header>
-    <button class="nav btn" id="logOutButton" onclick="doLogout()">Log Out</button>
-    <button class="nav btn" id="homeButton" onclick="goHome()">Home</button>
-</header>
-<body>
-    <button class="nav btn" id="navigateToManageAccountsButton" onclick="navigateToManageAccounts()">Create and Manage Accounts</button><br>
-    <button class="nav btn" id="navigateToManageCustomerButton" onclick="navigateToManageCustomer()">Manage Customer Information</button><br>
-    <button class="nav btn" id="navigateToAnalyzeTransactinsButton" onclick="navigateToTransactions()">Analyze Account Transactions</button>
-</body>
-</html>
-
-
-
-
-<!DOCTYPE html>
 <html>
 <head>
     <!-- Required meta tags -->
@@ -29,9 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
+    <link rel="stylesheet" type="text/css" href="style.css">
 
     <title>Flask Banking</title>
 </head>
@@ -40,20 +18,21 @@
       <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
         <div class="container">
           <a class="navbar-brand mr-4" href="/">Flask Banking</a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle"
+                  aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarToggle">
             <div class="navbar-nav mr-auto">
-              <a class="nav-item nav-link" href="/home">Home</a>
-              <a class="nav-item nav-link" href="/analyze/transactions">Analyze Transactions</a>
-              <a class="nav-item nav-link" href="/manage/my/information">Manage Customer Information</a>
-              <a class="nav-item nav-link" href="/manage/my/accounts">Manage Accounts</a>
+              <a class="nav-item nav-link" href="CustomerHome.html">Home</a>
+              <a class="nav-item nav-link" href="Transactions.html">Analyze Transactions</a>
+              <a class="nav-item nav-link" href="ManageCustomer.html">Manage Customer Information</a>
+              <a class="nav-item nav-link" href="ManageAccounts.html">Manage Accounts</a>
             </div>
             <!-- Navbar Right Side -->
             <div class="navbar-nav">
-              <a class="nav-item nav-link" href="/">Login</a>
-              <a class="nav-item nav-link" href="/register">Register</a>
+              <a class="nav-item nav-link" href="Login.html">Login</a>
+              <a class="nav-item nav-link" href="NewCustomer.html">Register</a>
             </div>
           </div>
         </div>
@@ -64,7 +43,16 @@
         <div class="col-md-8">
           <div class="content-section">
               <div class="form-group">
-
+                <button class="form-control form-control-lg" id="navigateToManageAccountsButton"
+                        onclick="navigateToManageAccounts()">Create and Manage Accounts</button>
+              </div>
+              <div class="form-group">
+                  <button class="form-control form-control-lg" id="navigateToManageCustomerButton"
+                          onclick="navigateToManageCustomer()">Manage Customer Information</button>
+              </div>
+              <div class="form-group">
+                  <button class="form-control form-control-lg" id="navigateToAnalyzeTransactionsButton"
+                          onclick="navigateToTransactions()">Analyze Account Transactions</button>
               </div>
           </div>
         </div>
@@ -87,8 +75,14 @@
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
 </body>
 </html>
