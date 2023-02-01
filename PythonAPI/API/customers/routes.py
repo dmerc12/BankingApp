@@ -53,9 +53,8 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         email = form.email.data
-        password = bcrypt.generate_password_hash(form.password.data).decode("utf-8")
-        user = customer_sao.service_login(email, password)
-        if user and bcrypt.check_password_hash(user.password, form.password.data):
+        user = customer_sao.service_get_customer_by_email(email)
+        if user and bcrypt.check_password_hash(form.password.data, user.password):
             login_user(user, remember=form.remember.data)
             new_session_info = Session(0, user.customer_id, str(datetime.datetime.now()),
                                        str(datetime.datetime.now() + datetime.timedelta(0, 0, 0, 0, 0, 1)))
