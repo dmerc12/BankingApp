@@ -30,10 +30,8 @@
               <a class="nav-item nav-link" href="ManageAccounts.html">Manage Accounts</a>
             </div>
             <!-- Navbar Right Side -->
-            <div id="navLoginRegisterLogout" class="navbar-nav" onload="toggleVisibleLoginOrLogoutNav()">
-              <a class="nav-item nav-link" href="Login.html">Login</a>
-              <a class="nav-item nav-link" href="NewCustomer.html">Register</a>
-              <a class="nav-item nav-link" href="Login.html" onclick="doLogout()">Logout</a>
+            <div id="navLoginRegisterLogout" class="navbar-nav">
+              <a class="nav-item nav-link" onclick="doLogout()">Logout</a>
             </div>
           </div>
         </div>
@@ -43,6 +41,9 @@
       <div class="row">
         <div class="col-md-8">
           <div class="content-section">
+            <div class="form-group">
+              
+            </div>
               <div class="form-group">
                 <button class="form-control form-control-lg" id="navigateToManageAccountsButton"
                         onclick="navigateToManageAccounts()">Create and Manage Accounts</button>
