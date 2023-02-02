@@ -106,12 +106,12 @@ class CustomerSALImplementation(CustomerSALInterface):
             customer = self.customer_dao.get_customer_by_email(email)
             return customer
 
-    def service_login(self, username: str, password: str) -> Customer:
+    def service_login(self, email: str, password: str) -> Customer:
         logging.info("Beginning SAL method login")
-        if type(username) != str:
+        if type(email) != str:
             logging.warning("SAL method login, username not a string")
             raise FailedTransaction("The username field must be a string, please try again!")
-        elif len(username) == 0:
+        elif len(email) == 0:
             logging.warning("SAL method login, username left empty")
             raise FailedTransaction("The username field cannot be left empty, please try again!")
         elif type(password) != str:
@@ -122,7 +122,7 @@ class CustomerSALImplementation(CustomerSALInterface):
             raise FailedTransaction("The password field cannot be left empty, please try again!")
         else:
             logging.info("Finishing SAL method login")
-            customer = self.customer_dao.login(username, password)
+            customer = self.customer_dao.login(email, password)
             return customer
 
     def service_update_customer(self, customer: Customer) -> Customer:

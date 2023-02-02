@@ -4,12 +4,12 @@ async function doLogin() {
     const loginURL = "http://127.0.0.1:5000/login"
 
     // grabbing inputs from DOM
-    const username = document.getElementById("usernameInput").value;
+    const email = document.getElementById("emailInput").value;
     const password = document.getElementById("passwordInput").value;
 
     // preparing JSON
     let loginJSON = {
-        "username": username,
+        "email": email,
         "password": password
     }
 

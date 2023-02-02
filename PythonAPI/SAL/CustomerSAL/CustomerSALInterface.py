@@ -17,7 +17,7 @@ class CustomerSALInterface(ABC):
         pass
 
     @abstractmethod
-    def service_login(self, username: str, password: str) -> Customer:
+    def service_login(self, email: str, password: str) -> Customer:
         pass
 
     @abstractmethod

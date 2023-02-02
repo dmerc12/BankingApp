@@ -278,10 +278,10 @@ def test_service_login_username_or_password_incorrect():
         customer_sao.service_login("incorrect", "credentials")
         assert False
     except FailedTransaction as error:
-        assert str(error) == "Either the username or password are incorrect, please try again!"
+        assert str(error) == "Either the email or password are incorrect, please try again!"
 
 def test_service_login_success():
-    result = customer_sao.service_login(successful_customer.username, successful_customer.password)
+    result = customer_sao.service_login(successful_customer.email, successful_customer.password)
     assert result is not None
 
 def test_service_update_customer_first_name_not_string():

@@ -56,9 +56,9 @@ def request_login():
     banking_app.logger.info("Beginning API function login")
     try:
         login_credentials: dict = request.get_json()
-        username = login_credentials["username"]
+        email = login_credentials["email"]
         password = login_credentials["password"]
-        result = customer_sao.service_login(username, password)
+        result = customer_sao.service_login(email, password)
         new_session_info = Session(0, result.customer_id, str(datetime.datetime.now()),
                                    str(datetime.datetime.now() + datetime.timedelta(0, 0, 0, 0, 0, 1)))
         new_session = session_sao.service_create_session(new_session_info)
