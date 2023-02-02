@@ -17,7 +17,7 @@ class CustomerDALInterface(ABC):
         pass
 
     @abstractmethod
-    def login(self, username: str, password: str) -> Customer:
+    def login(self, email: str, password: str) -> Customer:
         pass
 
     @abstractmethod

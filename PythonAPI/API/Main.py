@@ -2,7 +2,7 @@ import datetime
 import logging
 import os.path
 from flask_cors import CORS
-from flask import Flask, request, jsonify, make_response, render_template
+from flask import Flask, request, jsonify, make_response
 from PythonAPI.DAL.BankAccountDAL.BankAccountDALImplementation import BankAccountDALImplementation
 from PythonAPI.DAL.CustomerDAL.CustomerDALImplementation import CustomerDALImplementation
 from PythonAPI.DAL.SessionDAL.SessionDALImplementation import SessionDALImplementation

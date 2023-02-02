@@ -11,7 +11,7 @@
 
     <link rel="stylesheet" type="text/css" href="style.css">
 
-    <title>Flask Banking</title>
+    <title>Flask Banking - Creating An Account</title>
 </head>
 <body>
     <header class="site-header">
@@ -42,16 +42,11 @@
         <div class="col-md-8">
           <div class="content-section">
               <div class="form-group">
-                <button class="form-control form-control-lg" id="navigateToManageAccountsButton"
-                        onclick="navigateToManageAccounts()">Create and Manage Accounts</button>
+                <h5 class="form-control-label">Starting amount for the account:</h5>
+                <input type="number" id="startingAmountInput" class="form-control form-control-lg">
               </div>
               <div class="form-group">
-                  <button class="form-control form-control-lg" id="navigateToManageCustomerButton"
-                          onclick="navigateToManageCustomer()">Manage Customer Information</button>
-              </div>
-              <div class="form-group">
-                  <button class="form-control form-control-lg" id="navigateToAnalyzeTransactionsButton"
-                          onclick="navigateToTransactions()">Analyze Account Transactions</button>
+                <button class="btn btn-outline-info" id="createAccountButton" onclick="createAccount()">Create Account</button>
               </div>
           </div>
         </div>
@@ -69,6 +64,7 @@
         </div>
       </div>
     </main>
+    <script src="CreateAccount.js"></script>
     <script src="Logout.js"></script>
     <script src="Utility.js"></script>
 
