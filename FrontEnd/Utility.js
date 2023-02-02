@@ -32,5 +32,9 @@ function navigateToManageCustomer() {
 };
 
 function navigateToTransactions() {
-    window.location.href = "Transactions.html"
+    window.location.href = "Transactions.html";
+};
+
+function navigateToCreateAnAccount() {
+    window.location.href = "CreateAccount.html";
 };
