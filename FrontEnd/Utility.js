@@ -43,3 +43,18 @@ function navigateToViewAllAccounts() {
     window.location.href = "ViewAllAccounts.html";
 };
 
+function navigateToDepositIntoAnAccount() {
+    window.location.href = "Deposit.html";
+};
+
+function navigateToWithdrawFromAnAccount() {
+    window.location.href = "Withdraw.html";
+};
+
+function navigateToTransferBetweenAccounts() {
+    window.location.href = "Transfer.html";
+};
+
+function navigateToDeleteAnAccount() {
+    window.location.href = "DeleteAccount.html";
+};
