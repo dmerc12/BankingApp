@@ -3,7 +3,7 @@ create table banking.customers(
 	first_name varchar(36),
 	last_name varchar(36),
 	username varchar(36),
-	passwrd varchar(60),
+	passwrd bytea(60),
 	email varchar(60),
 	phone_number varchar(13),
 	address varchar(60)

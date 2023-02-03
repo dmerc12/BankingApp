@@ -38,3 +38,8 @@ function navigateToTransactions() {
 function navigateToCreateAnAccount() {
     window.location.href = "CreateAccount.html";
 };
+
+function navigateToViewAllAccounts() {
+    window.location.href = "ViewAllAccounts.html";
+};
+
