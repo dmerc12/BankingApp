@@ -26,7 +26,7 @@ async function createAccount() {
     if (response.status === 201) {
         const apiResponse = await response.json();
         alert(`Account successfully created with a generated account number of ${apiResponse.accountId} with a balance of $${apiResponse.balance}`);
-        resetInputs();
+        window.location.href = "ManageAccounts.html";
     } else if (response.status === 400) {
         const apiResponse = await response.json();
         alert(`${apiResponse.message}`);

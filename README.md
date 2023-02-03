@@ -7,9 +7,12 @@ A banking app written in python.
 - Python
 - Gherkin
 - PostgresSQL
+- Bootstrap Template
+- PyTest
 - Flask
 - Flask-CORS
 - Flask-WTF
+- Flask-Mail
 - Psycopg2
 - Selenium
 - Behave
@@ -35,9 +38,12 @@ A banking app written in python.
 - Users can close their accounts.
 - Users can leave the bank.
 
+# In Progress:
+- A new front end using flask for increased security.
+
 # Getting Started:
 - to clone: 
   - git clone https://github.com/dmerc12/PythonBanking.git
 - to deploy:
   - install application required technologies to be found in the virtual environment.
-  - run main.py to start the application.
+  - run Main.py to start the application.
