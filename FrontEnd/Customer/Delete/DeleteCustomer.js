@@ -21,7 +21,7 @@ async function deleteCustomer() {
     if (response.status === 201) {
         const apiResponse = await response.json();
         alert("Your information has been successfully delteted!");
-        window.location.href = "Login.html";
+        window.location.href = "../ManageLogin/Login.html";
     } else if (response.status === 400) {
         const apiResponse = await response.json();
         alert(`${apiResponse.message}`);

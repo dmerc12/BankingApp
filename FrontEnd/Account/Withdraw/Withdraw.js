@@ -28,7 +28,7 @@ async function withdraw() {
     if (response.status === 201) {
         const apiResponse = await response.json();
         alert(`Your withdrawl from account ${apiResponse.accountId} was successful and now has a balance of: $ ${apiResponse.balance}`);
-        window.location.href = "../ManageAccounts.html";
+        window.location.href = "../Main/ManageAccounts.html";
     } else if (response.status === 400) {
         const apiResponse = await response.json();
         alert(`${apiResponse.message}`);

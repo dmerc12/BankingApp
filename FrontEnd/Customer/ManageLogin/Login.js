@@ -29,7 +29,7 @@ async function doLogin() {
         window.sessionStorage.setItem("sessionId", apiResponse.sessionId);
         document.cookie = `sessionId=${apiResponse.sessionId}`
         alert("Successful login attempt, please continue!")
-        window.location.href = "../CustomerHome.html";
+        window.location.href = "../../Home/CustomerHome.html";
     } else if (response.status === 400) {
         const apiResponse = await response.json();
         alert(apiResponse.message);
@@ -39,5 +39,5 @@ async function doLogin() {
 };
 
 function goToNewCustomer() {
-    window.location.href = "NewCustomer.html";
+    window.location.href = "../Create/NewCustomer.html";
 };

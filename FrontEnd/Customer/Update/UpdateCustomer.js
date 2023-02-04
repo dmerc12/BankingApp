@@ -48,7 +48,7 @@ async function updateCustomer() {
     if (response.status === 201) {
         const apiResponse = await response.json();
         alert("Customer information successfully updated!");
-        resetInputs();
+        window.location.href = "../../Home/CustomerHome.html";
     } else if (response.status === 400) {
         const apiResponse = await response.json();
         alert(`${apiResponse.message}`);
