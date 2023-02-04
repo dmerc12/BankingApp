@@ -37,7 +37,7 @@ async function createCustomer() {
     if (response.status === 201) {
         const apiResponse = await response.json();
         alert(`Customer successfully created!`);
-        window.location.href = "Login.html";
+        window.location.href = "../ManageLogin/Login.html";
     } else if (response.status === 400) {
         const apiResponse = await response.json();
         alert(`Could not create new customer, ${apiResponse.message}`);

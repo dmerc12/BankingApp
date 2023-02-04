@@ -37,7 +37,7 @@ async function deleteAccount() {
     if (response.status === 201) {
         const apiResponse = await response.json();
         alert("This account has been successfully delteted!");
-        window.location.href = "ManageAccounts.html";
+        window.location.href = "../ManageAccounts.html";
     } else if (response.status === 400) {
         const apiResponse = await response.json();
         alert(`${apiResponse.message}`);
