@@ -29,7 +29,7 @@ def create_app(config):
         log_level = logging.DEBUG
         for handler in app.logger.handlers:
             app.logger.removeHandler(handler)
-        log_directory = "../Logs"
+        log_directory = "../BankingApp/PythonAPI/Logs"
         if not os.path.exists(log_directory):
             os.mkdir(log_directory)
         log_file = os.path.join("PythonAPI/Logs",
