@@ -11,7 +11,6 @@ A banking app written in python.
 - PyTest
 - Flask
 - Flask-CORS
-- Flask-WTF
 - Flask-Mail
 - Psycopg2
 - Selenium
@@ -46,4 +45,4 @@ A banking app written in python.
   - git clone https://github.com/dmerc12/PythonBanking.git
 - to deploy:
   - install application required technologies to be found in the virtual environment.
-  - run Main.py to start the application.
+  - Use run.py to start the application.
