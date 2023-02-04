@@ -2,11 +2,11 @@ import time
 
 from behave import when
 
-@when(u'I click "Create a New Account"')
+@when(u'I click "Create a New AccountRoutes"')
 def step_impl(context):
     context.banking_poms.create_new_account_collapse_button().click()
 
-@when(u'I click the Create Account button')
+@when(u'I click the Create AccountRoutes button')
 def step_impl(context):
     context.banking_poms.create_account_button().click()
 

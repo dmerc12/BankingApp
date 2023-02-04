@@ -6,7 +6,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 def step_impl(context):
     context.driver.get("C:/Users/Dylan/OneDrive/Desktop/personal projects/BankingApp/FrontEnd/NewCustomer.html")
 
-@when(u'I click the New Customer button')
+@when(u'I click the New CustomerRoutes button')
 def step_impl(context):
     context.customer_poms.indicate_new_customer().click()
 
@@ -39,11 +39,11 @@ def step_impl(context, phone_number: str):
 def step_impl(context, address: str):
     context.customer_poms.create_address_input().send_keys(address)
 
-@when(u'I click the Create New Customer button')
+@when(u'I click the Create New CustomerRoutes button')
 def step_impl(context):
     context.customer_poms.create_new_customer_button().click()
 
-@then(u'I should be on a page with the title New Customer')
+@then(u'I should be on a page with the title New CustomerRoutes')
 def step_impl(context):
-    WebDriverWait(context.driver, 10).until(title_contains("New Customer"))
-    assert context.driver.title == "New Customer"
+    WebDriverWait(context.driver, 10).until(title_contains("New CustomerRoutes"))
+    assert context.driver.title == "New CustomerRoutes"

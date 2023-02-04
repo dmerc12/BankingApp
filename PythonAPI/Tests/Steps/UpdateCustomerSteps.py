@@ -3,7 +3,7 @@ from selenium.webdriver.support.expected_conditions import title_contains
 from selenium.webdriver.support.wait import WebDriverWait
 
 
-@when(u'I click "Update Customer Information"')
+@when(u'I click "Update CustomerRoutes Information"')
 def step_impl(context):
     context.customer_poms.update_customer_collapsable().click()
 
@@ -35,11 +35,11 @@ def step_impl(context, new_phone_number):
 def step_impl(context, new_address):
     context.customer_poms.update_address_input().send_keys(new_address)
 
-@when(u'I click the Update Customer button')
+@when(u'I click the Update CustomerRoutes button')
 def step_impl(context):
     context.customer_poms.update_customer_button().click()
 
-@then(u'I should be on a page with the title Managing Customer')
+@then(u'I should be on a page with the title Managing CustomerRoutes')
 def step_impl(context):
-    WebDriverWait(context.driver, 10).until(title_contains("Managing Customer"))
-    assert context.driver.title == "Managing Customer"
+    WebDriverWait(context.driver, 10).until(title_contains("Managing CustomerRoutes"))
+    assert context.driver.title == "Managing CustomerRoutes"

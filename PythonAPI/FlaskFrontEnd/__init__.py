@@ -21,9 +21,9 @@ def create_app(config):
     login_manager.init_app(app)
     mail.init_app(app)
 
-    from PythonAPI.API.accounts.routes import accounts
-    from PythonAPI.API.customers.routes import users
-    from PythonAPI.API.main.routes import main
+    from PythonAPI.FlaskFrontEnd.accounts.routes import accounts
+    from PythonAPI.FlaskFrontEnd.customers.routes import users
+    from PythonAPI.FlaskFrontEnd.main.routes import main
 
     app.register_blueprint(users)
     app.register_blueprint(accounts)

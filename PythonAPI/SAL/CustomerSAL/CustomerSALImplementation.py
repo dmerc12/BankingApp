@@ -90,7 +90,7 @@ class CustomerSALImplementation(CustomerSALInterface):
         logging.info("Beginning SAL method get customer by ID")
         if type(customer_id) != int:
             logging.warning("SAL method get customer by ID, customer ID not an integer")
-            raise FailedTransaction("Customer ID field must be an integer, please try again!")
+            raise FailedTransaction("CustomerRoutes ID field must be an integer, please try again!")
         else:
             logging.info("Finishing SAL method get customer by ID")
             customer = self.customer_dao.get_customer_by_id(customer_id)

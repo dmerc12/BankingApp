@@ -1,10 +1,10 @@
 import datetime
 
-from flask import Blueprint, render_template, redirect, url_for, flash, request, jsonify, make_response
+from flask import Blueprint, render_template, redirect, url_for, flash, request, jsonify
 from flask_login import current_user, login_user, logout_user
 from PythonAPI.API import bcrypt, login_manager
-from PythonAPI.API.customers.forms import LoginForm, RegistrationForm, RequestResetForm, ResetPasswordForm
-from PythonAPI.API.customers.utils import send_reset_email, verify_reset_token
+from PythonAPI.FlaskFrontEnd.customers.forms import LoginForm, RegistrationForm, RequestResetForm, ResetPasswordForm
+from PythonAPI.FlaskFrontEnd.customers.utils import send_reset_email, verify_reset_token
 from PythonAPI.DAL.CustomerDAL.CustomerDALImplementation import CustomerDALImplementation
 from PythonAPI.DAL.SessionDAL.SessionDALImplementation import SessionDALImplementation
 from PythonAPI.Entities.Customer import Customer
@@ -75,7 +75,7 @@ def logout():
 
 @users.route("/manage/my/information")
 def manage_customer_information():
-    return render_template("manage_customer_information.html", title="Customer Information")
+    return render_template("manage_customer_information.html", title="CustomerRoutes Information")
 
 @users.route("/reset_password", methods=["GET", "POST"])
 def reset_request():

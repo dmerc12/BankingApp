@@ -1,7 +1,7 @@
 import logging
 
 from PythonAPI.DAL.CustomerDAL.CustomerDALInterface import CustomerDALInterface
-from PythonAPI.API.config import Connect
+from PythonAPI.DAL.config import Connect
 from PythonAPI.Entities.Customer import Customer
 from PythonAPI.Entities.FailedTransaction import FailedTransaction
 

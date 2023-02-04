@@ -1,7 +1,7 @@
-from PythonAPI.FlaskFrontEnd import create_app
+from PythonAPI.FlaskAPI import create_app
 from PythonAPI.DAL import config
 
 app = create_app(config)
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run(debug=True)

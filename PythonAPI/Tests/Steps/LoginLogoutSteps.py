@@ -67,28 +67,28 @@ def step_impl(context):
 def step_impl(context):
     context.banking_poms.create_and_manage_accounts_button().click()
 
-@when(u'I click "Manage Customer Information"')
+@when(u'I click "Manage CustomerRoutes Information"')
 def step_impl(context):
     context.customer_poms.manage_customer_information_collapse_button().click()
 
-@when(u'I click the Manage Customer Information button')
+@when(u'I click the Manage CustomerRoutes Information button')
 def step_impl(context):
     context.customer_poms.manage_customer_information_button().click()
 
-@then(u'I am on a page with the title Managing Customer')
+@then(u'I am on a page with the title Managing CustomerRoutes')
 def step_impl(context):
-    WebDriverWait(context.driver, 10).until(title_contains("Managing Customer"))
-    assert context.driver.title == "Managing Customer"
+    WebDriverWait(context.driver, 10).until(title_contains("Managing CustomerRoutes"))
+    assert context.driver.title == "Managing CustomerRoutes"
 
 @then(u'I should be on a page with the title Login Page')
 def step_impl(context):
     WebDriverWait(context.driver, 10).until(title_contains("Login Page"))
     assert context.driver.title == "Login Page"
 
-@then(u'I should be on a page with the title Customer Home')
+@then(u'I should be on a page with the title CustomerRoutes Home')
 def step_impl(context):
-    WebDriverWait(context.driver, 10).until(title_contains("Customer Home"))
-    assert context.driver.title == "Customer Home"
+    WebDriverWait(context.driver, 10).until(title_contains("CustomerRoutes Home"))
+    assert context.driver.title == "CustomerRoutes Home"
 
 @then(u'I should be on a page with the title Managing Accounts')
 def step_impl(context):

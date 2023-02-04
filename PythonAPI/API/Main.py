@@ -183,39 +183,6 @@ def delete_customer():
         banking_app.logger.error(f"Error with API function delete customer with description: {str(error)}")
         return jsonify(message), 400
 
-
-@banking_app.route("/create/account", methods=["POST"])
-def create_account():
-    banking_app.logger.info(f"{request.get_json()}, {request}, {request.path}, {datetime.datetime.now()}")
-    banking_app.logger.info("Beginning API function create account")
-    try:
-        account_data: dict = request.get_json()
-        session_id = int(account_data["sessionId"])
-        balance = float(account_data["balance"])
-        customer_id = session_sao.service_get_session(session_id).customer_id
-        new_account: BankAccount = BankAccount(0, customer_id,
-                                               balance)
-        result = account_sao.service_create_account(new_account)
-        result_dictionary = {
-            "accountId": result.account_id,
-            "balance": result.balance
-        }
-        result_json = jsonify(result_dictionary)
-        transaction_account_id = result.account_id
-        transaction_amount = result.balance
-        setup_transaction = Transaction(0, str(datetime.datetime.now()), "deposit", transaction_account_id,
-                                        transaction_amount)
-        transaction_sao.service_create_transaction(setup_transaction)
-        banking_app.logger.info("Finishing API function create account")
-        return result_json, 201
-    except FailedTransaction as error:
-        message = {
-            "message": str(error)
-        }
-        banking_app.logger.error(f"Error with API function create account with description: {str(error)}")
-        return jsonify(message), 400
-
-
 @banking_app.route("/get/all/accounts", methods=["PATCH"])
 def get_all_accounts():
     banking_app.logger.info(f"{request.get_json()}, {request}, {request.path}, {datetime.datetime.now()}")

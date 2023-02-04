@@ -1,6 +1,6 @@
 import logging
 
-from PythonAPI.API.config import Connect
+from PythonAPI.DAL.config import Connect
 from PythonAPI.DAL.SessionDAL.SessionDALInterface import SessionDALInterface
 from PythonAPI.Entities.FailedTransaction import FailedTransaction
 from PythonAPI.Entities.Session import Session

@@ -3,7 +3,7 @@ import time
 from behave import when
 
 
-@when(u'I click "Delete an Account"')
+@when(u'I click "Delete an AccountRoutes"')
 def step_impl(context):
     context.banking_poms.delete_account_collapse_button().click()
 
@@ -11,6 +11,6 @@ def step_impl(context):
 def step_impl(context):
     context.banking_poms.select_account_to_delete()
 
-@when(u'I click the Delete Account button')
+@when(u'I click the Delete AccountRoutes button')
 def step_impl(context):
     context.banking_poms.delete_button().click()

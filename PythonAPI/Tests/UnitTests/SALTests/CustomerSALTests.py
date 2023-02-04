@@ -221,7 +221,7 @@ def test_service_get_customer_by_id_not_integer():
         customer_sao.service_get_customer_by_id("this won't work")
         assert False
     except FailedTransaction as error:
-        assert str(error) == "Customer ID field must be an integer, please try again!"
+        assert str(error) == "CustomerRoutes ID field must be an integer, please try again!"
 
 def test_service_get_customer_by_id_not_found():
     try:

@@ -1,6 +1,6 @@
 import logging
 from typing import List
-from PythonAPI.API.config import Connect
+from PythonAPI.DAL.config import Connect
 from PythonAPI.DAL.TransactionDAL.TransactionDALInterface import TransactionDALInterface
 from PythonAPI.Entities.FailedTransaction import FailedTransaction
 from PythonAPI.Entities.Transaction import Transaction
