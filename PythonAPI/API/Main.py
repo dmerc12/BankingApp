@@ -5,7 +5,6 @@ from PythonAPI.DAL.BankAccountDAL.BankAccountDALImplementation import BankAccoun
 from PythonAPI.DAL.CustomerDAL.CustomerDALImplementation import CustomerDALImplementation
 from PythonAPI.DAL.SessionDAL.SessionDALImplementation import SessionDALImplementation
 from PythonAPI.DAL.TransactionDAL.TransactionDALImplementation import TransactionDALImplementation
-from PythonAPI.Entities.Customer import Customer
 from PythonAPI.Entities.FailedTransaction import FailedTransaction
 from PythonAPI.Entities.Transaction import Transaction
 from PythonAPI.SAL.BankAccountSAL.BankAccountSALImplementation import BankAccountSALImplementation
@@ -28,100 +27,6 @@ session_sao = SessionSALImplementation(session_dao)
 banking_app: Flask = Flask(__name__)
 CORS(banking_app)
 
-@banking_app.route("/deposit", methods=["PATCH"])
-def deposit():
-    banking_app.logger.info(f"{request.get_json()}, {request}, {request.path}, {datetime.datetime.now()}")
-    banking_app.logger.info("Beginning API function deposit")
-    try:
-        deposit_info: dict = request.get_json()
-        session_id = int(deposit_info["sessionId"])
-        deposit_amount = deposit_info["depositAmount"]
-        account_id = deposit_info["accountId"]
-        session_sao.service_get_session(session_id)
-        result = account_sao.service_deposit(account_id, deposit_amount)
-        result_dictionary = {
-            "accountId": result.account_id,
-            "balance": result.balance
-        }
-        result_json = jsonify(result_dictionary)
-        transaction_account_id = account_id
-        transaction_amount = deposit_amount
-        deposit_transaction = Transaction(0, str(datetime.datetime.now()), "deposit", int(transaction_account_id),
-                                          float(transaction_amount))
-        transaction_sao.service_create_transaction(deposit_transaction)
-        banking_app.logger.info("Finishing API function deposit")
-        return result_json, 201
-    except FailedTransaction as error:
-        message = {
-            "message": str(error)
-        }
-        banking_app.logger.error(f"Error with API function deposit with description: {str(error)}")
-        return jsonify(message), 400
-
-@banking_app.route("/withdraw", methods=["PATCH"])
-def withdraw():
-    banking_app.logger.info(f"{request.get_json()}, {request}, {request.path}, {datetime.datetime.now()}")
-    banking_app.logger.info("Beginning API function withdraw")
-    try:
-        withdraw_info: dict = request.get_json()
-        session_id = int(withdraw_info["sessionId"])
-        withdraw_amount = withdraw_info["withdrawAmount"]
-        account_id = withdraw_info["accountId"]
-        session_sao.service_get_session(session_id)
-        result = account_sao.service_withdraw(account_id, withdraw_amount)
-        result_dictionary = {
-            "accountId": result.account_id,
-            "balance": result.balance
-        }
-        result_json = jsonify(result_dictionary)
-        transaction_account_id = account_id
-        transaction_amount = withdraw_amount
-        withdraw_transaction = Transaction(0, str(datetime.datetime.now()), "withdraw", int(transaction_account_id),
-                                           float(transaction_amount))
-        transaction_sao.service_create_transaction(withdraw_transaction)
-        banking_app.logger.info("Finishing API function withdraw")
-        return result_json, 201
-    except FailedTransaction as error:
-        message = {
-            "message": str(error)
-        }
-        banking_app.logger.error(f"Error with API function withdraw with description: {str(error)}")
-        return jsonify(message), 400
-
-@banking_app.route("/transfer", methods=["PATCH"])
-def transfer():
-    banking_app.logger.info(f"{request.get_json()}, {request}, {request.path}, {datetime.datetime.now()}")
-    banking_app.logger.info("Beginning API function transfer")
-    try:
-        transfer_info: dict = request.get_json()
-        session_id = int(transfer_info["sessionId"])
-        session_sao.service_get_session(session_id)
-        transfer_amount = transfer_info["transferAmount"]
-        withdraw_account_id = transfer_info["withdrawAccountId"]
-        deposit_account_id = transfer_info["depositAccountId"]
-        result = account_sao.service_transfer(withdraw_account_id, deposit_account_id, transfer_amount)
-        result_dictionary = {
-            "result": result
-        }
-        result_json = jsonify(result_dictionary)
-        withdraw_transaction_account_id = withdraw_account_id
-        withdraw_transaction_amount = transfer_amount
-        withdraw_transaction = Transaction(0, str(datetime.datetime.now()), "withdraw",
-                                           int(withdraw_transaction_account_id), float(withdraw_transaction_amount))
-        transaction_sao.service_create_transaction(withdraw_transaction)
-        deposit_transaction_account_id = deposit_account_id
-        deposit_transaction_amount = transfer_amount
-        deposit_transaction = Transaction(0, str(datetime.datetime.now()), "deposit",
-                                          int(deposit_transaction_account_id), float(deposit_transaction_amount))
-        transaction_sao.service_create_transaction(deposit_transaction)
-        banking_app.logger.info("Finishing API function transfer")
-        return result_json, 201
-    except FailedTransaction as error:
-        message = {
-            "message": str(error)
-        }
-        banking_app.logger.error(f"Error with API function transfer with description: {str(error)}")
-        return jsonify(message), 400
 
 @banking_app.route("/delete/account", methods=["DELETE"])
 def delete_account():

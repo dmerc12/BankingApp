@@ -4,6 +4,9 @@ from flask import Flask
 from flask_cors import CORS
 
 from PythonAPI.FlaskAPI.AccountRoutes.CreateAccountBlueprint import create_account
+from PythonAPI.FlaskAPI.AccountRoutes.DepositBlueprint import deposit
+from PythonAPI.FlaskAPI.AccountRoutes.TransferBlueprint import transfer
+from PythonAPI.FlaskAPI.AccountRoutes.WithdrawBlueprint import withdraw
 from PythonAPI.FlaskAPI.CustomerRoutes.LoginBlueprint import login
 from PythonAPI.FlaskAPI.CustomerRoutes.CreateCustomerBlueprint import create_customer
 from PythonAPI.FlaskAPI.CustomerRoutes.LogoutBlueprint import logout
@@ -25,3 +28,6 @@ def create_app(config):
     app.register_blueprint(update_customer)
     app.register_blueprint(delete_customer)
     app.register_blueprint(get_all_accounts)
+    app.register_blueprint(deposit)
+    app.register_blueprint(withdraw)
+    app.register_blueprint(transfer)
