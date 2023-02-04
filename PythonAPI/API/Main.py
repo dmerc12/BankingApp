@@ -1,16 +1,12 @@
 import datetime
-import logging
-import os.path
 from flask_cors import CORS
-from flask import Flask, request, jsonify, make_response
+from flask import Flask, request, jsonify
 from PythonAPI.DAL.BankAccountDAL.BankAccountDALImplementation import BankAccountDALImplementation
 from PythonAPI.DAL.CustomerDAL.CustomerDALImplementation import CustomerDALImplementation
 from PythonAPI.DAL.SessionDAL.SessionDALImplementation import SessionDALImplementation
 from PythonAPI.DAL.TransactionDAL.TransactionDALImplementation import TransactionDALImplementation
-from PythonAPI.Entities.BankAccount import BankAccount
 from PythonAPI.Entities.Customer import Customer
 from PythonAPI.Entities.FailedTransaction import FailedTransaction
-from PythonAPI.Entities.Session import Session
 from PythonAPI.Entities.Transaction import Transaction
 from PythonAPI.SAL.BankAccountSAL.BankAccountSALImplementation import BankAccountSALImplementation
 from PythonAPI.SAL.CustomerSAL.CustomerSALImplementation import CustomerSALImplementation
@@ -31,43 +27,6 @@ session_sao = SessionSALImplementation(session_dao)
 
 banking_app: Flask = Flask(__name__)
 CORS(banking_app)
-
-@banking_app.route("/update/customer", methods=["PATCH"])
-def update_customer():
-    banking_app.logger.info(f"{request.get_json()}, {request}, {request.path}, {datetime.datetime.now()}")
-    banking_app.logger.info("Beginning API function update customer")
-    try:
-        new_customer_information: dict = request.get_json()
-        session_id = int(new_customer_information["sessionId"])
-        current_customer_id = session_sao.service_get_session(session_id).customer_id
-        updated_customer_information = Customer(current_customer_id,
-                                                new_customer_information["firstName"],
-                                                new_customer_information["lastName"],
-                                                new_customer_information["username"],
-                                                new_customer_information["password"],
-                                                new_customer_information["email"],
-                                                new_customer_information["phoneNumber"],
-                                                new_customer_information["address"])
-        result = customer_sao.service_update_customer(updated_customer_information)
-        result_dictionary = {
-            "firstName": result.first_name,
-            "lastName": result.last_name,
-            "username": result.username,
-            "password": result.password,
-            "email": result.email,
-            "phoneNumber": result.phone_number,
-            "address": result.address
-        }
-        result_json = jsonify(result_dictionary)
-        banking_app.logger.info("Finishing API function update customer")
-        return result_json, 201
-    except FailedTransaction as error:
-        message = {
-            "message": str(error)
-        }
-        banking_app.logger.error(f"Error with API function update customer with description: {str(error)}")
-        return jsonify(message), 400
-
 
 @banking_app.route("/delete/customer", methods=["DELETE"])
 def delete_customer():
