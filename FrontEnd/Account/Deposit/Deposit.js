@@ -1,3 +1,12 @@
+if (!window.sessionStorage.getItem("sessionId")) {
+    alert("You do not have access to this page! Please continue to log in or create your own credentials!");
+    window.location.href = "../../Customer/ManageLogin/Login.html";
+};
+
+function navigateToManageAccounts() {
+    window.location.href = "../Main/ManageAccounts.html";
+};
+
 async function deposit() {
     // initializing URL varible
     const depositURL = "http://127.0.0.1:5000/deposit";
@@ -37,7 +46,7 @@ async function deposit() {
         };
         resetInputs();
     } else {
-        alert("Something went horribly wrong...")
+        alert("Something went horribly wrong...");
         resetInputs();
     };
 };
@@ -77,7 +86,7 @@ async function getDepositAccountsDropdown(){
             doLogout();
         };
     } else {
-        alert("Something went horribly wrong...")
+        alert("Something went horribly wrong...");
     };
 };
 
@@ -100,8 +109,52 @@ function resetInputs() {
     accountDepositDropdownMenu.value = "";
     accountDepositDropdownMenu.innerHTML = "";
     initialDepositOption = document.createElement("option");
-    initialDepositOption.innerHTML = "Please select an account number"
+    initialDepositOption.innerHTML = "Please select an account number";
     accountDepositDropdownMenu.appendChild(initialDepositOption);
 
     document.getElementById("depositAmountInput").value = "";
+};
+
+async function doLogout() {
+    // initializing URL varible
+    logoutURL = "http://127.0.0.1:5000/logout"
+
+    // grabbing input from the DOM
+    const sessionId = window.sessionStorage.getItem("sessionId");
+
+    // preparing JSON
+    logoutDictionary = {
+        "sessionId": sessionId
+    };
+
+    // preparing request
+    let logoutRequest = {
+        method: "DELETE",
+        headers: {'Content-Type': "application/json"},
+        body: JSON.stringify(logoutDictionary)
+    };
+
+    // sending request and awaiting response
+    const response = await fetch(logoutURL, logoutRequest)
+
+    // handling API response approapriately
+    if (response.status === 201) {
+        const apiResponse = await response.json();
+        window.sessionStorage.removeItem("sessionId");
+        alert("Goodbye!");
+        window.location.href = "../../Customer/ManageLogin/Login.html";
+    } else if (response.status === 400) {
+        const apiResponse = await response.json();
+        alert(`${apiResponse.message}`);
+        if (apiResponse.message === "Session has expired, please log in!") {
+            window.sessionStorage.removeItem("sessionId");
+            alert("Goodbye!");
+            window.location.href = "../../Customer/ManageLogin/Login.html";
+        };
+    } else {
+        alert("Something went horribly wrong...");
+        window.sessionStorage.removeItem("sessionId");
+        alert("Goodbye!");
+        window.location.href = "../../Customer/ManageLogin/Login.html";
+    };
 };
