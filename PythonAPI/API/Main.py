@@ -32,56 +32,8 @@ session_sao = SessionSALImplementation(session_dao)
 banking_app: Flask = Flask(__name__)
 CORS(banking_app)
 
-# below is the old API interface
-
-
-@banking_app.before_request
-def set_up_logs():
-    log_level = logging.DEBUG
-    for handler in banking_app.logger.handlers:
-        banking_app.logger.removeHandler(handler)
-    log_directory = "../Logs"
-    if not os.path.exists(log_directory):
-        os.mkdir(log_directory)
-    log_file = os.path.join("../Logs",
-                            'BankingLogs.log')
-    handler = logging.FileHandler(log_file)
-    handler.setLevel(log_level)
-    banking_app.logger.addHandler(handler)
-    banking_app.logger.setLevel(log_level)
-
-@banking_app.route("/login", methods=["POST"])
-def request_login():
-    banking_app.logger.info(f"{request.get_json()}, {request}, {request.path}, {datetime.datetime.now()}")
-    banking_app.logger.info("Beginning API function login")
-    try:
-        login_credentials: dict = request.get_json()
-        email = login_credentials["email"]
-        password = login_credentials["password"]
-        result = customer_sao.service_login(email, password)
-        new_session_info = Session(0, result.customer_id, str(datetime.datetime.now()),
-                                   str(datetime.datetime.now() + datetime.timedelta(0, 0, 0, 0, 0, 1)))
-        new_session = session_sao.service_create_session(new_session_info)
-        # use to send session ID to be stored in session storage, will change here when implementing cookies
-        result_dictionary = {
-            "sessionId": new_session.session_id
-        }
-        result_json = jsonify(result_dictionary)
-        response = make_response(result_json, 201)
-        # for some reason the cookie below is not being set in the browser
-        response.set_cookie("session_id", str(new_session.session_id))
-        banking_app.logger.info("Finishing API function login")
-        return response
-    except FailedTransaction as error:
-        message = {
-            "message": str(error)
-        }
-        banking_app.logger.error(f"Error with API function login with description: {str(error)}")
-        return jsonify(message), 400
-
-
 @banking_app.route("/logout", methods=["DELETE"])
-def delete_session():
+def logout():
     banking_app.logger.info("Beginning API function delete session")
     try:
         session_info: dict = request.get_json()

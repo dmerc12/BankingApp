@@ -11,7 +11,7 @@ from PythonAPI.SAL.BankAccountSAL.BankAccountSALImplementation import BankAccoun
 from PythonAPI.SAL.SessionSAL.SessionSALImplementation import SessionSALImplementation
 from PythonAPI.SAL.TransactionSAL.TransactionSALImplementation import TransactionSALImplementation
 
-Account = Blueprint('Account', __name__)
+create_account = Blueprint('create_account', __name__)
 
 account_dao = BankAccountDALImplementation()
 account_sao = BankAccountSALImplementation(account_dao)
@@ -20,7 +20,7 @@ transaction_sao = TransactionSALImplementation(transaction_dao)
 session_dao = SessionDALImplementation()
 session_sao = SessionSALImplementation(session_dao)
 
-@Account.route("/create/account", methods=["POST"])
+@create_account.route("/create/account", methods=["POST"])
 def create_account():
     try:
         account_data: dict = request.get_json()
