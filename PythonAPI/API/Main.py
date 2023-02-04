@@ -32,26 +32,6 @@ session_sao = SessionSALImplementation(session_dao)
 banking_app: Flask = Flask(__name__)
 CORS(banking_app)
 
-@banking_app.route("/logout", methods=["DELETE"])
-def logout():
-    banking_app.logger.info("Beginning API function delete session")
-    try:
-        session_info: dict = request.get_json()
-        session_id = int(session_info["sessionId"])
-        result = session_sao.service_delete_session(session_id)
-        result_dictionary = {
-            "result": result
-        }
-        result_json = jsonify(result_dictionary)
-        banking_app.logger.info("Finishing API function delete session")
-        return result_json, 201
-    except FailedTransaction as error:
-        message = {
-            "message": str(error)
-        }
-        banking_app.logger.error(f"Error with API function create customer with description: {str(error)}")
-        return jsonify(message), 400
-
 
 @banking_app.route("/create/customer", methods=["POST"])
 def create_customer():
