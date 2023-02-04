@@ -11,7 +11,7 @@ from PythonAPI.SAL.BankAccountSAL.BankAccountSALImplementation import BankAccoun
 from PythonAPI.SAL.SessionSAL.SessionSALImplementation import SessionSALImplementation
 from PythonAPI.SAL.TransactionSAL.TransactionSALImplementation import TransactionSALImplementation
 
-deposit = Blueprint('deposit', __name__)
+do_deposit = Blueprint('do_deposit', __name__)
 
 account_dao = BankAccountDALImplementation()
 account_sao = BankAccountSALImplementation(account_dao)
@@ -20,7 +20,7 @@ transaction_sao = TransactionSALImplementation(transaction_dao)
 session_dao = SessionDALImplementation()
 session_sao = SessionSALImplementation(session_dao)
 
-@deposit.route("/deposit", methods=["PATCH"])
+@do_deposit.route("/deposit", methods=["PATCH"])
 def deposit():
     try:
         deposit_info: dict = request.get_json()

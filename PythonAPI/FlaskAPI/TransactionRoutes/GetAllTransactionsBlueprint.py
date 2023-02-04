@@ -6,14 +6,14 @@ from PythonAPI.Entities.FailedTransaction import FailedTransaction
 from PythonAPI.SAL.SessionSAL.SessionSALImplementation import SessionSALImplementation
 from PythonAPI.SAL.TransactionSAL.TransactionSALImplementation import TransactionSALImplementation
 
-get_all_transactions = Blueprint('get_all_transactions', __name__)
+get_relevant_transactions = Blueprint('get_relevant_transactions', __name__)
 
 session_dao = SessionDALImplementation()
 session_sao = SessionSALImplementation(session_dao)
 transaction_dao = TransactionDALImplementation()
 transaction_sao = TransactionSALImplementation(transaction_dao)
 
-@get_all_transactions.route("/get/all/transactions", methods=["PATCH"])
+@get_relevant_transactions.route("/get/all/transactions", methods=["PATCH"])
 def get_all_transactions():
     try:
         id_info: dict = request.get_json()

@@ -6,14 +6,14 @@ from PythonAPI.Entities.FailedTransaction import FailedTransaction
 from PythonAPI.SAL.CustomerSAL.CustomerSALImplementation import CustomerSALImplementation
 from PythonAPI.SAL.SessionSAL.SessionSALImplementation import SessionSALImplementation
 
-delete_customer = Blueprint('delete_customer', __name__)
+delete_this_customer = Blueprint('delete_this_customer', __name__)
 
 customer_dao = CustomerDALImplementation()
 customer_sao = CustomerSALImplementation(customer_dao)
 session_dao = SessionDALImplementation()
 session_sao = SessionSALImplementation(session_dao)
 
-@delete_customer.route("/delete/customer", methods=["DELETE"])
+@delete_this_customer.route("/delete/customer", methods=["DELETE"])
 def delete_customer():
     try:
         requested_info = request.get_json()

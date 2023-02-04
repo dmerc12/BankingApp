@@ -7,14 +7,14 @@ from PythonAPI.Entities.FailedTransaction import FailedTransaction
 from PythonAPI.SAL.CustomerSAL.CustomerSALImplementation import CustomerSALImplementation
 from PythonAPI.SAL.SessionSAL.SessionSALImplementation import SessionSALImplementation
 
-update_customer = Blueprint('update_customer', __name__)
+update_this_customer = Blueprint('update_this_customer', __name__)
 
 session_dao = SessionDALImplementation()
 session_sao = SessionSALImplementation(session_dao)
 customer_dao = CustomerDALImplementation()
 customer_sao = CustomerSALImplementation(customer_dao)
 
-@update_customer.route("/update/customer", methods=["PATCH"])
+@update_this_customer.route("/update/customer", methods=["PATCH"])
 def update_customer():
     try:
         new_customer_information: dict = request.get_json()

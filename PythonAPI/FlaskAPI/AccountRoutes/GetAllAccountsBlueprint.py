@@ -6,14 +6,14 @@ from PythonAPI.Entities.FailedTransaction import FailedTransaction
 from PythonAPI.SAL.BankAccountSAL.BankAccountSALImplementation import BankAccountSALImplementation
 from PythonAPI.SAL.SessionSAL.SessionSALImplementation import SessionSALImplementation
 
-get_all_accounts = Blueprint('get_all_accounts', __name__)
+get_relevant_accounts = Blueprint('get_relevant_accounts', __name__)
 
 account_dao = BankAccountDALImplementation()
 account_sao = BankAccountSALImplementation(account_dao)
 session_dao = SessionDALImplementation()
 session_sao = SessionSALImplementation(session_dao)
 
-@get_all_accounts.route("/get/all/accounts", methods=["PATCH"])
+@get_relevant_accounts.route("/get/all/accounts", methods=["PATCH"])
 def get_all_accounts():
     try:
         requested_info: dict = request.get_json()

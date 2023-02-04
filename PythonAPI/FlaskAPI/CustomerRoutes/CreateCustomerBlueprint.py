@@ -5,12 +5,12 @@ from PythonAPI.Entities.Customer import Customer
 from PythonAPI.Entities.FailedTransaction import FailedTransaction
 from PythonAPI.SAL.CustomerSAL.CustomerSALImplementation import CustomerSALImplementation
 
-create_customer = Blueprint('create_customer', __name__)
+create_new_customer = Blueprint('create_new_customer', __name__)
 
 customer_dao = CustomerDALImplementation()
 customer_sao = CustomerSALImplementation(customer_dao)
 
-@create_customer.route("/create/customer", methods=["POST"])
+@create_new_customer.route("/create/customer", methods=["POST"])
 def create_customer():
     try:
         customer_info: dict = request.get_json()

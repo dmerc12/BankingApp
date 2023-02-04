@@ -11,7 +11,7 @@ from PythonAPI.SAL.BankAccountSAL.BankAccountSALImplementation import BankAccoun
 from PythonAPI.SAL.SessionSAL.SessionSALImplementation import SessionSALImplementation
 from PythonAPI.SAL.TransactionSAL.TransactionSALImplementation import TransactionSALImplementation
 
-transfer = Blueprint('transfer', __name__)
+do_transfer = Blueprint('do_transfer', __name__)
 
 account_dao = BankAccountDALImplementation()
 account_sao = BankAccountSALImplementation(account_dao)
@@ -20,7 +20,7 @@ transaction_sao = TransactionSALImplementation(transaction_dao)
 session_dao = SessionDALImplementation()
 session_sao = SessionSALImplementation(session_dao)
 
-@transfer.route("/transfer", methods=["PATCH"])
+@do_transfer.route("/transfer", methods=["PATCH"])
 def transfer():
     try:
         transfer_info: dict = request.get_json()

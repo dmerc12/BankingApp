@@ -6,14 +6,14 @@ from PythonAPI.Entities.FailedTransaction import FailedTransaction
 from PythonAPI.SAL.BankAccountSAL.BankAccountSALImplementation import BankAccountSALImplementation
 from PythonAPI.SAL.SessionSAL.SessionSALImplementation import SessionSALImplementation
 
-delete_account = Blueprint('delete_account', __name__)
+delete_this_account = Blueprint('delete_this_account', __name__)
 
 session_dao = SessionDALImplementation()
 session_sao = SessionSALImplementation(session_dao)
 account_dao = BankAccountDALImplementation()
 account_sao = BankAccountSALImplementation(account_dao)
 
-@delete_account.route("/delete/account", methods=["DELETE"])
+@delete_this_account.route("/delete/account", methods=["DELETE"])
 def delete_account():
     try:
         id_info: dict = request.get_json()

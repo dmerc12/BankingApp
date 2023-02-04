@@ -4,12 +4,12 @@ from PythonAPI.DAL.SessionDAL.SessionDALImplementation import SessionDALImplemen
 from PythonAPI.Entities.FailedTransaction import FailedTransaction
 from PythonAPI.SAL.SessionSAL.SessionSALImplementation import SessionSALImplementation
 
-logout = Blueprint('logout', __name__)
+new_logout = Blueprint('new_logout', __name__)
 
 session_dao = SessionDALImplementation()
 session_sao = SessionSALImplementation(session_dao)
 
-@logout.route("/logout", methods=["DELETE"])
+@new_logout.route("/logout", methods=["DELETE"])
 def logout():
     try:
         session_info: dict = request.get_json()

@@ -9,14 +9,14 @@ from PythonAPI.Entities.Session import Session
 from PythonAPI.SAL.CustomerSAL.CustomerSALImplementation import CustomerSALImplementation
 from PythonAPI.SAL.SessionSAL.SessionSALImplementation import SessionSALImplementation
 
-login = Blueprint('login', __name__)
+new_login = Blueprint('new_login', __name__)
 
 customer_dao = CustomerDALImplementation()
 customer_sao = CustomerSALImplementation(customer_dao)
 session_dao = SessionDALImplementation()
 session_sao = SessionSALImplementation(session_dao)
 
-@login.route("/login", methods=["POST"])
+@new_login.route("/login", methods=["POST"])
 def login():
     try:
         login_credentials: dict = request.get_json()

@@ -11,7 +11,7 @@ from PythonAPI.SAL.BankAccountSAL.BankAccountSALImplementation import BankAccoun
 from PythonAPI.SAL.SessionSAL.SessionSALImplementation import SessionSALImplementation
 from PythonAPI.SAL.TransactionSAL.TransactionSALImplementation import TransactionSALImplementation
 
-withdraw = Blueprint('withdraw', __name__)
+do_withdraw = Blueprint('do_withdraw', __name__)
 
 account_dao = BankAccountDALImplementation()
 account_sao = BankAccountSALImplementation(account_dao)
@@ -20,7 +20,7 @@ transaction_sao = TransactionSALImplementation(transaction_dao)
 session_dao = SessionDALImplementation()
 session_sao = SessionSALImplementation(session_dao)
 
-@withdraw.route("/withdraw", methods=["PATCH"])
+@do_withdraw.route("/withdraw", methods=["PATCH"])
 def withdraw():
     try:
         withdraw_info: dict = request.get_json()
