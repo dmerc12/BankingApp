@@ -32,29 +32,6 @@ session_sao = SessionSALImplementation(session_dao)
 banking_app: Flask = Flask(__name__)
 CORS(banking_app)
 
-
-@banking_app.route("/create/customer", methods=["POST"])
-def create_customer():
-    banking_app.logger.info(f"{request.get_json()}, {request}, {request.path}, {datetime.datetime.now()}")
-    banking_app.logger.info("Beginning API function create customer")
-    try:
-        customer_info: dict = request.get_json()
-        new_customer = Customer(0, customer_info["firstName"], customer_info["lastName"], customer_info["username"],
-                                customer_info["password"], customer_info["email"], customer_info["phoneNumber"],
-                                customer_info["address"])
-        result = customer_sao.service_create_customer(new_customer)
-        result_dictionary = result.convert_to_dictionary()
-        result_json = jsonify(result_dictionary)
-        banking_app.logger.info("Finishing API function create customer")
-        return result_json, 201
-    except FailedTransaction as error:
-        message = {
-            "message": str(error)
-        }
-        banking_app.logger.error(f"Error with API function create customer with description: {str(error)}")
-        return jsonify(message), 400
-
-
 @banking_app.route("/update/customer", methods=["PATCH"])
 def update_customer():
     banking_app.logger.info(f"{request.get_json()}, {request}, {request.path}, {datetime.datetime.now()}")

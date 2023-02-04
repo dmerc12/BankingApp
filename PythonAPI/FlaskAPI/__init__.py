@@ -12,6 +12,10 @@ def create_app(config):
 
     from PythonAPI.FlaskAPI.AccountRoutes.CreateAccountBlueprint import create_account
     from PythonAPI.FlaskAPI.CustomerRoutes.LoginBlueprint import login
+    from PythonAPI.FlaskAPI.CustomerRoutes.CreateCustomerBlueprint import create_customer
+    from PythonAPI.FlaskAPI.CustomerRoutes.LogoutBlueprint import logout
 
     app.register_blueprint(create_account)
     app.register_blueprint(login)
+    app.register_blueprint(logout)
+    app.register_blueprint(create_customer)
