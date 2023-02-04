@@ -28,52 +28,6 @@ session_sao = SessionSALImplementation(session_dao)
 banking_app: Flask = Flask(__name__)
 CORS(banking_app)
 
-@banking_app.route("/delete/customer", methods=["DELETE"])
-def delete_customer():
-    banking_app.logger.info(f"{request.get_json()}, {request}, {request.path}, {datetime.datetime.now()}")
-    banking_app.logger.info("Beginning API function delete customer")
-    try:
-        requested_info = request.get_json()
-        session_id = int(requested_info["sessionId"])
-        customer_id = session_sao.service_get_session(session_id).customer_id
-        session_sao.service_delete_all_sessions(customer_id)
-        result = customer_sao.service_delete_customer(customer_id)
-        result_dictionary = {
-            "result": result
-        }
-        result_json = jsonify(result_dictionary)
-        banking_app.logger.info("Finishing API function delete customer")
-        return result_json, 201
-    except FailedTransaction as error:
-        message = {
-            "message": str(error)
-        }
-        banking_app.logger.error(f"Error with API function delete customer with description: {str(error)}")
-        return jsonify(message), 400
-
-@banking_app.route("/get/all/accounts", methods=["PATCH"])
-def get_all_accounts():
-    banking_app.logger.info(f"{request.get_json()}, {request}, {request.path}, {datetime.datetime.now()}")
-    banking_app.logger.info("Beginning API function get all accounts")
-    try:
-        requested_info: dict = request.get_json()
-        session_id = int(requested_info["sessionId"])
-        customer_id = str(session_sao.service_get_session(session_id).customer_id)
-        result = account_sao.service_get_all_accounts(customer_id)
-        result_dictionary = {
-            "accountList": result
-        }
-        result_json = jsonify(result_dictionary)
-        banking_app.logger.info("Finishing API function get all accounts")
-        return result_json, 201
-    except FailedTransaction as error:
-        message = {
-            "message":  str(error)
-        }
-        banking_app.logger.error(f"Error with API function get all accounts with description: {str(error)}")
-        return jsonify(message), 400
-
-
 @banking_app.route("/deposit", methods=["PATCH"])
 def deposit():
     banking_app.logger.info(f"{request.get_json()}, {request}, {request.path}, {datetime.datetime.now()}")
