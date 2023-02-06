@@ -9,6 +9,7 @@ from PythonAPI.FlaskAPI.AccountRoutes.DeleteAccountBlueprint import delete_this_
 from PythonAPI.FlaskAPI.AccountRoutes.DepositBlueprint import do_deposit
 from PythonAPI.FlaskAPI.AccountRoutes.TransferBlueprint import do_transfer
 from PythonAPI.FlaskAPI.AccountRoutes.WithdrawBlueprint import do_withdraw
+from PythonAPI.FlaskAPI.CustomerRoutes.GetCustomerBlueprint import load_customer_info
 from PythonAPI.FlaskAPI.CustomerRoutes.LoginBlueprint import new_login
 from PythonAPI.FlaskAPI.CustomerRoutes.CreateCustomerBlueprint import create_new_customer
 from PythonAPI.FlaskAPI.CustomerRoutes.LogoutBlueprint import new_logout
@@ -51,5 +52,6 @@ def create_app(config):
     app.register_blueprint(do_transfer)
     app.register_blueprint(delete_this_account)
     app.register_blueprint(get_relevant_transactions)
+    app.register_blueprint(load_customer_info)
 
     return app

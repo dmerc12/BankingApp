@@ -10,16 +10,3 @@ class Customer:
         self.email = email
         self.phone_number = phone_number
         self.address = address
-
-    def convert_to_dictionary(self):
-        return {
-            "customerId": self.customer_id,
-            "firstName": self.first_name,
-            "lastName": self.last_name,
-            "username": self.username,
-            "password": self.password,
-            "email": self.email,
-            "phoneNumber": self.phone_number,
-            "address": self.address
-        }
-
