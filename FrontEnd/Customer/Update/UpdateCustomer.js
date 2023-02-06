@@ -8,6 +8,58 @@ function resetInputs() {
     document.getElementById("updatedAddressInput").value = "";
 };
 
+if (!window.sessionStorage.getItem("sessionId")) {
+    alert("You do not have access to this page! Please continue to log in or create your own credentials!");
+    window.location.href = "../ManageLogin/Login.html";
+};
+
+async function loadCurrentInformation() {
+    const loadCurrentInformationURL = "http://127.0.0.1:5000/load/customer/info";
+
+    const sessionId = window.sessionStorage.getItem("sessionId");
+
+    loadInfoDictionary = {
+        "sessionId": sessionId
+    };
+
+    let loadCurrentInfoRequest = {
+        method: "PATCH",
+        headers: {'Content-Type': "application/json"},
+        body: JSON.stringify(loadInfoDictionary)
+    };
+
+    const response = await fetch(loadCurrentInformationURL, loadCurrentInfoRequest);
+
+    if (response.status === 201) {
+        const apiResponse = await response.json();
+        populateCurrentInfo(apiResponse);
+    } else if (response.status === 400) {
+        const apiResponse = await response.json();
+        alert(`${apiResponse.message}`);
+        if (apiResponse.message === "Session has expired, please log in!") {
+            doLogout();
+        };
+    } else {
+        alert("Something went horribly wrong...");
+    };
+};
+
+function populateCurrentInfo(apiResponse) {
+    firstNameInput = document.getElementById("updatedFirstNameInput");
+    lastNameInput = document.getElementById("updatedLastNameInput");
+    usernameInput = document.getElementById("updatedUsernameInput");
+    emailInput = document.getElementById("updatedEmailAddressInput");
+    phoneNumberInput = document.getElementById("updatedPhoneNumberInput");
+    addressInput = document.getElementById("updatedAddressInput");
+    
+    firstNameInput.value = apiResponse.firstName;
+    lastNameInput.value = apiResponse.lastName;
+    usernameInput.value = apiResponse.username;
+    emailInput.value = apiResponse.email;
+    phoneNumberInput.value = apiResponse.phoneNumber;
+    addressInput.value = apiResponse.address;
+};
+
 async function updateCustomer() {
     // initializing URL varible
     const updateCustomerURL = "http://127.0.0.1:5000/update/customer";
