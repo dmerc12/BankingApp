@@ -1,4 +1,3 @@
-
 async function createCustomer() {
     // initializing URL variable
     const createCustomerURL = "http://127.0.0.1:5000/create/customer"
