@@ -24,10 +24,10 @@ class CustomerDALImplementation(CustomerDALInterface):
 
     def create_customer(self, customer: Customer) -> Customer:
         logging.info("Beginning DAL method create customer")
-        sql = "insert into banking.customers values (default, %s, %s, %s, %s, %s, %s, %s) returning customer_id;"
+        sql = "insert into banking.customers values (default, %s, %s, %s, %s, %s, %s) returning customer_id;"
         cursor = Connect.connection.cursor()
-        cursor.execute(sql, (customer.first_name, customer.last_name, customer.username, customer.password,
-                             customer.email, customer.phone_number, customer.address))
+        cursor.execute(sql, (customer.first_name, customer.last_name, customer.password, customer.email,
+                             customer.phone_number, customer.address))
         Connect.connection.commit()
         customer_id = cursor.fetchone()[0]
         customer.customer_id = customer_id
@@ -56,7 +56,7 @@ class CustomerDALImplementation(CustomerDALInterface):
         Connect.connection.commit()
         customer_info = cursor.fetchone()
         if customer_info is None:
-            customer = Customer(0, "", "", "", "", "", "", "")
+            customer = Customer(0, "", "", "", "", "", "")
             return customer
         else:
             customer = Customer(*customer_info)
@@ -80,11 +80,11 @@ class CustomerDALImplementation(CustomerDALInterface):
 
     def update_customer(self, customer: Customer) -> Customer:
         logging.info("Beginning DAL method update customer")
-        sql = "update banking.customers set first_name=%s, last_name=%s, username=%s, " \
-              "passwrd=%s, email=%s, phone_number=%s, address=%s where customer_id=%s;"
+        sql = "update banking.customers set first_name=%s, last_name=%s, passwrd=%s, email=%s, phone_number=%s, " \
+              "address=%s where customer_id=%s;"
         cursor = Connect.connection.cursor()
-        cursor.execute(sql, (customer.first_name, customer.last_name, customer.username, customer.password,
-                             customer.email, customer.phone_number, customer.address, customer.customer_id))
+        cursor.execute(sql, (customer.first_name, customer.last_name, customer.password, customer.email,
+                             customer.phone_number, customer.address, customer.customer_id))
         Connect.connection.commit()
         logging.info("Finishing DAL method update customer")
         return customer

@@ -15,13 +15,13 @@ def reset_database():
     sql2 = "truncate table banking.bank_accounts restart identity cascade;"
     sql3 = "truncate table banking.transactions restart identity cascade;"
     sql4 = "truncate table banking.sessions restart identity cascade;"
-    sql5 = "insert into banking.customers values (-1, 'test', 'customer', 'please', 'work', 'test@email.com', " \
+    sql5 = "insert into banking.customers values (-1, 'test', 'customer', 'work', 'test@email.com', " \
            "'123-456-7890', '123 This Street, City, State, ZIP');"
     sql6 = "insert into banking.bank_accounts values (-1, -1, 1.00);"
     sql7 = "insert into banking.transactions values (-1, 'that one time', 'deposit', -1, 1.00);"
     sql8 = f"insert into banking.sessions values (-1, -1, '{datetime.datetime.now()}', '{datetime.datetime.now()}');"
     sql9 = "insert into banking.bank_accounts values (-2, -1, 5000.00);"
-    sql10 = "insert into banking.customers values (-2, 'test', 'customer', 'no', 'money', 'no@money.com', " \
+    sql10 = "insert into banking.customers values (-2, 'test', 'customer', 'money', 'no@money.com', " \
             "'123-456-7890', '123 This Street, City, State, ZIP');"
     sql11 = "insert into banking.bank_accounts values (-3, -1, 50.00);"
     customer_dao.truncate_customer_table(sql1)

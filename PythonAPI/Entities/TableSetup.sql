@@ -2,8 +2,7 @@ create table banking.customers(
 	customer_id serial primary key,
 	first_name varchar(36),
 	last_name varchar(36),
-	username varchar(36),
-	passwrd bytea(60),
+	passwrd varchar(60),
 	email varchar(60),
 	phone_number varchar(13),
 	address varchar(60)
@@ -34,7 +33,17 @@ create table banking.sessions(
 );
 
 
-insert into banking.customers values (-1, 'test', 'customer', 'please', 'work', 'test@email.com', '123-456-7890',
-'123 This Street, City, State, ZIP');
+insert into banking.customers values (-1, 'test', 'customer', 'work', 'test@email.com', '123-456-7890',
+    '123 This Street, City, State, ZIP');
 
-insert into banking.bank_accounts values(-1, -1, 0.00);
+insert into banking.bank_accounts values (-1, -1, 1.00);
+
+insert into banking.transactions values (-1, 'that one time', 'deposit', -1, 1.00);
+
+insert into banking.bank_accounts values (-2, -1, 5000.00);
+
+insert into banking.customers values (-2, 'test', 'customer', 'money', 'no@money.com', '123-456-7890',
+    '123 This Street, City, State, ZIP');
+
+insert into banking.bank_accounts values (-3, -1, 50.00);
+
