@@ -31,15 +31,6 @@ class CustomerSALImplementation(CustomerSALInterface):
         elif len(customer.last_name) == 0:
             logging.warning("SAL method create customer, last name empty")
             raise FailedTransaction("The last name field cannot be left empty, please try again!")
-        elif type(customer.username) != str:
-            logging.warning("SAL method create customer, username not a string")
-            raise FailedTransaction("The username field must be a string, please try again!")
-        elif len(customer.username) > 36:
-            logging.warning("SAL method create customer, username longer than 36 characters")
-            raise FailedTransaction("The username field cannot exceed 36 characters, please try again!")
-        elif len(customer.username) == 0:
-            logging.warning("SAL method create customer, username left empty")
-            raise FailedTransaction("The username field cannot be left empty, please try again!")
         elif type(customer.password) != str:
             logging.warning("SAL method create customer, password not a string")
             raise FailedTransaction("The password field must be a string, please try again!")
@@ -110,10 +101,10 @@ class CustomerSALImplementation(CustomerSALInterface):
         logging.info("Beginning SAL method login")
         if type(email) != str:
             logging.warning("SAL method login, username not a string")
-            raise FailedTransaction("The username field must be a string, please try again!")
+            raise FailedTransaction("The email field must be a string, please try again!")
         elif len(email) == 0:
             logging.warning("SAL method login, username left empty")
-            raise FailedTransaction("The username field cannot be left empty, please try again!")
+            raise FailedTransaction("The email field cannot be left empty, please try again!")
         elif type(password) != str:
             logging.warning("SAL method login, password not a string")
             raise FailedTransaction("The password field must be a string, please try again!")
@@ -139,12 +130,6 @@ class CustomerSALImplementation(CustomerSALInterface):
         elif len(customer.last_name) > 36:
             logging.warning("SAL method update customer, last name longer than 36 characters")
             raise FailedTransaction("The last name field cannot exceed 36 characters, please try again!")
-        elif type(customer.username) != str:
-            logging.warning("SAL method update customer, username not a string")
-            raise FailedTransaction("The username field must be a string, please try again!")
-        elif len(customer.username) > 36:
-            logging.warning("SAL method update customer, username longer than 36 characters")
-            raise FailedTransaction("The username field cannot exceed 36 characters, please try again!")
         elif type(customer.password) != str:
             logging.warning("SAL method update customer, password not a string")
             raise FailedTransaction("The password field must be a string, please try again!")
@@ -175,8 +160,6 @@ class CustomerSALImplementation(CustomerSALInterface):
                 customer.first_name = current_customer_information.first_name
             if customer.last_name == "":
                 customer.last_name = current_customer_information.last_name
-            if customer.username == "":
-                customer.username = current_customer_information.username
             if customer.password == "":
                 customer.password = current_customer_information.password
             if customer.email == "":
