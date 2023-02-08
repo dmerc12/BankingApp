@@ -24,5 +24,4 @@
       - all must have negative tests for all possible errors.
   
 ## Test Results:
-- Unit testing results will be stored in the repo in html file using pytest-html.
 - Integration testing will be done utilizing Postman.

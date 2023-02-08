@@ -23,7 +23,6 @@ def get_customer_info():
         result_dictionary = {
             "firstName": result.first_name,
             "lastName": result.last_name,
-            "username": result.username,
             "email": result.email,
             "phoneNumber": result.phone_number,
             "address": result.address

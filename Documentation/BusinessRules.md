@@ -3,7 +3,7 @@
 - Bank accounts must work with numbers.
 - Bank accounts must have unique ID's.
 - Customer first and last names may not exceed 20 characters. 
-- Customer usernames, passwords, and emails may not exceed 36 characters.
+- Customer passwords, and emails may not exceed 36 characters.
 - Customer phone numbers may not exceed 13 characters.
 - Customer phone numbers may not stray from the format of xxx-xxx-xxxx.
 - Customer addresses may not exceed 50 characters.

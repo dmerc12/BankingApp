@@ -23,7 +23,6 @@ def update_customer():
         updated_customer_information = Customer(current_customer_id,
                                                 new_customer_information["firstName"],
                                                 new_customer_information["lastName"],
-                                                new_customer_information["username"],
                                                 new_customer_information["password"],
                                                 new_customer_information["email"],
                                                 new_customer_information["phoneNumber"],
@@ -32,8 +31,6 @@ def update_customer():
         result_dictionary = {
             "firstName": result.first_name,
             "lastName": result.last_name,
-            "username": result.username,
-            "password": result.password,
             "email": result.email,
             "phoneNumber": result.phone_number,
             "address": result.address

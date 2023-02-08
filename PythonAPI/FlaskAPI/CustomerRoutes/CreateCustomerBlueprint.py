@@ -14,11 +14,16 @@ customer_sao = CustomerSALImplementation(customer_dao)
 def create_customer():
     try:
         customer_info: dict = request.get_json()
-        new_customer = Customer(0, customer_info["firstName"], customer_info["lastName"], customer_info["username"],
-                                customer_info["password"], customer_info["email"], customer_info["phoneNumber"],
-                                customer_info["address"])
+        new_customer = Customer(0, customer_info["firstName"], customer_info["lastName"], customer_info["password"],
+                                customer_info["email"], customer_info["phoneNumber"], customer_info["address"])
         result = customer_sao.service_create_customer(new_customer)
-        result_dictionary = result.convert_to_dictionary()
+        result_dictionary = {
+            "firstName": result.first_name,
+            "lastName": result.last_name,
+            "email": result.email,
+            "phoneNumber": result.phone_number,
+            "address": result.address
+        }
         result_json = jsonify(result_dictionary)
         return result_json, 201
     except FailedTransaction as error:
