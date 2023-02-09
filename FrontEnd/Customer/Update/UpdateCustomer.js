@@ -1,7 +1,6 @@
 function resetInputs() {
     document.getElementById("updatedFirstNameInput").value = "";
     document.getElementById("updatedLastNameInput").value = "";
-    document.getElementById("updatedUsernameInput").value = "";
     document.getElementById("updatedPasswordInput").value = "";
     document.getElementById("updatedEmailAddressInput").value = "";
     document.getElementById("updatedPhoneNumberInput").value = "";
@@ -91,14 +90,12 @@ async function loadCurrentInformation() {
 function populateCurrentInfo(apiResponse) {
     firstNameInput = document.getElementById("updatedFirstNameInput");
     lastNameInput = document.getElementById("updatedLastNameInput");
-    usernameInput = document.getElementById("updatedUsernameInput");
     emailInput = document.getElementById("updatedEmailAddressInput");
     phoneNumberInput = document.getElementById("updatedPhoneNumberInput");
     addressInput = document.getElementById("updatedAddressInput");
     
     firstNameInput.value = apiResponse.firstName;
     lastNameInput.value = apiResponse.lastName;
-    usernameInput.value = apiResponse.username;
     emailInput.value = apiResponse.email;
     phoneNumberInput.value = apiResponse.phoneNumber;
     addressInput.value = apiResponse.address;
@@ -112,7 +109,6 @@ async function updateCustomer() {
     const sessionId = window.sessionStorage.getItem("sessionId");
     const updatedFirstName = document.getElementById("updatedFirstNameInput").value;
     const updatedLastName = document.getElementById("updatedLastNameInput").value;
-    const updatedUsername = document.getElementById("updatedUsernameInput").value;
     const updatedPassword = document.getElementById("updatedPasswordInput").value;
     const updatedEmailAddress = document.getElementById("updatedEmailAddressInput").value;
     const updatedPhoneNumber = document.getElementById("updatedPhoneNumberInput").value;
@@ -123,7 +119,6 @@ async function updateCustomer() {
         "sessionId": sessionId,
         "firstName": updatedFirstName,
         "lastName": updatedLastName,
-        "username": updatedUsername, 
         "password": updatedPassword,
         "email": updatedEmailAddress,
         "phoneNumber": updatedPhoneNumber,
