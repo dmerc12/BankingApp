@@ -5,7 +5,7 @@ from PythonAPI.Entities import Customer
 class CustomerSALInterface(ABC):
 
     @abstractmethod
-    def service_create_customer(self, customer: Customer) -> Customer:
+    def service_create_customer(self, customer: Customer, password_confirmation: str) -> Customer:
         pass
 
     @abstractmethod

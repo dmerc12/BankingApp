@@ -11,7 +11,7 @@ class CustomerSALImplementation(CustomerSALInterface):
     def __init__(self, customer_dao: CustomerDALImplementation):
         self.customer_dao = customer_dao
 
-    def service_create_customer(self, customer: Customer) -> Customer:
+    def service_create_customer(self, customer: Customer, password_confirmation: str) -> Customer:
         logging.info("Beginning SAL method create customer")
         if type(customer.first_name) != str:
             logging.warning("SAL method create customer, first name not a string")
@@ -67,6 +67,9 @@ class CustomerSALImplementation(CustomerSALInterface):
         elif len(customer.address) == 0:
             logging.warning("SAL method create customer, address left empty")
             raise FailedTransaction("The address field cannot be left empty, please try again!")
+        elif password_confirmation != customer.password:
+            logging.warning("SAL method create customer, password and confirmation don't match")
+            raise FailedTransaction("The passwords do not match, please try again!")
         else:
             existing_customer_check = self.service_get_customer_by_email(customer.email).email
             if customer.email == existing_customer_check:

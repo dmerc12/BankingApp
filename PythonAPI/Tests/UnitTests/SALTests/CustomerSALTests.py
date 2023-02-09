@@ -8,12 +8,13 @@ customer_sao = CustomerSALImplementation(customer_dao)
 
 successful_customer = Customer(0, "first", "last", "password", "new@email.com", "123-456-7890",
                                "123 First Street, City, State, ZIP")
+successful_confirmation = "password"
 
 def test_service_create_customer_first_name_not_string():
     try:
         test_customer = Customer(0, 0, "last", "password", "test@email.com", "123-456-7890",
                                  "123 First Street, City, State, ZIP")
-        customer_sao.service_create_customer(test_customer)
+        customer_sao.service_create_customer(test_customer, successful_confirmation)
         assert False
     except FailedTransaction as error:
         assert str(error) == "The first name field must be a string, please try again!"
@@ -23,7 +24,7 @@ def test_service_create_customer_first_name_too_long():
         test_customer = Customer(0, "this has too many characters and so it should raise the desired exception",
                                  "last", "password", "test@email.com", "123-456-7890",
                                  "123 First Street, City, State, ZIP")
-        customer_sao.service_create_customer(test_customer)
+        customer_sao.service_create_customer(test_customer, successful_confirmation)
         assert False
     except FailedTransaction as error:
         assert str(error) == "The first name field cannot exceed 36 characters, please try again!"
@@ -32,7 +33,7 @@ def test_service_create_customer_first_name_empty():
     try:
         test_customer = Customer(0, "", "last", "password", "test@email.com", "123-456-7890",
                                  "123 First Street, City, State, ZIP")
-        customer_sao.service_create_customer(test_customer)
+        customer_sao.service_create_customer(test_customer, successful_confirmation)
         assert False
     except FailedTransaction as error:
         assert str(error) == "The first name field cannot be left empty, please try again!"
@@ -41,7 +42,7 @@ def test_service_create_customer_last_name_not_string():
     try:
         test_customer = Customer(0, "first", 0, "password", "test@email.com", "123-456-7890",
                                  "123 First Street, City, State, ZIP")
-        customer_sao.service_create_customer(test_customer)
+        customer_sao.service_create_customer(test_customer, successful_confirmation)
         assert False
     except FailedTransaction as error:
         assert str(error) == "The last name field must be a string, please try again!"
@@ -51,7 +52,7 @@ def test_service_create_customer_last_name_too_long():
         test_customer = Customer(0, "first", "this has too many characters and so it should raise the desired exception"
                                  , "password", "test@email.com", "123-456-7890",
                                  "123 First Street, City, State, ZIP")
-        customer_sao.service_create_customer(test_customer)
+        customer_sao.service_create_customer(test_customer, successful_confirmation)
         assert False
     except FailedTransaction as error:
         assert str(error) == "The last name field cannot exceed 36 characters, please try again!"
@@ -60,7 +61,7 @@ def test_service_create_customer_last_name_empty():
     try:
         test_customer = Customer(0, "first", "", "password", "test@email.com", "123-456-7890",
                                  "123 First Street, City, State, ZIP")
-        customer_sao.service_create_customer(test_customer)
+        customer_sao.service_create_customer(test_customer, successful_confirmation)
         assert False
     except FailedTransaction as error:
         assert str(error) == "The last name field cannot be left empty, please try again!"
@@ -69,7 +70,7 @@ def test_service_create_customer_password_not_string():
     try:
         test_customer = Customer(0, "first", "last", 0, "test@email.com", "123-456-7890",
                                  "123 First Street, City, State, ZIP")
-        customer_sao.service_create_customer(test_customer)
+        customer_sao.service_create_customer(test_customer, successful_confirmation)
         assert False
     except FailedTransaction as error:
         assert str(error) == "The password field must be a string, please try again!"
@@ -78,7 +79,7 @@ def test_service_create_customer_password_empty():
     try:
         test_customer = Customer(0, "first", "last", "", "test@email.com", "123-456-7890",
                                  "123 First Street, City, State, ZIP")
-        customer_sao.service_create_customer(test_customer)
+        customer_sao.service_create_customer(test_customer, successful_confirmation)
         assert False
     except FailedTransaction as error:
         assert str(error) == "The password field cannot be left  empty, please try again!"
@@ -87,7 +88,7 @@ def test_service_create_customer_email_not_string():
     try:
         test_customer = Customer(0, "first", "last", "password", 0, "123-456-7890",
                                  "123 First Street, City, State, ZIP")
-        customer_sao.service_create_customer(test_customer)
+        customer_sao.service_create_customer(test_customer, successful_confirmation)
         assert False
     except FailedTransaction as error:
         assert str(error) == "The email field must be a string, please try again!"
@@ -97,7 +98,7 @@ def test_service_create_customer_email_too_long():
         test_customer = Customer(0, "first", "last", "password",
                                  "this has too many characters and so it should raise the desired exception",
                                  "123-456-7890", "123 First Street, City, State, ZIP")
-        customer_sao.service_create_customer(test_customer)
+        customer_sao.service_create_customer(test_customer, successful_confirmation)
         assert False
     except FailedTransaction as error:
         assert str(error) == "The email field cannot exceed 36 characters, please try again!"
@@ -106,7 +107,7 @@ def test_service_create_customer_email_empty():
     try:
         test_customer = Customer(0, "first", "last", "password", "", "123-456-7890",
                                  "123 First Street, City, State, ZIP")
-        customer_sao.service_create_customer(test_customer)
+        customer_sao.service_create_customer(test_customer, successful_confirmation)
         assert False
     except FailedTransaction as error:
         assert str(error) == "The email field cannot be left empty, please try again!"
@@ -115,7 +116,7 @@ def test_service_create_customer_phone_number_not_string():
     try:
         test_customer = Customer(0, "first", "last", "password", "test@email.com", 0,
                                  "123 First Street, City, State, ZIP")
-        customer_sao.service_create_customer(test_customer)
+        customer_sao.service_create_customer(test_customer, successful_confirmation)
         assert False
     except FailedTransaction as error:
         assert str(error) == "The phone number field must be a string, please try again!"
@@ -125,7 +126,7 @@ def test_service_create_customer_phone_number_too_long():
         test_customer = Customer(0, "first", "last", "password", "test@email.com",
                                  "this has too many characters and so it should raise the desired exception",
                                  "123 First Street, City, State, ZIP")
-        customer_sao.service_create_customer(test_customer)
+        customer_sao.service_create_customer(test_customer, successful_confirmation)
         assert False
     except FailedTransaction as error:
         assert str(error) == "The phone number field cannot exceed 13 characters, please try again!"
@@ -134,7 +135,7 @@ def test_service_create_customer_phone_number_empty():
     try:
         test_customer = Customer(0, "first", "last", "password", "test@email.com", "",
                                  "123 First Street, City, State, ZIP")
-        customer_sao.service_create_customer(test_customer)
+        customer_sao.service_create_customer(test_customer, successful_confirmation)
         assert False
     except FailedTransaction as error:
         assert str(error) == "The phone number field cannot be left empty, please try again!"
@@ -143,7 +144,7 @@ def test_service_create_customer_phone_number_incorrect_format():
     try:
         test_customer = Customer(0, "first", "last", "password", "test@email.com", "1234567890",
                                  "123 First Street, City, State, ZIP")
-        customer_sao.service_create_customer(test_customer)
+        customer_sao.service_create_customer(test_customer, successful_confirmation)
         assert False
     except FailedTransaction as error:
         assert str(error) == "The phone number must follow the format xxx-xxx-xxxx, please try again!"
@@ -152,7 +153,7 @@ def test_service_create_customer_address_not_string():
     try:
         test_customer = Customer(0, "first", "last", "password", "test@email.com", "123-456-7890",
                                  0)
-        customer_sao.service_create_customer(test_customer)
+        customer_sao.service_create_customer(test_customer, successful_confirmation)
         assert False
     except FailedTransaction as error:
         assert str(error) == "The address field must be a string, please try again!"
@@ -161,7 +162,7 @@ def test_service_create_customer_address_too_long():
     try:
         test_customer = Customer(0, "first", "last", "password", "test@email.com", "123-456-7890",
                                  "this has too many characters and so it should raise the desired exception")
-        customer_sao.service_create_customer(test_customer)
+        customer_sao.service_create_customer(test_customer, successful_confirmation)
         assert False
     except FailedTransaction as error:
         assert str(error) == "The address field cannot exceed 50 characters, please try again!"
@@ -170,20 +171,28 @@ def test_service_create_customer_address_empty():
     try:
         test_customer = Customer(0, "first", "last", "password", "test@email.com", "123-456-7890",
                                  "")
-        customer_sao.service_create_customer(test_customer)
+        customer_sao.service_create_customer(test_customer, successful_confirmation)
         assert False
     except FailedTransaction as error:
         assert str(error) == "The address field cannot be left empty, please try again!"
 
+def test_service_create_customer_confirmation_password_not_matching_password():
+    try:
+        failed_confirmation = "not going to work"
+        customer_sao.service_create_customer(successful_customer, failed_confirmation)
+        assert False
+    except FailedTransaction as error:
+        assert str(error) == "The passwords do not match, please try again!"
+
 def test_service_create_customer_success():
-    result = customer_sao.service_create_customer(successful_customer)
+    result = customer_sao.service_create_customer(successful_customer, successful_confirmation)
     assert result.customer_id != 0
 
 def test_service_create_customer_already_exists():
     try:
         test_customer = Customer(0, "first", "last", "password", "new@email.com", "123-456-7890",
                                  "123 S 1st St, Dallas, Texas, 78999")
-        customer_sao.service_create_customer(test_customer)
+        customer_sao.service_create_customer(test_customer, successful_confirmation)
         assert False
     except FailedTransaction as error:
         assert str(error) == "A customer already exists with this username, please log in!"

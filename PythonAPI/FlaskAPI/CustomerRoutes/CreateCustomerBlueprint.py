@@ -16,7 +16,8 @@ def create_customer():
         customer_info: dict = request.get_json()
         new_customer = Customer(0, customer_info["firstName"], customer_info["lastName"], customer_info["password"],
                                 customer_info["email"], customer_info["phoneNumber"], customer_info["address"])
-        result = customer_sao.service_create_customer(new_customer)
+        password_confirmation = customer_info["passwordConfirmation"]
+        result = customer_sao.service_create_customer(new_customer, password_confirmation)
         result_dictionary = {
             "firstName": result.first_name,
             "lastName": result.last_name,

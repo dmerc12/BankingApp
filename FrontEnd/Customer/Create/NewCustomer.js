@@ -5,7 +5,7 @@ async function createCustomer() {
     // grabbing inputs from DOM
     const firstName = document.getElementById("firstNameInput").value;
     const lastName = document.getElementById("lastNameInput").value;
-    const username = document.getElementById("usernameInput").value;
+    const passwordConfirmation = document.getElementById("passwordConfirmationInput").value;
     const password = document.getElementById("passwordInput").value;
     const email = document.getElementById("emailInput").value;
     const phoneNumber = document.getElementById("phoneNumberInput").value;
@@ -15,8 +15,8 @@ async function createCustomer() {
     customerJSON = {
         'firstName': firstName,
         'lastName': lastName,
-        'username': username,
         'password': password,
+        'passwordConfirmation': passwordConfirmation,
         'email': email,
         'phoneNumber': phoneNumber,
         'address': address
@@ -50,8 +50,8 @@ function resetInputs() {
     // reset all inputs to empty
     document.getElementById("firstNameInput").value = "";
     document.getElementById("lastNameInput").value = "";
-    document.getElementById("usernameInput").value = "";
-    document.getElementById("password").value = "";
+    document.getElementById("passwordConfirmationInput").value = "";
+    document.getElementById("passwordInput").value = "";
     document.getElementById("emailInput").value = "";
     document.getElementById("phoneNumberInput").value = "";
     document.getElementById("addressInput").value = "";
