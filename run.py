@@ -1,5 +1,5 @@
-from PythonAPI.FlaskAPI import create_app
-from PythonAPI.DAL import config
+from BankingApp.FlaskAPI import create_app
+from BankingApp.DAL import config
 
 app = create_app(config)
 

@@ -50,7 +50,7 @@ function resetInputs() {
 };
 
 function navigateToManageAccounts() {
-    window.location.href = "../Account/Main/ManageAccounts.html";
+    window.location.href = "../Main/ManageAccounts.html";
 };
 
 async function doLogout() {

@@ -4,7 +4,7 @@ if (!window.sessionStorage.getItem("sessionId")) {
 };
 
 function navigateToManageAccounts() {
-    window.location.href = "../Main/ManageAccounts.htmtl";
+    window.location.href = "../Main/ManageAccounts.html";
 };
 
 function resetInputs() {
