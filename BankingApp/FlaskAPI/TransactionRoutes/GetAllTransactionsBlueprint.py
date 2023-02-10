@@ -33,5 +33,5 @@ def get_all_transactions():
         message = {
             "message": str(error)
         }
-        current_app.logger.info("Error with API function get all transactions with message: " + str(error))
+        current_app.logger.error("Error with API function get all transactions with message: " + str(error))
         return jsonify(message), 400
