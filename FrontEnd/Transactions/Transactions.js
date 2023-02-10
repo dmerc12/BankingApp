@@ -94,11 +94,13 @@ async function viewTransactions() {
 function populateTransactions(transactionList) {
     let count = 0;
     const transactionTable = document.getElementById("viewTransactionsTable");
-    for (transaction in transactionList) {        
+    for (transaction in transactionList) {   
+        // issue lies within this section when parsing information out     
         const transactionId = Number(String(transactionList[count]).split(", ")[0]);
         const dateTime = String(transactionList[count]).split(", ")[1];
         const transactionType = String(transactionList[count]).split(", ")[2];
         const amount = String(transactionList[count]).split(", ")[4];
+        // end of issue
         const row = document.createElement("tr");
         transactionTable.appendChild(row);
         
