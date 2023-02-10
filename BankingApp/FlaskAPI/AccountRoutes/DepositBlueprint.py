@@ -1,6 +1,6 @@
 import datetime
 
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, current_app
 
 from BankingApp.DAL.BankAccountDAL.BankAccountDALImplementation import BankAccountDALImplementation
 from BankingApp.DAL.SessionDAL.SessionDALImplementation import SessionDALImplementation
@@ -24,6 +24,7 @@ session_sao = SessionSALImplementation(session_dao)
 def deposit():
     try:
         deposit_info: dict = request.get_json()
+        current_app.logger.info("Beginning API function deposit with data: " + str(deposit_info))
         session_id = int(deposit_info["sessionId"])
         deposit_amount = deposit_info["depositAmount"]
         account_id = deposit_info["accountId"]
@@ -39,9 +40,11 @@ def deposit():
         deposit_transaction = Transaction(0, str(datetime.datetime.now()), "deposit", int(transaction_account_id),
                                           float(transaction_amount))
         transaction_sao.service_create_transaction(deposit_transaction)
+        current_app.logger.info("Finishing API function deposit with result: " + str(result_json))
         return result_json, 201
     except FailedTransaction as error:
         message = {
             "message": str(error)
         }
+        current_app.logger.error("Error with API function deposit with error: " + str(error))
         return jsonify(message), 400

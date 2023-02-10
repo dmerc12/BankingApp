@@ -1,6 +1,6 @@
 import datetime
 
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, current_app
 
 from BankingApp.DAL.BankAccountDAL.BankAccountDALImplementation import BankAccountDALImplementation
 from BankingApp.DAL.SessionDAL.SessionDALImplementation import SessionDALImplementation
@@ -24,6 +24,7 @@ session_sao = SessionSALImplementation(session_dao)
 def transfer():
     try:
         transfer_info: dict = request.get_json()
+        current_app.logger.info("Beginning API function transfer with data: " + str(transfer_info))
         session_id = int(transfer_info["sessionId"])
         session_sao.service_get_session(session_id)
         transfer_amount = transfer_info["transferAmount"]
@@ -44,9 +45,11 @@ def transfer():
         deposit_transaction = Transaction(0, str(datetime.datetime.now()), "deposit",
                                           int(deposit_transaction_account_id), float(deposit_transaction_amount))
         transaction_sao.service_create_transaction(deposit_transaction)
+        current_app.logger.info("Finishing API function transfer with result: " + str(result_json))
         return result_json, 201
     except FailedTransaction as error:
         message = {
             "message": str(error)
         }
+        current_app.logger.error("Error with API function transfer with data: " + str(error))
         return jsonify(message), 400

@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, current_app
 
 from BankingApp.DAL.BankAccountDAL.BankAccountDALImplementation import BankAccountDALImplementation
 from BankingApp.DAL.SessionDAL.SessionDALImplementation import SessionDALImplementation
@@ -17,14 +17,17 @@ account_sao = BankAccountSALImplementation(account_dao)
 def delete_account():
     try:
         id_info: dict = request.get_json()
+        current_app.logger.info("Beginning API function delete account with data: " + str(id_info))
         session_id = int(id_info["sessionId"])
         account_id = id_info["accountId"]
         session_sao.service_get_session(session_id)
         result = account_sao.service_delete_account(account_id)
         result_json = jsonify(result)
+        current_app.logger.info("Finishing API function delete account with result: " + str(result_json))
         return result_json, 201
     except FailedTransaction as error:
         message = {
             "message": str(error)
         }
+        current_app.logger.error("Error with API function delete account with error: " + str(error))
         return jsonify(message), 400

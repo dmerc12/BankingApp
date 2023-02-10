@@ -1,6 +1,6 @@
 import datetime
 
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, current_app
 
 from BankingApp.DAL.BankAccountDAL.BankAccountDALImplementation import BankAccountDALImplementation
 from BankingApp.DAL.SessionDAL.SessionDALImplementation import SessionDALImplementation
@@ -24,6 +24,7 @@ session_sao = SessionSALImplementation(session_dao)
 def withdraw():
     try:
         withdraw_info: dict = request.get_json()
+        current_app.logger.info("Beginning API function withdraw with data: " + str(withdraw_info))
         session_id = int(withdraw_info["sessionId"])
         withdraw_amount = withdraw_info["withdrawAmount"]
         account_id = withdraw_info["accountId"]
@@ -39,9 +40,11 @@ def withdraw():
         withdraw_transaction = Transaction(0, str(datetime.datetime.now()), "withdraw", int(transaction_account_id),
                                            float(transaction_amount))
         transaction_sao.service_create_transaction(withdraw_transaction)
+        current_app.logger.info("Finishing API function withdraw with result: " + str(result_json))
         return result_json, 201
     except FailedTransaction as error:
         message = {
             "message": str(error)
         }
+        current_app.logger.error("Error with API function withdraw with error: " + str(error))
         return jsonify(message), 400

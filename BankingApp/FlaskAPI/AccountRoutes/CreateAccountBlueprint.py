@@ -1,5 +1,5 @@
 import datetime
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, current_app
 
 from BankingApp.DAL.BankAccountDAL.BankAccountDALImplementation import BankAccountDALImplementation
 from BankingApp.DAL.SessionDAL.SessionDALImplementation import SessionDALImplementation
@@ -24,6 +24,7 @@ session_sao = SessionSALImplementation(session_dao)
 def create_account():
     try:
         account_data: dict = request.get_json()
+        current_app.logger.info("Beginning API function create account with data: " + str(account_data))
         session_id = int(account_data["sessionId"])
         balance = float(account_data["balance"])
         customer_id = session_sao.service_get_session(session_id).customer_id
@@ -40,10 +41,12 @@ def create_account():
         setup_transaction = Transaction(0, str(datetime.datetime.now()), "deposit", transaction_account_id,
                                         transaction_amount)
         transaction_sao.service_create_transaction(setup_transaction)
+        current_app.logger.info("Finishing API function create account with result: " + str(result_json))
         return result_json, 201
     except FailedTransaction as error:
         message = {
             "message": str(error)
         }
+        current_app.logger.error("Error with API function create account with error: " + str(error))
         return jsonify(message), 400
 
