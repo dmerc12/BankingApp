@@ -1,6 +1,6 @@
 if (!window.sessionStorage.getItem("sessionId")) {
     alert("You do not have access to this page! Please continue to log in or create your own credentials!");
-    window.location.href = "../ManageLogin/Login.html";
+    window.location.href = "../Customer/ManageLogin/Login.html";
 };
 
 async function doLogout() {
