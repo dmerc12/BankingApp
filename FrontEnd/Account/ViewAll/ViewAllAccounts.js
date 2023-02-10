@@ -101,14 +101,14 @@ function populateAccounts(accountList) {
         accountTable.appendChild(row);
         
         const tableData1 = document.createElement("td");
-        const square1 = document.createElement("h3");
-        square1.className = "form-control-label"
+        const square1 = document.createElement("h6");
+        square1.className = "form-control-label";
         square1.textContent = `Account number: ${accountId}`;
         row.appendChild(tableData1);
         tableData1.appendChild(square1);
 
         const tableData2 = document.createElement("td");
-        const square2 = document.createElement("h3");
+        const square2 = document.createElement("h6");
         square2.className = "form-control-label"
         square2.textContent = `Balance: $${balance}`;
         row.appendChild(tableData2);

@@ -1,3 +1,56 @@
+if (!window.sessionStorage.getItem("sessionId")) {
+    alert("You do not have access to this page! Please continue to log in or create your own credentials!");
+    window.location.href = "../Customer/ManageLogin/Login.html";
+};
+
+function navigateToHome() {
+    window.location.href = "../Home/CustomerHome.html";
+};
+
+async function doLogout() {
+    // initializing URL varible
+    logoutURL = "http://127.0.0.1:5000/logout"
+
+    // grabbing input from the DOM
+    const sessionId = window.sessionStorage.getItem("sessionId");
+
+    // preparing JSON
+    logoutDictionary = {
+        "sessionId": sessionId
+    };
+
+    // preparing request
+    let logoutRequest = {
+        method: "DELETE",
+        headers: {'Content-Type': "application/json"},
+        body: JSON.stringify(logoutDictionary)
+    };
+
+    // sending request and awaiting response
+    const response = await fetch(logoutURL, logoutRequest)
+
+    // handling API response approapriately
+    if (response.status === 201) {
+        const apiResponse = await response.json();
+        window.sessionStorage.removeItem("sessionId");
+        alert("Goodbye!");
+        window.location.href = "../../Customer/ManageLogin/Login.html";
+    } else if (response.status === 400) {
+        const apiResponse = await response.json();
+        alert(`${apiResponse.message}`);
+        if (apiResponse.message === "Session has expired, please log in!") {
+            window.sessionStorage.removeItem("sessionId");
+            alert("Goodbye!");
+            window.location.href = "../../Customer/ManageLogin/Login.html";
+        };
+    } else {
+        alert("Something went horribly wrong...");
+        window.sessionStorage.removeItem("sessionId");
+        alert("Goodbye!");
+        window.location.href = "../../Customer/ManageLogin/Login.html";
+    };
+};
+
 async function viewTransactions() {
     // initializing URL varible
     const viewTransactionsURL = "http://127.0.0.1:5000/get/all/transactions";
@@ -25,8 +78,7 @@ async function viewTransactions() {
     // handling API response approapriately
     if (response.status === 201) {
         const transactionData = await response.json();
-        const transactionList = transactionData.tansactionList;
-        window.location.href = "Transactions.html"
+        const transactionList = transactionData.transactionList;
         populateTransactions(transactionList);
     } else if (response.status === 400) {
         const apiResponse = await response.json();
@@ -43,28 +95,40 @@ function populateTransactions(transactionList) {
     let count = 0;
     const transactionTable = document.getElementById("viewTransactionsTable");
     for (transaction in transactionList) {        
-        const transactionId = Number(transactionList[count].split(", ")[0]);
-        const dateTime = String(transactionList[count].split(", ")[1]);
-        const transactionType = String(transactionList[count].split(", ")[2]);
-        const amount = String(transactionList[count].split(", ")[4]);
-        const row = document.createElement(tr);
+        const transactionId = Number(String(transactionList[count]).split(", ")[0]);
+        const dateTime = String(transactionList[count]).split(", ")[1];
+        const transactionType = String(transactionList[count]).split(", ")[2];
+        const amount = String(transactionList[count]).split(", ")[4];
+        const row = document.createElement("tr");
         transactionTable.appendChild(row);
         
-        const square1 = document.createElement("td");
+        const tableData1 = document.createElement("td");
+        const square1 = document.createElement("h6");
+        square1.className = "form-control-label";
         square1.textContent = `Transaction ID: ${transactionId}`;
-        row.appendChild(square1);
+        row.appendChild(tableData1);
+        tableData1.appendChild(square1);
 
-        const square2 = document.createElement("td");
+        const tableData2 = document.createElement("td");
+        const square2 = document.createElement("h6");
+        square2.className = "form-control-label";
         square2.textContent = `Date and time of transaction: ${dateTime}`;
-        row.appendChild(square2);
+        row.appendChild(tableData2);
+        tableData2.appendChild(square2);
 
-        const square3 = document.createElement("td");
-        square2.textContent = `Transaction type: ${transactionType}`;
-        row.appendChild(square3);
+        const tableData3 = document.createElement("td");
+        const square3 = document.createElement("h6");
+        square3.className = "form-control-label";
+        square3.textContent = `Transaction type: ${transactionType}`;
+        row.appendChild(tableData3);
+        tableData3.appendChild(square3);
 
-        const square4 = document.createElement("td");
-        square2.textContent = `Transacion amount: ${amount}}`;
-        row.appendChild(square4);
+        const tableData4 = document.createElement("td");
+        const square4 = document.createElement("h6");
+        square4.className = "form-control-label";
+        square4.textContent = `Transacion amount: ${amount}}`;
+        row.appendChild(tableData4);
+        tableData4.appendChild(square4);
 
         count = count + 1;
         };
