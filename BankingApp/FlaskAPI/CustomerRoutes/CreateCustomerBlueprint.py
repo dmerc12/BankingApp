@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, current_app
 
 from BankingApp.DAL.CustomerDAL.CustomerDALImplementation import CustomerDALImplementation
 from BankingApp.Entities.Customer import Customer
@@ -14,6 +14,7 @@ customer_sao = CustomerSALImplementation(customer_dao)
 def create_customer():
     try:
         customer_info: dict = request.get_json()
+        current_app.logger.info("Beginning API function create customer with data: " + str(customer_info))
         new_customer = Customer(0, customer_info["firstName"], customer_info["lastName"], customer_info["password"],
                                 customer_info["email"], customer_info["phoneNumber"], customer_info["address"])
         password_confirmation = customer_info["passwordConfirmation"]
@@ -26,9 +27,11 @@ def create_customer():
             "address": result.address
         }
         result_json = jsonify(result_dictionary)
+        current_app.logger.info("Finishing API function create customer with result: " + str(result_json))
         return result_json, 201
     except FailedTransaction as error:
         message = {
             "message": str(error)
         }
+        current_app.logger.error("Error with API function create customer with error: " + str(error))
         return jsonify(message), 400

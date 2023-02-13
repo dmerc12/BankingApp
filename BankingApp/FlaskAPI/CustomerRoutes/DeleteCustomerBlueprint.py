@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, current_app
 
 from BankingApp.DAL.CustomerDAL.CustomerDALImplementation import CustomerDALImplementation
 from BankingApp.DAL.SessionDAL.SessionDALImplementation import SessionDALImplementation
@@ -17,6 +17,7 @@ session_sao = SessionSALImplementation(session_dao)
 def delete_customer():
     try:
         requested_info = request.get_json()
+        current_app.logger.info("Beginning API function delete customer with data: " + str(requested_info))
         session_id = int(requested_info["sessionId"])
         customer_id = session_sao.service_get_session(session_id).customer_id
         session_sao.service_delete_all_sessions(customer_id)
@@ -25,9 +26,11 @@ def delete_customer():
             "result": result
         }
         result_json = jsonify(result_dictionary)
+        current_app.logger.info("Finishing API function delete customer with result: " + str(result_json))
         return result_json, 201
     except FailedTransaction as error:
         message = {
             "message": str(error)
         }
+        current_app.logger.error("Finishing API function delete customer with error: " + str(error))
         return jsonify(message), 400
