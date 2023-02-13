@@ -1,6 +1,6 @@
 import datetime
 
-from flask import Blueprint, request, jsonify, make_response
+from flask import Blueprint, request, jsonify, current_app
 
 from BankingApp.DAL.CustomerDAL.CustomerDALImplementation import CustomerDALImplementation
 from BankingApp.DAL.SessionDAL.SessionDALImplementation import SessionDALImplementation
@@ -20,6 +20,7 @@ session_sao = SessionSALImplementation(session_dao)
 def login():
     try:
         login_credentials: dict = request.get_json()
+        current_app.logger.info("Beginning API function login with data: " + str(login_credentials))
         email = login_credentials["email"]
         password = login_credentials["password"]
         result = customer_sao.service_login(email, password)
@@ -31,9 +32,11 @@ def login():
             "sessionId": new_session.session_id
         }
         result_json = jsonify(result_dictionary)
+        current_app.logger.info("Finishing API function login with result: " + str(result_json))
         return result_json, 201
     except FailedTransaction as error:
         message = {
             "message": str(error)
         }
+        current_app.logger.error("Error with API function login with error: " + str(error))
         return jsonify(message), 400
