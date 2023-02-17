@@ -9,9 +9,9 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-    <link rel="stylesheet" type="text/css" href="../../Utility/style.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
 
-    <title>Flask Banking - Viewing All Accounts</title>
+    <title>{% block title %} {% endblock %}</title>
 </head>
 <body>
     <header class="site-header">
@@ -24,10 +24,10 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarToggle">
             <div class="navbar-nav mr-auto">
-              <a class="nav-item nav-link" href="../../Home/CustomerHome.html">Home</a>
-              <a class="nav-item nav-link" href="../../Transactions/Transactions.html">Analyze Transactions</a>
-              <a class="nav-item nav-link" href="../../Customer/Main/ManageCustomer.html">Manage Customer Information</a>
-              <a class="nav-item nav-link" href="../Main/ManageAccounts.html">Manage Accounts</a>
+              <a class="nav-item nav-link" href="CustomerHome.html">Home</a>
+              <a class="nav-item nav-link" href="../Transactions/Transactions.html">Analyze Transactions</a>
+              <a class="nav-item nav-link" href="../Customer/Main/ManageCustomer.html">Manage Customer Information</a>
+              <a class="nav-item nav-link" href="../Account/Main/ManageAccounts.html">Manage Accounts</a>
             </div>
             <!-- Navbar Right Side -->
             <div id="navLoginRegisterLogout" class="navbar-nav">
@@ -38,38 +38,8 @@
       </nav>
     </header>
     <main role="main" class="container">
-      <div class="row">
-        <div class="col-md-8">
-          <div class="content-section">
-              <div class="form-group">
-                <button class="btn btn-outline-info" id="refreshAccountsButton" 
-                        onclick="viewAllAccounts()" >Click Here To Load Or Refresh Page</button>
-                <button class="btn btn-outline-info" id="viewAllAccountsBackButton" 
-                        onclick="navigateToManageAccounts()" >Go Back</button>
-              </div>
-              <div class="form-group">
-                <table>
-                    <thead></thead>
-                    <tbody id="viewAllAccountsTable"></tbody>
-                </table>
-              </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="content-section">
-            <h3>Our Sidebar</h3>
-            <p class='text-muted'>You can put any information here you'd like.
-              <ul class="list-group">
-                <li class="list-group-item list-group-item-light">Latest Posts</li>
-                <li class="list-group-item list-group-item-light">Announcements</li>
-                <li class="list-group-item list-group-item-light">Calendars</li>
-                <li class="list-group-item list-group-item-light">etc</li>
-              </ul>
-          </div>
-        </div>
-      </div>
+      {% block main %} {% endblock %}
     </main>
-    <script src="ViewAllAccounts.js"></script>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

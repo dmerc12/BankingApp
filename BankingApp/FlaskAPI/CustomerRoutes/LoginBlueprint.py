@@ -16,7 +16,7 @@ customer_sao = CustomerSALImplementation(customer_dao)
 session_dao = SessionDALImplementation()
 session_sao = SessionSALImplementation(session_dao)
 
-@new_login.route("/login", methods=["POST"])
+@new_login.route("/login/now", methods=["POST"])
 def login():
     try:
         login_credentials: dict = request.get_json()
