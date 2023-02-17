@@ -16,7 +16,7 @@ from BankingApp.FlaskAPI.CustomerRoutes.LogoutBlueprint import new_logout
 from BankingApp.FlaskAPI.CustomerRoutes.UpdateCustomerBlueprint import update_this_customer
 from BankingApp.FlaskAPI.CustomerRoutes.DeleteCustomerBlueprint import delete_this_customer
 from BankingApp.FlaskAPI.AccountRoutes.GetAllAccountsBlueprint import get_relevant_accounts
-from BankingApp.FlaskAPI.PageRendering.CustomerRoutes import customer_pages
+from BankingApp.FlaskAPI.PageRenderingRoutes.CustomerRoutes import customer_pages
 from BankingApp.FlaskAPI.TransactionRoutes.GetAllTransactionsBlueprint import get_relevant_transactions
 
 def create_back_end_api(config):

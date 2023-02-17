@@ -24,20 +24,27 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarToggle">
             <div class="navbar-nav mr-auto">
-              <a class="nav-item nav-link" href="CustomerHome.html">Home</a>
+              <a class="nav-item nav-link" href="{{ url_for('customer_pages.home') }}">Home</a>
               <a class="nav-item nav-link" href="../Transactions/Transactions.html">Analyze Transactions</a>
               <a class="nav-item nav-link" href="../Customer/Main/ManageCustomer.html">Manage Customer Information</a>
               <a class="nav-item nav-link" href="../Account/Main/ManageAccounts.html">Manage Accounts</a>
             </div>
             <!-- Navbar Right Side -->
-            <div id="navLoginRegisterLogout" class="navbar-nav">
-              <a class="nav-item nav-link" onclick="doLogout()">Logout</a>
-            </div>
+            {% block loginOrLogout %} {% endblock %}
           </div>
         </div>
       </nav>
     </header>
     <main role="main" class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+              {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">
+                  {{ message }}
+                </div>
+              {% endfor %}
+            {% endif %}
+          {% endwith %}
       {% block main %} {% endblock %}
     </main>
 
