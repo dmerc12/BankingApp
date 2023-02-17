@@ -16,9 +16,12 @@ from BankingApp.FlaskAPI.CustomerRoutes.LogoutBlueprint import new_logout
 from BankingApp.FlaskAPI.CustomerRoutes.UpdateCustomerBlueprint import update_this_customer
 from BankingApp.FlaskAPI.CustomerRoutes.DeleteCustomerBlueprint import delete_this_customer
 from BankingApp.FlaskAPI.AccountRoutes.GetAllAccountsBlueprint import get_relevant_accounts
+from BankingApp.FlaskAPI.PageRenderingRoutes.AccountRoutes import account_routes
+from BankingApp.FlaskAPI.PageRenderingRoutes.CustomerRoutes import customer_routes
+from BankingApp.FlaskAPI.PageRenderingRoutes.TransactionRoutes import transaction_routes
 from BankingApp.FlaskAPI.TransactionRoutes.GetAllTransactionsBlueprint import get_relevant_transactions
 
-def create_app(config):
+def create_back_end_api(config):
     app: Flask = Flask(__name__)
     CORS(app)
     app.config.from_object(config)
@@ -53,5 +56,8 @@ def create_app(config):
     app.register_blueprint(delete_this_account)
     app.register_blueprint(get_relevant_transactions)
     app.register_blueprint(load_customer_info)
+    app.register_blueprint(customer_routes)
+    app.register_blueprint(account_routes)
+    app.register_blueprint(transaction_routes)
 
     return app
