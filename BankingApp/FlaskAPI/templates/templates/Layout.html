@@ -24,10 +24,13 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarToggle">
             <div class="navbar-nav mr-auto">
-              <a class="nav-item nav-link" href="{{ url_for('customer_pages.home') }}">Home</a>
-              <a class="nav-item nav-link" href="../Transactions/Transactions.html">Analyze Transactions</a>
-              <a class="nav-item nav-link" href="../Customer/Main/ManageCustomer.html">Manage Customer Information</a>
-              <a class="nav-item nav-link" href="../Account/Main/ManageAccounts.html">Manage Accounts</a>
+              <a class="nav-item nav-link" href="{{ url_for('customer_routes.home') }}">Home</a>
+              <a class="nav-item nav-link" href="{{ url_for('transaction_routes.analyze_transactions') }}">
+                  Analyze Transactions</a>
+              <a class="nav-item nav-link" href="{{ url_for('customer_routes.manage_customer') }}">
+                  Manage Customer Information</a>
+              <a class="nav-item nav-link" href="{{ url_for('account_routes.manage_accounts') }}">
+                  Manage Accounts</a>
             </div>
             <!-- Navbar Right Side -->
             {% block loginOrLogout %} {% endblock %}
