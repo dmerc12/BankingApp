@@ -10,7 +10,7 @@ from BankingApp.FlaskAPI.AccountRoutes.DepositBlueprint import do_deposit
 from BankingApp.FlaskAPI.AccountRoutes.TransferBlueprint import do_transfer
 from BankingApp.FlaskAPI.AccountRoutes.WithdrawBlueprint import do_withdraw
 from BankingApp.FlaskAPI.CustomerRoutes.GetCustomerBlueprint import load_customer_info
-from BankingApp.FlaskAPI.CustomerRoutes.LoginBlueprint import new_login
+from BankingApp.FlaskAPI.CustomerRoutes.LoginBlueprint import login_route
 from BankingApp.FlaskAPI.CustomerRoutes.CreateCustomerBlueprint import create_new_customer
 from BankingApp.FlaskAPI.CustomerRoutes.LogoutBlueprint import new_logout
 from BankingApp.FlaskAPI.CustomerRoutes.UpdateCustomerBlueprint import update_this_customer
@@ -44,7 +44,7 @@ def create_back_end_api(config):
         app.logger.setLevel(log_level)
 
     app.register_blueprint(create_new_account)
-    app.register_blueprint(new_login)
+    app.register_blueprint(login_route)
     app.register_blueprint(new_logout)
     app.register_blueprint(create_new_customer)
     app.register_blueprint(update_this_customer)

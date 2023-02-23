@@ -3,11 +3,34 @@
 {% block title %}Login{% endblock %}
 
 {% block loginOrLogout %}
-
+<div class="navbar-nav">
+    <a class="nav-item nav-link" href="{{ url_for('customer_routes.register') }}">Register</a>
+</div>
 {% endblock %}
 
 {% block main %}
 
+<div class="container">
+    <div class="col">
+        <h1>Log In</h1>
+        <hr>
 
+        <form method="POST">
+            <div class="form-group">
+                <label>Email</label>
+                <input type="text" class="form-control" name="email" id="email">
+            </div>
+
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" class="form-control" name="password" id="password">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Log In</button>
+            <script src="{{ url_for('static', filename='Customer/Login.js') }}"></script>
+
+        </form>
+    </div>
+</div>
 
 {% endblock %}
