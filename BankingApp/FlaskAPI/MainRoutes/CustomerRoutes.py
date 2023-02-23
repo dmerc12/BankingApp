@@ -17,10 +17,6 @@ customer_sao = CustomerSALImplementation(customer_dao)
 session_dao = SessionDALImplementation()
 session_sao = SessionSALImplementation(session_dao)
 
-@customer_routes.route("/home", methods=["GET"])
-def home():
-    return render_template("Main/Home.html")
-
 @customer_routes.route("/manage/customer", methods=["GET"])
 def manage_customer():
     return render_template("Customer/ManageCustomer.html")
