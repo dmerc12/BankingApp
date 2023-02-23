@@ -39,15 +39,18 @@
       </nav>
     </header>
     <main role="main" class="container">
-        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% with messages = get_flashed_messages() %}
             {% if messages %}
-              {% for category, message in messages %}
-                <div class="alert alert-{{ category }}">
-                  {{ message }}
+                <div class="alert alert-danger">
+                    <p>
+                        {% for message in messages %}
+                            {{ message }}
+                        {% endfor %}
+                    </p>
                 </div>
-              {% endfor %}
             {% endif %}
-          {% endwith %}
+        {% endwith %}
+
       {% block main %} {% endblock %}
     </main>
 

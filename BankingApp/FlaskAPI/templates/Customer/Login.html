@@ -15,18 +15,18 @@
         <h1>Log In</h1>
         <hr>
 
-        <form action="/sign-in" method="POST">
+        <form method="POST">
             <div class="form-group">
                 <label>Email</label>
-                <input type="text" class="form-control" name="email" id="emailInput">
+                <input type="text" class="form-control" name="email" id="email">
             </div>
 
             <div class="form-group">
                 <label>Password</label>
-                <input type="password" class="form-control" name="password" id="passwordInput">
+                <input type="password" class="form-control" name="password" id="password">
             </div>
 
-            <button type="submit" class="btn btn-primary" onclick="doLogin()">Log In</button>
+            <button type="submit" class="btn btn-primary">Log In</button>
             <script src="{{ url_for('static', filename='Customer/Login.js') }}"></script>
 
         </form>
