@@ -33,4 +33,5 @@ def register():
         except FailedTransaction as error:
             current_app.logger.error("Error with API function create customer with error: " + str(error))
             flash(str(error))
-    return render_template("Customer/Register.html")
+    else:
+        return render_template("Customer/Register.html")

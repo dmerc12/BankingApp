@@ -3,7 +3,9 @@
 {% block title %}Analyzing Your Transactions{% endblock %}
 
 {% block loginOrLogout %}
-
+<div id="navLoginRegisterLogout" class="navbar-nav">
+    <a class="nav-item nav-link" href="{{ url_for('new_logout.logout') }}">Logout</a>
+</div>
 {% endblock %}
 
 {% block main %}
