@@ -13,12 +13,12 @@ from BankingApp.FlaskAPI.CustomerRoutes.GetCustomerBlueprint import load_custome
 from BankingApp.FlaskAPI.MainRoutes.HomeBlueprint import main_route
 from BankingApp.FlaskAPI.MainRoutes.LoginBlueprint import login_route
 from BankingApp.FlaskAPI.CustomerRoutes.CreateCustomerBlueprint import create_new_customer
-from BankingApp.FlaskAPI.CustomerRoutes.LogoutBlueprint import new_logout
+from BankingApp.FlaskAPI.MainRoutes.LogoutBlueprint import new_logout
 from BankingApp.FlaskAPI.CustomerRoutes.UpdateCustomerBlueprint import update_this_customer
 from BankingApp.FlaskAPI.CustomerRoutes.DeleteCustomerBlueprint import delete_this_customer
 from BankingApp.FlaskAPI.AccountRoutes.GetAllAccountsBlueprint import get_relevant_accounts
 from BankingApp.FlaskAPI.MainRoutes.AccountRoutes import account_routes
-from BankingApp.FlaskAPI.MainRoutes.ManageCustomerBlueprint import manage_customer_blueprint
+from BankingApp.FlaskAPI.CustomerRoutes.ManageCustomerBlueprint import manage_customer_blueprint
 from BankingApp.FlaskAPI.TransactionRoutes.TransactionRoutes import transaction_routes
 from BankingApp.FlaskAPI.TransactionRoutes.GetAllTransactionsBlueprint import get_relevant_transactions
 
