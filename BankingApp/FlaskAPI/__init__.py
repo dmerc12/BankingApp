@@ -18,7 +18,7 @@ from BankingApp.FlaskAPI.CustomerRoutes.UpdateCustomerBlueprint import update_th
 from BankingApp.FlaskAPI.CustomerRoutes.DeleteCustomerBlueprint import delete_this_customer
 from BankingApp.FlaskAPI.AccountRoutes.GetAllAccountsBlueprint import get_relevant_accounts
 from BankingApp.FlaskAPI.MainRoutes.AccountRoutes import account_routes
-from BankingApp.FlaskAPI.MainRoutes.CustomerRoutes import customer_routes
+from BankingApp.FlaskAPI.MainRoutes.ManageCustomerBlueprint import manage_customer_blueprint
 from BankingApp.FlaskAPI.TransactionRoutes.TransactionRoutes import transaction_routes
 from BankingApp.FlaskAPI.TransactionRoutes.GetAllTransactionsBlueprint import get_relevant_transactions
 
@@ -57,7 +57,7 @@ def create_back_end_api(config):
     app.register_blueprint(delete_this_account)
     app.register_blueprint(get_relevant_transactions)
     app.register_blueprint(load_customer_info)
-    app.register_blueprint(customer_routes)
+    app.register_blueprint(manage_customer_blueprint)
     app.register_blueprint(account_routes)
     app.register_blueprint(transaction_routes)
     app.register_blueprint(main_route)
