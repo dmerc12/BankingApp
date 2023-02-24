@@ -269,7 +269,7 @@ def test_service_login_success():
 
 def test_service_update_customer_passwords_dont_match():
     try:
-        test_customer = Customer(successful_customer.customer_id, 0, "last", "password", "test@email.com",
+        test_customer = Customer(successful_customer.customer_id, "first", "last", "password", "test@email.com",
                                  "123-456-7890", "123 First Street, City, State, ZIP")
         customer_sao.service_update_customer(test_customer, "these do not match!")
         assert False
