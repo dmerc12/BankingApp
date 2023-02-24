@@ -10,6 +10,17 @@
 
 {% block main %}
 
+<div class="row">
+  <div class="col-md-4 mb-4">
+    <a href="{{ url_for('account_routes.manage_accounts') }}" class="btn btn-primary btn-block">Manage Accounts</a>
+  </div>
+  <div class="col-md-4 mb-4">
+    <a href="{{ url_for('customer_routes.manage_customer') }}" class="btn btn-primary btn-block">Manage Information</a>
+  </div>
+  <div class="col-md-4 mb-4">
+    <a href="{{ url_for('transaction_routes.analyze_transactions') }}" class="btn btn-primary btn-block">Analyze Transactions</a>
+  </div>
+</div>
 
 
 {% endblock %}
