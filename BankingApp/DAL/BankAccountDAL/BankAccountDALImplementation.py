@@ -46,7 +46,7 @@ class BankAccountDALImplementation(BankAccountDALInterface):
         logging.info("Finishing DAL method get account by ID")
         return account
 
-    def get_all_accounts(self, customer_id: int) -> List[str]:
+    def get_all_accounts(self, customer_id: int) -> List[BankAccount]:
         logging.info("Beginning DAL method get all accounts")
         sql = "select * from banking.bank_accounts where customer_id=%s;"
         cursor = Connect.connection.cursor()
@@ -55,8 +55,7 @@ class BankAccountDALImplementation(BankAccountDALInterface):
         account_list = []
         for account in account_records:
             account = BankAccount(*account)
-            account_string = f"{account.account_id}, {account.customer_id}, {account.balance}"
-            account_list.append(account_string)
+            account_list.append(account)
         if len(account_list) == 0:
             logging.warning("DAL method get all accounts, no accounts found")
             raise FailedTransaction("No accounts found, please try again!")
