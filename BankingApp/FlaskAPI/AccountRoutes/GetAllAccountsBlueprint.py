@@ -45,6 +45,5 @@ def get_all_accounts():
         current_app.logger.info("Beginning API function get all accounts with data: " + str(session_id))
         customer_id = str(session_sao.service_get_session(session_id).customer_id)
         accounts = account_sao.service_get_all_accounts(customer_id)
-        print(accounts)
         current_app.logger.info("Finishing API function get all accounts with result: " + str(accounts))
         return render_template("Account/ViewAllAccounts.html", account_list=accounts)
