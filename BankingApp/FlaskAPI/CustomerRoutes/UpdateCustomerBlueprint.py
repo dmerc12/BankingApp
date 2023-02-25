@@ -40,7 +40,8 @@ def update_customer():
                     "phoneNumber": result.phone_number,
                     "address": result.address
                 }
-                current_app.logger.info("Finishing API functioning update customer with result: " + str(result_dictionary))
+                current_app.logger.info("Finishing API functioning update customer with result: " +
+                                        str(result_dictionary))
                 flash("Information successfully updated!")
                 return redirect(url_for("manage_customer_blueprint.manage_customer"))
             except FailedTransaction as error:

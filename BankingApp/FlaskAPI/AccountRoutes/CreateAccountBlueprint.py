@@ -50,10 +50,31 @@ def create_account_now():
         current_app.logger.error("Error with API function create account with error: " + str(error))
         return jsonify(message), 400
 
-@create_new_account.route("/create/account", methods=["GET"])
+@create_new_account.route("/create/account", methods=["GET", "POST"])
 def create_account():
     if "session_id" not in session:
         flash("Please log in!")
         return redirect(url_for("login_route.login"))
     else:
-        return render_template("Account/CreateAccount.html")
+        if request.method == "POST":
+            try:
+                session_id = session["session_id"]
+                starting_balance = float(request.form.to_dict()["startingBalance"])
+                current_app.logger.info("Beginning API function create new account with data: " + str(session_id)
+                                        + ", and " + str(starting_balance))
+                customer_id = session_sao.service_get_session(session_id).customer_id
+                new_account = BankAccount(0, customer_id, starting_balance)
+                result = account_sao.service_create_account(new_account)
+                result_dictionary = {
+                    "accountId": result.account_id,
+                    "startingBalance": result.balance
+                }
+                current_app.logger.info("Finishing API function create new account with result: " +
+                                        str(result_dictionary))
+                flash("Account successfully created!")
+                return redirect(url_for("account_routes.manage_accounts"))
+            except FailedTransaction as error:
+                current_app.logger.error("Error with API function create new account with error: " + str(error))
+                flash(str(error))
+        else:
+            return render_template("Account/CreateAccount.html")
