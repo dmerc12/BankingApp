@@ -1,6 +1,6 @@
 import datetime
 
-from flask import Blueprint, request, jsonify, current_app
+from flask import Blueprint, request, jsonify, current_app, session, flash, redirect, url_for, render_template
 
 from BankingApp.DAL.BankAccountDAL.BankAccountDALImplementation import BankAccountDALImplementation
 from BankingApp.DAL.SessionDAL.SessionDALImplementation import SessionDALImplementation
@@ -20,8 +20,8 @@ transaction_sao = TransactionSALImplementation(transaction_dao)
 session_dao = SessionDALImplementation()
 session_sao = SessionSALImplementation(session_dao)
 
-@do_transfer.route("/transfer", methods=["PATCH"])
-def transfer():
+@do_transfer.route("/make/transfer", methods=["PATCH"])
+def make_transfer():
     try:
         transfer_info: dict = request.get_json()
         current_app.logger.info("Beginning API function transfer with data: " + str(transfer_info))
@@ -53,3 +53,12 @@ def transfer():
         }
         current_app.logger.error("Error with API function transfer with data: " + str(error))
         return jsonify(message), 400
+
+
+@do_transfer.route("/transfer", methods=["GET"])
+def transfer():
+    if "session_id" not in session:
+        flash("Please log in!")
+        return redirect(url_for("login_route.login"))
+    else:
+        return render_template("Account/Transfer.html")

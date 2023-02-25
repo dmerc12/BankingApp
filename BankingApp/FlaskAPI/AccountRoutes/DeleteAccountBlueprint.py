@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request, current_app
+from flask import Blueprint, jsonify, request, current_app, session, url_for, redirect, flash, render_template
 
 from BankingApp.DAL.BankAccountDAL.BankAccountDALImplementation import BankAccountDALImplementation
 from BankingApp.DAL.SessionDAL.SessionDALImplementation import SessionDALImplementation
@@ -13,8 +13,8 @@ session_sao = SessionSALImplementation(session_dao)
 account_dao = BankAccountDALImplementation()
 account_sao = BankAccountSALImplementation(account_dao)
 
-@delete_this_account.route("/delete/account", methods=["DELETE"])
-def delete_account():
+@delete_this_account.route("/delete/account/now", methods=["DELETE"])
+def delete_account_now():
     try:
         id_info: dict = request.get_json()
         current_app.logger.info("Beginning API function delete account with data: " + str(id_info))
@@ -31,3 +31,11 @@ def delete_account():
         }
         current_app.logger.error("Error with API function delete account with error: " + str(error))
         return jsonify(message), 400
+
+@delete_this_account.route("/delete/account", methods=["GET"])
+def delete_account():
+    if "session_id" not in session:
+        flash("Please log in!")
+        return redirect(url_for("login_route.login"))
+    else:
+        return render_template("Account/DeleteAccount.html")

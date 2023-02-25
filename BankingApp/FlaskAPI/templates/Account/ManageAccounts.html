@@ -10,6 +10,25 @@
 
 {% block main %}
 
-
+<div class="row">
+  <div class="col-md-4 mb-4">
+    <a href="{{ url_for('create_new_account.create_account') }}" class="btn btn-primary btn-block">Create An Account</a>
+  </div>
+  <div class="col-md-4 mb-4">
+    <a href="{{ url_for('get_relevant_accounts.get_all_accounts') }}" class="btn btn-primary btn-block">View Current Accounts</a>
+  </div>
+  <div class="col-md-4 mb-4">
+    <a href="{{ url_for('do_deposit.deposit') }}" class="btn btn-primary btn-block">Make A Deposit</a>
+  </div>
+  <div class="col-md-4 mb-4">
+    <a href="{{ url_for('do_withdraw.withdraw') }}" class="btn btn-primary btn-block">Make A Withdraw</a>
+  </div>
+  <div class="col-md-4 mb-4">
+    <a href="{{ url_for('do_transfer.transfer') }}" class="btn btn-primary btn-block">Make A Transfer</a>
+  </div>
+  <div class="col-md-4 mb-4">
+    <a href="{{ url_for('delete_this_account.delete_account') }}" class="btn btn-primary btn-block">Delete An Account</a>
+  </div>
+</div>
 
 {% endblock %}
