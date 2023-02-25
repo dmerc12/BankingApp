@@ -1,6 +1,6 @@
 import datetime
 
-from flask import Blueprint, jsonify, request, current_app
+from flask import Blueprint, jsonify, request, current_app, session, flash, url_for, redirect, render_template
 
 from BankingApp.DAL.BankAccountDAL.BankAccountDALImplementation import BankAccountDALImplementation
 from BankingApp.DAL.SessionDAL.SessionDALImplementation import SessionDALImplementation
@@ -20,8 +20,8 @@ transaction_sao = TransactionSALImplementation(transaction_dao)
 session_dao = SessionDALImplementation()
 session_sao = SessionSALImplementation(session_dao)
 
-@do_deposit.route("/deposit", methods=["PATCH"])
-def deposit():
+@do_deposit.route("/make/deposit", methods=["PATCH"])
+def make_deposit():
     try:
         deposit_info: dict = request.get_json()
         current_app.logger.info("Beginning API function deposit with data: " + str(deposit_info))
@@ -48,3 +48,11 @@ def deposit():
         }
         current_app.logger.error("Error with API function deposit with error: " + str(error))
         return jsonify(message), 400
+
+@do_deposit.route("/deposit", methods=["GET"])
+def deposit():
+    if "session_id" not in session:
+        flash("Please log in!")
+        return redirect(url_for("login_route.login"))
+    else:
+        return render_template("Account/Deposit.html")

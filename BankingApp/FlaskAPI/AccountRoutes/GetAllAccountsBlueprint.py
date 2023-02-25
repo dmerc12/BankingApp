@@ -1,4 +1,4 @@
-from flask import jsonify, request, Blueprint, current_app
+from flask import jsonify, request, Blueprint, current_app, render_template, url_for, redirect, flash, session
 
 from BankingApp.DAL.BankAccountDAL.BankAccountDALImplementation import BankAccountDALImplementation
 from BankingApp.DAL.SessionDAL.SessionDALImplementation import SessionDALImplementation
@@ -14,7 +14,7 @@ session_dao = SessionDALImplementation()
 session_sao = SessionSALImplementation(session_dao)
 
 @get_relevant_accounts.route("/get/all/accounts", methods=["PATCH"])
-def get_all_accounts():
+def get_all_current_accounts():
     try:
         requested_info: dict = request.get_json()
         current_app.logger.info("Beginning API function get all accounts with data: " + str(requested_info))
@@ -33,3 +33,12 @@ def get_all_accounts():
         }
         current_app.logger.error("Error with API function get all accounts with error: " + str(error))
         return jsonify(message), 400
+
+
+@get_relevant_accounts.route("/get/accounts", methods=["GET"])
+def get_all_accounts():
+    if "session_id" not in session:
+        flash("Please log in!")
+        return redirect(url_for("login_route.login"))
+    else:
+        return render_template("Account/ViewAllAccounts.html")

@@ -21,7 +21,7 @@ class CustomerSALInterface(ABC):
         pass
 
     @abstractmethod
-    def service_update_customer(self, customer: Customer) -> Customer:
+    def service_update_customer(self, customer: Customer, updated_password_confirmation: str) -> Customer:
         pass
 
     @abstractmethod

@@ -119,7 +119,7 @@ class CustomerSALImplementation(CustomerSALInterface):
             customer = self.customer_dao.login(email, password)
             return customer
 
-    def service_update_customer(self, customer: Customer) -> Customer:
+    def service_update_customer(self, customer: Customer, updated_password_confirmation: str) -> Customer:
         logging.info("Beginning SAL method update customer")
         if type(customer.first_name) != str:
             logging.warning("SAL method update customer, first name not a string")
@@ -171,6 +171,11 @@ class CustomerSALImplementation(CustomerSALInterface):
                 customer.phone_number = current_customer_information.phone_number
             if customer.address == "":
                 customer.address = current_customer_information.address
+            if updated_password_confirmation == "":
+                updated_password_confirmation = current_customer_information.password
+            if customer.password != updated_password_confirmation:
+                logging.warning("SAL method update customer, passwords don't match")
+                raise FailedTransaction("The password fields do not match, please try again!")
             logging.info("Finishing SAL method update customer")
             updated_customer = self.customer_dao.update_customer(customer)
             return updated_customer

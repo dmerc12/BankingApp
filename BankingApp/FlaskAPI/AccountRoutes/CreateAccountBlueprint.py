@@ -1,5 +1,5 @@
 import datetime
-from flask import Blueprint, jsonify, request, current_app
+from flask import Blueprint, jsonify, request, current_app, session, flash, redirect, render_template, url_for
 
 from BankingApp.DAL.BankAccountDAL.BankAccountDALImplementation import BankAccountDALImplementation
 from BankingApp.DAL.SessionDAL.SessionDALImplementation import SessionDALImplementation
@@ -20,8 +20,8 @@ transaction_sao = TransactionSALImplementation(transaction_dao)
 session_dao = SessionDALImplementation()
 session_sao = SessionSALImplementation(session_dao)
 
-@create_new_account.route("/create/account", methods=["POST"])
-def create_account():
+@create_new_account.route("/create/account/now", methods=["POST"])
+def create_account_now():
     try:
         account_data: dict = request.get_json()
         current_app.logger.info("Beginning API function create account with data: " + str(account_data))
@@ -50,3 +50,10 @@ def create_account():
         current_app.logger.error("Error with API function create account with error: " + str(error))
         return jsonify(message), 400
 
+@create_new_account.route("/create/account", methods=["GET"])
+def create_account():
+    if "session_id" not in session:
+        flash("Please log in!")
+        return redirect(url_for("login_route.login"))
+    else:
+        return render_template("Account/CreateAccount.html")

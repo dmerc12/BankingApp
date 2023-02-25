@@ -1,6 +1,6 @@
 import datetime
 
-from flask import Blueprint, request, jsonify, current_app
+from flask import Blueprint, request, jsonify, current_app, render_template, url_for, redirect, session, flash
 
 from BankingApp.DAL.BankAccountDAL.BankAccountDALImplementation import BankAccountDALImplementation
 from BankingApp.DAL.SessionDAL.SessionDALImplementation import SessionDALImplementation
@@ -20,8 +20,8 @@ transaction_sao = TransactionSALImplementation(transaction_dao)
 session_dao = SessionDALImplementation()
 session_sao = SessionSALImplementation(session_dao)
 
-@do_withdraw.route("/withdraw", methods=["PATCH"])
-def withdraw():
+@do_withdraw.route("/make/withdraw", methods=["PATCH"])
+def make_withdraw():
     try:
         withdraw_info: dict = request.get_json()
         current_app.logger.info("Beginning API function withdraw with data: " + str(withdraw_info))
@@ -48,3 +48,12 @@ def withdraw():
         }
         current_app.logger.error("Error with API function withdraw with error: " + str(error))
         return jsonify(message), 400
+
+
+@do_withdraw.route("/withdraw", methods=["GET"])
+def withdraw():
+    if "session_id" not in session:
+        flash("Please log in!")
+        return redirect(url_for("login_route.login"))
+    else:
+        return render_template("Account/Withdraw.html")

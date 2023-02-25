@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request, current_app
+from flask import Blueprint, render_template, redirect, url_for, flash, session, request, current_app
 
 from BankingApp.DAL.CustomerDAL.CustomerDALImplementation import CustomerDALImplementation
 from BankingApp.DAL.SessionDAL.SessionDALImplementation import SessionDALImplementation
@@ -7,41 +7,44 @@ from BankingApp.Entities.FailedTransaction import FailedTransaction
 from BankingApp.SAL.CustomerSAL.CustomerSALImplementation import CustomerSALImplementation
 from BankingApp.SAL.SessionSAL.SessionSALImplementation import SessionSALImplementation
 
-update_this_customer = Blueprint('update_this_customer', __name__)
+update_customer_blueprint = Blueprint("update_customer_blueprint", __name__)
 
-session_dao = SessionDALImplementation()
-session_sao = SessionSALImplementation(session_dao)
 customer_dao = CustomerDALImplementation()
 customer_sao = CustomerSALImplementation(customer_dao)
+session_dao = SessionDALImplementation()
+session_sao = SessionSALImplementation(session_dao)
 
-@update_this_customer.route("/update/customer", methods=["PATCH"])
+@update_customer_blueprint.route("/update/customer", methods=["POST", "GET"])
 def update_customer():
-    try:
-        new_customer_information: dict = request.get_json()
-        current_app.logger.info("Beginning API function update customer with data: " + str(new_customer_information))
-        session_id = int(new_customer_information["sessionId"])
-        current_customer_id = session_sao.service_get_session(session_id).customer_id
-        updated_customer_information = Customer(current_customer_id,
-                                                new_customer_information["firstName"],
-                                                new_customer_information["lastName"],
-                                                new_customer_information["password"],
-                                                new_customer_information["email"],
-                                                new_customer_information["phoneNumber"],
-                                                new_customer_information["address"])
-        result = customer_sao.service_update_customer(updated_customer_information)
-        result_dictionary = {
-            "firstName": result.first_name,
-            "lastName": result.last_name,
-            "email": result.email,
-            "phoneNumber": result.phone_number,
-            "address": result.address
-        }
-        result_json = jsonify(result_dictionary)
-        current_app.logger.info("Finishing API function update customer with result: " + str(result_json))
-        return result_json, 201
-    except FailedTransaction as error:
-        message = {
-            "message": str(error)
-        }
-        current_app.logger.error("Error with API function update customer with data: " + str(error))
-        return jsonify(message), 400
+    if "session_id" not in session:
+        flash("Please log in!")
+        return redirect(url_for("login_route.login"))
+    else:
+        if request.method == "POST":
+            try:
+                session_id = session["session_id"]
+                updated_info = request.form.to_dict()
+                current_app.logger.info("Beginning API function update customer with data: " + str(session_id) +
+                                        ", and " + str(updated_info))
+                customer_id = session_sao.service_get_session(session_id).customer_id
+                updated_customer = Customer(customer_id, updated_info["updatedFirstName"],
+                                            updated_info["updatedLastName"], updated_info["updatedEmail"],
+                                            updated_info["updatedPassword"], updated_info["updatedPhoneNumber"],
+                                            updated_info["updatedAddress"])
+                result = customer_sao.service_update_customer(updated_customer,
+                                                              updated_info["updatedPasswordConfirmation"])
+                result_dictionary = {
+                    "fistName": result.first_name,
+                    "lastName": result.last_name,
+                    "email": result.email,
+                    "phoneNumber": result.phone_number,
+                    "address": result.address
+                }
+                current_app.logger.info("Finishing API functioning update customer with result: " + str(result_dictionary))
+                flash("Information successfully updated!")
+                return redirect(url_for("manage_customer_blueprint.manage_customer"))
+            except FailedTransaction as error:
+                current_app.logger.error("Error with API function create customer with error: " + str(error))
+                flash(str(error))
+        else:
+            return render_template("Customer/UpdateCustomer.html")
