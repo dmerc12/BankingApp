@@ -17,6 +17,7 @@
             <tr>
                 <th>Account Number</th>
                 <th>Balance</th>
+                <th>View Transactions</th>
             </tr>
         </thead>
         <tbody>
@@ -24,6 +25,8 @@
             <tr>
                 <td>{{ account.account_id }}</td>
                 <td>{{ account.balance }}</td>
+                <td><a href="{{ url_for('get_relevant_transactions.view_transactions',
+                account_id=account.account_id) }}" class="btn btn-primary">View Transactions</a></td>
             </tr>
             {% endfor %}
         </tbody>
