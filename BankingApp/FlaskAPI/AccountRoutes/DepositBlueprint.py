@@ -22,14 +22,14 @@ session_sao = SessionSALImplementation(session_dao)
 
 @do_deposit.route("/deposit", methods=["GET", "POST"])
 def deposit():
-    session_id = session["session_id"]
-    current_app.logger.info("Beginning API function deposit with data: " + str(session_id))
-    customer_id = session_sao.service_get_session(session_id).customer_id
-    accounts = account_sao.service_get_all_accounts(str(customer_id))
     if "session_id" not in session:
         flash("Please log in!")
         return redirect(url_for("login_route.login"))
     else:
+        session_id = session["session_id"]
+        current_app.logger.info("Beginning API function deposit with data: " + str(session_id))
+        customer_id = session_sao.service_get_session(session_id).customer_id
+        accounts = account_sao.service_get_all_accounts(str(customer_id))
         if request.method == "POST":
             try:
                 account_id = request.form["account_id"]

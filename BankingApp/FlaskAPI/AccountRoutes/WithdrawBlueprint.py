@@ -1,6 +1,6 @@
 import datetime
 
-from flask import Blueprint, request, jsonify, current_app, render_template, url_for, redirect, session, flash
+from flask import Blueprint, request, current_app, render_template, url_for, redirect, session, flash
 
 from BankingApp.DAL.BankAccountDAL.BankAccountDALImplementation import BankAccountDALImplementation
 from BankingApp.DAL.SessionDAL.SessionDALImplementation import SessionDALImplementation
@@ -20,40 +20,29 @@ transaction_sao = TransactionSALImplementation(transaction_dao)
 session_dao = SessionDALImplementation()
 session_sao = SessionSALImplementation(session_dao)
 
-@do_withdraw.route("/make/withdraw", methods=["PATCH"])
-def make_withdraw():
-    try:
-        withdraw_info: dict = request.get_json()
-        current_app.logger.info("Beginning API function withdraw with data: " + str(withdraw_info))
-        session_id = int(withdraw_info["sessionId"])
-        withdraw_amount = withdraw_info["withdrawAmount"]
-        account_id = withdraw_info["accountId"]
-        session_sao.service_get_session(session_id)
-        result = account_sao.service_withdraw(account_id, withdraw_amount)
-        result_dictionary = {
-            "accountId": result.account_id,
-            "balance": result.balance
-        }
-        result_json = jsonify(result_dictionary)
-        transaction_account_id = account_id
-        transaction_amount = withdraw_amount
-        withdraw_transaction = Transaction(0, str(datetime.datetime.now()), "withdraw", int(transaction_account_id),
-                                           float(transaction_amount))
-        transaction_sao.service_create_transaction(withdraw_transaction)
-        current_app.logger.info("Finishing API function withdraw with result: " + str(result_json))
-        return result_json, 201
-    except FailedTransaction as error:
-        message = {
-            "message": str(error)
-        }
-        current_app.logger.error("Error with API function withdraw with error: " + str(error))
-        return jsonify(message), 400
-
-
-@do_withdraw.route("/withdraw", methods=["GET"])
+@do_withdraw.route("/withdraw", methods=["GET", "POST"])
 def withdraw():
     if "session_id" not in session:
         flash("Please log in!")
         return redirect(url_for("login_route.login"))
     else:
-        return render_template("Account/Withdraw.html")
+        session_id = session["session_id"]
+        current_app.logger.info("Beginning API function withdraw with data: " + str(session_id))
+        customer_id = session_sao.service_get_session(session_id).customer_id
+        accounts = account_sao.service_get_all_accounts(str(customer_id))
+        if request.method == "POST":
+            try:
+                account_id = request.form["account_id"]
+                withdraw_amount = request.form["amount"]
+                withdraw_transaction = Transaction(0, str(datetime.datetime.now()), "Withdraw", int(account_id),
+                                                   float(withdraw_amount))
+                result = account_sao.service_withdraw(account_id, withdraw_amount)
+                transaction_sao.service_create_transaction(withdraw_transaction)
+                current_app.logger.info("Finishing API function withdraw with result: " + str(result))
+                flash("Withdraw successful!")
+                return redirect(url_for("account_routes.manage_accounts"))
+            except FailedTransaction as error:
+                current_app.logger.error("Error with API function withdraw with error: " + str(error))
+                flash(str(error))
+        else:
+            return render_template("Account/Withdraw.html", account_list=accounts)
