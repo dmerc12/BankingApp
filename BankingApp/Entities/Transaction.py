@@ -9,9 +9,9 @@ class Transaction:
 
     def convert_to_dictionary(self):
         return {
-            "transactionId": self.transaction_id,
-            "dateTime": self.date_time,
-            "transactionType": self.transaction_type,
-            "accountId": self.account_id,
+            "transaction_id": self.transaction_id,
+            "date_time": self.date_time,
+            "transaction_type": self.transaction_type,
+            "account_id": self.account_id,
             "amount": self.amount
         }
