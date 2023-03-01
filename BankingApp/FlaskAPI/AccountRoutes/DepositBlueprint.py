@@ -27,13 +27,14 @@ def deposit():
         return redirect(url_for("login_route.login"))
     else:
         session_id = session["session_id"]
-        current_app.logger.info("Beginning API function deposit with data: " + str(session_id))
         customer_id = session_sao.service_get_session(session_id).customer_id
         accounts = account_sao.service_get_all_accounts(str(customer_id))
         if request.method == "POST":
             try:
                 account_id = request.form["account_id"]
                 deposit_amount = request.form["amount"]
+                current_app.logger.info("Beginning API function deposit with data: " + str(session_id) + ", and "
+                                        + str(account_id) + ", and " + str(deposit_amount))
                 deposit_transaction = Transaction(0, str(datetime.datetime.now()), "Deposit", int(account_id),
                                                   float(deposit_amount))
                 result = account_sao.service_deposit(account_id, deposit_amount)
@@ -44,5 +45,6 @@ def deposit():
             except FailedTransaction as error:
                 current_app.logger.error("Error with API function deposit with error: " + str(error))
                 flash(str(error))
+                return redirect(url_for("do_deposit.deposit"))
         else:
             return render_template("Account/Deposit.html", account_list=accounts)
