@@ -15,7 +15,7 @@ session_sao = SessionSALImplementation(session_dao)
 @manage_customer_blueprint.route("/manage/customer", methods=["GET"])
 def manage_customer():
     if "session_id" not in session:
-        flash("Please log in!")
+        flash(message="Please log in!", category="error")
         return redirect(url_for("login_route.login"))
     else:
         return render_template("Customer/ManageCustomer.html")

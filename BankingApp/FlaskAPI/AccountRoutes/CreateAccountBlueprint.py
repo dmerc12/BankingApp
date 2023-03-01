@@ -23,7 +23,7 @@ session_sao = SessionSALImplementation(session_dao)
 @create_new_account.route("/create/account", methods=["GET", "POST"])
 def create_account():
     if "session_id" not in session:
-        flash("Please log in!")
+        flash(message="Please log in!", category="error")
         return redirect(url_for("login_route.login"))
     else:
         if request.method == "POST":
@@ -44,10 +44,11 @@ def create_account():
                 }
                 current_app.logger.info("Finishing API function create new account with result: " +
                                         str(result_dictionary))
-                flash("Account successfully created!")
+                flash(message="Account successfully created!", category="success")
                 return redirect(url_for("account_routes.manage_accounts"))
             except FailedTransaction as error:
                 current_app.logger.error("Error with API function create new account with error: " + str(error))
-                flash(str(error))
+                flash(message=str(error), category="error")
+                return render_template("Account/CreateAccount.html")
         else:
             return render_template("Account/CreateAccount.html")

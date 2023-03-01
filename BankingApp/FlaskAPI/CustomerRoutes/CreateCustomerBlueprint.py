@@ -28,10 +28,11 @@ def register():
                 "address": result.address
             }
             current_app.logger.info("Finishing API function create customer with result: " + str(result_dictionary))
-            flash("Account created successfully. Please log in to continue.")
+            flash(message="Account created successfully. Please log in to continue.", category="success")
             return redirect(url_for("login_route.login"))
         except FailedTransaction as error:
             current_app.logger.error("Error with API function create customer with error: " + str(error))
-            flash(str(error))
+            flash(message=str(error), category="error")
+            return render_template("Customer/Register.html")
     else:
         return render_template("Customer/Register.html")

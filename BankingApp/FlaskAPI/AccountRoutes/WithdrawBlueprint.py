@@ -23,7 +23,7 @@ session_sao = SessionSALImplementation(session_dao)
 @do_withdraw.route("/withdraw", methods=["GET", "POST"])
 def withdraw():
     if "session_id" not in session:
-        flash("Please log in!")
+        flash(message="Please log in!", category="error")
         return redirect(url_for("login_route.login"))
     else:
         session_id = session["session_id"]
@@ -40,11 +40,11 @@ def withdraw():
                 result = account_sao.service_withdraw(account_id, withdraw_amount)
                 transaction_sao.service_create_transaction(withdraw_transaction)
                 current_app.logger.info("Finishing API function withdraw with result: " + str(result))
-                flash("Withdraw successful!")
+                flash(message="Withdraw successful!", category="success")
                 return redirect(url_for("account_routes.manage_accounts"))
             except FailedTransaction as error:
                 current_app.logger.error("Error with API function withdraw with error: " + str(error))
-                flash(str(error))
+                flash(message=str(error), category="error")
                 return render_template("Account/Withdraw.html", account_list=accounts)
 
         else:

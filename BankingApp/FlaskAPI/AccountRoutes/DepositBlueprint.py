@@ -23,7 +23,7 @@ session_sao = SessionSALImplementation(session_dao)
 @do_deposit.route("/deposit", methods=["GET", "POST"])
 def deposit():
     if "session_id" not in session:
-        flash("Please log in!")
+        flash(message="Please log in!", category="error")
         return redirect(url_for("login_route.login"))
     else:
         session_id = session["session_id"]
@@ -40,11 +40,11 @@ def deposit():
                 result = account_sao.service_deposit(account_id, deposit_amount)
                 transaction_sao.service_create_transaction(deposit_transaction)
                 current_app.logger.info("Finishing API function deposit with result: " + str(result))
-                flash("Deposit successful!")
+                flash(message="Deposit successful!", category="success")
                 return redirect(url_for("account_routes.manage_accounts"))
             except FailedTransaction as error:
                 current_app.logger.error("Error with API function deposit with error: " + str(error))
-                flash(str(error))
-                return redirect(url_for("do_deposit.deposit"))
+                flash(message=str(error), category="error")
+                return render_template("Account/Deposit.html", account_list=accounts)
         else:
             return render_template("Account/Deposit.html", account_list=accounts)

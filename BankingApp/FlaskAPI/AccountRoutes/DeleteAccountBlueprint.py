@@ -35,7 +35,7 @@ def delete_account_now():
 @delete_this_account.route("/delete/account", methods=["GET"])
 def delete_account():
     if "session_id" not in session:
-        flash("Please log in!")
+        flash(message="Please log in!", category="error")
         return redirect(url_for("login_route.login"))
     else:
         return render_template("Account/DeleteAccount.html")

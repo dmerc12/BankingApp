@@ -23,7 +23,7 @@ session_sao = SessionSALImplementation(session_dao)
 @do_transfer.route("/transfer", methods=["GET", "POST"])
 def transfer():
     if "session_id" not in session:
-        flash("Please log in!")
+        flash(message="Please log in!", category="error")
         return redirect(url_for("login_route.login"))
     else:
         session_id = session["session_id"]
@@ -45,11 +45,11 @@ def transfer():
                 transaction_sao.service_create_transaction(withdraw_transaction)
                 transaction_sao.service_create_transaction(deposit_transaction)
                 current_app.logger.info("Finishing API function transfer with result: " + str(result))
-                flash("Transfer successful!")
+                flash(message="Transfer successful!", category="success")
                 return redirect(url_for("account_routes.manage_accounts"))
             except FailedTransaction as error:
                 current_app.logger.error("Error with API function transfer with error: " + str(error))
-                flash(str(error))
+                flash(message=str(error), category="error")
                 return render_template("Account/Transfer.html", account_list=accounts)
         else:
             return render_template("Account/Transfer.html", account_list=accounts)

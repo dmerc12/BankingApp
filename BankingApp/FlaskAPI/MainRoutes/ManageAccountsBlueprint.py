@@ -5,7 +5,7 @@ account_routes = Blueprint("account_routes", __name__)
 @account_routes.route("/manage/accounts", methods=["GET"])
 def manage_accounts():
     if "session_id" not in session:
-        flash("Please log in!")
+        flash(message="Please log in!", category="error")
         return redirect(url_for("login_route.login"))
     else:
         return render_template("Account/ManageAccounts.html")

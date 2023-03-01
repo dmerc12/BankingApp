@@ -15,7 +15,7 @@ session_sao = SessionSALImplementation(session_dao)
 @get_relevant_accounts.route("/get/accounts", methods=["GET"])
 def get_all_accounts():
     if "session_id" not in session:
-        flash("Please log in!")
+        flash(message="Please log in!", category="error")
         return redirect(url_for("login_route.login"))
     else:
         session_id = session["session_id"]
