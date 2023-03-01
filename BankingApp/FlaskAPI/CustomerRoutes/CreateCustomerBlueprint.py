@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request, current_app, flash, redirect, url_for, render_template
+from flask import Blueprint, request, current_app, flash, redirect, url_for, render_template
 
 from BankingApp.DAL.CustomerDAL.CustomerDALImplementation import CustomerDALImplementation
 from BankingApp.Entities.Customer import Customer
