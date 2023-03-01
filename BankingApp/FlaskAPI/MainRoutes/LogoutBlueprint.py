@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify, current_app, session, redirect, url_for
+from flask import Blueprint, jsonify, current_app, session, redirect, url_for
 
 from BankingApp.DAL.SessionDAL.SessionDALImplementation import SessionDALImplementation
 from BankingApp.Entities.FailedTransaction import FailedTransaction
