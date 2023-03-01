@@ -29,6 +29,8 @@ def create_back_end_api(config):
     secret_key = os.urandom(32)
     app.config['SECRET_KEY'] = secret_key
 
+    app.jinja_env.filters['floatformat'] = '{:.2f}'.format
+
     @app.before_request
     def set_up_logs():
         log_level = logging.DEBUG

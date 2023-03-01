@@ -18,7 +18,7 @@ create table banking.bank_accounts(
 create table banking.transactions(
 	transaction_id serial primary key,
 	time_and_date varchar(26),
-	transaction_type varchar(8),
+	transaction_type varchar(16),
 	account_id int,
 	amount float,
 	constraint accountfk foreign key (account_id) references Banking.bank_accounts(account_id)
@@ -46,4 +46,3 @@ insert into banking.customers values (-2, 'test', 'customer', 'money', 'no@money
     '123 This Street, City, State, ZIP');
 
 insert into banking.bank_accounts values (-3, -1, 50.00);
-
