@@ -22,7 +22,7 @@ def view_transactions(account_id):
     session_id = session.get('session_id')
     session_verification = session_sao.service_get_session(session_id)
     if session_id is None:
-        flash("Please log in!")
+        flash(message="Please log in!", category="error")
         return redirect(url_for("login_route.login"))
     else:
         current_app.logger.info("Beginning API function view transactions with data: " + str(session_id) + ", and " +
@@ -30,7 +30,7 @@ def view_transactions(account_id):
         try:
             account = account_sao.service_get_account_by_id(account_id)
             if account.customer_id != session_verification.customer_id:
-                flash("You are not authorized to view this account!")
+                flash(message="You are not authorized to view this account!", category="success")
                 return redirect(url_for("account_routes.manage_accounts"))
             else:
                 transactions = transaction_sao.service_get_all_transactions(account_id)
@@ -38,5 +38,5 @@ def view_transactions(account_id):
                 return render_template("Transaction/Transactions.html", transaction_list=transactions)
         except FailedTransaction as error:
             current_app.logger.error("Error with API function view transactions with error: " + str(error))
-            flash("Error viewing transactions: " + str(error))
+            flash(message=str(error), category="error")
             return redirect(url_for("account_routes.manage_accounts"))

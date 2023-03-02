@@ -17,7 +17,7 @@ session_sao = SessionSALImplementation(session_dao)
 @update_customer_blueprint.route("/update/customer", methods=["POST", "GET"])
 def update_customer():
     if "session_id" not in session:
-        flash("Please log in!")
+        flash(message="Please log in!", category="error")
         return redirect(url_for("login_route.login"))
     else:
         if request.method == "POST":
@@ -42,10 +42,11 @@ def update_customer():
                 }
                 current_app.logger.info("Finishing API functioning update customer with result: " +
                                         str(result_dictionary))
-                flash("Information successfully updated!")
+                flash(message="Information successfully updated!", category="success")
                 return redirect(url_for("manage_customer_blueprint.manage_customer"))
             except FailedTransaction as error:
                 current_app.logger.error("Error with API function create customer with error: " + str(error))
-                flash(str(error))
+                flash(message=str(error), category="error")
+                return render_template("Customer/UpdateCustomer.html")
         else:
             return render_template("Customer/UpdateCustomer.html")

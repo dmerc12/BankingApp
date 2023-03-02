@@ -39,7 +39,7 @@ def delete_my_information():
 @delete_this_customer.route("/delete/customer", methods=["GET"])
 def delete_customer():
     if "session_id" not in session:
-        flash("Please log in!")
+        flash(message="Please log in!", category="error")
         return redirect(url_for("login_route.login"))
     else:
         return render_template("Customer/DeleteCustomer.html")

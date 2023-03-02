@@ -28,8 +28,8 @@ class TransactionSALImplementation(TransactionSALInterface):
         elif type(transaction.transaction_type) != str:
             logging.warning("SAL method create transaction, transaction type not a string")
             raise FailedTransaction("The transaction type field must be a string, please try again!")
-        elif len(transaction.transaction_type) > 8:
-            logging.warning("SAL method create transaction, transaction type longer than 8 characters")
+        elif len(transaction.transaction_type) > 16:
+            logging.warning("SAL method create transaction, transaction type longer than 16 characters")
             raise FailedTransaction("The transaction type field cannot exceed 8 characters, please try again!")
         elif len(transaction.transaction_type) == 0:
             logging.warning("SAL method create transaction, transaction type left empty")

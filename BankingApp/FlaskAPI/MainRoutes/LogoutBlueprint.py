@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, current_app, session, redirect, url_for
+from flask import Blueprint, jsonify, current_app, session, redirect, url_for, flash, request
 
 from BankingApp.DAL.SessionDAL.SessionDALImplementation import SessionDALImplementation
 from BankingApp.Entities.FailedTransaction import FailedTransaction
@@ -17,10 +17,9 @@ def logout():
         result = session_sao.service_delete_session(session_id)
         session.clear()
         current_app.logger.info("Finishing API function logout with result: " + str(result))
+        flash(message="Goodbye!", category="success")
         return redirect(url_for("login_route.login"))
     except FailedTransaction as error:
-        message = {
-            "message": str(error)
-        }
         current_app.logger.error("Error with API function logout with error: " + str(error))
-        return jsonify(message), 400
+        flash(message=str(error), category="error")
+        return redirect(request.url)

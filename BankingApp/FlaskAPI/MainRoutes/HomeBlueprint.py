@@ -15,7 +15,7 @@ session_sao = SessionSALImplementation(session_dao)
 @main_route.route("/home", methods=["GET"])
 def home():
     if "session_id" not in session:
-        flash("Please log in!")
+        flash(message="Please log in!", category="error")
         return redirect(url_for("login_route.login"))
     else:
         return render_template("Main/Home.html")

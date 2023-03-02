@@ -31,10 +31,11 @@ def login():
             new_session = session_sao.service_create_session(new_session_info)
             current_app.logger.info("Finishing API function login with result: " + str(new_session.session_id))
             session["session_id"] = new_session.session_id
+            flash(message="Welcome!", category="success")
             return redirect(url_for("main_route.home"))
         except FailedTransaction as error:
             current_app.logger.error("Error with API function login with error: " + str(error))
-            flash(str(error))
+            flash(message=str(error), category="error")
             return render_template("Customer/Login.html"), 400
     else:
         return render_template("Customer/Login.html")
