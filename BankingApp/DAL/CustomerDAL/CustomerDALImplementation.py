@@ -1,7 +1,7 @@
 import logging
 
 from BankingApp.DAL.CustomerDAL.CustomerDALInterface import CustomerDALInterface
-from BankingApp.DAL.config import Connect
+from BankingApp.DAL.Database.config import Connect
 from BankingApp.Entities.Customer import Customer
 from BankingApp.Entities.FailedTransaction import FailedTransaction
 

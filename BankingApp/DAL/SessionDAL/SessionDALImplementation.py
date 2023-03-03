@@ -1,6 +1,6 @@
 import logging
 
-from BankingApp.DAL.config import Connect
+from BankingApp.DAL.Database.config import Connect
 from BankingApp.DAL.SessionDAL.SessionDALInterface import SessionDALInterface
 from BankingApp.Entities.FailedTransaction import FailedTransaction
 from BankingApp.Entities.Session import Session
