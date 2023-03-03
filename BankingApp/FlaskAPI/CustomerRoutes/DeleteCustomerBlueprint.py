@@ -36,10 +36,27 @@ def delete_my_information():
         return jsonify(message), 400
 
 
-@delete_this_customer.route("/delete/customer", methods=["GET"])
+@delete_this_customer.route("/delete/customer", methods=["GET", "POST"])
 def delete_customer():
     if "session_id" not in session:
         flash(message="Please log in!", category="error")
         return redirect(url_for("login_route.login"))
     else:
-        return render_template("Customer/DeleteCustomer.html")
+        session_id = session["session_id"]
+        customer_id = session_sao.service_get_session(session_id).customer_id
+
+        if request.method == "POST":
+            try:
+                current_app.logger.info("Beginning API function delete customer with data: " + str(session_id) +
+                                        ", and " + str(customer_id))
+                session_sao.service_delete_all_sessions(customer_id)
+                result = customer_sao.service_delete_customer(customer_id)
+                current_app.logger.info("Finishing API function delete customer with result: " + str(result))
+                flash(message="Information successfully deleted!", category="success")
+                return redirect(url_for("login_route.login"))
+            except FailedTransaction as error:
+                current_app.logger.error("Error with API function delete customer with error: " + str(error))
+                flash(message=str(error), category="error")
+                return render_template("Customer/DeleteCustomer.html")
+        else:
+            return render_template("Customer/DeleteCustomer.html")

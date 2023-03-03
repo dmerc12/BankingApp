@@ -2,6 +2,7 @@ from flask import Blueprint, current_app, render_template, url_for, redirect, fl
 
 from BankingApp.DAL.BankAccountDAL.BankAccountDALImplementation import BankAccountDALImplementation
 from BankingApp.DAL.SessionDAL.SessionDALImplementation import SessionDALImplementation
+from BankingApp.Entities.FailedTransaction import FailedTransaction
 from BankingApp.SAL.BankAccountSAL.BankAccountSALImplementation import BankAccountSALImplementation
 from BankingApp.SAL.SessionSAL.SessionSALImplementation import SessionSALImplementation
 
@@ -18,9 +19,14 @@ def get_all_accounts():
         flash(message="Please log in!", category="error")
         return redirect(url_for("login_route.login"))
     else:
-        session_id = session["session_id"]
-        current_app.logger.info("Beginning API function get all accounts with data: " + str(session_id))
-        customer_id = str(session_sao.service_get_session(session_id).customer_id)
-        accounts = account_sao.service_get_all_accounts(customer_id)
-        current_app.logger.info("Finishing API function get all accounts with result: " + str(accounts))
-        return render_template("Account/ViewAllAccounts.html", account_list=accounts)
+        try:
+            session_id = session["session_id"]
+            current_app.logger.info("Beginning API function get all accounts with data: " + str(session_id))
+            customer_id = str(session_sao.service_get_session(session_id).customer_id)
+            accounts = account_sao.service_get_all_accounts(customer_id)
+            current_app.logger.info("Finishing API function get all accounts with result: " + str(accounts))
+            return render_template("Account/ViewAllAccounts.html", account_list=accounts)
+        except FailedTransaction as error:
+            current_app.logger.error("Error with API function get all accounts with error: " + str(error))
+            flash(message=str(error), category="error")
+            return redirect(url_for("account_routes.manage_accounts"))
