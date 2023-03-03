@@ -5,7 +5,6 @@ from BankingApp.Entities.Customer import Customer
 from BankingApp.Entities.FailedTransaction import FailedTransaction
 from BankingApp.SAL.CustomerSAL.CustomerSALInterface import CustomerSALInterface
 
-
 class CustomerSALImplementation(CustomerSALInterface):
 
     def __init__(self, customer_dao: CustomerDALImplementation):
@@ -119,65 +118,49 @@ class CustomerSALImplementation(CustomerSALInterface):
             customer = self.customer_dao.login(email, password)
             return customer
 
-    def service_update_customer(self, customer: Customer, updated_password_confirmation: str) -> Customer:
+    def service_update_customer(self, updated_customer_info: Customer, customer_id: int) -> Customer:
         logging.info("Beginning SAL method update customer")
-        if type(customer.first_name) != str:
+        if type(updated_customer_info.first_name) != str:
             logging.warning("SAL method update customer, first name not a string")
             raise FailedTransaction("The first name field must be a string, please try again!")
-        elif len(customer.first_name) > 36:
+        elif len(updated_customer_info.first_name) > 36:
             logging.warning("SAL method update customer, first name longer than 36 characters")
             raise FailedTransaction("The first name field cannot exceed 36 characters, please try again!")
-        elif type(customer.last_name) != str:
+        elif type(updated_customer_info.last_name) != str:
             logging.warning("SAL method update customer, last name not a string")
             raise FailedTransaction("The last name field must be a string, please try again!")
-        elif len(customer.last_name) > 36:
+        elif len(updated_customer_info.last_name) > 36:
             logging.warning("SAL method update customer, last name longer than 36 characters")
             raise FailedTransaction("The last name field cannot exceed 36 characters, please try again!")
-        elif type(customer.password) != str:
-            logging.warning("SAL method update customer, password not a string")
-            raise FailedTransaction("The password field must be a string, please try again!")
-        elif len(customer.password) > 36:
-            logging.warning("SAL method update customer, password longer than 36 characters")
-            raise FailedTransaction("The password field cannot exceed 36 characters, please try again!")
-        elif type(customer.email) != str:
+        elif type(updated_customer_info.email) != str:
             logging.warning("SAL method update customer, email not a string")
             raise FailedTransaction("The email field must be a string, please try again!")
-        elif len(customer.email) > 36:
+        elif len(updated_customer_info.email) > 36:
             logging.warning("SAL method update customer, email longer than 36 characters")
             raise FailedTransaction("The email field cannot exceed 36 characters, please try again!")
-        elif type(customer.phone_number) != str:
+        elif type(updated_customer_info.phone_number) != str:
             logging.warning("SAL method update customer, phone number not a string")
             raise FailedTransaction("The phone number field must be a string, please try again!")
-        elif len(customer.phone_number) > 13:
+        elif len(updated_customer_info.phone_number) > 13:
             logging.warning("SAL method update customer, phone number longer than 13 characters")
             raise FailedTransaction("The phone number field cannot exceed 13 characters, please try again!")
-        elif type(customer.address) != str:
+        elif type(updated_customer_info.address) != str:
             logging.warning("SAL method update customer, address not a string")
             raise FailedTransaction("The address field must be a string, please try again!")
-        elif len(customer.address) > 50:
+        elif len(updated_customer_info.address) > 50:
             logging.warning("SAL method update customer, address longer than 50 characters")
             raise FailedTransaction("The address field cannot exceed 50 characters, please try again!")
         else:
-            current_customer_information = self.service_get_customer_by_id(customer.customer_id)
-            if customer.first_name == "":
-                customer.first_name = current_customer_information.first_name
-            if customer.last_name == "":
-                customer.last_name = current_customer_information.last_name
-            if customer.password == "":
-                customer.password = current_customer_information.password
-            if customer.email == "":
-                customer.email = current_customer_information.email
-            if customer.phone_number == "":
-                customer.phone_number = current_customer_information.phone_number
-            if customer.address == "":
-                customer.address = current_customer_information.address
-            if updated_password_confirmation == "":
-                updated_password_confirmation = current_customer_information.password
-            if customer.password != updated_password_confirmation:
-                logging.warning("SAL method update customer, passwords don't match")
-                raise FailedTransaction("The password fields do not match, please try again!")
+            current_customer_information = self.service_get_customer_by_id(customer_id)
+            if updated_customer_info.first_name == current_customer_information.first_name and \
+                    updated_customer_info.last_name == current_customer_information.last_name and \
+                    updated_customer_info.email == current_customer_information.email and \
+                    updated_customer_info.phone_number == current_customer_information.phone_number and \
+                    updated_customer_info.address == current_customer_information.address:
+                logging.warning("No information changed")
+                raise FailedTransaction("No information has changed!")
             logging.info("Finishing SAL method update customer")
-            updated_customer = self.customer_dao.update_customer(customer)
+            updated_customer = self.customer_dao.update_customer(updated_customer_info, customer_id)
             return updated_customer
 
     def service_delete_customer(self, customer_id: int) -> bool:

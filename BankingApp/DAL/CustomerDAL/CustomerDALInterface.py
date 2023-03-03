@@ -21,7 +21,7 @@ class CustomerDALInterface(ABC):
         pass
 
     @abstractmethod
-    def update_customer(self, customer: Customer) -> Customer:
+    def update_customer(self, customer: Customer, customer_id: int) -> Customer:
         pass
 
     @abstractmethod

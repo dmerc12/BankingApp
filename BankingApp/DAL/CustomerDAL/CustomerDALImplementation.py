@@ -71,13 +71,13 @@ class CustomerDALImplementation(CustomerDALInterface):
             logging.info("Finishing DAL method login")
             return customer
 
-    def update_customer(self, customer: Customer) -> Customer:
+    def update_customer(self, customer: Customer, customer_id: int) -> Customer:
         logging.info("Beginning DAL method update customer")
-        sql = "update banking.customers set first_name=%s, last_name=%s, passwrd=%s, email=%s, phone_number=%s, " \
+        sql = "update banking.customers set first_name=%s, last_name=%s, email=%s, phone_number=%s, " \
               "address=%s where customer_id=%s;"
         cursor = Connect.connection.cursor()
-        cursor.execute(sql, (customer.first_name, customer.last_name, customer.password, customer.email,
-                             customer.phone_number, customer.address, customer.customer_id))
+        cursor.execute(sql, (customer.first_name, customer.last_name, customer.email,
+                             customer.phone_number, customer.address, customer_id))
         Connect.connection.commit()
         logging.info("Finishing DAL method update customer")
         return customer
