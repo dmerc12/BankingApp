@@ -9,14 +9,7 @@ from BankingApp.Entities.FailedTransaction import FailedTransaction
 class CustomerDALImplementation(CustomerDALInterface):
 
     @staticmethod
-    def truncate_customer_table(sql_query: str) -> bool:
-        cursor = Connect.connection.cursor()
-        cursor.execute(sql_query)
-        Connect.connection.commit()
-        return True
-
-    @staticmethod
-    def populate_test_customer(sql_query: str) -> bool:
+    def access_customer_table(sql_query: str) -> bool:
         cursor = Connect.connection.cursor()
         cursor.execute(sql_query)
         Connect.connection.commit()

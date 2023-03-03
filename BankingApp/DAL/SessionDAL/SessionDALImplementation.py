@@ -9,14 +9,7 @@ from BankingApp.Entities.Session import Session
 class SessionDALImplementation(SessionDALInterface):
 
     @staticmethod
-    def truncate_session_table(sql_query: str) -> bool:
-        cursor = Connect.connection.cursor()
-        cursor.execute(sql_query)
-        Connect.connection.commit()
-        return True
-
-    @staticmethod
-    def populate_expired_test_session(sql_query: str) -> bool:
+    def access_session_table(sql_query: str) -> bool:
         cursor = Connect.connection.cursor()
         cursor.execute(sql_query)
         Connect.connection.commit()
