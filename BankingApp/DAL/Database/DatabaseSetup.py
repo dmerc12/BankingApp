@@ -30,10 +30,12 @@ def database_setup():
     test_account1 = "insert into banking.bank_accounts values (-1, -1, 1.00);"
     test_account2 = "insert into banking.bank_accounts values (-2, -1, 5000.00);"
     test_account3 = "insert into banking.bank_accounts values (-3, -1, 50.00);"
+    test_account4 = "insert into banking.bank_accounts values (-4, -2, 50.00);"
     account_dao.access_bank_account_table(bank_account_table)
     account_dao.access_bank_account_table(test_account1)
     account_dao.access_bank_account_table(test_account2)
     account_dao.access_bank_account_table(test_account3)
+    account_dao.access_bank_account_table(test_account4)
 
     # transaction table setup and populate test transaction
     transaction_table = "create table banking.transactions(transaction_id serial primary key, time_and_date " \

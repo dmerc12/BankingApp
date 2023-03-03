@@ -31,3 +31,7 @@ class BankAccountDALInterface(ABC):
     @abstractmethod
     def delete_account(self, account_id: int) -> bool:
         pass
+
+    @abstractmethod
+    def delete_all_accounts(self, customer_id: int) -> bool:
+        pass
