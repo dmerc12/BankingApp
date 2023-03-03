@@ -31,18 +31,3 @@ create table banking.sessions(
 	expire_date_time varchar(26),
 	constraint customerfk foreign key (customer_id) references Banking.customers(customer_id)
 );
-
-
-insert into banking.customers values (-1, 'test', 'customer', 'work', 'test@email.com', '123-456-7890',
-    '123 This Street, City, State, ZIP');
-
-insert into banking.bank_accounts values (-1, -1, 1.00);
-
-insert into banking.transactions values (-1, 'that one time', 'deposit', -1, 1.00);
-
-insert into banking.bank_accounts values (-2, -1, 5000.00);
-
-insert into banking.customers values (-2, 'test', 'customer', 'money', 'no@money.com', '123-456-7890',
-    '123 This Street, City, State, ZIP');
-
-insert into banking.bank_accounts values (-3, -1, 50.00);
