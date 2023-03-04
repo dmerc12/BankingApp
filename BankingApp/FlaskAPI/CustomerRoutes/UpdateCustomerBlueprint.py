@@ -20,19 +20,21 @@ def update_customer():
         flash(message="Please log in!", category="error")
         return redirect(url_for("login_route.login"))
     else:
+        session_id = session["session_id"]
+        customer_id = session_sao.service_get_session(session_id).customer_id
+        current_customer = customer_sao.service_get_customer_by_id(customer_id)
+
         if request.method == "POST":
             try:
-                session_id = session["session_id"]
                 updated_info = request.form.to_dict()
                 current_app.logger.info("Beginning API function update customer with data: " + str(session_id) +
                                         ", and " + str(updated_info))
-                customer_id = session_sao.service_get_session(session_id).customer_id
-                updated_customer = Customer(customer_id, updated_info["updatedFirstName"],
-                                            updated_info["updatedLastName"], updated_info["updatedEmail"],
-                                            updated_info["updatedPassword"], updated_info["updatedPhoneNumber"],
-                                            updated_info["updatedAddress"])
-                result = customer_sao.service_update_customer(updated_customer,
-                                                              updated_info["updatedPasswordConfirmation"])
+                updated_customer = Customer(customer_id=customer_id, first_name=updated_info["updatedFirstName"],
+                                            last_name=updated_info["updatedLastName"],
+                                            email=updated_info["updatedEmail"],
+                                            phone_number=updated_info["updatedPhoneNumber"],
+                                            address=updated_info["updatedAddress"], password=current_customer.password)
+                result = customer_sao.service_update_customer(updated_customer, customer_id)
                 result_dictionary = {
                     "fistName": result.first_name,
                     "lastName": result.last_name,
@@ -47,6 +49,6 @@ def update_customer():
             except FailedTransaction as error:
                 current_app.logger.error("Error with API function create customer with error: " + str(error))
                 flash(message=str(error), category="error")
-                return render_template("Customer/UpdateCustomer.html")
+                return render_template("Customer/UpdateCustomer.html", current_customer=current_customer)
         else:
-            return render_template("Customer/UpdateCustomer.html")
+            return render_template("Customer/UpdateCustomer.html", current_customer=current_customer)

@@ -1,7 +1,8 @@
 import logging
 from typing import List
+
 from BankingApp.DAL.BankAccountDAL.BankAccountDALInterface import BankAccountDALInterface
-from BankingApp.DAL.config import Connect
+from BankingApp.DAL.Database.config import Connect
 from BankingApp.Entities.BankAccount import BankAccount
 from BankingApp.Entities.FailedTransaction import FailedTransaction
 
@@ -9,32 +10,29 @@ from BankingApp.Entities.FailedTransaction import FailedTransaction
 class BankAccountDALImplementation(BankAccountDALInterface):
 
     @staticmethod
-    def truncate_bank_account_table(sql_query: str) -> bool:
+    def access_bank_account_table(sql_query: str) -> bool:
+        logging.info("Beginning DAL method access bank account table with query: " + sql_query)
         cursor = Connect.connection.cursor()
         cursor.execute(sql_query)
         Connect.connection.commit()
-        return True
-
-    @staticmethod
-    def populate_test_account(sql_query: str) -> bool:
-        cursor = Connect.connection.cursor()
-        cursor.execute(sql_query)
-        Connect.connection.commit()
+        logging.info("Finishing DAL method access bank account table")
         return True
 
     def create_account(self, account: BankAccount) -> BankAccount:
-        logging.info("Beginning DAL method create account")
+        logging.info("Beginning DAL method create account with data: " +
+                     str(account.convert_to_dictionary()))
         sql = "insert into banking.bank_accounts values (default, %s, %s) returning account_id;"
         cursor = Connect.connection.cursor()
         cursor.execute(sql, (account.customer_id, account.balance))
         Connect.connection.commit()
         account_id = cursor.fetchone()[0]
         account.account_id = account_id
-        logging.info("Finishing DAL method create account")
+        logging.info("Finishing DAL method create account with result: " +
+                     str(account.convert_to_dictionary()))
         return account
 
     def get_account_by_id(self, account_id: int) -> BankAccount:
-        logging.info("Beginning DAL method get account by ID")
+        logging.info("Beginning DAL method get account by ID with account ID: " + str(account_id))
         sql = "select * from banking.bank_accounts where account_id=%s;"
         cursor = Connect.connection.cursor()
         cursor.execute(sql, [account_id])
@@ -43,11 +41,12 @@ class BankAccountDALImplementation(BankAccountDALInterface):
             logging.warning("DAL method get account by ID, account not found")
             raise FailedTransaction("This account cannot be found, please try again!")
         account = BankAccount(*account_info)
-        logging.info("Finishing DAL method get account by ID")
+        logging.info("Finishing DAL method get account by ID with result: " +
+                     str(account.convert_to_dictionary()))
         return account
 
     def get_all_accounts(self, customer_id: int) -> List[BankAccount]:
-        logging.info("Beginning DAL method get all accounts")
+        logging.info("Beginning DAL method get all accounts with customer ID: " + str(customer_id))
         sql = "select * from banking.bank_accounts where customer_id=%s;"
         cursor = Connect.connection.cursor()
         cursor.execute(sql, [customer_id])
@@ -60,11 +59,17 @@ class BankAccountDALImplementation(BankAccountDALInterface):
             logging.warning("DAL method get all accounts, no accounts found")
             raise FailedTransaction("No accounts found, please try again!")
         else:
-            logging.info("Finishing DAL method get all accounts")
+            for account in account_list:
+                logging.info("Finishing DAL method get all accounts with result: " +
+                             str(account.convert_to_dictionary()))
             return account_list
 
+    def get_accounts_for_delete(self, customer_id: int) -> List[BankAccount]:
+        pass
+
     def deposit(self, account_id: int, deposit_amount: float) -> BankAccount:
-        logging.info("Beginning DAL method deposit")
+        logging.info("Beginning DAL method deposit with deposit account ID: " + str(account_id) +
+                     ", and deposit amount: " + str(deposit_amount))
         sql = "update banking.bank_accounts set balance=%s where account_id=%s returning *;"
         cursor = Connect.connection.cursor()
         current_balance = self.get_account_by_id(account_id).balance
@@ -73,11 +78,13 @@ class BankAccountDALImplementation(BankAccountDALInterface):
         Connect.connection.commit()
         updated_info = cursor.fetchone()
         updated_account = BankAccount(*updated_info)
-        logging.info("Finishing DAL method deposit")
+        logging.info("Finishing DAL method deposit with result: " +
+                     str(updated_account.convert_to_dictionary()))
         return updated_account
 
     def withdraw(self, account_id: int, withdraw_amount: float) -> BankAccount:
-        logging.info("Beginning DAL method withdraw")
+        logging.info("Beginning DAL method withdraw with withdraw account ID: " + str(account_id) +
+                     ", and withdraw amount: " + str(withdraw_amount))
         sql = "update banking.bank_accounts set balance=%s where account_id=%s returning *;"
         cursor = Connect.connection.cursor()
         current_balance = self.get_account_by_id(account_id).balance
@@ -86,11 +93,14 @@ class BankAccountDALImplementation(BankAccountDALInterface):
         Connect.connection.commit()
         updated_info = cursor.fetchone()
         updated_account = BankAccount(*updated_info)
-        logging.info("Finishing DAL method withdraw")
+        logging.info("Finishing DAL method withdraw with result: " +
+                     str(updated_account.convert_to_dictionary()))
         return updated_account
 
     def transfer(self, withdraw_account_id: int, deposit_account_id: int, transfer_amount: float) -> bool:
-        logging.info("Beginning DAL method transfer")
+        logging.info("Beginning DAL method transfer with withdraw account ID: " + str(withdraw_account_id)
+                     + ", and deposit account ID: " + str(deposit_account_id) + ", and transfer amount: "
+                     + str(transfer_amount))
         sql1 = "update banking.bank_accounts set balance=(balance - %s) where account_id=%s;"
         sql2 = "update banking.bank_accounts set balance=(balance + %s) where account_id=%s;"
         cursor = Connect.connection.cursor()
@@ -101,10 +111,19 @@ class BankAccountDALImplementation(BankAccountDALInterface):
         return True
 
     def delete_account(self, account_id: int) -> bool:
-        logging.info("Beginning DAL method delete account")
+        logging.info("Beginning DAL method delete account with account ID: " + str(account_id))
         sql = "delete from banking.bank_accounts where account_id=%s;"
         cursor = Connect.connection.cursor()
         cursor.execute(sql, [account_id])
         Connect.connection.commit()
         logging.info("Finishing DAL method delete account")
+        return True
+
+    def delete_all_accounts(self, customer_id: int) -> bool:
+        logging.info("Beginning DAL method delete all accounts with customer ID: " + str(customer_id))
+        sql = "delete from banking.bank_accounts where customer_id=%s;"
+        cursor = Connect.connection.cursor()
+        cursor.execute(sql, [customer_id])
+        Connect.connection.commit()
+        logging.info("Finishing DAL method delete all accounts")
         return True

@@ -31,3 +31,7 @@ def test_transfer_success():
 def test_delete_account_success():
     result = account_dao.delete_account(test_account.account_id)
     assert result
+
+def test_delete_all_accounts_success():
+    result = account_dao.delete_all_accounts(-4)
+    assert result

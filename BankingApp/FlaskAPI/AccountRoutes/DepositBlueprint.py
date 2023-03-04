@@ -26,25 +26,31 @@ def deposit():
         flash(message="Please log in!", category="error")
         return redirect(url_for("login_route.login"))
     else:
-        session_id = session["session_id"]
-        customer_id = session_sao.service_get_session(session_id).customer_id
-        accounts = account_sao.service_get_all_accounts(str(customer_id))
-        if request.method == "POST":
-            try:
-                account_id = request.form["account_id"]
-                deposit_amount = request.form["amount"]
-                current_app.logger.info("Beginning API function deposit with data: " + str(session_id) + ", and "
+        try:
+            session_id = session["session_id"]
+            customer_id = session_sao.service_get_session(session_id).customer_id
+            accounts = account_sao.service_get_all_accounts(str(customer_id))
+
+            if request.method == "POST":
+                try:
+                    account_id = request.form["account_id"]
+                    deposit_amount = request.form["amount"]
+                    current_app.logger.info("Beginning API function deposit with data: " + str(session_id) + ", and "
                                         + str(account_id) + ", and " + str(deposit_amount))
-                deposit_transaction = Transaction(0, str(datetime.datetime.now()), "Deposit", int(account_id),
-                                                  float(deposit_amount))
-                result = account_sao.service_deposit(account_id, deposit_amount)
-                transaction_sao.service_create_transaction(deposit_transaction)
-                current_app.logger.info("Finishing API function deposit with result: " + str(result))
-                flash(message="Deposit successful!", category="success")
-                return redirect(url_for("account_routes.manage_accounts"))
-            except FailedTransaction as error:
-                current_app.logger.error("Error with API function deposit with error: " + str(error))
-                flash(message=str(error), category="error")
+                    deposit_transaction = Transaction(0, str(datetime.datetime.now()), "Deposit", int(account_id),
+                                                      float(deposit_amount))
+                    result = account_sao.service_deposit(account_id, deposit_amount)
+                    transaction_sao.service_create_transaction(deposit_transaction)
+                    current_app.logger.info("Finishing API function deposit with result: " + str(result))
+                    flash(message="Deposit successful!", category="success")
+                    return redirect(url_for("account_routes.manage_accounts"))
+                except FailedTransaction as error:
+                    current_app.logger.error("Error with API function deposit with error: " + str(error))
+                    flash(message=str(error), category="error")
+                    return render_template("Account/Deposit.html", account_list=accounts)
+            else:
                 return render_template("Account/Deposit.html", account_list=accounts)
-        else:
-            return render_template("Account/Deposit.html", account_list=accounts)
+        except FailedTransaction as error:
+            current_app.logger.error("Error with API function deposit with error: " + str(error))
+            flash(message=str(error), category="error")
+            return redirect(url_for("account_routes.manage_accounts"))

@@ -33,3 +33,7 @@ class BankAccountSALInterface(ABC):
     @abstractmethod
     def service_delete_account(self, account_id: str) -> bool:
         pass
+
+    @abstractmethod
+    def service_delete_all_accounts(self, customer_id: str) -> bool:
+        pass

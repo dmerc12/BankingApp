@@ -26,7 +26,7 @@ def test_login_success():
     assert result is not None
 
 def test_update_customer_success():
-    result = customer_dao.update_customer(updated_customer)
+    result = customer_dao.update_customer(updated_customer, test_customer.customer_id)
     assert result.first_name == updated_customer.first_name and result.last_name == updated_customer.last_name and \
            result.password == updated_customer.password and result.email == updated_customer.email and \
            result.phone_number == updated_customer.phone_number and result.address == updated_customer.address

@@ -1,6 +1,6 @@
 import logging
 from typing import List
-from BankingApp.DAL.config import Connect
+from BankingApp.DAL.Database.config import Connect
 from BankingApp.DAL.TransactionDAL.TransactionDALInterface import TransactionDALInterface
 from BankingApp.Entities.FailedTransaction import FailedTransaction
 from BankingApp.Entities.Transaction import Transaction
@@ -8,14 +8,7 @@ from BankingApp.Entities.Transaction import Transaction
 class TransactionDALImplementation(TransactionDALInterface):
 
     @staticmethod
-    def truncate_transaction_table(sql_query: str) -> bool:
-        cursor = Connect.connection.cursor()
-        cursor.execute(sql_query)
-        Connect.connection.commit()
-        return True
-
-    @staticmethod
-    def populate_transaction_table(sql_query: str) -> bool:
+    def access_transaction_table(sql_query: str) -> bool:
         cursor = Connect.connection.cursor()
         cursor.execute(sql_query)
         Connect.connection.commit()
