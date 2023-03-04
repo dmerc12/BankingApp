@@ -64,6 +64,9 @@ class BankAccountDALImplementation(BankAccountDALInterface):
                              str(account.convert_to_dictionary()))
             return account_list
 
+    def get_accounts_for_delete(self, customer_id: int) -> List[BankAccount]:
+        pass
+
     def deposit(self, account_id: int, deposit_amount: float) -> BankAccount:
         logging.info("Beginning DAL method deposit with deposit account ID: " + str(account_id) +
                      ", and deposit amount: " + str(deposit_amount))
@@ -76,7 +79,7 @@ class BankAccountDALImplementation(BankAccountDALInterface):
         updated_info = cursor.fetchone()
         updated_account = BankAccount(*updated_info)
         logging.info("Finishing DAL method deposit with result: " +
-                                str(updated_account.convert_to_dictionary()))
+                     str(updated_account.convert_to_dictionary()))
         return updated_account
 
     def withdraw(self, account_id: int, withdraw_amount: float) -> BankAccount:
@@ -91,7 +94,7 @@ class BankAccountDALImplementation(BankAccountDALInterface):
         updated_info = cursor.fetchone()
         updated_account = BankAccount(*updated_info)
         logging.info("Finishing DAL method withdraw with result: " +
-                                str(updated_account.convert_to_dictionary()))
+                     str(updated_account.convert_to_dictionary()))
         return updated_account
 
     def transfer(self, withdraw_account_id: int, deposit_account_id: int, transfer_amount: float) -> bool:

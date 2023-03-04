@@ -197,3 +197,14 @@ def test_service_delete_account_not_found():
 def test_service_delete_account_success():
     result = account_sao.service_delete_account(str(successful_account.account_id))
     assert result
+
+def test_service_delete_all_accounts_customer_id_not_int():
+    try:
+        account_sao.service_delete_all_accounts("")
+        assert False
+    except FailedTransaction as error:
+        assert str(error) == "The customer ID field cannot be left empty!, please try again!"
+
+def test_service_delete_all_accounts_success():
+    result = account_sao.service_delete_all_accounts("-2")
+    assert result
