@@ -65,7 +65,19 @@ class BankAccountDALImplementation(BankAccountDALInterface):
             return account_list
 
     def get_accounts_for_delete(self, customer_id: int) -> List[BankAccount]:
-        pass
+        logging.info("Beginning DAL method get accounts for delete with customer ID: " + str(customer_id))
+        account_list = []
+        sql = "select * from banking.bank_accounts where customer_id=%s;"
+        cursor = Connect.connection.cursor()
+        cursor.execute(sql, [customer_id])
+        account_records = cursor.fetchall()
+        for account in account_records:
+            account = BankAccount(*account)
+            account_list.append(account)
+        for account in account_list:
+            logging.info("Finishing DAL method get accounts for delete with result: " +
+                         str(account.convert_to_dictionary()))
+        return account_list
 
     def deposit(self, account_id: int, deposit_amount: float) -> BankAccount:
         logging.info("Beginning DAL method deposit with deposit account ID: " + str(account_id) +
