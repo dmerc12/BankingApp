@@ -19,9 +19,12 @@ def database_setup():
                      "'123-456-7890', '123 This Street, City, State, ZIP');"
     test_customer2 = "insert into banking.customers values (-1, 'test', 'customer', 'work', 'test@email.com', " \
                      "'123-456-7890', '123 This Street, City, State, ZIP');"
+    test_customer3 = "insert into banking.customers values (-3, 'no', 'accounts', 'no', 'no@accounts.com', " \
+                     "'123-456-7980', '123 That St, City, State, ZIP');"
     customer_dao.access_customer_table(customer_table)
     customer_dao.access_customer_table(test_customer1)
     customer_dao.access_customer_table(test_customer2)
+    customer_dao.access_customer_table(test_customer3)
 
     # bank account table setup and populate test accounts
     bank_account_table = "create table banking.bank_accounts(account_id serial primary key, customer_id int, " \

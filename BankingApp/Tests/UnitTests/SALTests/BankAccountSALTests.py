@@ -47,7 +47,7 @@ def test_service_get_all_accounts_by_id_customer_id_left_empty():
 
 def test_service_get_all_accounts_by_id_none_found():
     try:
-        account_sao.service_get_all_accounts("-2")
+        account_sao.service_get_all_accounts("-3")
         assert False
     except FailedTransaction as error:
         assert str(error) == "No accounts found, please try again!"
@@ -55,6 +55,17 @@ def test_service_get_all_accounts_by_id_none_found():
 def test_service_get_all_accounts_success():
     result = account_sao.service_get_all_accounts(str(successful_account.customer_id))
     assert len(result) >= 0
+
+def test_service_get_accounts_for_delete_customer_id_not_integer():
+    try:
+        account_sao.service_get_accounts_for_delete("this won't work")
+        assert False
+    except FailedTransaction as error:
+        assert str(error) == "The customer ID field must be an integer, please try again!"
+
+def tests_service_get_accounts_for_delete_success():
+    result = account_sao.service_get_accounts_for_delete(-2)
+    assert len(result) > 0
 
 def test_service_deposit_amount_left_empty():
     try:

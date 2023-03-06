@@ -126,6 +126,13 @@ def test_service_delete_transaction_success():
     result = transaction_sao.service_delete_transaction(successful_transaction.transaction_id)
     assert result
 
+def test_service_delete_all_transactions_account_id_not_integer():
+    try:
+        transaction_sao.service_delete_all_transactions("this won't work")
+        assert False
+    except FailedTransaction as error:
+        assert str(error) == "The account ID field musts be an integer, please try again!"
+
 def test_service_delete_all_transactions_success():
     result = transaction_sao.service_delete_all_transactions(successful_transaction.account_id)
     assert result

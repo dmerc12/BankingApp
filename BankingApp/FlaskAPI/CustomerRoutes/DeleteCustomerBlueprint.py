@@ -1,13 +1,21 @@
 from flask import Blueprint, request, current_app, session, redirect, url_for, flash, render_template
 
+from BankingApp.DAL.BankAccountDAL.BankAccountDALImplementation import BankAccountDALImplementation
 from BankingApp.DAL.CustomerDAL.CustomerDALImplementation import CustomerDALImplementation
 from BankingApp.DAL.SessionDAL.SessionDALImplementation import SessionDALImplementation
+from BankingApp.DAL.TransactionDAL.TransactionDALImplementation import TransactionDALImplementation
 from BankingApp.Entities.FailedTransaction import FailedTransaction
+from BankingApp.SAL.BankAccountSAL.BankAccountSALImplementation import BankAccountSALImplementation
 from BankingApp.SAL.CustomerSAL.CustomerSALImplementation import CustomerSALImplementation
 from BankingApp.SAL.SessionSAL.SessionSALImplementation import SessionSALImplementation
+from BankingApp.SAL.TransactionSAL.TransactionSALImplementation import TransactionSALImplementation
 
 delete_this_customer = Blueprint('delete_this_customer', __name__)
 
+transaction_dao = TransactionDALImplementation()
+transaction_sao = TransactionSALImplementation(transaction_dao)
+account_dao = BankAccountDALImplementation()
+account_sao = BankAccountSALImplementation(account_dao)
 customer_dao = CustomerDALImplementation()
 customer_sao = CustomerSALImplementation(customer_dao)
 session_dao = SessionDALImplementation()
@@ -28,6 +36,10 @@ def delete_customer():
                 current_app.logger.info("Beginning API function delete customer with data: " + str(session_id) +
                                         ", and " + str(customer_id))
                 session_sao.service_delete_all_sessions(customer_id)
+                account_list = account_sao.service_get_accounts_for_delete(customer_id)
+                for account in account_list:
+                    transaction_sao.service_delete_all_transactions(account.account_id)
+                account_sao.service_delete_all_accounts(str(customer_id))
                 result = customer_sao.service_delete_customer(customer_id)
                 current_app.logger.info("Finishing API function delete customer with result: " + str(result))
                 flash(message="Information successfully deleted!", category="success")
