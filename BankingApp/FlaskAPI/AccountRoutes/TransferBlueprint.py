@@ -38,9 +38,11 @@ def transfer():
                     current_app.logger.info("Beginning PI function transfer with data: " + str(session_id) + ", and " +
                                             str(withdraw_account_id) + ", and " + str(deposit_account_id) + ", and " +
                                             str(transfer_amount))
-                    withdraw_transaction = Transaction(0, str(datetime.datetime.now()), "Withdraw", int(withdraw_account_id),
+                    withdraw_transaction = Transaction(0, str(datetime.datetime.now()), "Withdraw",
+                                                       int(withdraw_account_id),
                                                        float(transfer_amount))
-                    deposit_transaction = Transaction(0, str(datetime.datetime.now()), "Deposit", int(deposit_account_id),
+                    deposit_transaction = Transaction(0, str(datetime.datetime.now()), "Deposit",
+                                                      int(deposit_account_id),
                                                       float(transfer_amount))
                     result = account_sao.service_transfer(withdraw_account_id, deposit_account_id, transfer_amount)
                     transaction_sao.service_create_transaction(withdraw_transaction)
