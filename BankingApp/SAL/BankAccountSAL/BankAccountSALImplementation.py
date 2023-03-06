@@ -116,40 +116,42 @@ class BankAccountSALImplementation(BankAccountSALInterface):
                                      str(updated_account_info.convert_to_dictionary()))
                         return updated_account_info
 
-    def service_transfer(self, withdraw_account_id: str, deposit_account_id: str, transfer_amount: str) -> bool:
+    def service_transfer(self, withdraw_account_id: int, deposit_account_id: int, transfer_amount: float) -> bool:
         logging.info("Beginning SAL method transfer with withdraw account ID: " + str(withdraw_account_id) +
                      ", and deposit account ID: " + str(deposit_account_id) + ", and transfer amount: " +
                      str(transfer_amount))
-        if withdraw_account_id == "":
-            logging.warning("SAL method transfer, withdraw account ID left empty")
-            raise FailedTransaction("The withdraw account ID field cannot be left empty, please try again!")
+        if type(withdraw_account_id) != int:
+            logging.warning("SAL method transfer, withdraw account ID not integer")
+            raise FailedTransaction("The withdraw account ID field must be an integer, please try again!")
         else:
-            if deposit_account_id == "":
-                logging.warning("SAL method transfer, deposit account ID left empty")
-                raise FailedTransaction("The deposit account ID field cannot be left empty, please try again!")
+            if type(deposit_account_id) != int:
+                logging.warning("SAL method transfer, deposit account ID not integer")
+                raise FailedTransaction("The deposit account ID field must be an integer, please try again!")
             else:
-                if transfer_amount == "":
-                    logging.warning("SAL method transfer, transfer amount left empty")
-                    raise FailedTransaction("The transfer field cannot be left empty, please try again!")
+                if type(transfer_amount) != float:
+                    logging.warning("SAL method transfer, transfer amount not float")
+                    raise FailedTransaction("The transfer field must be a float, please try again!")
                 else:
-                    withdraw_account_id = int(withdraw_account_id)
-                    deposit_account_id = int(deposit_account_id)
-                    transfer_amount = float(transfer_amount)
-                    self.account_dao.get_account_by_id(withdraw_account_id)
-                    self.account_dao.get_account_by_id(deposit_account_id)
-                    if transfer_amount <= 0.00:
-                        logging.warning("SAL method transfer, transfer amount negative")
-                        raise FailedTransaction("The transfer amount field cannot be negative or 0.00, "
+                    if withdraw_account_id == deposit_account_id:
+                        logging.warning("SAL method transfer, deposit and withdraw accounts the same")
+                        raise FailedTransaction("The deposit and withdraw accounts cannot be the same, "
                                                 "please try again!")
                     else:
-                        current_withdraw_account_info = self.account_dao.get_account_by_id(withdraw_account_id)
-                        if (current_withdraw_account_info.balance - transfer_amount) < 0.00:
-                            logging.warning("SAL method transfer, insufficient funds")
-                            raise FailedTransaction("Insufficient funds, please try again!")
+                        self.account_dao.get_account_by_id(withdraw_account_id)
+                        self.account_dao.get_account_by_id(deposit_account_id)
+                        if transfer_amount <= 0.00:
+                            logging.warning("SAL method transfer, transfer amount negative")
+                            raise FailedTransaction("The transfer amount field cannot be negative or 0.00, "
+                                                    "please try again!")
                         else:
-                            result = self.account_dao.transfer(withdraw_account_id, deposit_account_id, transfer_amount)
-                            logging.info("Finishing SAL method transfer")
-                            return result
+                            current_withdraw_account_info = self.account_dao.get_account_by_id(withdraw_account_id)
+                            if (current_withdraw_account_info.balance - transfer_amount) < 0.00:
+                                logging.warning("SAL method transfer, insufficient funds")
+                                raise FailedTransaction("Insufficient funds, please try again!")
+                            else:
+                                result = self.account_dao.transfer(withdraw_account_id, deposit_account_id, transfer_amount)
+                                logging.info("Finishing SAL method transfer")
+                                return result
 
     def service_delete_account(self, account_id: str) -> bool:
         logging.info("Beginning SAL method delete account with account ID: " + str(account_id))
