@@ -17,9 +17,12 @@ def reset_database():
                      "'123-456-7890', '123 This Street, City, State, ZIP');"
     test_customer2 = "insert into banking.customers values (-1, 'test', 'customer', 'work', 'test@email.com', " \
                      "'123-456-7890', '123 This Street, City, State, ZIP');"
+    test_customer3 = "insert into banking.customers values (-3, 'no', 'accounts', 'no', 'no@accounts.com', " \
+                     "'123-456-7980', '123 That St, City, State, ZIP');"
     customer_dao.access_customer_table(truncate_customer_table)
     customer_dao.access_customer_table(test_customer1)
     customer_dao.access_customer_table(test_customer2)
+    customer_dao.access_customer_table(test_customer3)
 
     # reset bank account table and populate test bank accounts
     truncate_bank_account_table = "truncate table banking.bank_accounts restart identity cascade;"

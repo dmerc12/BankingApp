@@ -32,15 +32,17 @@ def transfer():
             accounts = account_sao.service_get_all_accounts(str(customer_id))
             if request.method == "POST":
                 try:
-                    withdraw_account_id = request.form["withdraw_account_id"]
-                    deposit_account_id = request.form["deposit_account_id"]
-                    transfer_amount = request.form["amount"]
+                    withdraw_account_id = int(request.form["withdraw_account_id"])
+                    deposit_account_id = int(request.form["deposit_account_id"])
+                    transfer_amount = float(request.form["amount"])
                     current_app.logger.info("Beginning PI function transfer with data: " + str(session_id) + ", and " +
                                             str(withdraw_account_id) + ", and " + str(deposit_account_id) + ", and " +
                                             str(transfer_amount))
-                    withdraw_transaction = Transaction(0, str(datetime.datetime.now()), "Withdraw", int(withdraw_account_id),
+                    withdraw_transaction = Transaction(0, str(datetime.datetime.now()), "Withdraw",
+                                                       int(withdraw_account_id),
                                                        float(transfer_amount))
-                    deposit_transaction = Transaction(0, str(datetime.datetime.now()), "Deposit", int(deposit_account_id),
+                    deposit_transaction = Transaction(0, str(datetime.datetime.now()), "Deposit",
+                                                      int(deposit_account_id),
                                                       float(transfer_amount))
                     result = account_sao.service_transfer(withdraw_account_id, deposit_account_id, transfer_amount)
                     transaction_sao.service_create_transaction(withdraw_transaction)

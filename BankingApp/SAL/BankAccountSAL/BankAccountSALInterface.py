@@ -19,6 +19,10 @@ class BankAccountSALInterface(ABC):
         pass
 
     @abstractmethod
+    def service_get_accounts_for_delete(self, customer_id: int) -> List[BankAccount]:
+        pass
+
+    @abstractmethod
     def service_deposit(self, account_id: str, deposit_amount: str) -> BankAccount:
         pass
 
