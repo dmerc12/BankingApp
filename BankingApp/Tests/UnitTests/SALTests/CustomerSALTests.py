@@ -379,6 +379,45 @@ def test_service_update_customer_success():
            and result.email == updated_customer.email and result.phone_number == updated_customer.phone_number \
            and result.address == updated_customer.address
 
+def test_service_change_password_customer_not_found():
+    try:
+        customer_sao.service_change_password(-5000000000, "new", "new")
+        assert False
+    except FailedTransaction as error:
+        assert str(error) == "This customer cannot be found, please try again!"
+
+def test_service_change_password_password_new_password_not_string():
+    try:
+        customer_sao.service_change_password(successful_customer.customer_id, -500000, "new")
+        assert False
+    except FailedTransaction as error:
+        assert str(error) == "The new password field must be a string, please try again!"
+
+def test_service_change_password_confirmation_password_not_string():
+    try:
+        customer_sao.service_change_password(successful_customer.customer_id, "new", -5000000)
+        assert False
+    except FailedTransaction as error:
+        assert str(error) == "The confirmation password field must be a string, please try again!"
+
+def test_service_change_password_customer_id_not_integer():
+    try:
+        customer_sao.service_change_password("this won't work", "new", "new")
+        assert False
+    except FailedTransaction as error:
+        assert str(error) == "The customer ID field must be an integer, please try again!"
+
+def test_service_change_password_new_password_does_not_match_confirmation_password():
+    try:
+        customer_sao.service_change_password(successful_customer.customer_id, "new", "old")
+        assert False
+    except FailedTransaction as error:
+        assert str(error) == "The passwords don't match, please try again!"
+
+def test_service_change_password_success():
+    result = customer_sao.service_change_password(successful_customer.customer_id, "new", "new")
+    assert result
+
 def test_service_delete_customer_not_found():
     try:
         customer_sao.service_delete_customer(-500000)

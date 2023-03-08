@@ -157,11 +157,34 @@ class CustomerSALImplementation(CustomerSALInterface):
                     updated_customer_info.email == current_customer_information.email and \
                     updated_customer_info.phone_number == current_customer_information.phone_number and \
                     updated_customer_info.address == current_customer_information.address:
-                logging.warning("No information changed")
+                logging.warning("SAL method update customer, no information changed")
                 raise FailedTransaction("No information has changed!")
             logging.info("Finishing SAL method update customer")
             updated_customer = self.customer_dao.update_customer(updated_customer_info, customer_id)
             return updated_customer
+
+    def service_change_password(self, customer_id: int, new_password: str, confirmation_password: str) -> bool:
+        logging.info("Beginning SAL method change password")
+        if type(customer_id) != int:
+            logging.warning("SAL method change password, customer ID not an integer")
+            raise FailedTransaction("The customer ID field must be an integer, please try again!")
+        else:
+            self.service_get_customer_by_id(customer_id)
+            if type(new_password) != str:
+                logging.warning("SAL method change password, new password not a string")
+                raise FailedTransaction("The new password field must be a string, please try again!")
+            else:
+                if type(confirmation_password) != str:
+                    logging.warning("SAL method change password, confirmation password not a string")
+                    raise FailedTransaction("The confirmation password field must be a string, please try again!")
+                else:
+                    if confirmation_password == new_password:
+                        logging.info("Finishing SAL method change password")
+                        result = self.customer_dao.change_password(customer_id, new_password)
+                        return result
+                    else:
+                        logging.warning("SAL method change password, passwords don't match")
+                        raise FailedTransaction("The passwords don't match, please try again!")
 
     def service_delete_customer(self, customer_id: int) -> bool:
         logging.info("Beginning SAL method delete customer")
