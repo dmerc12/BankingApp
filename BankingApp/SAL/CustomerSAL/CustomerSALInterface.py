@@ -25,5 +25,9 @@ class CustomerSALInterface(ABC):
         pass
 
     @abstractmethod
+    def service_change_password(self, customer_id: int, new_password: str, password_confirmation: str) -> bool:
+        pass
+
+    @abstractmethod
     def service_delete_customer(self, customer_id: int) -> bool:
         pass

@@ -31,6 +31,10 @@ def test_update_customer_success():
            result.password == updated_customer.password and result.email == updated_customer.email and \
            result.phone_number == updated_customer.phone_number and result.address == updated_customer.address
 
+def test_change_password_success():
+    result = customer_dao.change_password(test_customer.customer_id, updated_customer.password)
+    assert result
+
 def test_delete_customer_success():
     result = customer_dao.delete_customer(test_customer.customer_id)
     assert result
