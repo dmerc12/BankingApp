@@ -25,5 +25,9 @@ class CustomerDALInterface(ABC):
         pass
 
     @abstractmethod
+    def change_password(self, customer_id: int, new_password: str) -> bool:
+        pass
+
+    @abstractmethod
     def delete_customer(self, customer_id: int) -> bool:
         pass
