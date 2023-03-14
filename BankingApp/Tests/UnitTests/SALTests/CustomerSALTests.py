@@ -103,7 +103,7 @@ def test_service_create_customer_email_too_long():
         customer_sao.service_create_customer(test_customer, successful_confirmation)
         assert False
     except FailedTransaction as error:
-        assert str(error) == "The email field cannot exceed 36 characters, please try again!"
+        assert str(error) == "The email field cannot exceed 60 characters, please try again!"
 
 def test_service_create_customer_email_empty():
     try:
@@ -167,7 +167,7 @@ def test_service_create_customer_address_too_long():
         customer_sao.service_create_customer(test_customer, successful_confirmation)
         assert False
     except FailedTransaction as error:
-        assert str(error) == "The address field cannot exceed 50 characters, please try again!"
+        assert str(error) == "The address field cannot exceed 60 characters, please try again!"
 
 def test_service_create_customer_address_empty():
     try:
@@ -324,7 +324,7 @@ def test_service_update_customer_email_too_long():
         customer_sao.service_update_customer(test_customer, successful_customer.customer_id)
         assert False
     except FailedTransaction as error:
-        assert str(error) == "The email field cannot exceed 36 characters, please try again!"
+        assert str(error) == "The email field cannot exceed 60 characters, please try again!"
 
 def test_service_update_customer_phone_number_not_string():
     try:
@@ -362,7 +362,7 @@ def test_service_update_customer_address_too_long():
         customer_sao.service_update_customer(test_customer, successful_customer.customer_id)
         assert False
     except FailedTransaction as error:
-        assert str(error) == "The address field cannot exceed 50 characters, please try again!"
+        assert str(error) == "The address field cannot exceed 60 characters, please try again!"
 
 def test_service_update_customer_no_info_changed():
     try:
