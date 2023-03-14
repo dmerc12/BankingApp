@@ -39,9 +39,9 @@ class CustomerSALImplementation(CustomerSALInterface):
         elif type(customer.email) != str:
             logging.warning("SAL method crete customer, email not a string")
             raise FailedTransaction("The email field must be a string, please try again!")
-        elif len(customer.email) > 36:
-            logging.warning("SAL method create customer, email longer than 36 characters")
-            raise FailedTransaction("The email field cannot exceed 36 characters, please try again!")
+        elif len(customer.email) > 60:
+            logging.warning("SAL method create customer, email longer than 60 characters")
+            raise FailedTransaction("The email field cannot exceed 60 characters, please try again!")
         elif len(customer.email) == 0:
             logging.warning("SAL method create customer, email left empty")
             raise FailedTransaction("The email field cannot be left empty, please try again!")
@@ -60,9 +60,9 @@ class CustomerSALImplementation(CustomerSALInterface):
         elif type(customer.address) != str:
             logging.warning("SAL method create customer, address not a string")
             raise FailedTransaction("The address field must be a string, please try again!")
-        elif len(customer.address) > 50:
-            logging.warning("SAL method create customer, address longer than 50 characters")
-            raise FailedTransaction("The address field cannot exceed 50 characters, please try again!")
+        elif len(customer.address) > 60:
+            logging.warning("SAL method create customer, address longer than 60 characters")
+            raise FailedTransaction("The address field cannot exceed 60 characters, please try again!")
         elif len(customer.address) == 0:
             logging.warning("SAL method create customer, address left empty")
             raise FailedTransaction("The address field cannot be left empty, please try again!")
@@ -135,9 +135,9 @@ class CustomerSALImplementation(CustomerSALInterface):
         elif type(updated_customer_info.email) != str:
             logging.warning("SAL method update customer, email not a string")
             raise FailedTransaction("The email field must be a string, please try again!")
-        elif len(updated_customer_info.email) > 36:
-            logging.warning("SAL method update customer, email longer than 36 characters")
-            raise FailedTransaction("The email field cannot exceed 36 characters, please try again!")
+        elif len(updated_customer_info.email) > 60:
+            logging.warning("SAL method update customer, email longer than 60 characters")
+            raise FailedTransaction("The email field cannot exceed 60 characters, please try again!")
         elif type(updated_customer_info.phone_number) != str:
             logging.warning("SAL method update customer, phone number not a string")
             raise FailedTransaction("The phone number field must be a string, please try again!")
@@ -147,9 +147,9 @@ class CustomerSALImplementation(CustomerSALInterface):
         elif type(updated_customer_info.address) != str:
             logging.warning("SAL method update customer, address not a string")
             raise FailedTransaction("The address field must be a string, please try again!")
-        elif len(updated_customer_info.address) > 50:
-            logging.warning("SAL method update customer, address longer than 50 characters")
-            raise FailedTransaction("The address field cannot exceed 50 characters, please try again!")
+        elif len(updated_customer_info.address) > 60:
+            logging.warning("SAL method update customer, address longer than 60 characters")
+            raise FailedTransaction("The address field cannot exceed 60 characters, please try again!")
         else:
             current_customer_information = self.service_get_customer_by_id(customer_id)
             if updated_customer_info.first_name == current_customer_information.first_name and \
