@@ -222,31 +222,31 @@ def test_service_transfer_success():
     result = account_sao.service_transfer(successful_account.account_id, -1, 50.00)
     assert result
 
-def test_service_delete_account_left_empty():
+def test_service_delete_account_not_integer():
     try:
-        account_sao.service_delete_account("")
+        account_sao.service_delete_account("this won't work")
         assert False
     except FailedTransaction as error:
-        assert str(error) == "The account ID field cannot be left empty, please try again!"
+        assert str(error) == "The account ID field must be an integer, please try again!"
 
 def test_service_delete_account_not_found():
     try:
-        account_sao.service_delete_account("-500000")
+        account_sao.service_delete_account(-500000)
         assert False
     except FailedTransaction as error:
         assert str(error) == "This account cannot be found, please try again!"
 
 def test_service_delete_account_success():
-    result = account_sao.service_delete_account(str(successful_account.account_id))
+    result = account_sao.service_delete_account(successful_account.account_id)
     assert result
 
-def test_service_delete_all_accounts_customer_id_not_int():
+def test_service_delete_all_accounts_customer_id_not_integer():
     try:
-        account_sao.service_delete_all_accounts("")
+        account_sao.service_delete_all_accounts("this won't work")
         assert False
     except FailedTransaction as error:
-        assert str(error) == "The customer ID field cannot be left empty!, please try again!"
+        assert str(error) == "The customer ID field must be an integer, please try again!"
 
 def test_service_delete_all_accounts_success():
-    result = account_sao.service_delete_all_accounts("-2")
+    result = account_sao.service_delete_all_accounts(-2)
     assert result

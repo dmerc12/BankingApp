@@ -158,24 +158,23 @@ class BankAccountSALImplementation(BankAccountSALInterface):
                 logging.info("Finishing SAL method transfer")
                 return result
 
-    def service_delete_account(self, account_id: str) -> bool:
+    def service_delete_account(self, account_id: int) -> bool:
         logging.info("Beginning SAL method delete account with account ID: " + str(account_id))
-        if account_id == "":
-            logging.warning("SAL method delete account, account ID left empty")
-            raise FailedTransaction("The account ID field cannot be left empty, please try again!")
+        if type(account_id) != int:
+            logging.warning("SAL method delete account, account ID not an integer")
+            raise FailedTransaction("The account ID field must be an integer, please try again!")
         else:
-            account_id = int(account_id)
-            self.account_dao.get_account_by_id(account_id)
+            self.service_get_account_by_id(account_id)
             self.transaction_sao.service_delete_all_transactions(account_id)
             result = self.account_dao.delete_account(account_id)
             logging.info("Finishing SAL method delete account")
             return result
 
-    def service_delete_all_accounts(self, customer_id: str) -> bool:
+    def service_delete_all_accounts(self, customer_id: int) -> bool:
         logging.info("Beginning SAL method delete all accounts with customer ID: " + str(customer_id))
-        if customer_id == "":
-            logging.warning("SAL method delete all accounts, customer ID left empty")
-            raise FailedTransaction("The customer ID field cannot be left empty!, please try again!")
+        if type(customer_id) != int:
+            logging.warning("SAL method delete all accounts, customer ID not an integer")
+            raise FailedTransaction("The customer ID field must be an integer, please try again!")
         else:
             customer_id = int(customer_id)
             self.account_dao.delete_all_accounts(customer_id)
