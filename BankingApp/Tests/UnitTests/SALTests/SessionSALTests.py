@@ -9,11 +9,11 @@ session_dao = SessionDALImplementation()
 session_sao = SessionSALImplementation(session_dao)
 session_start = datetime.now()
 session_expire = datetime.now() + timedelta(days=1)
-successful_session = Session(0, -1, str(session_start), str(session_expire))
+successful_session = Session(0, -1, str(session_expire))
 
 def test_service_create_session_customer_id_not_integer():
     try:
-        test_session = Session(0, "-1", str(session_start), str(session_expire))
+        test_session = Session(0, "-1", str(session_expire))
         session_sao.service_create_session(test_session)
         assert False
     except FailedTransaction as error:
@@ -21,39 +21,15 @@ def test_service_create_session_customer_id_not_integer():
 
 def test_service_create_session_customer_not_found():
     try:
-        test_session = Session(0, -50000000, str(session_start), str(session_expire))
+        test_session = Session(0, -50000000, str(session_expire))
         session_sao.service_create_session(test_session)
         assert False
     except FailedTransaction as error:
         assert str(error) == "This customer cannot be found, please try again!"
 
-def test_service_create_session_issue_date_time_not_string():
-    try:
-        test_session = Session(0, -1, session_start, str(session_expire))
-        session_sao.service_create_session(test_session)
-        assert False
-    except FailedTransaction as error:
-        assert str(error) == "The issue date and time field must be a string, please try again!"
-
-def test_service_create_session_issue_date_time_too_long():
-    try:
-        test_session = Session(0, -1, "this is too long and should bring about the desired error", str(session_expire))
-        session_sao.service_create_session(test_session)
-        assert False
-    except FailedTransaction as error:
-        assert str(error) == "The issue date and time field cannot exceed 26 characters, please try again!"
-
-def test_service_create_session_issue_date_time_empty():
-    try:
-        test_session = Session(0, -1, "", str(session_expire))
-        session_sao.service_create_session(test_session)
-        assert False
-    except FailedTransaction as error:
-        assert str(error) == "The issue date and time field cannot be left empty, please try again!"
-
 def test_service_create_session_expire_date_time_not_string():
     try:
-        test_session = Session(0, -1, str(session_start), session_expire)
+        test_session = Session(0, -1, session_expire)
         session_sao.service_create_session(test_session)
         assert False
     except FailedTransaction as error:
@@ -61,7 +37,7 @@ def test_service_create_session_expire_date_time_not_string():
 
 def test_service_create_session_expire_date_time_too_long():
     try:
-        test_session = Session(0, -1, str(session_start), "this is too long and should bring about the desired error")
+        test_session = Session(0, -1, "this is too long and should bring about the desired error")
         session_sao.service_create_session(test_session)
         assert False
     except FailedTransaction as error:
@@ -69,7 +45,7 @@ def test_service_create_session_expire_date_time_too_long():
 
 def test_service_create_session_expire_date_time_empty():
     try:
-        test_session = Session(0, -1, str(session_start), "")
+        test_session = Session(0, -1, "")
         session_sao.service_create_session(test_session)
         assert False
     except FailedTransaction as error:

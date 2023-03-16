@@ -21,21 +21,12 @@ class SessionSALImplementation(SessionSALInterface):
         if type(session.customer_id) != int:
             logging.warning("SAL method create session, customer ID not an integer")
             raise FailedTransaction("The customer ID field must be an integer, please try again!")
-        elif type(session.issue_date_time) != str:
-            logging.warning("SAL method create session, issue date time not a string")
-            raise FailedTransaction("The issue date and time field must be a string, please try again!")
         elif type(session.expire_date_time) != str:
             logging.warning("SAL method create session, expire date time not a string")
             raise FailedTransaction("The expire date and time field must be a string, please try again!")
-        elif len(session.issue_date_time) > 26:
-            logging.warning("SAL method create session, issue date time longer than 26 characters")
-            raise FailedTransaction("The issue date and time field cannot exceed 26 characters, please try again!")
         elif len(session.expire_date_time) > 26:
             logging.warning("SAL method create session, expire date time longer than 26 characters")
             raise FailedTransaction("The expire date and time field cannot exceed 26 characters, please try again!")
-        elif len(session.issue_date_time) == 0:
-            logging.warning("SAL method create session, issue date time left empty")
-            raise FailedTransaction("The issue date and time field cannot be left empty, please try again!")
         elif len(session.expire_date_time) == 0:
             logging.warning("SAL method create session, expire date time left empty")
             raise FailedTransaction("The expire date and time field cannot be left empty, please try again!")
