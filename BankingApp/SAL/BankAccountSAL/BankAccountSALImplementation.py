@@ -1,14 +1,18 @@
 import logging
 from typing import List
 from BankingApp.DAL.BankAccountDAL.BankAccountDALImplementation import BankAccountDALImplementation
+from BankingApp.DAL.CustomerDAL.CustomerDALImplementation import CustomerDALImplementation
 from BankingApp.DAL.TransactionDAL.TransactionDALImplementation import TransactionDALImplementation
 from BankingApp.Entities.BankAccount import BankAccount
 from BankingApp.Entities.FailedTransaction import FailedTransaction
 from BankingApp.SAL.BankAccountSAL.BankAccountSALInterface import BankAccountSALInterface
+from BankingApp.SAL.CustomerSAL.CustomerSALImplementation import CustomerSALImplementation
 from BankingApp.SAL.TransactionSAL.TransactionSALImplementation import TransactionSALImplementation
 
 
 class BankAccountSALImplementation(BankAccountSALInterface):
+    customer_dao = CustomerDALImplementation()
+    customer_sao = CustomerSALImplementation(customer_dao)
 
     transaction_dao = TransactionDALImplementation()
     transaction_sao = TransactionSALImplementation(transaction_dao)
@@ -22,19 +26,25 @@ class BankAccountSALImplementation(BankAccountSALInterface):
         if account.balance < 0.00:
             logging.warning("SAL method create account, negative balance attempted")
             raise FailedTransaction("The balance field cannot be negative, please try again!")
+        elif type(account.balance) != float:
+            logging.warning("SAL method create account, account balance not a float")
+            raise FailedTransaction("The balance field must be a float, please try again!")
+        elif type(account.customer_id) != int:
+            logging.warning("SAL method create account, customer ID not an integer")
+            raise FailedTransaction("The customer ID field must be an integer, please try again!")
         else:
+            self.customer_sao.service_get_customer_by_id(account.customer_id)
             new_account = self.account_dao.create_account(account)
             logging.info("Finishing SAL method create account with result: " +
                          str(new_account.convert_to_dictionary()))
             return new_account
 
-    def service_get_account_by_id(self, account_id: str) -> BankAccount:
+    def service_get_account_by_id(self, account_id: int) -> BankAccount:
         logging.info("Beginning SAL method get account by ID with account ID: " + str(account_id))
         if account_id == "":
             logging.warning("SAL method get account by ID, account ID left empty")
             raise FailedTransaction("The account ID field cannot be left empty, please try again!")
         else:
-            account_id = int(account_id)
             account = self.account_dao.get_account_by_id(account_id)
             logging.info("Finishing SAL method get account by ID: " +
                          str(account.convert_to_dictionary()))
