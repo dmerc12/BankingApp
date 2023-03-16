@@ -44,8 +44,7 @@ def reset_database():
 
     # reset session table and populate test session
     truncate_session_table = "truncate table banking.sessions restart identity cascade;"
-    test_session = f"insert into banking.sessions values (-1, -1, '{datetime.datetime.now()}', " \
-                   f"'{datetime.datetime.now()}');"
+    test_session = f"insert into banking.sessions values (-1, -1, '{datetime.datetime.now()}');"
     session_dao.access_session_table(truncate_session_table)
     session_dao.access_session_table(test_session)
 

@@ -17,9 +17,9 @@ class SessionDALImplementation(SessionDALInterface):
 
     def create_session(self, session: Session) -> Session:
         logging.info("Beginning DAL method create session")
-        sql = "insert into banking.sessions values (default, %s, %s, %s) returning session_id;"
+        sql = "insert into banking.sessions values (default, %s, %s) returning session_id;"
         cursor = Connect.connection.cursor()
-        cursor.execute(sql, (session.customer_id, session.issue_date_time, session.expire_date_time))
+        cursor.execute(sql, (session.customer_id, session.expire_date_time))
         Connect.connection.commit()
         session_id = cursor.fetchone()[0]
         session.session_id = session_id

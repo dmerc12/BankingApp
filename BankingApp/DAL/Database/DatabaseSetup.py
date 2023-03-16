@@ -53,11 +53,10 @@ def database_setup():
     transaction_dao.access_transaction_table(test_transaction)
 
     # session table setup and populate test session
-    session_table = "create table banking.sessions(session_id serial primary key, customer_id int, issue_date_time " \
-                    "varchar(26), expire_date_time varchar(26), constraint customerfk foreign key (customer_id) " \
+    session_table = "create table banking.sessions(session_id serial primary key, customer_id int, expire_date_time " \
+                    "varchar(26), constraint customerfk foreign key (customer_id) " \
                     "references Banking.customers(customer_id));"
-    test_session = f"insert into banking.sessions values (-1, -1, '{datetime.datetime.now()}', " \
-                   f"'{datetime.datetime.now()}');"
+    test_session = f"insert into banking.sessions values (-1, -1, '{datetime.datetime.now()}');"
     session_dao.access_session_table(session_table)
     session_dao.access_session_table(test_session)
 

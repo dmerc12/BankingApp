@@ -1,12 +1,11 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from BankingApp.DAL.SessionDAL.SessionDALImplementation import SessionDALImplementation
 from BankingApp.Entities.Session import Session
 
 session_dao = SessionDALImplementation()
-session_start_date = datetime.now()
-session_expire_time = session_start_date.minute + 30
-test_session = Session(0, -1, str(session_start_date), str(session_expire_time))
+session_expire_time = datetime.now() + timedelta(0, 0, 0, 0, 30)
+test_session = Session(0, -1, str(session_expire_time))
 
 def test_create_session_success():
     result = session_dao.create_session(test_session)
