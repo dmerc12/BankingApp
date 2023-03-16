@@ -57,7 +57,7 @@ def database_setup():
                     "varchar(26), constraint customerfk foreign key (customer_id) " \
                     "references Banking.customers(customer_id));"
     test_session1 = f"insert into banking.sessions values (-1, -1, " \
-                    f"'{datetime.datetime.now() + datetime.timedelta(days=30)}');"
+                    f"'{datetime.datetime.now() + datetime.timedelta(minutes=3)}');"
     test_session2 = f"insert into banking.sessions values (-2, -1, " \
                     f"'{datetime.datetime.now() - datetime.timedelta(days=300)}');"
     session_dao.access_session_table(session_table)
