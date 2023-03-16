@@ -135,35 +135,28 @@ class BankAccountSALImplementation(BankAccountSALInterface):
         if type(withdraw_account_id) != int:
             logging.warning("SAL method transfer, withdraw account ID not integer")
             raise FailedTransaction("The withdraw account ID field must be an integer, please try again!")
+        elif type(deposit_account_id) != int:
+            logging.warning("SAL method transfer, deposit account ID not integer")
+            raise FailedTransaction("The deposit account ID field must be an integer, please try again!")
+        elif type(transfer_amount) != float:
+            logging.warning("SAL method transfer, transfer amount not float")
+            raise FailedTransaction("The transfer field must be a float, please try again!")
+        elif withdraw_account_id == deposit_account_id:
+            logging.warning("SAL method transfer, deposit and withdraw accounts the same")
+            raise FailedTransaction("The deposit and withdraw accounts cannot be the same, please try again!")
+        elif transfer_amount <= 0.00:
+            logging.warning("SAL method transfer, transfer amount negative")
+            raise FailedTransaction("The transfer amount field cannot be negative or 0.00, please try again!")
         else:
-            if type(deposit_account_id) != int:
-                logging.warning("SAL method transfer, deposit account ID not integer")
-                raise FailedTransaction("The deposit account ID field must be an integer, please try again!")
+            current_withdraw_account_information = self.service_get_account_by_id(withdraw_account_id)
+            self.service_get_account_by_id(deposit_account_id)
+            if (current_withdraw_account_information.balance - transfer_amount) < 0.00:
+                logging.warning("SAL method transfer, insufficient funds")
+                raise FailedTransaction("Insufficient funds, please try again!")
             else:
-                if type(transfer_amount) != float:
-                    logging.warning("SAL method transfer, transfer amount not float")
-                    raise FailedTransaction("The transfer field must be a float, please try again!")
-                else:
-                    if withdraw_account_id == deposit_account_id:
-                        logging.warning("SAL method transfer, deposit and withdraw accounts the same")
-                        raise FailedTransaction("The deposit and withdraw accounts cannot be the same, "
-                                                "please try again!")
-                    else:
-                        self.account_dao.get_account_by_id(withdraw_account_id)
-                        self.account_dao.get_account_by_id(deposit_account_id)
-                        if transfer_amount <= 0.00:
-                            logging.warning("SAL method transfer, transfer amount negative")
-                            raise FailedTransaction("The transfer amount field cannot be negative or 0.00, "
-                                                    "please try again!")
-                        else:
-                            current_withdraw_account_info = self.account_dao.get_account_by_id(withdraw_account_id)
-                            if (current_withdraw_account_info.balance - transfer_amount) < 0.00:
-                                logging.warning("SAL method transfer, insufficient funds")
-                                raise FailedTransaction("Insufficient funds, please try again!")
-                            else:
-                                result = self.account_dao.transfer(withdraw_account_id, deposit_account_id, transfer_amount)
-                                logging.info("Finishing SAL method transfer")
-                                return result
+                result = self.account_dao.transfer(withdraw_account_id, deposit_account_id, transfer_amount)
+                logging.info("Finishing SAL method transfer")
+                return result
 
     def service_delete_account(self, account_id: str) -> bool:
         logging.info("Beginning SAL method delete account with account ID: " + str(account_id))

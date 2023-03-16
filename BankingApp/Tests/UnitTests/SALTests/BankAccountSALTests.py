@@ -164,21 +164,21 @@ def test_service_withdraw_success():
 
 def test_service_transfer_withdraw_account_id_not_integer():
     try:
-        account_sao.service_transfer("", -1, 25.00)
+        account_sao.service_transfer("this won't work", -1, 25.00)
         assert False
     except FailedTransaction as error:
         assert str(error) == "The withdraw account ID field must be an integer, please try again!"
 
 def test_service_transfer_deposit_account_id_not_integer():
     try:
-        account_sao.service_transfer(successful_account.account_id, "", 25.00)
+        account_sao.service_transfer(successful_account.account_id, "this won't work", 25.00)
         assert False
     except FailedTransaction as error:
         assert str(error) == "The deposit account ID field must be an integer, please try again!"
 
 def test_service_transfer_amount_not_float():
     try:
-        account_sao.service_transfer(successful_account.account_id, -1, "")
+        account_sao.service_transfer(successful_account.account_id, -1, "this won't work")
         assert False
     except FailedTransaction as error:
         assert str(error) == "The transfer field must be a float, please try again!"
