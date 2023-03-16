@@ -39,6 +39,15 @@ class SessionDALImplementation(SessionDALInterface):
         logging.info("Finishing DAL method get session")
         return session
 
+    def update_session(self, session: Session) -> Session:
+        logging.info("Beginning DAL method update session")
+        sql = "update banking.sessions set expire_date_time=%s where session_id=%s;"
+        cursor = Connect.connection.cursor()
+        cursor.execute(sql, (session.expire_date_time, session.session_id))
+        Connect.connection.commit()
+        logging.info("Finishing DAL method update_session")
+        return session
+
     def delete_session(self, session_id) -> bool:
         logging.info("Beginning DAL method delete session")
         sql = "delete from banking.sessions where session_id=%s;"
