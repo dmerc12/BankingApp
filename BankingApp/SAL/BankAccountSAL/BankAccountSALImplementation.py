@@ -160,8 +160,6 @@ class BankAccountSALImplementation(BankAccountSALInterface):
             raise FailedTransaction("The account ID field must be an integer, please try again!")
         else:
             self.service_get_account_by_id(account_id)
-            # need to move the below transaction sao and anything else needed to API layer
-            # self.transaction_sao.service_delete_all_transactions(account_id)
             result = self.account_dao.delete_account(account_id)
             logging.info("Finishing SAL method delete account")
             return result

@@ -26,8 +26,8 @@ def login():
             current_app.logger.info("Beginning API function login with data: " + str(email) + ", " + str(password))
 
             result = customer_sao.service_login(email, password)
-            new_session_info = Session(0, result.customer_id, str(datetime.datetime.now()),
-                                       str(datetime.datetime.now() + datetime.timedelta(0, 0, 0, 0, 0, 1)))
+            new_session_info = Session(0, result.customer_id, str(datetime.datetime.now() +
+                                                                  datetime.timedelta(0, 0, 0, 0, 0, 1)))
             new_session = session_sao.service_create_session(new_session_info)
             current_app.logger.info("Finishing API function login with result: " + str(new_session.session_id))
             session["session_id"] = new_session.session_id

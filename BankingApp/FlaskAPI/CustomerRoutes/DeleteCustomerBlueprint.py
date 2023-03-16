@@ -39,7 +39,7 @@ def delete_customer():
                 account_list = account_sao.service_get_accounts_for_delete(customer_id)
                 for account in account_list:
                     transaction_sao.service_delete_all_transactions(account.account_id)
-                account_sao.service_delete_all_accounts(str(customer_id))
+                account_sao.service_delete_all_accounts(customer_id)
                 result = customer_sao.service_delete_customer(customer_id)
                 current_app.logger.info("Finishing API function delete customer with result: " + str(result))
                 flash(message="Information successfully deleted!", category="success")

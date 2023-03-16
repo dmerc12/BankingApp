@@ -29,12 +29,12 @@ def deposit():
         try:
             session_id = session["session_id"]
             customer_id = session_sao.service_get_session(session_id).customer_id
-            accounts = account_sao.service_get_all_accounts(str(customer_id))
+            accounts = account_sao.service_get_all_accounts(customer_id)
 
             if request.method == "POST":
                 try:
-                    account_id = request.form["account_id"]
-                    deposit_amount = request.form["amount"]
+                    account_id = int(request.form["account_id"])
+                    deposit_amount = float(request.form["amount"])
                     current_app.logger.info("Beginning API function deposit with data: " + str(session_id) + ", and "
                                         + str(account_id) + ", and " + str(deposit_amount))
                     deposit_transaction = Transaction(0, str(datetime.datetime.now()), "Deposit", int(account_id),
