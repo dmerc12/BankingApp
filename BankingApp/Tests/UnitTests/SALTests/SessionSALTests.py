@@ -10,8 +10,7 @@ session_sao = SessionSALImplementation(session_dao)
 session_start = datetime.now()
 session_expire = datetime.now() + timedelta(minutes=30)
 successful_session = Session(0, -1, str(session_expire))
-update_session = Session(successful_session.session_id, successful_session.customer_id, str(datetime.now() +
-                                                                                            timedelta(minutes=3)))
+update_session = Session(-1, successful_session.customer_id, str(datetime.now() + timedelta(minutes=3)))
 
 def test_service_create_session_customer_id_not_integer():
     try:
@@ -73,7 +72,7 @@ def test_service_get_session_not_found():
 
 def test_service_get_session_expired():
     try:
-        result = session_sao.service_get_session(-1)
+        result = session_sao.service_get_session(-2)
         print(result)
         assert False
     except FailedTransaction as error:
@@ -117,7 +116,7 @@ def test_service_update_session_expire_date_time_left_empty():
 
 def test_service_update_session_expired():
     try:
-        test_session = Session(successful_session.session_id, -1, str(session_expire - timedelta(days=300)))
+        test_session = Session(-2, -1, str(session_expire - timedelta(days=300)))
         session_sao.service_update_session(test_session)
         assert False
     except FailedTransaction as error:

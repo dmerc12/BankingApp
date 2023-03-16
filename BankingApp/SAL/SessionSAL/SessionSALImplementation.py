@@ -52,7 +52,21 @@ class SessionSALImplementation(SessionSALInterface):
                 return session
 
     def service_update_session(self, session: Session) -> Session:
-        pass
+        logging.info("Beginning SAL method update session")
+        if type(session.session_id) != int:
+            logging.warning("SAL method update session, session ID not an integer")
+            raise FailedTransaction("The session ID field must be an integer, please try again!")
+        elif type(session.expire_date_time) != str:
+            logging.warning("SAL method update session, expire date and time not a string")
+            raise FailedTransaction("The expire date and time field must be a string, please try again!")
+        elif len(session.expire_date_time) == 0:
+            logging.warning("SAL method update session, expire date and time left empty")
+            raise FailedTransaction("The expire date and time field cannot be left empty, please try again!")
+        else:
+            self.service_get_session(session.session_id)
+            updated_session = self.session_dao.update_session(session)
+            logging.info("Finishing SAL method update session")
+            return updated_session
 
     def service_delete_session(self, session_id: int) -> bool:
         logging.info("Beginning SAL method delete session")

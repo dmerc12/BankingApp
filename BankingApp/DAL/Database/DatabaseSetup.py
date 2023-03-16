@@ -56,8 +56,12 @@ def database_setup():
     session_table = "create table banking.sessions(session_id serial primary key, customer_id int, expire_date_time " \
                     "varchar(26), constraint customerfk foreign key (customer_id) " \
                     "references Banking.customers(customer_id));"
-    test_session = f"insert into banking.sessions values (-1, -1, '{datetime.datetime.now()}');"
+    test_session1 = f"insert into banking.sessions values (-1, -1, " \
+                    f"'{datetime.datetime.now() + datetime.timedelta(days=30)}');"
+    test_session2 = f"insert into banking.sessions values (-2, -1, " \
+                    f"'{datetime.datetime.now() - datetime.timedelta(days=300)}');"
     session_dao.access_session_table(session_table)
-    session_dao.access_session_table(test_session)
+    session_dao.access_session_table(test_session1)
+    session_dao.access_session_table(test_session2)
 
 database_setup()
