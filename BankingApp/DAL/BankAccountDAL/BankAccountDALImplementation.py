@@ -37,6 +37,9 @@ class BankAccountDALImplementation(BankAccountDALInterface):
         cursor = Connect.connection.cursor()
         cursor.execute(sql, [account_id])
         account_info = cursor.fetchone()
+        if account_info is None:
+            logging.warning("DAL method get account by ID, no account found")
+            return None
         account = BankAccount(*account_info)
         logging.info("Finishing DAL method get account by ID with result: " +
                      str(account.convert_to_dictionary()))
