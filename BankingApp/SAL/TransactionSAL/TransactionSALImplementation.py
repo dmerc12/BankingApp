@@ -5,9 +5,11 @@ from BankingApp.DAL.BankAccountDAL.BankAccountDALImplementation import BankAccou
 from BankingApp.DAL.TransactionDAL.TransactionDALImplementation import TransactionDALImplementation
 from BankingApp.Entities.FailedTransaction import FailedTransaction
 from BankingApp.Entities.Transaction import Transaction
+from BankingApp.SAL.BankAccountSAL.BankAccountSALImplementation import BankAccountSALImplementation
 from BankingApp.SAL.TransactionSAL.TransactionSALInterface import TransactionSALInterface
 
 account_dao = BankAccountDALImplementation()
+account_sao = BankAccountSALImplementation(account_dao)
 
 class TransactionSALImplementation(TransactionSALInterface):
 
@@ -44,7 +46,7 @@ class TransactionSALImplementation(TransactionSALInterface):
             logging.warning("SAL method create transaction, transaction amount negative")
             raise FailedTransaction("The transaction amount field cannot be negative, please try again!")
         else:
-            valid_account_check = account_dao.get_account_by_id(transaction.account_id)
+            valid_account_check = account_sao.service_get_account_by_id(transaction.account_id)
             if valid_account_check is not None:
                 result = self.transaction_dao.create_transaction(transaction)
                 logging.info("Finishing SAL method create transaction")
@@ -52,24 +54,39 @@ class TransactionSALImplementation(TransactionSALInterface):
 
     def service_get_transaction_by_id(self, transaction_id: int) -> Transaction:
         logging.info("Beginning SAL method get transaction by ID")
-        result = self.transaction_dao.get_transaction_by_id(transaction_id)
-        logging.info("Finishing SAL method get transaction by ID")
-        return result
+        if type(transaction_id) != int:
+            logging.warning("SAL method get transaction by ID, transaction ID not an integer")
+            raise FailedTransaction("The transaction ID field must be an integer, please try again!")
+        else:
+            result = self.transaction_dao.get_transaction_by_id(transaction_id)
+            if result is None:
+                logging.warning("SAL method get transaction by ID, transaction not found")
+                raise FailedTransaction("This transaction cannot be found, please try again!")
+            else:
+                logging.info("Finishing SAL method get transaction by ID")
+                return result
 
     def service_get_all_transactions(self, account_id: int) -> List[Transaction]:
         logging.info("Beginning SAL method get all transactions")
-        transaction_list = self.transaction_dao.get_all_transactions(account_id)
-        if transaction_list is None:
-            logging.warning("SAL method get all transactions, no transactions found")
-            raise FailedTransaction("No transactions found, please try again!")
+        if type(account_id) != int:
+            logging.warning("SAL method get all transactions, account ID not an integer")
+            raise FailedTransaction("The account ID field must be an integer, please try again!")
         else:
-            logging.info("Finishing SAL method get all transactions")
-            return transaction_list
+            transaction_list = self.transaction_dao.get_all_transactions(account_id)
+            if len(transaction_list) == 0:
+                logging.warning("SAL method get all transactions, none found")
+                raise FailedTransaction("No transactions found, please try again!")
+            else:
+                logging.info("Finishing SAL method get all transactions")
+                return transaction_list
 
     def service_delete_transaction(self, transaction_id: int) -> bool:
         logging.info("Beginning SAL method delete transaction")
-        valid_transaction_check = self.transaction_dao.get_transaction_by_id(transaction_id)
-        if valid_transaction_check is not None:
+        if type(transaction_id) != int:
+            logging.warning("SAL method delete transaction, transaction ID not an integer")
+            raise FailedTransaction("The transaction ID field must be an integer, please try again!")
+        else:
+            self.service_get_transaction_by_id(transaction_id)
             result = self.transaction_dao.delete_transaction(transaction_id)
             logging.info("Finishing SAL method delete transaction")
             return result

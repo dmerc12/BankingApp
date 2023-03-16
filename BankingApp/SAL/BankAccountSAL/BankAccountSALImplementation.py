@@ -2,20 +2,15 @@ import logging
 from typing import List
 from BankingApp.DAL.BankAccountDAL.BankAccountDALImplementation import BankAccountDALImplementation
 from BankingApp.DAL.CustomerDAL.CustomerDALImplementation import CustomerDALImplementation
-from BankingApp.DAL.TransactionDAL.TransactionDALImplementation import TransactionDALImplementation
 from BankingApp.Entities.BankAccount import BankAccount
 from BankingApp.Entities.FailedTransaction import FailedTransaction
 from BankingApp.SAL.BankAccountSAL.BankAccountSALInterface import BankAccountSALInterface
 from BankingApp.SAL.CustomerSAL.CustomerSALImplementation import CustomerSALImplementation
-from BankingApp.SAL.TransactionSAL.TransactionSALImplementation import TransactionSALImplementation
 
 
 class BankAccountSALImplementation(BankAccountSALInterface):
     customer_dao = CustomerDALImplementation()
     customer_sao = CustomerSALImplementation(customer_dao)
-
-    transaction_dao = TransactionDALImplementation()
-    transaction_sao = TransactionSALImplementation(transaction_dao)
 
     def __init__(self, account_dao: BankAccountDALImplementation):
         self.account_dao = account_dao
@@ -165,7 +160,8 @@ class BankAccountSALImplementation(BankAccountSALInterface):
             raise FailedTransaction("The account ID field must be an integer, please try again!")
         else:
             self.service_get_account_by_id(account_id)
-            self.transaction_sao.service_delete_all_transactions(account_id)
+            # need to move the below transaction sao and anything else needed to API layer
+            # self.transaction_sao.service_delete_all_transactions(account_id)
             result = self.account_dao.delete_account(account_id)
             logging.info("Finishing SAL method delete account")
             return result
