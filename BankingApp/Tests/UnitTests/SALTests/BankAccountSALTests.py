@@ -93,34 +93,34 @@ def tests_service_get_accounts_for_delete_success():
 
 def test_service_deposit_amount_left_empty():
     try:
-        account_sao.service_deposit(str(successful_account.account_id), "")
+        account_sao.service_deposit(successful_account.account_id, "this won't work")
         assert False
     except FailedTransaction as error:
-        assert str(error) == "The deposit amount field cannot be left empty, please try again!"
+        assert str(error) == "The deposit amount field must be a float, please try again!"
 
-def test_service_deposit_account_id_left_empty():
+def test_service_deposit_account_id_left_not_integer():
     try:
-        account_sao.service_deposit("", "50.00")
+        account_sao.service_deposit("this won't work", 50.00)
         assert False
     except FailedTransaction as error:
-        assert str(error) == "The deposit account ID field cannot be left empty, please try again!"
+        assert str(error) == "The deposit account ID field must be an integer, please try again!"
 
 def test_service_deposit_account_not_found():
     try:
-        account_sao.service_deposit("-5000000000", "50.00")
+        account_sao.service_deposit(-5000000000, 50.00)
         assert False
     except FailedTransaction as error:
         assert str(error) == "This account cannot be found, please try again!"
 
 def test_service_deposit_amount_negative():
     try:
-        account_sao.service_deposit(str(successful_account.account_id), "-25.00")
+        account_sao.service_deposit(successful_account.account_id, -25.00)
         assert False
     except FailedTransaction as error:
         assert str(error) == "The deposit amount field cannot be negative or 0.00, please try again!"
 
 def test_service_deposit_success():
-    result = account_sao.service_deposit(str(successful_account.account_id), "25.00")
+    result = account_sao.service_deposit(successful_account.account_id, 25.00)
     assert result.balance == 75.00
 
 def test_service_withdraw_amount_left_empty():

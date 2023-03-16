@@ -83,28 +83,25 @@ class BankAccountSALImplementation(BankAccountSALInterface):
                              str(account.convert_to_dictionary()))
             return account_list
 
-    def service_deposit(self, account_id: str, deposit_amount: str) -> BankAccount:
+    def service_deposit(self, account_id: int, deposit_amount: float) -> BankAccount:
         logging.info("Beginning SAL method deposit with deposit account ID: " + str(account_id) +
                      ", and deposit amount: " + str(deposit_amount))
-        if account_id == "":
-            logging.warning("SAL method deposit, account ID left empty")
-            raise FailedTransaction("The deposit account ID field cannot be left empty, please try again!")
+        if type(account_id) != int:
+            logging.warning("SAL method deposit, account ID not an integer")
+            raise FailedTransaction("The deposit account ID field must be an integer, please try again!")
+        elif type(deposit_amount) != float:
+            logging.warning("SAL method deposit, deposit amount not a float")
+            raise FailedTransaction("The deposit amount field must be a float, please try again!")
         else:
-            if deposit_amount == "":
-                logging.warning("SAL method deposit, deposit amount left empty")
-                raise FailedTransaction("The deposit amount field cannot be left empty, please try again!")
+            self.service_get_account_by_id(account_id)
+            if deposit_amount <= 0.00:
+                logging.warning("SAL method deposit, deposit amount negative or 0")
+                raise FailedTransaction("The deposit amount field cannot be negative or 0.00, please try again!")
             else:
-                account_id_integer = int(account_id)
-                deposit_amount = float(deposit_amount)
-                self.account_dao.get_account_by_id(account_id_integer)
-                if deposit_amount <= 0.00:
-                    logging.warning("SAL method deposit, deposit amount negative or 0")
-                    raise FailedTransaction("The deposit amount field cannot be negative or 0.00, please try again!")
-                else:
-                    deposit_result = self.account_dao.deposit(account_id_integer, deposit_amount)
-                    logging.info("Finishing SAL method deposit with result: " +
-                                 str(deposit_result.convert_to_dictionary()))
-                    return deposit_result
+                deposit_result = self.account_dao.deposit(account_id, deposit_amount)
+                logging.info("Finishing SAL method deposit with result: " +
+                             str(deposit_result.convert_to_dictionary()))
+                return deposit_result
 
     def service_withdraw(self, account_id: str, withdraw_amount: str) -> BankAccount:
         logging.info("Beginning SAL method withdraw with withdraw account ID: " + str(account_id) +
