@@ -13,10 +13,6 @@ class SessionSALInterface(ABC):
         pass
 
     @abstractmethod
-    def service_update_session(self, session: Session) -> Session:
-        pass
-
-    @abstractmethod
     def service_delete_session(self, session_id: int) -> bool:
         pass
 

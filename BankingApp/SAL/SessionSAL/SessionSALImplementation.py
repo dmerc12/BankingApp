@@ -1,5 +1,5 @@
 import logging
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from BankingApp.DAL.CustomerDAL.CustomerDALImplementation import CustomerDALImplementation
 from BankingApp.DAL.SessionDAL.SessionDALImplementation import SessionDALImplementation
@@ -47,26 +47,15 @@ class SessionSALImplementation(SessionSALInterface):
             if session_expire_date_time < datetime.now():
                 logging.warning("SAL method get session, session expired")
                 raise FailedTransaction("Session has expired, please log in!")
+            elif session_expire_date_time < (datetime.now() + timedelta(minutes=5)):
+                logging.info("Session expiring soon, updating expiration to 30 minutes")
+                updated_session = Session(session.session_id, session.customer_id, str(datetime.now() +
+                                                                                       timedelta(minutes=30)))
+                updated_session = self.session_dao.update_session(updated_session)
+                return updated_session
             else:
                 logging.info("Finishing SAL method get session")
                 return session
-
-    def service_update_session(self, session: Session) -> Session:
-        logging.info("Beginning SAL method update session")
-        if type(session.session_id) != int:
-            logging.warning("SAL method update session, session ID not an integer")
-            raise FailedTransaction("The session ID field must be an integer, please try again!")
-        elif type(session.expire_date_time) != str:
-            logging.warning("SAL method update session, expire date and time not a string")
-            raise FailedTransaction("The expire date and time field must be a string, please try again!")
-        elif len(session.expire_date_time) == 0:
-            logging.warning("SAL method update session, expire date and time left empty")
-            raise FailedTransaction("The expire date and time field cannot be left empty, please try again!")
-        else:
-            self.service_get_session(session.session_id)
-            updated_session = self.session_dao.update_session(session)
-            logging.info("Finishing SAL method update session")
-            return updated_session
 
     def service_delete_session(self, session_id: int) -> bool:
         logging.info("Beginning SAL method delete session")

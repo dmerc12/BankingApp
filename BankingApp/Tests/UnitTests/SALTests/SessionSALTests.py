@@ -82,51 +82,11 @@ def test_service_get_session_success():
     result = session_sao.service_get_session(successful_session.session_id)
     assert result is not None
 
-def test_service_update_session_id_not_found():
-    try:
-        test_session = Session(-50000000000000, -1, str(session_expire + timedelta(minutes=30)))
-        session_sao.service_update_session(test_session)
-        assert False
-    except FailedTransaction as error:
-        assert str(error) == "No session found, please try again!"
-
-def test_service_update_session_id_not_integer():
-    try:
-        test_session = Session("this won't work", -1, str(session_expire + timedelta(minutes=30)))
-        session_sao.service_update_session(test_session)
-        assert False
-    except FailedTransaction as error:
-        assert str(error) == "The session ID field must be an integer, please try again!"
-
-def test_service_update_session_expire_date_time_not_string():
-    try:
-        test_session = Session(successful_session.session_id, -1, session_expire + timedelta(minutes=30))
-        session_sao.service_update_session(test_session)
-        assert False
-    except FailedTransaction as error:
-        assert str(error) == "The expire date and time field must be a string, please try again!"
-
-def test_service_update_session_expire_date_time_left_empty():
-    try:
-        test_session = Session(successful_session.session_id, -1, "")
-        session_sao.service_update_session(test_session)
-        assert False
-    except FailedTransaction as error:
-        assert str(error) == "The expire date and time field cannot be left empty, please try again!"
-
-def test_service_update_session_expired():
-    try:
-        test_session = Session(-2, -1, str(session_expire - timedelta(days=300)))
-        session_sao.service_update_session(test_session)
-        assert False
-    except FailedTransaction as error:
-        assert str(error) == "Session has expired, please log in!"
-
-def test_service_update_session_success():
-    result = session_sao.service_update_session(update_session)
-    assert result.expire_date_time == update_session.expire_date_time and result.session_id == \
+def test_service_get_session_with_updated_expiration_success():
+    result = session_sao.service_get_session(-1)
+    print(result.expire_date_time)
+    assert result.expire_date_time != update_session.expire_date_time and result.session_id == \
            update_session.session_id
-
 
 def test_service_delete_session_id_not_integer():
     try:
