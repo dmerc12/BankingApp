@@ -51,34 +51,34 @@ def test_service_get_account_by_id_account_not_found():
     except FailedTransaction as error:
         assert str(error) == "This account cannot be found, please try again!"
 
-def test_service_get_account_by_id_account_id_left_empty():
+def test_service_get_account_by_id_account_id_not_integer():
     try:
-        account_sao.service_get_account_by_id("")
+        account_sao.service_get_account_by_id("this won't work")
         assert False
     except FailedTransaction as error:
-        assert str(error) == "The account ID field cannot be left empty, please try again!"
+        assert str(error) == "The account ID field must be an integer, please try again!"
 
 def test_service_get_account_by_id_success():
-    result = account_sao.service_get_account_by_id(str(successful_account.account_id))
+    result = account_sao.service_get_account_by_id(successful_account.account_id)
     assert result is not None
 
-def test_service_get_all_accounts_by_id_customer_id_left_empty():
+def test_service_get_all_accounts_by_id_customer_id_not_integer():
     try:
-        account_sao.service_get_all_accounts("")
+        account_sao.service_get_all_accounts("this won't work")
         assert False
     except FailedTransaction as error:
-        assert str(error) == "The customer ID field cannot be left empty, please try again!"
+        assert str(error) == "The customer ID field must be an integer, please try again!"
 
 def test_service_get_all_accounts_by_id_none_found():
     try:
-        account_sao.service_get_all_accounts("-3")
+        account_sao.service_get_all_accounts(-3000000000)
         assert False
     except FailedTransaction as error:
         assert str(error) == "No accounts found, please try again!"
 
 def test_service_get_all_accounts_success():
-    result = account_sao.service_get_all_accounts(str(successful_account.customer_id))
-    assert len(result) >= 0
+    result = account_sao.service_get_all_accounts(successful_account.customer_id)
+    assert len(result) > 0
 
 def test_service_get_accounts_for_delete_customer_id_not_integer():
     try:

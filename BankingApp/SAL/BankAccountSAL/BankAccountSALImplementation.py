@@ -41,27 +41,35 @@ class BankAccountSALImplementation(BankAccountSALInterface):
 
     def service_get_account_by_id(self, account_id: int) -> BankAccount:
         logging.info("Beginning SAL method get account by ID with account ID: " + str(account_id))
-        if account_id == "":
-            logging.warning("SAL method get account by ID, account ID left empty")
-            raise FailedTransaction("The account ID field cannot be left empty, please try again!")
+        if type(account_id) != int:
+            logging.warning("SAL method get account by ID, account ID not an integer")
+            raise FailedTransaction("The customer ID field must be an integer, please try again!")
         else:
             account = self.account_dao.get_account_by_id(account_id)
-            logging.info("Finishing SAL method get account by ID: " +
-                         str(account.convert_to_dictionary()))
-            return account
+            if account is None:
+                logging.warning("SAL method get account by ID, no account found")
+                raise FailedTransaction("This account cannot be found, please try again!")
+            else:
+                logging.info("Finishing SAL method get account by ID: " +
+                             str(account.convert_to_dictionary()))
+                return account
 
-    def service_get_all_accounts(self, customer_id: str) -> List[BankAccount]:
+    def service_get_all_accounts(self, customer_id: int) -> List[BankAccount]:
         logging.info("Beginning SAL method get all accounts with customer ID: " + str(customer_id))
-        if customer_id == "":
-            logging.warning("SAL method get all accounts, customer ID left empty")
-            raise FailedTransaction("The customer ID field cannot be left empty, please try again!")
+        if type(customer_id) != int:
+            logging.warning("SAL method get all accounts, customer ID not an integer")
+            raise FailedTransaction("The customer ID field must be an integer, please try again!")
         else:
             customer_id = int(customer_id)
             account_list = self.account_dao.get_all_accounts(customer_id)
-            for account in account_list:
-                logging.info("Finishing SAL method get all accounts with account: " +
-                             str(account.convert_to_dictionary()))
-            return account_list
+            if len(account_list) == 0:
+                logging.warning("SAL method get all accounts, no accounts found")
+                raise FailedTransaction("No accounts found, please try again!")
+            else:
+                for account in account_list:
+                    logging.info("Finishing SAL method get all accounts with account: " +
+                                 str(account.convert_to_dictionary()))
+                return account_list
 
     def service_get_accounts_for_delete(self, customer_id: int) -> List[BankAccount]:
         logging.info("Beginning SAL method get accounts for delete with customer ID: " + str(customer_id))

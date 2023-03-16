@@ -37,9 +37,6 @@ class BankAccountDALImplementation(BankAccountDALInterface):
         cursor = Connect.connection.cursor()
         cursor.execute(sql, [account_id])
         account_info = cursor.fetchone()
-        if account_info is None:
-            logging.warning("DAL method get account by ID, account not found")
-            raise FailedTransaction("This account cannot be found, please try again!")
         account = BankAccount(*account_info)
         logging.info("Finishing DAL method get account by ID with result: " +
                      str(account.convert_to_dictionary()))
@@ -55,14 +52,10 @@ class BankAccountDALImplementation(BankAccountDALInterface):
         for account in account_records:
             account = BankAccount(*account)
             account_list.append(account)
-        if len(account_list) == 0:
-            logging.warning("DAL method get all accounts, no accounts found")
-            raise FailedTransaction("No accounts found, please try again!")
-        else:
-            for account in account_list:
-                logging.info("Finishing DAL method get all accounts with result: " +
-                             str(account.convert_to_dictionary()))
-            return account_list
+        for account in account_list:
+            logging.info("Finishing DAL method get all accounts with result: " +
+                         str(account.convert_to_dictionary()))
+        return account_list
 
     def get_accounts_for_delete(self, customer_id: int) -> List[BankAccount]:
         logging.info("Beginning DAL method get accounts for delete with customer ID: " + str(customer_id))
