@@ -51,6 +51,9 @@ class SessionSALImplementation(SessionSALInterface):
                 logging.info("Finishing SAL method get session")
                 return session
 
+    def service_update_session(self, session: Session) -> Session:
+        pass
+
     def service_delete_session(self, session_id: int) -> bool:
         logging.info("Beginning SAL method delete session")
         if type(session_id) != int:
