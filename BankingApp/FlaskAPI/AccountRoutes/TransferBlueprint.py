@@ -29,7 +29,7 @@ def transfer():
         try:
             session_id = session["session_id"]
             customer_id = session_sao.service_get_session(session_id).customer_id
-            accounts = account_sao.service_get_all_accounts(str(customer_id))
+            accounts = account_sao.service_get_all_accounts(customer_id)
             if request.method == "POST":
                 try:
                     withdraw_account_id = int(request.form["withdraw_account_id"])

@@ -17,9 +17,9 @@ class SessionDALImplementation(SessionDALInterface):
 
     def create_session(self, session: Session) -> Session:
         logging.info("Beginning DAL method create session")
-        sql = "insert into banking.sessions values (default, %s, %s, %s) returning session_id;"
+        sql = "insert into banking.sessions values (default, %s, %s) returning session_id;"
         cursor = Connect.connection.cursor()
-        cursor.execute(sql, (session.customer_id, session.issue_date_time, session.expire_date_time))
+        cursor.execute(sql, (session.customer_id, session.expire_date_time))
         Connect.connection.commit()
         session_id = cursor.fetchone()[0]
         session.session_id = session_id
@@ -37,6 +37,15 @@ class SessionDALImplementation(SessionDALInterface):
             raise FailedTransaction("No session found, please try again!")
         session = Session(*session_info)
         logging.info("Finishing DAL method get session")
+        return session
+
+    def update_session(self, session: Session) -> Session:
+        logging.info("Beginning DAL method update session")
+        sql = "update banking.sessions set expire_date_time=%s where session_id=%s;"
+        cursor = Connect.connection.cursor()
+        cursor.execute(sql, (session.expire_date_time, session.session_id))
+        Connect.connection.commit()
+        logging.info("Finishing DAL method update_session")
         return session
 
     def delete_session(self, session_id) -> bool:

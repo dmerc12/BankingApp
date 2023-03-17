@@ -34,7 +34,7 @@ class TransactionDALImplementation(TransactionDALInterface):
         transaction_info = cursor.fetchone()
         if transaction_info is None:
             logging.warning("DAL method get transaction by ID, transaction not found")
-            raise FailedTransaction("This transaction cannot be found, please try again!")
+            return None
         transaction = Transaction(*transaction_info)
         logging.info("Finishing DAL method get transaction by ID")
         return transaction
@@ -50,9 +50,6 @@ class TransactionDALImplementation(TransactionDALInterface):
             transaction = Transaction(*transaction)
             transaction_dictionary = transaction.convert_to_dictionary()
             transaction_list.append(transaction_dictionary)
-        if len(transaction_list) == 0:
-            logging.warning("DAL method get all transactions, none found")
-            raise FailedTransaction("No transactions found, please try again!")
         logging.info("Finishing DAL method get all transactions")
         return transaction_list
 

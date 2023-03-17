@@ -29,11 +29,11 @@ def withdraw():
         try:
             session_id = session["session_id"]
             customer_id = session_sao.service_get_session(session_id).customer_id
-            accounts = account_sao.service_get_all_accounts(str(customer_id))
+            accounts = account_sao.service_get_all_accounts(customer_id)
             if request.method == "POST":
                 try:
-                    account_id = request.form["account_id"]
-                    withdraw_amount = request.form["amount"]
+                    account_id = int(request.form["account_id"])
+                    withdraw_amount = float(request.form["amount"])
                     current_app.logger.info("Beginning API function withdraw with data: " + str(session_id) + ", and "
                                             + str(account_id) + ", and " + str(withdraw_amount))
                     withdraw_transaction = Transaction(0, str(datetime.datetime.now()), "Withdraw", int(account_id),

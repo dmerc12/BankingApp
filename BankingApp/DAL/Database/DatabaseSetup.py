@@ -11,6 +11,10 @@ transaction_dao = TransactionDALImplementation()
 session_dao = SessionDALImplementation()
 
 def database_setup():
+    # creating banking schema
+    banking_schema = "create schema banking"
+    customer_dao.access_customer_table(banking_schema)
+
     # customer table setup and populating test customers
     customer_table = "create table banking.customers(customer_id serial primary key, first_name varchar(36), " \
                      "last_name varchar(36), passwrd varchar(60), email varchar(60), phone_number varchar(13), " \
@@ -49,12 +53,15 @@ def database_setup():
     transaction_dao.access_transaction_table(test_transaction)
 
     # session table setup and populate test session
-    session_table = "create table banking.sessions(session_id serial primary key, customer_id int, issue_date_time " \
-                    "varchar(26), expire_date_time varchar(26), constraint customerfk foreign key (customer_id) " \
+    session_table = "create table banking.sessions(session_id serial primary key, customer_id int, expire_date_time " \
+                    "varchar(26), constraint customerfk foreign key (customer_id) " \
                     "references Banking.customers(customer_id));"
-    test_session = f"insert into banking.sessions values (-1, -1, '{datetime.datetime.now()}', " \
-                   f"'{datetime.datetime.now()}');"
+    test_session1 = f"insert into banking.sessions values (-1, -1, " \
+                    f"'{datetime.datetime.now() + datetime.timedelta(minutes=3)}');"
+    test_session2 = f"insert into banking.sessions values (-2, -1, " \
+                    f"'{datetime.datetime.now() - datetime.timedelta(days=300)}');"
     session_dao.access_session_table(session_table)
-    session_dao.access_session_table(test_session)
+    session_dao.access_session_table(test_session1)
+    session_dao.access_session_table(test_session2)
 
 database_setup()

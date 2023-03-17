@@ -19,6 +19,7 @@ account_sao = BankAccountSALImplementation(account_dao)
 
 @get_relevant_transactions.route("/account/<account_id>/transactions", methods=["GET"])
 def view_transactions(account_id):
+    account_id = int(account_id)
     session_id = session.get('session_id')
     session_verification = session_sao.service_get_session(session_id)
     if session_id is None:

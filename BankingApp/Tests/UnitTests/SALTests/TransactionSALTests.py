@@ -94,6 +94,13 @@ def test_service_create_transaction_success():
     result = transaction_sao.service_create_transaction(successful_transaction)
     assert result.transaction_id != 0
 
+def test_service_get_transaction_by_id_not_integer():
+    try:
+        transaction_sao.service_get_transaction_by_id("this won't work")
+        assert False
+    except FailedTransaction as error:
+        assert str(error) == "The transaction ID field must be an integer, please try again!"
+
 def test_service_get_transaction_by_id_not_found():
     try:
         transaction_sao.service_get_transaction_by_id(-50000000)
@@ -105,6 +112,12 @@ def test_service_get_transaction_by_id_success():
     result = transaction_sao.service_get_transaction_by_id(successful_transaction.transaction_id)
     assert result is not None
 
+def test_service_get_all_transactions_account_id_not_integer():
+    try:
+        transaction_sao.service_get_all_transactions("this won't work")
+    except FailedTransaction as error:
+        assert str(error) == "The account ID field must be an integer, please try again!"
+
 def test_service_get_all_transactions_none_found():
     try:
         transaction_sao.service_get_all_transactions(-50000000)
@@ -114,6 +127,13 @@ def test_service_get_all_transactions_none_found():
 def test_service_get_all_transactions_success():
     result = transaction_sao.service_get_all_transactions(successful_transaction.account_id)
     assert len(result) > 0
+
+def test_delete_transaction_id_not_integer():
+    try:
+        transaction_sao.service_delete_transaction("this won't work")
+        assert False
+    except FailedTransaction as error:
+        assert str(error) == "The transaction ID field must be an integer, please try again!"
 
 def test_delete_transaction_not_found():
     try:

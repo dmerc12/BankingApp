@@ -25,4 +25,8 @@ def drop_database():
     drop_customer_table = "drop table banking.customers;"
     customer_dao.access_customer_table(drop_customer_table)
 
+    # drop banking schema
+    drop_banking_schema = "drop schema banking"
+    customer_dao.access_customer_table(drop_banking_schema)
+
 drop_database()
