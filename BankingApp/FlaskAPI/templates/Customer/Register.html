@@ -4,7 +4,7 @@
 
 {% block loginOrLogout %}
 <div class="navbar-nav">
-    <a class="nav-item nav-link" href="{{ url_for('login_route.login') }}">Login</a>
+    <a id="login" class="nav-item nav-link" href="{{ url_for('login_route.login') }}">Login</a>
 </div>
 {% endblock %}
 
@@ -50,7 +50,7 @@
                 <input type="text" class="form-control" name="address" id="address" required>
             </div>
 
-            <button type="submit" class="btn btn-primary">Register</button>
+            <button id="registerButton" type="submit" class="btn btn-primary">Register</button>
         </form>
     </div>
 </div>

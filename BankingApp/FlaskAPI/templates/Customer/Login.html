@@ -4,7 +4,7 @@
 
 {% block loginOrLogout %}
 <div class="navbar-nav">
-    <a class="nav-item nav-link" href="{{ url_for('create_new_customer.register') }}">Register</a>
+    <a id="register" class="nav-item nav-link" href="{{ url_for('create_new_customer.register') }}">Register</a>
 </div>
 {% endblock %}
 
@@ -17,16 +17,16 @@
 
         <form method="POST">
             <div class="form-group">
-                <label>Email</label>
-                <input type="text" class="form-control" name="email" id="email">
+                <label for="loginEmail">Email</label>
+                <input type="text" class="form-control" name="email" id="loginEmail">
             </div>
 
             <div class="form-group">
-                <label>Password</label>
-                <input type="password" class="form-control" name="password" id="password">
+                <label for="loginPassword">Password</label>
+                <input type="password" class="form-control" name="password" id="loginPassword">
             </div>
 
-            <button type="submit" class="btn btn-primary">Log In</button>
+            <button id="loginButton" type="submit" class="btn btn-primary">Log In</button>
         </form>
     </div>
 </div>
