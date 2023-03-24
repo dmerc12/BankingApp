@@ -1,7 +1,6 @@
 from datetime import datetime, timedelta
 
 from flask import Blueprint, request, flash, url_for, redirect, current_app, render_template
-from flask_mail import Message
 
 from BankingApp.DAL.CustomerDAL.CustomerDALImplementation import CustomerDALImplementation
 from BankingApp.DAL.SessionDAL.SessionDALImplementation import SessionDALImplementation
@@ -9,6 +8,7 @@ from BankingApp.Entities import FailedTransaction
 from BankingApp.Entities.Session import Session
 from BankingApp.SAL.CustomerSAL.CustomerSALImplementation import CustomerSALImplementation
 from BankingApp.SAL.SessionSAL.SessionSALImplementation import SessionSALImplementation
+from twilio.rest import Client
 
 password_reset = Blueprint("password_reset", __name__)
 
@@ -17,10 +17,15 @@ customer_sao = CustomerSALImplementation(customer_dao)
 session_dao = SessionDALImplementation()
 session_sao = SessionSALImplementation(session_dao)
 
+account_sid = "AC825b0737f27e58198acbf2e9033500e5"
+auth_token = "1cea6d2ceb6ef198e69ef5ee0adcec65"
+twilio_number = "+18776794441"
+
+Client = Client(account_sid, auth_token)
 @password_reset.route("/forgot/password", methods=["GET", "POST"])
 def request_reset_password():
-    mail = current_app.extensions.get("mail")
     if request.method == "POST":
+        current_app.logger.info("Beginning API function request reset password")
         try:
             email = request.form["resetEmail"]
             customer = customer_sao.service_get_customer_by_email(email)
@@ -28,14 +33,13 @@ def request_reset_password():
                 session_info = Session(0, customer.customer_id, str(datetime.now() + timedelta(15)))
                 session = session_sao.service_create_session(session_info)
                 reset_link = url_for("password_reset.change_password", session_id=session.session_id, _external=True)
-                message = Message(
-                    subject=["Reset Password"],
-                    recipients=[customer.email],
-                    sender=["no-reply@email.com"])
-                message.body = f"Please click the following link to reset your password: {reset_link}"
-                mail.send(message)
-                flash("An email has been sent with instructions to reset your password", category="success")
+                message_body = f"Please click on the link to reset your password: {reset_link}"
+                message = Client.messages.create(to="+" + customer.phone_number, body=message_body, from_=twilio_number)
+                current_app.logger.info("Finishing API function request reset password with message: " + str(message))
+                flash("An SMS message has been sent to your number on file with instructions to reset your password",
+                      category="success")
             else:
+                current_app.logger.error("Error with API function request reset password, no account found with number")
                 flash("No account found with that email, please register!")
             return redirect(url_for("login_route.login"))
         except FailedTransaction as error:

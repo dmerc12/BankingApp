@@ -24,8 +24,7 @@ def test_get_customer_by_email_success():
     assert result is not None
 
 def test_login_success():
-    # test will fail after reset database is run until password is updated with new hashed password in database
-    result = customer_dao.login("test@email.com", "$2b$12$g7GMAf7bsmboK2hdZwUfh.lDc30/Do1OixCowK.nooK4HnNFgATnK")
+    result = customer_dao.login("test@email.com", "$2b$12$5ItMmnpZPCuN9JM1gExtdOTKiDbejPmynlLbUDdW/7JaR.SB1MFJa")
     assert result is not None
 
 def test_update_customer_success():
