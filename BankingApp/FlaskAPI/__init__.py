@@ -3,21 +3,27 @@ import os
 
 from flask import Flask
 from flask_cors import CORS
-from flask_mail import Mail, Message
+from flask_mail import Mail
 
+mail = Mail()
 
 def create_back_end_api(config):
     app: Flask = Flask(__name__)
     CORS(app)
     app.config.from_object(config)
+
+    # set up the Flask-Mail extension
+    app.config['MAIL_SERVER'] = 'smtp.mail.yahoo.com'
+    app.config['MAIL_PORT'] = 465
+    app.config['MAIL_USERNAME'] = 'flaskbanking@yahoo.com'
+    app.config['MAIL_PASSWORD'] = 'Flask123!'
+    app.config['MAIL_USE_TLS'] = False
+    app.config['MAIL_USE_SSL'] = True
+    mail.init_app(app)
+
     secret_key = os.urandom(32)
     app.config['SECRET_KEY'] = secret_key
-
     app.jinja_env.filters['floatformat'] = '{:.2f}'.format
-
-    mail = Mail()
-    mail.init_app(app)
-    app.config['MAIL_DEFAULT_SENDER'] = 'no-reply@email.com'
 
     @app.before_request
     def set_up_logs():
@@ -68,6 +74,6 @@ def create_back_end_api(config):
     app.register_blueprint(main_route)
     app.register_blueprint(update_customer_blueprint)
     app.register_blueprint(change_password_blueprint)
-    app.register_blueprint(password_reset, mail=mail)
+    app.register_blueprint(password_reset)
 
     return app
