@@ -74,11 +74,11 @@ class CustomerDALImplementation(CustomerDALInterface):
         logging.info("Finishing DAL method update customer")
         return customer
 
-    def change_password(self, customer_id: int, new_password: str) -> bool:
+    def change_password(self, customer_id: int, new_password: bytes) -> bool:
         logging.info("Beginning DAL method change password")
         sql = "update banking.customers set passwrd=%s where customer_id=%s;"
         cursor = Connect.connection.cursor()
-        cursor.execute(sql, (new_password, customer_id))
+        cursor.execute(sql, (new_password.decode('utf-8'), customer_id))
         Connect.connection.commit()
         logging.info("Finishing DAL method change password")
         return True

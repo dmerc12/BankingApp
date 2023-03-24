@@ -188,8 +188,10 @@ class CustomerSALImplementation(CustomerSALInterface):
                     raise FailedTransaction("The confirmation password field must be a string, please try again!")
                 else:
                     if confirmation_password == new_password:
+                        logging.info("SAL method change password, hashing password")
+                        hashed_password = bcrypt.hashpw(new_password.encode('utf-8'), bcrypt.gensalt())
                         logging.info("Finishing SAL method change password")
-                        result = self.customer_dao.change_password(customer_id, new_password)
+                        result = self.customer_dao.change_password(customer_id, hashed_password)
                         return result
                     else:
                         logging.warning("SAL method change password, passwords don't match")
