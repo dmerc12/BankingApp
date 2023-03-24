@@ -264,7 +264,7 @@ def test_service_login_email_or_password_incorrect():
         assert str(error) == "Either the email or password are incorrect, please try again!"
 
 def test_service_login_success():
-    result = customer_sao.service_login(successful_customer.email, successful_customer.password)
+    result = customer_sao.service_login("test@email.com", "work")
     assert result is not None
 
 def test_service_update_customer_first_name_not_string():

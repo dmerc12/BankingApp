@@ -8,13 +8,6 @@ from BankingApp.Entities.FailedTransaction import FailedTransaction
 
 class CustomerDALImplementation(CustomerDALInterface):
 
-    @staticmethod
-    def access_customer_table(sql_query: str) -> bool:
-        cursor = Connect.connection.cursor()
-        cursor.execute(sql_query)
-        Connect.connection.commit()
-        return True
-
     def create_customer(self, customer: Customer) -> Customer:
         logging.info("Beginning DAL method create customer")
         sql = "insert into banking.customers values (default, %s, %s, %s, %s, %s, %s) returning customer_id;"

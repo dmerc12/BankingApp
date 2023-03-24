@@ -119,7 +119,7 @@ class CustomerSALImplementation(CustomerSALInterface):
             raise FailedTransaction("The password field cannot be left empty, please try again!")
         else:
             customer = self.service_get_customer_by_email(email)
-            if customer is None or not bcrypt.checkpw(password.encode(), customer.password.encode()):
+            if customer.customer_id == 0 or not bcrypt.checkpw(password.encode(), customer.password.encode()):
                 logging.warning("DAL method login, cannot validate credentials")
                 raise FailedTransaction("Either the email or password are incorrect, please try again!")
             else:
