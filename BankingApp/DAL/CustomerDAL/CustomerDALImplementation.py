@@ -56,7 +56,7 @@ class CustomerDALImplementation(CustomerDALInterface):
             logging.info("Finishing DAL method get customer by email")
             return customer
 
-    def login(self, email: str, password: str) -> Customer:
+    def login(self, email: str, password: str):
         logging.info("Beginning DAL method login")
         sql = "select * from banking.customers where email=%s and passwrd=%s;"
         cursor = Connect.connection.cursor()
@@ -64,12 +64,11 @@ class CustomerDALImplementation(CustomerDALInterface):
         Connect.connection.commit()
         customer_info = cursor.fetchone()
         if customer_info is None:
-            logging.warning("DAL method login, cannot validate credentials")
-            raise FailedTransaction("Either the email or password are incorrect, please try again!")
-        else:
-            customer = Customer(*customer_info)
-            logging.info("Finishing DAL method login")
-            return customer
+            logging.warning("DAL method login, no customer found")
+            return None
+        customer = Customer(*customer_info)
+        logging.info("Finishing DAL method login")
+        return customer
 
     def update_customer(self, customer: Customer, customer_id: int) -> Customer:
         logging.info("Beginning DAL method update customer")

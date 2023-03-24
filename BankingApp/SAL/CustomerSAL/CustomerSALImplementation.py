@@ -1,5 +1,7 @@
 import logging
 
+import bcrypt
+
 from BankingApp.DAL.CustomerDAL.CustomerDALImplementation import CustomerDALImplementation
 from BankingApp.Entities.Customer import Customer
 from BankingApp.Entities.FailedTransaction import FailedTransaction
@@ -75,8 +77,10 @@ class CustomerSALImplementation(CustomerSALInterface):
                 logging.warning("SAL method create customer, customer already exists")
                 raise FailedTransaction("A customer already exists with this username, please log in!")
             else:
-                logging.info("Finishing SAL method create customer")
+                hashed_password = bcrypt.hashpw(customer.password.encode('utf-8'), bcrypt.gensalt())
+                customer.password = hashed_password.decode('utf-8')
                 new_customer = self.customer_dao.create_customer(customer)
+                logging.info("Finishing SAL method create customer")
                 return new_customer
 
     def service_get_customer_by_id(self, customer_id: int) -> Customer:
@@ -114,9 +118,14 @@ class CustomerSALImplementation(CustomerSALInterface):
             logging.warning("SAL method login, password left empty")
             raise FailedTransaction("The password field cannot be left empty, please try again!")
         else:
-            logging.info("Finishing SAL method login")
-            customer = self.customer_dao.login(email, password)
-            return customer
+            customer = self.service_get_customer_by_email(email)
+            if customer is None or not bcrypt.checkpw(password.encode(), customer.password.encode()):
+                logging.warning("DAL method login, cannot validate credentials")
+                raise FailedTransaction("Either the email or password are incorrect, please try again!")
+            else:
+                self.customer_dao.login(email, password)
+                logging.info("Finishing SAL method login")
+                return customer
 
     def service_update_customer(self, updated_customer_info: Customer, customer_id: int) -> Customer:
         logging.info("Beginning SAL method update customer")
