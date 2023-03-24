@@ -2,16 +2,7 @@ import datetime
 
 import bcrypt
 
-from BankingApp.DAL.BankAccountDAL.BankAccountDALImplementation import BankAccountDALImplementation
-from BankingApp.DAL.CustomerDAL.CustomerDALImplementation import CustomerDALImplementation
 from BankingApp.DAL.Database.config import Connect
-from BankingApp.DAL.SessionDAL.SessionDALImplementation import SessionDALImplementation
-from BankingApp.DAL.TransactionDAL.TransactionDALImplementation import TransactionDALImplementation
-
-customer_dao = CustomerDALImplementation()
-account_dao = BankAccountDALImplementation()
-transaction_dao = TransactionDALImplementation()
-session_dao = SessionDALImplementation()
 
 def reset_database():
     cursor = Connect.connection.cursor()

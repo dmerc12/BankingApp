@@ -7,13 +7,6 @@ from BankingApp.Entities.Transaction import Transaction
 
 class TransactionDALImplementation(TransactionDALInterface):
 
-    @staticmethod
-    def access_transaction_table(sql_query: str) -> bool:
-        cursor = Connect.connection.cursor()
-        cursor.execute(sql_query)
-        Connect.connection.commit()
-        return True
-
     def create_transaction(self, transaction: Transaction) -> Transaction:
         logging.info("Beginning DAL method create transaction")
         sql = "insert into banking.transactions values (default, %s, %s, %s, %s) returning transaction_id;"
