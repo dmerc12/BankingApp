@@ -1,7 +1,7 @@
 Feature: Customers need to manage their relationships with banks and subsequent accounts
 
   Scenario: As a customer, I should not be allowed access to the home page without logging in first
-    Given I am on the home page
+    Given I am on the login page
     When  I click ok on the alert
     Then  I should be on a page with the title Login Page
 
