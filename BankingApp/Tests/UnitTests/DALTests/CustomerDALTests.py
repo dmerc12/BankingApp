@@ -1,3 +1,5 @@
+import bcrypt
+
 from BankingApp.DAL.CustomerDAL.CustomerDALImplementation import CustomerDALImplementation
 from BankingApp.Entities.Customer import Customer
 
@@ -22,7 +24,7 @@ def test_get_customer_by_email_success():
     assert result is not None
 
 def test_login_success():
-    result = customer_dao.login("test@email.com", "work")
+    result = customer_dao.login("test@email.com", "$2b$12$5ItMmnpZPCuN9JM1gExtdOTKiDbejPmynlLbUDdW/7JaR.SB1MFJa")
     assert result is not None
 
 def test_update_customer_success():
@@ -32,7 +34,9 @@ def test_update_customer_success():
            result.phone_number == updated_customer.phone_number and result.address == updated_customer.address
 
 def test_change_password_success():
-    result = customer_dao.change_password(test_customer.customer_id, updated_customer.password)
+    new_password = "new"
+    hashed_password = bcrypt.hashpw(new_password.encode('utf-8'), bcrypt.gensalt())
+    result = customer_dao.change_password(test_customer.customer_id, hashed_password)
     assert result
 
 def test_delete_customer_success():

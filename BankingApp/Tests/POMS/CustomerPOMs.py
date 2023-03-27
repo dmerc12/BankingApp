@@ -58,3 +58,12 @@ class CustomerPOMs:
         element: WebElement = self.driver.find_element(By.ID, "registerButton")
         return element
 
+    def home_nav_button(self):
+        pass
+
+    def manage_accounts_nav_button(self):
+        pass
+
+    def manage_customer_nav_button(self):
+        pass
+

@@ -1,5 +1,7 @@
 import logging
 
+import bcrypt
+
 from BankingApp.DAL.CustomerDAL.CustomerDALImplementation import CustomerDALImplementation
 from BankingApp.Entities.Customer import Customer
 from BankingApp.Entities.FailedTransaction import FailedTransaction
@@ -48,15 +50,12 @@ class CustomerSALImplementation(CustomerSALInterface):
         elif type(customer.phone_number) != str:
             logging.warning("SAL method create customer, phone number not a string")
             raise FailedTransaction("The phone number field must be a string, please try again!")
-        elif len(customer.phone_number) > 13:
-            logging.warning("SAL method create customer, phone number longer than 13 characters")
-            raise FailedTransaction("The phone number field cannot exceed 13 characters, please try again!")
+        elif len(customer.phone_number) > 11:
+            logging.warning("SAL method create customer, phone number longer than 11 characters")
+            raise FailedTransaction("The phone number field cannot exceed 11 characters, please try again!")
         elif len(customer.phone_number) == 0:
             logging.warning("SAL method create customer, phone number left empty")
             raise FailedTransaction("The phone number field cannot be left empty, please try again!")
-        elif (customer.phone_number[3] and customer.phone_number[7]) != "-":
-            logging.warning("SAL method create customer, phone number in incorrect format")
-            raise FailedTransaction("The phone number must follow the format xxx-xxx-xxxx, please try again!")
         elif type(customer.address) != str:
             logging.warning("SAL method create customer, address not a string")
             raise FailedTransaction("The address field must be a string, please try again!")
@@ -75,8 +74,10 @@ class CustomerSALImplementation(CustomerSALInterface):
                 logging.warning("SAL method create customer, customer already exists")
                 raise FailedTransaction("A customer already exists with this username, please log in!")
             else:
-                logging.info("Finishing SAL method create customer")
+                hashed_password = bcrypt.hashpw(customer.password.encode('utf-8'), bcrypt.gensalt())
+                customer.password = hashed_password.decode('utf-8')
                 new_customer = self.customer_dao.create_customer(customer)
+                logging.info("Finishing SAL method create customer")
                 return new_customer
 
     def service_get_customer_by_id(self, customer_id: int) -> Customer:
@@ -114,9 +115,14 @@ class CustomerSALImplementation(CustomerSALInterface):
             logging.warning("SAL method login, password left empty")
             raise FailedTransaction("The password field cannot be left empty, please try again!")
         else:
-            logging.info("Finishing SAL method login")
-            customer = self.customer_dao.login(email, password)
-            return customer
+            customer = self.service_get_customer_by_email(email)
+            if customer.customer_id == 0 or not bcrypt.checkpw(password.encode(), customer.password.encode()):
+                logging.warning("DAL method login, cannot validate credentials")
+                raise FailedTransaction("Either the email or password are incorrect, please try again!")
+            else:
+                self.customer_dao.login(email, password)
+                logging.info("Finishing SAL method login")
+                return customer
 
     def service_update_customer(self, updated_customer_info: Customer, customer_id: int) -> Customer:
         logging.info("Beginning SAL method update customer")
@@ -141,9 +147,9 @@ class CustomerSALImplementation(CustomerSALInterface):
         elif type(updated_customer_info.phone_number) != str:
             logging.warning("SAL method update customer, phone number not a string")
             raise FailedTransaction("The phone number field must be a string, please try again!")
-        elif len(updated_customer_info.phone_number) > 13:
-            logging.warning("SAL method update customer, phone number longer than 13 characters")
-            raise FailedTransaction("The phone number field cannot exceed 13 characters, please try again!")
+        elif len(updated_customer_info.phone_number) > 11:
+            logging.warning("SAL method update customer, phone number longer than 11 characters")
+            raise FailedTransaction("The phone number field cannot exceed 11 characters, please try again!")
         elif type(updated_customer_info.address) != str:
             logging.warning("SAL method update customer, address not a string")
             raise FailedTransaction("The address field must be a string, please try again!")
@@ -179,8 +185,10 @@ class CustomerSALImplementation(CustomerSALInterface):
                     raise FailedTransaction("The confirmation password field must be a string, please try again!")
                 else:
                     if confirmation_password == new_password:
+                        logging.info("SAL method change password, hashing password")
+                        hashed_password = bcrypt.hashpw(new_password.encode('utf-8'), bcrypt.gensalt())
                         logging.info("Finishing SAL method change password")
-                        result = self.customer_dao.change_password(customer_id, new_password)
+                        result = self.customer_dao.change_password(customer_id, hashed_password)
                         return result
                     else:
                         logging.warning("SAL method change password, passwords don't match")

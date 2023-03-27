@@ -8,13 +8,6 @@ from BankingApp.Entities.FailedTransaction import FailedTransaction
 
 class CustomerDALImplementation(CustomerDALInterface):
 
-    @staticmethod
-    def access_customer_table(sql_query: str) -> bool:
-        cursor = Connect.connection.cursor()
-        cursor.execute(sql_query)
-        Connect.connection.commit()
-        return True
-
     def create_customer(self, customer: Customer) -> Customer:
         logging.info("Beginning DAL method create customer")
         sql = "insert into banking.customers values (default, %s, %s, %s, %s, %s, %s) returning customer_id;"
@@ -56,7 +49,7 @@ class CustomerDALImplementation(CustomerDALInterface):
             logging.info("Finishing DAL method get customer by email")
             return customer
 
-    def login(self, email: str, password: str) -> Customer:
+    def login(self, email: str, password: str):
         logging.info("Beginning DAL method login")
         sql = "select * from banking.customers where email=%s and passwrd=%s;"
         cursor = Connect.connection.cursor()
@@ -64,12 +57,11 @@ class CustomerDALImplementation(CustomerDALInterface):
         Connect.connection.commit()
         customer_info = cursor.fetchone()
         if customer_info is None:
-            logging.warning("DAL method login, cannot validate credentials")
-            raise FailedTransaction("Either the email or password are incorrect, please try again!")
-        else:
-            customer = Customer(*customer_info)
-            logging.info("Finishing DAL method login")
-            return customer
+            logging.warning("DAL method login, no customer found")
+            return None
+        customer = Customer(*customer_info)
+        logging.info("Finishing DAL method login")
+        return customer
 
     def update_customer(self, customer: Customer, customer_id: int) -> Customer:
         logging.info("Beginning DAL method update customer")
@@ -82,11 +74,11 @@ class CustomerDALImplementation(CustomerDALInterface):
         logging.info("Finishing DAL method update customer")
         return customer
 
-    def change_password(self, customer_id: int, new_password: str) -> bool:
+    def change_password(self, customer_id: int, new_password: bytes) -> bool:
         logging.info("Beginning DAL method change password")
         sql = "update banking.customers set passwrd=%s where customer_id=%s;"
         cursor = Connect.connection.cursor()
-        cursor.execute(sql, (new_password, customer_id))
+        cursor.execute(sql, (new_password.decode('utf-8'), customer_id))
         Connect.connection.commit()
         logging.info("Finishing DAL method change password")
         return True

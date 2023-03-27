@@ -9,15 +9,6 @@ from BankingApp.Entities.FailedTransaction import FailedTransaction
 
 class BankAccountDALImplementation(BankAccountDALInterface):
 
-    @staticmethod
-    def access_bank_account_table(sql_query: str) -> bool:
-        logging.info("Beginning DAL method access bank account table with query: " + sql_query)
-        cursor = Connect.connection.cursor()
-        cursor.execute(sql_query)
-        Connect.connection.commit()
-        logging.info("Finishing DAL method access bank account table")
-        return True
-
     def create_account(self, account: BankAccount) -> BankAccount:
         logging.info("Beginning DAL method create account with data: " +
                      str(account.convert_to_dictionary()))

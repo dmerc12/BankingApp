@@ -24,10 +24,10 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarToggle">
             <div class="navbar-nav mr-auto">
-              <a class="nav-item nav-link" href="{{ url_for('main_route.home') }}">Home</a>
-              <a class="nav-item nav-link" href="{{ url_for('account_routes.manage_accounts') }}">
+              <a id="homeNavButton" class="nav-item nav-link" href="{{ url_for('main_route.home') }}">Home</a>
+              <a id="manageAccountsNavButton" class="nav-item nav-link" href="{{ url_for('account_routes.manage_accounts') }}">
                   Manage Accounts</a>
-              <a class="nav-item nav-link" href="{{ url_for('manage_customer_blueprint.manage_customer') }}">
+              <a id="manageCustomerNavButton" class="nav-item nav-link" href="{{ url_for('manage_customer_blueprint.manage_customer') }}">
                   Manage Customer Information</a>
             </div>
             <!-- Navbar Right Side -->
