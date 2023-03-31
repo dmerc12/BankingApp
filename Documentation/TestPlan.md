@@ -8,5 +8,5 @@
   - 1 positive test
   - all business logic must have negative tests
 - All API methods must meet the following testing requirements:
-  - 1 positive test on postman
-  - negative test scenarios on postman
+  - 1 positive test using Selenium
+  - negative test scenarios using Selenium

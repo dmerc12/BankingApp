@@ -33,10 +33,6 @@ A banking app written in python.
 - Users can close their accounts.
 - Users can leave the bank.
 
-# Security Notes:
-- All passwords are stored as hash versions rather than plain text.
-- Custom session ID tokens stored in cookies manage access to main pages.
-
 # Getting Started:
 - to clone: 
   - git clone https://github.com/dmerc12/PythonBanking.git
