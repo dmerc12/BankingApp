@@ -3,26 +3,21 @@ A banking app written in python.
 
 # Technologies Used:
 - HTML and CSS
-- JavaScript
 - Python
 - Gherkin
-- PostgresSQL
-- Bootstrap Template
+- Docker PostgresSQL
+- Bcrypt
+- Bootstrap
 - PyTest
 - Flask
 - Flask-CORS
-- Flask-Mail
 - Psycopg2
 - Selenium
 - Behave
-- Postman
-- REST
 - Git
 - GitHub
 - PyCharm
-- Visual Studio Code
 - DBeaver
-- AWS RDS
 
 # Usage and Features:
 - Users can join the bank.
@@ -34,6 +29,7 @@ A banking app written in python.
 - Users can view their accounts collectively.
 - Users can the transactions for their associated accounts
 - Users can update their current information.
+- Users can change their password.
 - Users can close their accounts.
 - Users can leave the bank.
 
