@@ -33,12 +33,13 @@ A banking app written in python.
 - Users can close their accounts.
 - Users can leave the bank.
 
-# In Progress:
-- A new front end using flask for increased security.
+# Security Notes:
+- All passwords are stored as hash versions rather than plain text.
+- Custom session ID tokens stored in cookies manage access to main pages.
 
 # Getting Started:
 - to clone: 
   - git clone https://github.com/dmerc12/PythonBanking.git
 - to deploy:
-  - install application required technologies to be found in the virtual environment.
+  - Use requirements.txt to install necessary dependencies.
   - Use run.py to start the application.
