@@ -1,7 +1,6 @@
 # Testing Strategy:
 
 ## API guidelines:
-- API should be restful.
 - API will be written in python using flask.
 
 ## Workflow Guidelines:
@@ -19,9 +18,9 @@
     - SAL methods:
       - 1 positive test.
       - all business logic must have a negative test.
-    - API methods:
-      - all must have a positive test using Postman.
-      - all must have negative tests for all possible errors.
+    - End to End:
+      - all must have a positive test using Selenium.
+      - all must have negative tests for all possible errors using Selenium.
   
 ## Test Results:
-- Integration testing will be done utilizing Postman.
+- Integration testing will be done utilizing Selenium.
