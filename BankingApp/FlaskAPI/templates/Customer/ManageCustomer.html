@@ -3,8 +3,8 @@
 {% block title %}Managing Your Current Information{% endblock %}
 
 {% block loginOrLogout %}
-<div id="navLoginRegisterLogout" class="navbar-nav">
-    <a class="nav-item nav-link" href="{{ url_for('new_logout.logout') }}">Logout</a>
+<div class="navbar-nav">
+    <a id="navLogoutButton" class="nav-item nav-link" href="{{ url_for('new_logout.logout') }}">Logout</a>
 </div>
 {% endblock %}
 
