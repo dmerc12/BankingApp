@@ -59,11 +59,17 @@ class CustomerPOMs:
         return element
 
     def home_nav_button(self):
-        pass
+        element: WebElement = self.driver.find_element(By.ID, "homeNavButton")
+        return element
 
     def manage_accounts_nav_button(self):
-        pass
+        element: WebElement = self.driver.find_element(By.ID, "manageAccountsNavButton")
+        return element
 
     def manage_customer_nav_button(self):
-        pass
+        element: WebElement = self.driver.find_element(By.ID, "manageCustomerNavButton")
+        return element
 
+    def logout_button(self):
+        element: WebElement = self.driver.find_element(By.ID, "NavLogoutButton")
+        return element
