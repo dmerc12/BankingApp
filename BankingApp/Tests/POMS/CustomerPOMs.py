@@ -71,5 +71,5 @@ class CustomerPOMs:
         return element
 
     def logout_button(self):
-        element: WebElement = self.driver.find_element(By.ID, "NavLogoutButton")
+        element: WebElement = self.driver.find_element(By.ID, "navLogoutButton")
         return element
