@@ -58,14 +58,22 @@
             <div class="form-group">
                 <label for="registerState">State: </label>
                 <select name="registerState" id="registerState" class="form-control" required>
-
+                    <option value="">Select a State</option>
+                    {% for state in states %}
+                        <option value="{{ state.code }}">{{ state.name }}</option>
+                    {% endfor %}
                 </select>
             </div>
 
             <div class="form-group">
                 <label for="registerZipCode">Zip Code: </label>
-                <select name="registerZipCode" id="registerZipCode" class="form-control">
-                    
+                <select name="registerZipCode" id="registerZipCode" class="form-control" required>
+                    <option value="">Select a State First</option>
+                    {% if registerState %}
+                    {% for zip_code in zip_codes[registerState] %}
+                        <option value="{{ zip_code }}">{{ zip_code }}</option>
+                    {% endfor %}
+                    {% endif %}
                 </select>
             </div>
 
