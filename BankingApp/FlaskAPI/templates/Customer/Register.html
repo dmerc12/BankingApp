@@ -69,16 +69,37 @@
                 <label for="registerZipCode">Zip Code: </label>
                 <select name="registerZipCode" id="registerZipCode" class="form-control" required>
                     <option value="">Select a State First</option>
-                    {% if registerState %}
-                    {% for zip_code in zip_codes[registerState] %}
-                        <option value="{{ zip_code }}">{{ zip_code }}</option>
-                    {% endfor %}
-                    {% endif %}
                 </select>
             </div>
 
             <button id="registerButton" type="submit" class="btn btn-primary">Register</button>
         </form>
+        <script>
+            function updateZipCodes() {
+                var stateDropdown = document.getElementById("registerState");
+                var zipCodeDropdown = document.getElementById("registerZipCode");
+                var selectedState = stateDropdown.value;
+                var zipCodes = {{ zip_codes }};
+
+                zipCodeDropdown.innerHTML = "";
+
+                if (selectedState && zipCodes.hasOwnProperty(selectedState)) {
+                    var selectedStateZipCodes = zipCodes[selectedState];
+                    for (var i = 0; i < selectedStateZipCodes.length; i++) {
+                        var zipCode = selectedStateZipCodes[i];
+                        var option = document.createElement("option");
+                        option.value = zipCode;
+                        option.text = zipCode;
+                        zipCodeDropDown.appendChild(option);
+                    }
+                }
+            }
+
+            var stateDropdown = document.getElementById("registerState");
+            stateDropdown.addEventListener("change", updateZipCodes);
+
+            updateZipCodes();
+        </script>
     </div>
 </div>
 
