@@ -79,18 +79,17 @@
                 var stateDropdown = document.getElementById("registerState");
                 var zipCodeDropdown = document.getElementById("registerZipCode");
                 var selectedState = stateDropdown.value;
-                var zipCodes = {{ zip_codes }};
-
-                zipCodeDropdown.innerHTML = "";
+                var zipCodes = {{ zip_codes|tojson }};
 
                 if (selectedState && zipCodes.hasOwnProperty(selectedState)) {
+                    zipCodeDropdown.innerHTML = "";
                     var selectedStateZipCodes = zipCodes[selectedState];
                     for (var i = 0; i < selectedStateZipCodes.length; i++) {
                         var zipCode = selectedStateZipCodes[i];
                         var option = document.createElement("option");
                         option.value = zipCode;
                         option.text = zipCode;
-                        zipCodeDropDown.appendChild(option);
+                        zipCodeDropdown.appendChild(option);
                     }
                 }
             }
@@ -102,6 +101,5 @@
         </script>
     </div>
 </div>
-
 
 {% endblock %}
