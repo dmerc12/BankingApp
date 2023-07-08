@@ -17,32 +17,68 @@
 
         <form method="POST">
             <div class="form-group">
-                <label for="updatedFirstName">First Name</label>
+                <label for="updatedFirstName">First Name: </label>
                 <input type="text" class="form-control" name="updatedFirstName" id="updatedFirstName" value="{{ current_customer.first_name }}" required>
             </div>
 
             <div class="form-group">
-                <label for="updatedLastName">Last Name</label>
+                <label for="updatedLastName">Last Name: </label>
                 <input type="text" class="form-control" name="updatedLastName" id="updatedLastName" value="{{ current_customer.last_name }}" required>
             </div>
 
             <div class="form-group">
-                <label for="updatedEmail">Email</label>
+                <label for="updatedEmail">Email: </label>
                 <input type="email" class="form-control" name="updatedEmail" id="updatedEmail" value="{{ current_customer.email }}" required>
             </div>
 
             <div class="form-group">
-                <label for="updatedPhoneNumber">Phone Number</label>
-                <input type="text" class="form-control" name="updatedPhoneNumber" id="updatedPhoneNumber" value="{{ current_customer.phone_number }}" required>
+                <label for="updatedPhoneNumber">Phone Number: </label>
+                <input type="text" class="form-control" name="updatedPhoneNumber" id="updatedPhoneNumber" value="{{ current_customer.phone_number }}" oninput="formatPhoneNumber(this)" required>
             </div>
 
             <div class="form-group">
-                <label for="updatedAddress">Address</label>
-                <input type="text" class="form-control" name="updatedAddress" id="updatedAddress" value="{{ current_customer.address }}" required>
+                <label for="updatedStreetAddress">Street Address: </label>
+                <input type="text" class="form-control" name="updatedStreetAddress" id="updatedStreetAddress" value="{{  }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="updatedCity">City: </label>
+                <input type="text" class="form-control" name="updatedCity" id="updatedCity" value="{{  }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="updatedState">State: </label>
+                <select name="updatedState" id="updatedState" class="form-control" required>
+                    <option value="">Select a State</option>
+                    {% for state in states %}
+                        <option value="{{ state.code }}">{{ state.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="updatedZipCode">Zip Code: </label>
+                <select name="updatedZipCode" id="updatedZipCode" class="form-control" required>
+                    <option value="">Select a State First</option>
+                </select>
             </div>
 
             <button type="submit" class="btn btn-primary">Update Information</button>
         </form>
+        <script>
+            function formatPhoneNumber(input) {
+
+            }
+
+            function updateZipCodes() {
+
+            }
+
+            var stateDropdown = document.getElementById("updatedState");
+            stateDropdown.addEventListener("change", updateZipCodes);
+
+            updateZipCodes();
+        </script>
     </div>
 </div>
 
