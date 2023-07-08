@@ -6,6 +6,8 @@ from BankingApp.Entities.Customer import Customer
 from BankingApp.Entities.FailedTransaction import FailedTransaction
 from BankingApp.SAL.CustomerSAL.CustomerSALImplementation import CustomerSALImplementation
 from BankingApp.SAL.SessionSAL.SessionSALImplementation import SessionSALImplementation
+from BankingApp.LocationData.StateCodes import states
+from BankingApp.LocationData.ZipCodes import zip_codes
 
 update_customer_blueprint = Blueprint("update_customer_blueprint", __name__)
 
@@ -29,11 +31,16 @@ def update_customer():
                 updated_info = request.form.to_dict()
                 current_app.logger.info("Beginning API function update customer with data: " + str(session_id) +
                                         ", and " + str(updated_info))
+                street_address = updated_info["updatedStreetAddress"]
+                city = updated_info["updatedCity"]
+                state = updated_info["updatedState"]
+                zip_code = updated_info["updatedZipCode"]
+                full_address = f"{street_address}, {city}, {state} {zip_code}"
                 updated_customer = Customer(customer_id=customer_id, first_name=updated_info["updatedFirstName"],
                                             last_name=updated_info["updatedLastName"],
                                             email=updated_info["updatedEmail"],
                                             phone_number=updated_info["updatedPhoneNumber"],
-                                            address=updated_info["updatedAddress"], password=current_customer.password)
+                                            address=full_address, password=current_customer.password)
                 result = customer_sao.service_update_customer(updated_customer, customer_id)
                 result_dictionary = {
                     "fistName": result.first_name,
@@ -49,6 +56,8 @@ def update_customer():
             except FailedTransaction as error:
                 current_app.logger.error("Error with API function create customer with error: " + str(error))
                 flash(message=str(error), category="error")
-                return render_template("Customer/UpdateCustomer.html", current_customer=current_customer)
+                return render_template("Customer/UpdateCustomer.html", current_customer=current_customer, states=states,
+                                       zip_codes=zip_codes)
         else:
-            return render_template("Customer/UpdateCustomer.html", current_customer=current_customer)
+            return render_template("Customer/UpdateCustomer.html", current_customer=current_customer, states=states,
+                                   zip_codes=zip_codes)

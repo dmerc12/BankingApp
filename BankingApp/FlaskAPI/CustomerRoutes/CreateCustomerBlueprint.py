@@ -4,8 +4,8 @@ from BankingApp.DAL.CustomerDAL.CustomerDALImplementation import CustomerDALImpl
 from BankingApp.Entities.Customer import Customer
 from BankingApp.Entities.FailedTransaction import FailedTransaction
 from BankingApp.SAL.CustomerSAL.CustomerSALImplementation import CustomerSALImplementation
-from BankingApp.lib.StateCodes import states
-from BankingApp.lib.ZipCodes import zip_codes
+from BankingApp.LocationData.StateCodes import states
+from BankingApp.LocationData.ZipCodes import zip_codes
 
 create_new_customer = Blueprint('create_new_customer', __name__)
 
@@ -18,9 +18,15 @@ def register():
         try:
             customer_info = request.form.to_dict()
             current_app.logger.info("Beginning API function create customer with data: " + str(customer_info))
-            new_customer = Customer(0, customer_info["firstName"], customer_info["lastName"], customer_info["password"],
-                                    customer_info["email"], customer_info["phoneNumber"], customer_info["address"])
-            password_confirmation = customer_info["passwordConfirmation"]
+            street_address = customer_info["registerStreetAddress"]
+            city = customer_info["registerCity"]
+            state = customer_info["registerState"]
+            zip_code = customer_info["registerZipCode"]
+            full_address = f"{street_address}, {city}, {state} {zip_code}"
+            new_customer = Customer(0, customer_info["registerFirstName"], customer_info["registerLastName"],
+                                    customer_info["registerPassword"], customer_info["registerEmail"],
+                                    customer_info["registerPhoneNumber"], full_address)
+            password_confirmation = customer_info["registerPasswordConfirmation"]
             result = customer_sao.service_create_customer(new_customer, password_confirmation)
             result_dictionary = {
                 "firstName": result.first_name,

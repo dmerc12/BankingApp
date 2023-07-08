@@ -50,9 +50,9 @@ class CustomerSALImplementation(CustomerSALInterface):
         elif type(customer.phone_number) != str:
             logging.warning("SAL method create customer, phone number not a string")
             raise FailedTransaction("The phone number field must be a string, please try again!")
-        elif len(customer.phone_number) > 11:
-            logging.warning("SAL method create customer, phone number longer than 11 characters")
-            raise FailedTransaction("The phone number field cannot exceed 11 characters, please try again!")
+        elif len(customer.phone_number) > 12:
+            logging.warning("SAL method create customer, phone number longer than 12 characters")
+            raise FailedTransaction("The phone number field cannot exceed 12 characters, please try again!")
         elif len(customer.phone_number) == 0:
             logging.warning("SAL method create customer, phone number left empty")
             raise FailedTransaction("The phone number field cannot be left empty, please try again!")
@@ -147,9 +147,9 @@ class CustomerSALImplementation(CustomerSALInterface):
         elif type(updated_customer_info.phone_number) != str:
             logging.warning("SAL method update customer, phone number not a string")
             raise FailedTransaction("The phone number field must be a string, please try again!")
-        elif len(updated_customer_info.phone_number) > 11:
-            logging.warning("SAL method update customer, phone number longer than 11 characters")
-            raise FailedTransaction("The phone number field cannot exceed 11 characters, please try again!")
+        elif len(updated_customer_info.phone_number) > 12:
+            logging.warning("SAL method update customer, phone number longer than 12 characters")
+            raise FailedTransaction("The phone number field cannot exceed 12 characters, please try again!")
         elif type(updated_customer_info.address) != str:
             logging.warning("SAL method update customer, address not a string")
             raise FailedTransaction("The address field must be a string, please try again!")
