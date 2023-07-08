@@ -14,19 +14,19 @@ def reset_database():
     password1 = "money"
     hashed_password1 = bcrypt.hashpw(password1.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
     test_customer1 = "insert into banking.customers values (-2, 'test', 'customer', %s, 'no@money.com', " \
-                     "'123-456-7890', '123 This Street, City, State, ZIP');"
+                     "'123-456-7890', '123 This Street, City, OK 73093');".format(hashed_password1)
     cursor.execute(test_customer1, [hashed_password1])
 
     password2 = "work"
     hashed_password2 = bcrypt.hashpw(password2.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
     test_customer2 = "insert into banking.customers values (-1, 'test', 'customer', %s, 'test@email.com', " \
-                     "'123-456-7890', '123 This Street, City, State, ZIP');"
+                     "'123-456-7890', '123 This Street, City, OK 73093');".format(hashed_password2)
     cursor.execute(test_customer2, [hashed_password2])
 
     password3 = "no"
     hashed_password3 = bcrypt.hashpw(password3.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
     test_customer3 = "insert into banking.customers values (-3, 'no', 'accounts', %s, 'no@accounts.com', " \
-                     "'123-456-7980', '123 That St, City, State, ZIP');".format(hashed_password3)
+                     "'123-456-7980', '123 That St, City, OK 73093');".format(hashed_password3)
     cursor.execute(test_customer3, [hashed_password3])
 
     # reset bank account table and populate test bank accounts
