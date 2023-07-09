@@ -4,7 +4,7 @@
 
 {% block loginOrLogout %}
 <div class="navbar-nav">
-    <a id="navLogoutButton" class="nav-item nav-link" href="{{ url_for('new_logout.logout') }}">Logout</a>
+    <a id="logoutButton" class="nav-item nav-link" href="{{ url_for('new_logout.logout') }}">Logout</a>
 </div>
 {% endblock %}
 
@@ -20,7 +20,7 @@
                 <label>All open accounts will be closed. Are you sure?</label>
             </div>
 
-            <button type="submit" class="btn btn-primary">Delete Your Information</button>
+            <button id="deleteButton" type="submit" class="btn btn-primary">Delete Your Information</button>
         </form>
     </div>
 </div>
