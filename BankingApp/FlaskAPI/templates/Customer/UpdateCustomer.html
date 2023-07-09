@@ -4,7 +4,7 @@
 
 {% block loginOrLogout %}
 <div class="navbar-nav">
-    <a id="navLogoutButton" class="nav-item nav-link" href="{{ url_for('new_logout.logout') }}">Logout</a>
+    <a id="logoutButton" class="nav-item nav-link" href="{{ url_for('new_logout.logout') }}">Logout</a>
 </div>
 {% endblock %}
 
@@ -38,20 +38,23 @@
 
             <div class="form-group">
                 <label for="updatedStreetAddress">Street Address: </label>
-                <input type="text" class="form-control" name="updatedStreetAddress" id="updatedStreetAddress" value="{{  }}" required>
+                <input type="text" class="form-control" name="updatedStreetAddress" id="updatedStreetAddress" value="{{ street_address }}" required>
             </div>
 
             <div class="form-group">
                 <label for="updatedCity">City: </label>
-                <input type="text" class="form-control" name="updatedCity" id="updatedCity" value="{{  }}" required>
+                <input type="text" class="form-control" name="updatedCity" id="updatedCity" value="{{ city }}" required>
             </div>
 
             <div class="form-group">
                 <label for="updatedState">State: </label>
                 <select name="updatedState" id="updatedState" class="form-control" required>
-                    <option value="">Select a State</option>
-                    {% for state in states %}
-                        <option value="{{ state.code }}">{{ state.name }}</option>
+                    {% for state_option in states %}
+                        {% if state_option.code == state %}
+                            <option value="{{ state_option.code }}" selected>{{ state_option.name }}</option>
+                        {% else %}
+                            <option value="{{ state_option.code }}">{{ state_option.name }}</option>
+                        {% endif %}
                     {% endfor %}
                 </select>
             </div>
@@ -63,15 +66,47 @@
                 </select>
             </div>
 
-            <button type="submit" class="btn btn-primary">Update Information</button>
+            <button id="updateButton" type="submit" class="btn btn-primary">Update Information</button>
         </form>
         <script>
             function formatPhoneNumber(input) {
+                var phoneNumber = input.value.replace(/\D/g, '');
 
+                if (phoneNumber.length >= 7) {
+                    phoneNumber = phoneNumber.replace(/^(\d{3})(\d{3})(\d{0,4}).*/, '$1-$2-$3');
+                } else if (phoneNumber.length >= 4) {
+                    phoneNumber = phoneNumber.replace(/^(\d{3})(\d{1,3}).*/, '$1-$2');
+                } else if (phoneNumber.length >= 1) {
+                    phoneNumber = phoneNumber.replace(/^(\d{1,3})/, '$1');
+                }
+
+                input.value = phoneNumber;
+                return input;
             }
 
             function updateZipCodes() {
+                var stateDropdown = document.getElementById("updatedState");
+                var zipCodeDropdown = document.getElementById("updatedZipCode");
+                var selectedState = stateDropdown.value;
+                var zipCodes = {{ zip_codes|tojson }};
+                var currentZipCode = "{{ zip_code }}";
 
+                zipCodeDropdown.innerHTML = "";
+
+                if (selectedState && zipCodes.hasOwnProperty(selectedState)) {
+                    zipCodeDropdown.innerHTML = "";
+                    var selectedStateZipCodes = zipCodes[selectedState];
+                    for (var i = 0; i < selectedStateZipCodes.length; i++) {
+                        var zipCode = selectedStateZipCodes[i];
+                        var option = document.createElement("option");
+                        option.value = zipCode;
+                        option.text = zipCode;
+                        if (zipCode === currentZipCode) {
+                            option.selected = true;
+                        }
+                        zipCodeDropdown.appendChild(option);
+                    }
+                }
             }
 
             var stateDropdown = document.getElementById("updatedState");

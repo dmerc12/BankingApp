@@ -25,6 +25,10 @@ def update_customer():
         session_id = session["session_id"]
         customer_id = session_sao.service_get_session(session_id).customer_id
         current_customer = customer_sao.service_get_customer_by_id(customer_id)
+        current_street_address = current_customer.address.split(", ")[0]
+        current_city = current_customer.address.split(", ")[1]
+        current_state = current_customer.address.split(", ")[2].split(" ")[0]
+        current_zip_code = current_customer.address.split(", ")[2].split(" ")[1]
 
         if request.method == "POST":
             try:
@@ -57,7 +61,9 @@ def update_customer():
                 current_app.logger.error("Error with API function create customer with error: " + str(error))
                 flash(message=str(error), category="error")
                 return render_template("Customer/UpdateCustomer.html", current_customer=current_customer, states=states,
-                                       zip_codes=zip_codes)
+                                       zip_codes=zip_codes, street_address=current_street_address, city=current_city,
+                                       state=current_state, zip_code=current_zip_code)
         else:
             return render_template("Customer/UpdateCustomer.html", current_customer=current_customer, states=states,
-                                   zip_codes=zip_codes)
+                                   zip_codes=zip_codes, street_address=current_street_address, city=current_city,
+                                   state=current_state, zip_code=current_zip_code)

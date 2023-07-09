@@ -4,7 +4,7 @@
 
 {% block loginOrLogout %}
 <div class="navbar-nav">
-    <a id="navLogoutButton" class="nav-item nav-link" href="{{ url_for('new_logout.logout') }}">Logout</a>
+    <a id="logoutButton" class="nav-item nav-link" href="{{ url_for('new_logout.logout') }}">Logout</a>
 </div>
 {% endblock %}
 
@@ -12,10 +12,10 @@
 
 <div class="row">
   <div class="col-md-4 mb-4">
-    <a href="{{ url_for('account_routes.manage_accounts') }}" class="btn btn-primary btn-block">Manage Accounts</a>
+    <a id="manageAccountsNavigation" href="{{ url_for('account_routes.manage_accounts') }}" class="btn btn-primary btn-block">Manage Accounts</a>
   </div>
   <div class="col-md-4 mb-4">
-    <a href="{{ url_for('manage_customer_blueprint.manage_customer') }}" class="btn btn-primary btn-block">Manage Information</a>
+    <a id="manageCustomerNavigation" href="{{ url_for('manage_customer_blueprint.manage_customer') }}" class="btn btn-primary btn-block">Manage Information</a>
   </div>
 </div>
 

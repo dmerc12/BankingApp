@@ -4,7 +4,7 @@
 
 {% block loginOrLogout %}
 <div class="navbar-nav">
-    <a id="login" class="nav-item nav-link" href="{{ url_for('login_route.login') }}">Login</a>
+    <a id="loginTab" class="nav-item nav-link" href="{{ url_for('login_route.login') }}">Login</a>
 </div>
 {% endblock %}
 
@@ -58,7 +58,6 @@
             <div class="form-group">
                 <label for="registerState">State: </label>
                 <select name="registerState" id="registerState" class="form-control" required>
-                    <option value="">Select a State</option>
                     {% for state in states %}
                         <option value="{{ state.code }}">{{ state.name }}</option>
                     {% endfor %}
@@ -81,9 +80,9 @@
                 if (phoneNumber.length >= 7) {
                     phoneNumber = phoneNumber.replace(/^(\d{3})(\d{3})(\d{0,4}).*/, '$1-$2-$3');
                 } else if (phoneNumber.length >= 4) {
-                    phoneNumber = phoneNumber.replace(/^(\d{3})(\d{1,3}).*/, '$1-$2')
+                    phoneNumber = phoneNumber.replace(/^(\d{3})(\d{1,3}).*/, '$1-$2');
                 } else if (phoneNumber.length >= 1) {
-                    phoneNumber = phoneNumber.replace(/^(\d{1,3})/, '$1')
+                    phoneNumber = phoneNumber.replace(/^(\d{1,3})/, '$1');
                 }
 
                 input.value = phoneNumber;
