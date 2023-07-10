@@ -4,18 +4,17 @@ from behave import given, when, then
 # given
 @given(u'I am on the login page')
 def step_impl(context):
-    raise NotImplementedError(u'STEP: Given I am on the login page')
+    context.driver.get('http://127.0.0.1:5000/login')
+
+@given(u'I am on the new register page')
+def step_impl(context):
+    context.driver.get('http://127.0.0.1:5000/register')
 
 
 # when
 @when(u'I click the Register tab')
 def step_impl(context):
-    raise NotImplementedError(u'STEP: When I click the Register tab')
-
-
-@given(u'I am on the new customer page')
-def step_impl(context):
-    raise NotImplementedError(u'STEP: Given I am on the new customer page')
+    context.customer_poms.register_tab().click()
 
 
 @when(u'I {first_name} in the first name')
@@ -70,15 +69,15 @@ def step_impl(context, zip_code: str):
 
 @when(u'I click the Register button')
 def step_impl(context):
-    raise NotImplementedError(u'STEP: When I click the Register button')
+    context.customer_poms.register_button().click()
 
 
 @then(u'I should be on a page with the title Register')
 def step_impl(context):
-    raise NotImplementedError(u'STEP: Then I should be on a page with the title Register')
+    assert context.driver.title == "Register"
 
 
 @then(u'I should be on a page with the title Login')
 def step_impl(context):
-    raise NotImplementedError(u'STEP: Then I should be on a page with the title Login')
+    assert context.driver.title == "Login"
 

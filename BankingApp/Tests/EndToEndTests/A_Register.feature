@@ -33,7 +33,7 @@ Feature: Customers need to create a relationship with the bank
 
 
   Scenario Outline: As a new customer, I should be able to create a relationship with the bank
-    Given I am on the new customer page
+    Given I am on the register page
     When  I enter <first_name> in the first name
     When  I enter <last_name> in the last name
     When  I enter <email_address> in the email address
