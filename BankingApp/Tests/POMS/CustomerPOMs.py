@@ -66,20 +66,24 @@ class CustomerPOMs:
         element: WebElement = self.driver.find_element(By.ID, "registerPhoneNumber")
         return element
 
-    def register_street_address_input(self):
+    def register_street_address_input(self, street_address: str):
         element: WebElement = self.driver.find_element(By.ID, "registerStreetAddress")
+        element.send_keys(street_address)
         return element
 
-    def register_city_input(self):
+    def register_city_input(self, city: str):
         element: WebElement = self.driver.find_element(By.ID, "registerCity")
+        element.send_keys(city)
         return element
 
-    def register_state_input(self):
+    def register_state_input(self, state: str):
         element: WebElement = self.driver.find_element(By.ID, "registerState")
+        element.send_keys(state)
         return element
 
-    def register_zip_code_input(self):
+    def register_zip_code_input(self, zip_code: str):
         element: WebElement = self.driver.find_element(By.ID, "registerZipCode")
+        element.send_keys(zip_code)
         return element
 
     def register_button(self):
