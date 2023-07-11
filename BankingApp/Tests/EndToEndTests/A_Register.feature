@@ -6,7 +6,7 @@ Feature: Customers need to create a relationship with the bank
     Then  I should be on a page with the title Register
 
   Scenario Outline: As a new customer, I should not be able to use data not meeting standards
-    Given I am on the new customer page
+    Given I am on the register page
     When  I enter <first_name> in the first name
     When  I enter <last_name> in the last name
     When  I enter <email_address> in the email address
