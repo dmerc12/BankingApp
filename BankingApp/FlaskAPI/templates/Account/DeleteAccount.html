@@ -17,15 +17,15 @@
 
         <form method="post">
             <div class="form-group">
-                <label for="account_id">Select Account:</label>
-                <select name="account_id" id="account_id" class="form-control">
+                <label for="deleteAccountId">Select Account:</label>
+                <select name="deleteAccountId" id="deleteAccountId" class="form-control">
                     {% for account in account_list %}
                     <option value="{{ account.account_id }}">{{ account.account_id }}</option>
                     {% endfor %}
                 </select>
             </div>
 
-            <button type="submit" class="btn btn-primary">Delete Account</button>
+            <button id="deleteAccountButton" type="submit" class="btn btn-primary">Delete Account</button>
         </form>
     </div>
 </div>
