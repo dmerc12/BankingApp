@@ -18,8 +18,8 @@
 
         <form method="post">
             <div class="form-group">
-                <label for="account_id">Select Account:</label>
-                <select name="account_id" id="account_id" class="form-control">
+                <label for="withdrawAccountId">Select Account:</label>
+                <select name="withdrawAccountId" id="withdrawAccountId" class="form-control">
                     {% for account in account_list %}
                         <option value="{{ account.account_id }}">{{ account.account_id }}</option>
                     {% endfor %}
@@ -27,11 +27,11 @@
             </div>
 
             <div class="form-group">
-                <label for="amount">Withdraw Amount:</label>
-                <input type="number" step="0.01" name="amount" id="amount" class="form-control" required>
+                <label for="withdrawAmount">Withdraw Amount:</label>
+                <input type="number" step="0.01" name="withdrawAmount" id="withdrawAmount" class="form-control" required>
             </div>
 
-            <button type="submit" class="btn btn-primary">Make Withdraw</button>
+            <button id="withdrawButton" type="submit" class="btn btn-primary">Make Withdraw</button>
         </form>
     </div>
 </div>
