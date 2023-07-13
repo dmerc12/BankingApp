@@ -15,6 +15,11 @@ Feature: Customers need to manage their relationships with banks and subsequent 
     When  I click the Manage Accounts tab
     Then  I should be on a page with the title Login
 
+  Scenario: As a customer, I should be able to go back to the login page from the register page using the login tab
+    Given I am on the register page
+    When  I click the Login tab
+    Then  I should be on a page with the title Login
+
   Scenario Outline: As a customer, I should not be able to log into my account with incorrect login credentials
     Given I am on the login page
     When  I enter <email> in the login email input

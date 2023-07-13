@@ -35,6 +35,10 @@ def step_impl(context):
 def step_impl(context):
     raise NotImplementedError(u'STEP: When I click the Manage Accounts tab')
 
+@when(u'I click the Login tab')
+def step_impl(context):
+    raise NotImplementedError(u'STEP: When I click the Login tab')
+
 
 @when(u'I click the Create Account navigation button')
 def step_impl(context):
