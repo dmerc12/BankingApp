@@ -7,16 +7,16 @@ Feature: Customers need to create a relationship with the bank
 
   Scenario Outline: As a new customer, I should not be able to use data not meeting standards
     Given I am on the register page
-    When  I enter <first_name> in the first name
-    When  I enter <last_name> in the last name
-    When  I enter <email_address> in the email address
-    When  I enter <password> in the create password
-    When  I enter <confirmation_password> in the confirmation password
-    When  I enter <phone_number> in the phone number
-    When  I enter <street_address> in the street address
-    When  I enter <city> in the city
-    When  I enter <state> in the state
-    When  I enter <zip_code> in the zip code
+    When  I enter <first_name> in the register first name input
+    When  I enter <last_name> in the register last name input
+    When  I enter <email_address> in the register email address input
+    When  I enter <password> in the register create password input
+    When  I enter <confirmation_password> in the register confirmation password input
+    When  I enter <phone_number> in the register phone number input
+    When  I enter <street_address> in the register street address input
+    When  I enter <city> in the register city input
+    When  I enter <state> in the register state input
+    When  I enter <zip_code> in the register zip code input
     When  I click the Register button
     Then  I should be on a page with the title Register
 
