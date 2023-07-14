@@ -30,10 +30,6 @@ class CustomerPOMs:
         element: WebElement = self.driver.find_element(By.ID, "homeTab")
         return element
 
-    def manage_accounts_tab(self):
-        element: WebElement = self.driver.find_element(By.ID, "manageAccountsTab")
-        return element
-
     def manage_customer_tab(self):
         element: WebElement = self.driver.find_element(By.ID, "manageCustomerTab")
         return element

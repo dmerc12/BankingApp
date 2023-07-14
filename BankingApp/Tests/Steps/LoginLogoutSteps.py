@@ -3,56 +3,56 @@ from behave import when, then
 
 @when(u'I enter {email} in the login email input')
 def step_impl(context, email: str):
-    raise NotImplementedError(u'STEP: When I enter incorrect in the login email input')
+    context.customer_poms.login_email_input().send_keys(email)
 
 
 @when(u'I enter {password} in the login password input')
 def step_impl(context, password: str):
-    raise NotImplementedError(u'STEP: When I enter customer in the login password input')
+    context.customer_poms.login_password_input().send_keys(password)
 
 
 @when(u'I click the Login button')
 def step_impl(context):
-    raise NotImplementedError(u'STEP: When I click the Login button')
+    context.customer_poms.login_button().click()
 
 
 @when(u'I click the Log Out button')
 def step_impl(context):
-    raise NotImplementedError(u'STEP: When I click the Log Out button')
+    context.customer_poms.logout_button().click()
 
 
 @when(u'I click the Home tab')
 def step_impl(context):
-    raise NotImplementedError(u'STEP: When I click the Home tab')
+    context.customer_poms.home_tab().click()
 
 
 @when(u'I click the Manage Customer Information tab')
 def step_impl(context):
-    raise NotImplementedError(u'STEP: When I click the Manage Customer Information tab')
+    context.customer_poms.manage_customer_tab().click()
 
 
 @when(u'I click the Manage Accounts tab')
 def step_impl(context):
-    raise NotImplementedError(u'STEP: When I click the Manage Accounts tab')
+    context.customer_poms.manage_accounts_tab().click()
 
 @when(u'I click the Login tab')
 def step_impl(context):
-    raise NotImplementedError(u'STEP: When I click the Login tab')
+    context.customer_poms.login_tab().click()
 
 
 @when(u'I click the Create Account navigation button')
 def step_impl(context):
-    raise NotImplementedError(u'STEP: When I click the Create Account navigation button')
+    context.account_poms.create_account_navigation().click()
 
 
 @when(u'I click the View Accounts navigation button')
 def step_impl(context):
-    raise NotImplementedError(u'STEP: When I click the View Accounts navigation button')
+    context.account_poms.view_accounts_navigation().click()
 
 
 @when(u'I click the View Transactions button')
 def step_impl(context):
-    raise NotImplementedError(u'STEP: When I click the View Transactions button')
+    context.account_poms.view_transactions_button().click()
 
 
 @when(u'I click the Deposit navigation button')
