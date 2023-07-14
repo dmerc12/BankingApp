@@ -7,7 +7,7 @@ from BankingApp.Tests.POMS.CustomerPOMs import CustomerPOMs
 
 def before_all(context: Context):
     context.driver = WebDriver()
-    context.banking_poms = AccountPOMs(context.driver)
+    context.account_poms = AccountPOMs(context.driver)
     context.customer_poms = CustomerPOMs(context.driver)
     context.driver.implicitly_wait(1)
 

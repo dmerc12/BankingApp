@@ -7,6 +7,10 @@ class AccountPOMs:
     def __init__(self, driver: WebDriver):
         self.driver = driver
 
+    def manage_accounts_tab(self):
+        element: WebElement = self.driver.find_element(By.ID, "manageAccountsTab")
+        return element
+
     def manage_accounts_navigation(self):
         element: WebElement = self.driver.find_element(By.ID, "manageAccountsNavigation")
         return element
@@ -17,6 +21,10 @@ class AccountPOMs:
 
     def view_accounts_navigation(self):
         element: WebElement = self.driver.find_element(By.ID, "viewAccountsNavigation")
+        return element
+
+    def view_transactions_button(self):
+        element: WebElement = self.driver.find_element(By.ID, "")
         return element
 
     def deposit_navigation(self):
