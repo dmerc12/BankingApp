@@ -4,7 +4,7 @@
 
 {% block loginOrLogout %}
 <div class="navbar-nav">
-    <a id="navLogoutButton" class="nav-item nav-link" href="{{ url_for('new_logout.logout') }}">Logout</a>
+    <a id="logoutButton" class="nav-item nav-link" href="{{ url_for('new_logout.logout') }}">Logout</a>
 </div>
 {% endblock %}
 
@@ -32,7 +32,7 @@
             {% endfor %}
         </tbody>
     </table>
-    <a href="{{ url_for('account_routes.manage_accounts') }}" class="btn btn-primary">Back to Accounts</a>
+    <a id="viewTransactionsBackButton" href="{{ url_for('account_routes.manage_accounts') }}" class="btn btn-primary">Back to Accounts</a>
 </div>
 
 {% endblock %}

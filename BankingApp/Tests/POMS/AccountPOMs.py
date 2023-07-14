@@ -24,7 +24,11 @@ class AccountPOMs:
         return element
 
     def view_transactions_button(self):
-        element: WebElement = self.driver.find_element(By.ID, "")
+        element: WebElement = self.driver.find_element(By.ID, "transaction_-1")
+        return element
+
+    def view_transactions_back_button(self):
+        element: WebElement = self.driver.find_element(By.ID, "viewTransactionsBackButton")
         return element
 
     def deposit_navigation(self):
