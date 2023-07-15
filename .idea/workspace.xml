@@ -5,11 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e8a38a19-ae71-48f4-be62-9b6770660768" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BankingApp/Tests/EndToEndTests/E_Withdraw.feature" beforeDir="false" afterPath="$PROJECT_DIR$/BankingApp/Tests/EndToEndTests/E_Withdraw.feature" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BankingApp/Tests/EndToEndTests/F_Transfer.feature" beforeDir="false" afterPath="$PROJECT_DIR$/BankingApp/Tests/EndToEndTests/F_Transfer.feature" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BankingApp/Tests/Steps/TranserSteps.py" beforeDir="false" afterPath="$PROJECT_DIR$/BankingApp/Tests/Steps/TranserSteps.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BankingApp/Tests/Steps/WithdrawSteps.py" beforeDir="false" afterPath="$PROJECT_DIR$/BankingApp/Tests/Steps/WithdrawSteps.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BankingApp/Tests/EndToEndTests/D_ViewCurrentAccounts.feature" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BankingApp/Tests/EndToEndTests/E_ViewTransactions.feature" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankingApp/Tests/EndToEndTests/D_Deposit.feature" beforeDir="false" afterPath="$PROJECT_DIR$/BankingApp/Tests/EndToEndTests/F_Deposit.feature" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankingApp/Tests/EndToEndTests/E_Withdraw.feature" beforeDir="false" afterPath="$PROJECT_DIR$/BankingApp/Tests/EndToEndTests/G_Withdraw.feature" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankingApp/Tests/EndToEndTests/F_Transfer.feature" beforeDir="false" afterPath="$PROJECT_DIR$/BankingApp/Tests/EndToEndTests/H_Transfer.feature" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankingApp/Tests/EndToEndTests/G_DeleteAccount.feature" beforeDir="false" afterPath="$PROJECT_DIR$/BankingApp/Tests/EndToEndTests/I_DeleteAccount.feature" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankingApp/Tests/EndToEndTests/H_UpdateCustomer.feature" beforeDir="false" afterPath="$PROJECT_DIR$/BankingApp/Tests/EndToEndTests/J_UpdateCustomer.feature" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankingApp/Tests/EndToEndTests/I_DeleteCustomer.feature" beforeDir="false" afterPath="$PROJECT_DIR$/BankingApp/Tests/EndToEndTests/K_DeleteCustomer.feature" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
