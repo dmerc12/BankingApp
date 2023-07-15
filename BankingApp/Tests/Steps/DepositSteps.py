@@ -1,7 +1,7 @@
 from behave import when
 
 # when
-@when(u'I select {account} from the account dropdown')
+@when(u'I select {account} from the deposit account dropdown')
 def step_impl(context, account: int):
     raise NotImplementedError(u'STEP: When I select -1 from the account dropdown')
 

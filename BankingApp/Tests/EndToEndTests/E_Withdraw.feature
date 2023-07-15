@@ -1,21 +1,46 @@
 Feature: Customers need to be able to withdraw from an existing account
 
-  Scenario: As a customer, I should not be allowed access to the managing accounts page without logging in first
-    Given I am on the managing accounts
-    When  I click the Continue button
-    Then  I should be on a page with the title Login Page
-
-  Scenario Outline: As a customer, I should be able to log in
+  Scenario Outline: As a customer, I should not be able to make a withdraw when there are no accounts
     Given I am on the login page
-    When  I enter <username> in the username
-    When  I enter <password> in the password
+    When  I enter <email> in the login email input
+    When  I enter <password> in the login password input
     When  I click the Login button
-    When  I click the Continue button
-    When  I am on a page with the title Customer Home
-    When  I click "Manage Accounts"
-    When  I click the Create and Manage Accounts button
-    Then  I should be on a page with the title Managing Accounts
+    When  I click the Manage Accounts navigation button
+    When  I click the Withdraw navigation button
+    Then  I should be on a page with the title Managing Your Accounts
 
     Examples:
-      | username | password |
-      | new      | customer |
+      | email           | password |
+      | no@accounts.com | no       |
+
+  Scenario Outline: As a customer, I should not be able to make a withdraw with a negative amount
+    Given I am on the login page
+    When  I enter <email> in the login email input
+    When  I enter <password> in the login password input
+    When  I click the Login button
+    When  I click the Manage Accounts navigation button
+    When  I click the Withdraw navigation button
+    When  I select <account> from the withdraw account dropdown
+    When  I input <amount> into the withdraw amount input
+    When  I click the Withdraw button
+    Then  I should be on a page with the title Managing Your Accounts
+
+    Examples:
+      | email          | password | account | amount  |
+      | test@email.com | work     | -1      | -500.00 |
+
+  Scenario Outline: As a customer, I should be able to make a withdraw with correct information
+    Given I am on the login page
+    When  I enter <email> in the login email input
+    When  I enter <password> in the login password input
+    When  I click the Login button
+    When  I click the Manage Accounts navigation button
+    When  I click the Withdraw navigation button
+    When  I select <account> from the withdraw account dropdown
+    When  I input <amount> into the withdraw amount input
+    When  I click the Withdraw button
+    Then  I should be on a page with the title Managing Your Accounts
+
+    Examples:
+      | email          | password | account | amount |
+      | test@email.com | work     |-1       |500.00  |

@@ -20,7 +20,7 @@ Feature: Customers need to be able to deposit into an existing account
     When  I click the Login button
     When  I click the Manage Accounts navigation button
     When  I click the Deposit navigation button
-    When  I select <account> from the account dropdown
+    When  I select <account> from the deposit account dropdown
     When  I input <amount> into the deposit amount input
     When  I click the Deposit button
     Then  I should be on a page with the title Managing Your Accounts
@@ -36,7 +36,7 @@ Feature: Customers need to be able to deposit into an existing account
     When  I click the Login button
     When  I click the Manage Accounts navigation button
     When  I click the Deposit navigation button
-    When  I select <account> from the account dropdown
+    When  I select <account> from the deposit account dropdown
     When  I input <amount> into the deposit amount input
     When  I click the Deposit button
     Then  I should be on a page with the title Managing Your Accounts
