@@ -5,9 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e8a38a19-ae71-48f4-be62-9b6770660768" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/BankingApp/Tests/EndToEndTests/D_Deposit.feature" beforeDir="false" afterPath="$PROJECT_DIR$/BankingApp/Tests/EndToEndTests/D_Deposit.feature" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BankingApp/Tests/EndToEndTests/E_Withdraw.feature" beforeDir="false" afterPath="$PROJECT_DIR$/BankingApp/Tests/EndToEndTests/E_Withdraw.feature" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BankingApp/Tests/Steps/DepositSteps.py" beforeDir="false" afterPath="$PROJECT_DIR$/BankingApp/Tests/Steps/DepositSteps.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankingApp/Tests/EndToEndTests/F_Transfer.feature" beforeDir="false" afterPath="$PROJECT_DIR$/BankingApp/Tests/EndToEndTests/F_Transfer.feature" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankingApp/Tests/Steps/TranserSteps.py" beforeDir="false" afterPath="$PROJECT_DIR$/BankingApp/Tests/Steps/TranserSteps.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankingApp/Tests/Steps/WithdrawSteps.py" beforeDir="false" afterPath="$PROJECT_DIR$/BankingApp/Tests/Steps/WithdrawSteps.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,6 +27,9 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="2SJt5MAw7s1h7bVSNfNwbyN1W5q" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />

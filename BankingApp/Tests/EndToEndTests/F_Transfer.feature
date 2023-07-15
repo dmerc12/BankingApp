@@ -1,47 +1,48 @@
-Feature: Customers need to be able to transfer money between existing accounts
+Feature: Customers need to be able to make transfers
 
-  Scenario: As a customer, I should not be allowed access to the managing accounts page without logging in first
-    Given I am on the managing accounts page
-    When  I click ok on the alert
-    Then  I should be on a page with the title Login Page
-
-  Scenario Outline: As a customer, I should not be able to use my account in transfers with malformed information
+  Scenario Outline: As a customer, I should not be able to make a transfer when there are no accounts
     Given I am on the login page
-    When  I enter <username> in the username
-    When  I enter <password> in the password
+    When  I enter <email> in the login email input
+    When  I enter <password> in the login password input
     When  I click the Login button
-    When  I click ok on the alert
-    When  I click the Create and Manage Accounts button
-    When  I click "Transfer Money Between Accounts"
-    When  I select the withdraw account input
-    When  I select the deposit account input
-    When  I enter <transfer_amount> in the transfer amount input
-    When  I click the Transfer button
-    When  I click ok on the alert
-    Then  I should be on a page with the title Managing Accounts
+    When  I click the Manage Accounts navigation button
+    When  I click the Transfer navigation button
+    Then  I should be on a page with the title Managing Your Accounts
 
     Examples:
-      | transfer_amount | username | password |
-      | 25.00           | please   | work     |
-      | 25.00           | please   | work     |
-      | -25.00          | please   | work     |
-      | 250000000000.00 | please   | work     |
+      | email           | password |
+      | no@accounts.com | no       |
 
-  Scenario Outline: As a customer, I should be able to use my account in transfers with valid information
+  Scenario Outline: As a customer, I should not be able to make a transfer with a negative amount
     Given I am on the login page
-    When  I enter <username> in the username
-    When  I enter <password> in the password
+    When  I enter <email> in the login email input
+    When  I enter <password> in the login password input
     When  I click the Login button
-    When  I click ok on the alert
-    When  I click the Create and Manage Accounts button
-    When  I click "Transfer Money Between Accounts"
-    When  I select the withdraw account input
-    When  I select the deposit account input
-    When  I enter <transfer_amount> in the transfer amount input
+    When  I click the Manage Accounts navigation button
+    When  I click the Transfer navigation button
+    When  I select <withdraw_account> from the transfer withdraw account dropdown
+    When  I select <deposit_account> from the transfer deposit account dropdown
+    When  I input <amount> into the transfer amount input
     When  I click the Transfer button
-    When  I click ok on the alert
-    Then  I should be on a page with the title Managing Accounts
+    Then  I should be on a page with the title Managing Your Accounts
 
-  Examples:
-    | transfer_amount | username | password |
-    | 25.00           | please   | work     |
+    Examples:
+      | email          | password | withdraw_account | deposit_account | amount |
+      | test@email.com | work     | -2               | -1              | 500.00 |
+
+  Scenario Outline: As a customer, I should be able to make a transfer with correct information
+    Given I am on the login page
+    When  I enter <email> in the login email input
+    When  I enter <password> in the login password input
+    When  I click the Login button
+    When  I click the Manage Accounts navigation button
+    When  I click the Transfer navigation button
+    When  I select <withdraw_account> from the transfer withdraw account dropdown
+    When  I select <deposit_account> from the transfer deposit account dropdown
+    When  I input <amount> into the transfer amount input
+    When  I click the Transfer button
+    Then  I should be on a page with the title Managing Your Accounts
+
+    Examples:
+      | email          | password | withdraw_account | deposit_account | amount |
+      | test@email.com | work     | -2               | -1              | 500.00 |
