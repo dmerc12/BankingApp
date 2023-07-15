@@ -1,45 +1,31 @@
 Feature: Customers need to create accounts
 
-  Scenario: As a customer, I should not be allowed access to the managing accounts page without logging in first
-    Given I am on the managing accounts page
-    When  I click ok on the alert
-    Then  I should be on a page with the title Login Page
-
-  Scenario Outline: As a customer, I should be able to log in
-    Given I am on the login page
-    When  I enter <username> in the username
-    When  I enter <password> in the password
-    When  I click the Login button
-    When  I click ok on the alert
-    When  I click the Create and Manage Accounts button
-    Then  I should be on a page with the title Managing Accounts
-
-    Examples:
-      | username | password |
-      | new      | customer |
-
   Scenario Outline: As a customer I should not be able to create an account with a negative amount
-    Given I am on the home page
-    When  I click the Create and Manage Accounts button
-    When  I click "Create a New Account"
-    When  I enter <starting-amount> in the starting amount
+    Given I am on the login page
+    When  I enter <email> in the login email input
+    When  I enter <password> in the login password input
+    When  I click the Login button
+    When  I click the Manage Accounts navigation button
+    When  I click the Create Account navigation button
+    When  I enter <starting_amount> in the starting amount
     When  I click the Create Account button
-    When  I click ok on the alert
-    Then  I should be on a page with the title Managing Accounts
+    Then  I should be on a page with the title Managing Your Accounts
 
     Examples:
-      | starting-amount |
-      | -250.00         |
+      | starting_amount | email          | password |
+      | -250.00         | test@email.com |work      |
 
-  Scenario Outline: As a customer I should be able to create an account
-    Given I am on the home page
-    When  I click the Create and Manage Accounts button
-    When  I click "Create a New Account"
-    When  I enter <starting-amount> in the starting amount
+  Scenario Outline: As a customer I should be able to create an account with correct information
+    Given I am on the login page
+    When  I enter <email> in the login email input
+    When  I enter <password> in the login password input
+    When  I click the Login button
+    When  I click the Manage Accounts navigation button
+    When  I click the Create Account navigation button
+    When  I enter <starting_amount> in the starting amount
     When  I click the Create Account button
-    When  I click ok on the alert
-    Then  I should be on a page with the title Managing Accounts
+    Then  I should be on a page with the title Managing Your Accounts
 
     Examples:
-      | starting-amount |
-      | 250.00          |
+      | starting_amount | email          | password |
+      | 250.00          | test@email.com |work      |

@@ -1,6 +1,6 @@
 from behave import when, then
 
-
+# when
 @when(u'I enter {email} in the login email input')
 def step_impl(context, email: str):
     context.customer_poms.login_email_input().send_keys(email)
@@ -33,7 +33,7 @@ def step_impl(context):
 
 @when(u'I click the Manage Accounts tab')
 def step_impl(context):
-    context.customer_poms.manage_accounts_tab().click()
+    context.account_poms.manage_accounts_tab().click()
 
 @when(u'I click the Login tab')
 def step_impl(context):
@@ -55,53 +55,55 @@ def step_impl(context):
     context.account_poms.view_transactions_button().click()
 
 
+@when(u'I click the Back button')
+def step_impl(context):
+    context.account_poms.view_transactions_back_button().click()
+
 @when(u'I click the Deposit navigation button')
 def step_impl(context):
-    raise NotImplementedError(u'STEP: When I click the Deposit navigation button')
+    context.account_poms.deposit_navigation().click()
 
 
 @when(u'I click the Withdraw navigation button')
 def step_impl(context):
-    raise NotImplementedError(u'STEP: When I click the Withdraw navigation button')
+    context.account_poms.withdraw_navigation().click()
 
 
 @when(u'I click the Transfer navigation button')
 def step_impl(context):
-    raise NotImplementedError(u'STEP: When I click the Transfer navigation button')
+    context.account_poms.transfer_navigation().click()
 
 
 @when(u'I click the Delete Account navigation button')
 def step_impl(context):
-    raise NotImplementedError(u'STEP: When I click the Delete Account navigation button')
+    context.account_poms.delete_account_navigation().click()
 
 
 @when(u'I click the Update Information navigation button')
 def step_impl(context):
-    raise NotImplementedError(u'STEP: When I click the Update Information navigation button')
+    context.customer_poms.update_customer_navigation().click()
 
 
 @when(u'I click the Delete Information navigation button')
 def step_impl(context):
-    raise NotImplementedError(u'STEP: When I click the Delete Information navigation button')
+    context.customer_poms.delete_customer_navigation().click()
 
 
 @when(u'I click the Change Password navigation button')
 def step_impl(context):
-    raise NotImplementedError(u'STEP: When I click the Change Password navigation button')
+    context.customer_poms.change_password_navigation().click()
 
-
+# then
 @then(u'I should be on a page with the title Managing Your Accounts')
 def step_impl(context):
-    raise NotImplementedError(u'STEP: Then I should be on a page with the title Managing Your Accounts')
+    assert context.driver.title == "Managing Your Accounts"
 
 
 @then(u'I should be on a page with the title Home Dashboard')
 def step_impl(context):
-    raise NotImplementedError(u'STEP: Then I should be on a page with the title Home Dashboard')
+    assert context.driver.title == "Home Dashboard"
 
 
 @then(u'I should be on a page with the title Managing Your Information')
 def step_impl(context):
-    raise NotImplementedError(u'STEP: Then I should be on a page with the title Managing Your Information')
-
-
+    assert context.driver.title == "Managing Your Current Information"

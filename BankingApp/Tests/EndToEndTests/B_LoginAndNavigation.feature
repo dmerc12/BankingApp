@@ -126,6 +126,8 @@ Feature: Customers need to manage their relationships with banks and subsequent 
     When  I click the Login button
     When  I click the Manage Accounts tab
     When  I click the View Accounts navigation button
+    When  I click the View Transactions button
+    When  I click the Back button
     When  I click the Log Out button
     Then  I should be on a page with the title Login
 
