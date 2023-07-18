@@ -9,7 +9,7 @@ Feature: Customers need to be able to update their personal information
     When  I click the Update Your Information navigation button
     When  I enter <first_name> in the update first name input
     When  I enter <last_name> in the update last name input
-    When  I enter <email_address> in the update email address input
+    When  I enter <updated_email> in the update email address input
     When  I enter <phone_number> in the update phone number input
     When  I enter <street_address> in the update street address input
     When  I enter <city> in the update city input
@@ -19,13 +19,13 @@ Feature: Customers need to be able to update their personal information
     Then  I should be on a page with the title Updating Your Information
 
     Examples:
-      | first_name                                                     | last_name                                                      | email_address  | password | phone_number                                                   | street_address                                                 | city | state | zip_code |
-      | this is too long and so it will fail and bring a desired error | last                                                           | test@email.com | work     | 1234567890                                                     | 123 T St                                                       | Oats | OH    | 43015    |
-      | first                                                          | this is too long and so it will fail and bring a desired error | test@email.com | work     | 1234567890                                                     | 123 T St                                                       | Oats | OH    | 43015    |
-      | first                                                          | last                                                           | test@email.com | work     | 1234567890                                                     | 123 T St                                                       | Oats | OH    | 43015    |
-      | first                                                          | last                                                           | test@email.com | work     | this is too long and so it will fail and bring a desired error | 123 T St                                                       | Oats | OH    | 43015    |
-      | first                                                          | last                                                           | test@email.com | work     | 1234567890                                                     | this is too long and so it will fail and bring a desired error | Oats | OH    | 43015    |
-      | first                                                          | last                                                           | test@email.com | work     | 1234567890                                                     | 123 T St                                                       | Oats | OH    | 43015    |
+      | first_name                                                     | last_name                                                      | email          | password | phone_number                                                   | street_address                                                 | city | state | zip_code | updated_email                                                  |
+      | this is too long and so it will fail and bring a desired error | last                                                           | test@email.com | work     | 1234567890                                                     | 123 T St                                                       | Oats | OH    | 43015    | updated@email.com                                              |
+      | first                                                          | this is too long and so it will fail and bring a desired error | test@email.com | work     | 1234567890                                                     | 123 T St                                                       | Oats | OH    | 43015    | updated@email.com                                              |
+      | first                                                          | last                                                           | test@email.com | work     | this is too long and so it will fail and bring a desired error | 123 T St                                                       | Oats | OH    | 43015    | updated@email.com                                              |
+      | first                                                          | last                                                           | test@email.com | work     | 1234567890                                                     | this is too long and so it will fail and bring a desired error | Oats | OH    | 43015    | updated@email.com                                              |
+      | first                                                              | last                                                           | test@email.com | work     | 1234567890                                                     | 123 T St                                                       | Oats | OH    | 43015    | this is too long and so it will fail and bring a desired error |
+      | test                                                           | customer                                                       | test@email.com | work     | 1234567890                                                     | 123 This Street                                                | City | OK    | 73093    | test@email.com                                                 |
 
 
   Scenario Outline: As a new customer, I should be able to update my information with the bank
@@ -37,7 +37,7 @@ Feature: Customers need to be able to update their personal information
     When  I click the Update Your Information navigation button
     When  I enter <first_name> in the update first name input
     When  I enter <last_name> in the update last name input
-    When  I enter <email_address> in the update email address input
+    When  I enter <updated_email> in the update email address input
     When  I enter <phone_number> in the update phone number input
     When  I enter <street_address> in the update street address input
     When  I enter <city> in the update city input
@@ -47,5 +47,5 @@ Feature: Customers need to be able to update their personal information
     Then  I should be on a page with the title Managing Your Current Information
 
     Examples:
-      | first_name | last_name | email_address  | password | phone_number | street_address | city | state | zip_code |
-      | first      | last      | test@email.com | work     | 1234567890   | 123 T St       | Oats | OH    | 43015    |
+      | first_name | last_name | email          | password | phone_number | street_address | city | state | zip_code | updated_email     |
+      | first      | last      | test@email.com | work     | 1234567890   | 123 T St       | Oats | OH    | 43015    | updated@email.com |

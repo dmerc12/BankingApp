@@ -5,7 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e8a38a19-ae71-48f4-be62-9b6770660768" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/BankingApp/Tests/EndToEndTests/K_ChangePassword.feature" beforeDir="false" afterPath="$PROJECT_DIR$/BankingApp/Tests/EndToEndTests/K_ChangePassword.feature" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankingApp/Tests/EndToEndTests/J_UpdateCustomer.feature" beforeDir="false" afterPath="$PROJECT_DIR$/BankingApp/Tests/EndToEndTests/J_UpdateCustomer.feature" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankingApp/Tests/Steps/ChangePasswordSteps.py" beforeDir="false" afterPath="$PROJECT_DIR$/BankingApp/Tests/Steps/ChangePasswordSteps.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankingApp/Tests/Steps/UpdateCustomerSteps.py" beforeDir="false" afterPath="$PROJECT_DIR$/BankingApp/Tests/Steps/UpdateCustomerSteps.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
