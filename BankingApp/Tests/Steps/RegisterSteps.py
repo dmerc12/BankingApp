@@ -72,6 +72,7 @@ def step_impl(context):
     context.customer_poms.register_button().click()
 
 
+# then
 @then(u'I should be on a page with the title Register')
 def step_impl(context):
     assert context.driver.title == "Register"

@@ -24,11 +24,11 @@ Feature: Customers need to be able to make transfers
     When  I select <deposit_account> from the transfer deposit account dropdown
     When  I input <amount> into the transfer amount input
     When  I click the Transfer button
-    Then  I should be on a page with the title Managing Your Accounts
+    Then  I should be on a page with the title Making A Transfer
 
     Examples:
-      | email          | password | withdraw_account | deposit_account | amount |
-      | test@email.com | work     | -2               | -1              | 500.00 |
+      | email          | password | withdraw_account | deposit_account | amount  |
+      | test@email.com | work     | -2               | -1              | -500.00 |
 
   Scenario Outline: As a customer, I should be able to make a transfer with correct information
     Given I am on the login page

@@ -5,9 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e8a38a19-ae71-48f4-be62-9b6770660768" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/BankingApp/FlaskAPI/AccountRoutes/WithdrawBlueprint.py" beforeDir="false" afterPath="$PROJECT_DIR$/BankingApp/FlaskAPI/AccountRoutes/WithdrawBlueprint.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BankingApp/Tests/EndToEndTests/G_Withdraw.feature" beforeDir="false" afterPath="$PROJECT_DIR$/BankingApp/Tests/EndToEndTests/G_Withdraw.feature" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BankingApp/Tests/Steps/WithdrawSteps.py" beforeDir="false" afterPath="$PROJECT_DIR$/BankingApp/Tests/Steps/WithdrawSteps.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankingApp/FlaskAPI/AccountRoutes/TransferBlueprint.py" beforeDir="false" afterPath="$PROJECT_DIR$/BankingApp/FlaskAPI/AccountRoutes/TransferBlueprint.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankingApp/Tests/EndToEndTests/H_Transfer.feature" beforeDir="false" afterPath="$PROJECT_DIR$/BankingApp/Tests/EndToEndTests/H_Transfer.feature" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankingApp/Tests/Steps/RegisterSteps.py" beforeDir="false" afterPath="$PROJECT_DIR$/BankingApp/Tests/Steps/RegisterSteps.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankingApp/Tests/Steps/TranserSteps.py" beforeDir="false" afterPath="$PROJECT_DIR$/BankingApp/Tests/Steps/TranserSteps.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
