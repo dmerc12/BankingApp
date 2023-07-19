@@ -29,7 +29,7 @@ def delete_account():
             accounts = account_sao.service_get_all_accounts(customer_id)
             if request.method == "POST":
                 try:
-                    account_id = int(request.form["account_id"])
+                    account_id = int(request.form["deleteAccountId"])
                     current_app.logger.info("Beginning API function delete account with data: " + str(session_id) +
                                             ", and " + str(account_id))
                     transaction_sao.service_delete_all_transactions(int(account_id))
