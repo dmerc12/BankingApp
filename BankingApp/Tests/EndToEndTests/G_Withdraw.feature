@@ -23,7 +23,7 @@ Feature: Customers need to be able to withdraw from an existing account
     When  I select <account> from the withdraw account dropdown
     When  I input <amount> into the withdraw amount input
     When  I click the Withdraw button
-    Then  I should be on a page with the title Managing Your Accounts
+    Then  I should be on a page with the title Making A Withdraw
 
     Examples:
       | email          | password | account | amount  |

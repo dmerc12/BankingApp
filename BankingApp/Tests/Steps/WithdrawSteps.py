@@ -1,16 +1,22 @@
-from behave import when
+from behave import when, then
 
 # when
 @when(u'I select {account} from the withdraw account dropdown')
 def step_impl(context, account: int):
-    raise NotImplementedError(u'STEP: When I select -1 from the withdraw account dropdown')
+    context.account_poms.withdraw_account_dropdown().send_keys(account)
 
 
 @when(u'I input {amount} into the withdraw amount input')
 def step_impl(context, amount: float):
-    raise NotImplementedError(u'STEP: When I input -500.00 into the withdraw amount input')
+    context.account_poms.withdraw_amount_input().send_keys(amount)
 
 
 @when(u'I click the Withdraw button')
 def step_impl(context):
-    raise NotImplementedError(u'STEP: When I click the Withdraw button')
+    context.account_poms.withdraw_button().click()
+
+
+# then
+@then(u'I should be on a page with the title Making A Withdraw')
+def step_impl(context):
+    assert context.driver.title == "Making A Withdraw"
