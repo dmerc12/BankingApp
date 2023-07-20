@@ -9,7 +9,7 @@ Feature: Customers need to create accounts
     When  I click the Create Account navigation button
     When  I enter <starting_amount> in the starting amount
     When  I click the Create Account button
-    Then  I should be on a page with the title Managing Your Accounts
+    Then  I should be on a page with the title Creating An Account
 
     Examples:
       | starting_amount | email          | password |

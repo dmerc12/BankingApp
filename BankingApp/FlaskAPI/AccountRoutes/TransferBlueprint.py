@@ -32,9 +32,9 @@ def transfer():
             accounts = account_sao.service_get_all_accounts(customer_id)
             if request.method == "POST":
                 try:
-                    withdraw_account_id = int(request.form["withdraw_account_id"])
-                    deposit_account_id = int(request.form["deposit_account_id"])
-                    transfer_amount = float(request.form["amount"])
+                    withdraw_account_id = int(request.form["transferWithdrawAccountId"])
+                    deposit_account_id = int(request.form["transferDepositAccountId"])
+                    transfer_amount = float(request.form["transferAmount"])
                     current_app.logger.info("Beginning PI function transfer with data: " + str(session_id) + ", and " +
                                             str(withdraw_account_id) + ", and " + str(deposit_account_id) + ", and " +
                                             str(transfer_amount))

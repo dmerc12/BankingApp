@@ -33,8 +33,8 @@ def deposit():
 
             if request.method == "POST":
                 try:
-                    account_id = int(request.form["account_id"])
-                    deposit_amount = float(request.form["amount"])
+                    account_id = int(request.form["depositAccountId"])
+                    deposit_amount = float(request.form["depositAmount"])
                     current_app.logger.info("Beginning API function deposit with data: " + str(session_id) + ", and "
                                         + str(account_id) + ", and " + str(deposit_amount))
                     deposit_transaction = Transaction(0, str(datetime.datetime.now()), "Deposit", int(account_id),

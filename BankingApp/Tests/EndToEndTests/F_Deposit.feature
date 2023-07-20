@@ -23,7 +23,7 @@ Feature: Customers need to be able to deposit into an existing account
     When  I select <account> from the deposit account dropdown
     When  I input <amount> into the deposit amount input
     When  I click the Deposit button
-    Then  I should be on a page with the title Managing Your Accounts
+    Then  I should be on a page with the title Making A Deposit
 
     Examples:
       | email          | password | account | amount  |
