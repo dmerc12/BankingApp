@@ -30,7 +30,7 @@ Feature: Customers need to be able to change their passwords
     When  I enter <updated_password> in the update password input
     When  I enter <confirmation_password> in the update password confirmation input
     When  I click the Change Password button
-    Then  I should be on a page with the title Changing Your Password
+    Then  I should be on a page with the title Managing Your Current Information
 
     Examples:
       | email          | password | updated_password | confirmation_password |

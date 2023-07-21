@@ -405,6 +405,14 @@ def test_service_change_password_new_password_does_not_match_confirmation_passwo
     except FailedTransaction as error:
         assert str(error) == "The passwords don't match, please try again!"
 
+def test_service_change_password_nothing_changed():
+    try:
+        customer_sao.service_change_password(successful_customer.customer_id, successful_customer.password,
+                                             successful_customer.password)
+        assert False
+    except FailedTransaction as error:
+        assert str(error) == "Nothing has changed, please try again!"
+
 def test_service_change_password_success():
     result = customer_sao.service_change_password(successful_customer.customer_id, "new", "new")
     assert result

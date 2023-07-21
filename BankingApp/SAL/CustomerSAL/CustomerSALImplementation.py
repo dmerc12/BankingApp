@@ -175,7 +175,7 @@ class CustomerSALImplementation(CustomerSALInterface):
             logging.warning("SAL method change password, customer ID not an integer")
             raise FailedTransaction("The customer ID field must be an integer, please try again!")
         else:
-            self.service_get_customer_by_id(customer_id)
+            current_information = self.service_get_customer_by_id(customer_id)
             if type(new_password) != str:
                 logging.warning("SAL method change password, new password not a string")
                 raise FailedTransaction("The new password field must be a string, please try again!")
@@ -184,15 +184,25 @@ class CustomerSALImplementation(CustomerSALInterface):
                     logging.warning("SAL method change password, confirmation password not a string")
                     raise FailedTransaction("The confirmation password field must be a string, please try again!")
                 else:
-                    if confirmation_password == new_password:
-                        logging.info("SAL method change password, hashing password")
-                        hashed_password = bcrypt.hashpw(new_password.encode('utf-8'), bcrypt.gensalt())
-                        logging.info("Finishing SAL method change password")
-                        result = self.customer_dao.change_password(customer_id, hashed_password)
-                        return result
+                    if len(new_password) == 0:
+                        logging.warning("SAL method change password, password left empty")
+                        raise FailedTransaction("Your password must be set")
                     else:
-                        logging.warning("SAL method change password, passwords don't match")
-                        raise FailedTransaction("The passwords don't match, please try again!")
+                        if confirmation_password == new_password:
+                            logging.info("SAL method change password, hashing password")
+                            hashed_password = bcrypt.hashpw(new_password.encode('utf-8'), bcrypt.gensalt())
+                            new_password_bytes = new_password.encode('utf-8')
+                            current_password_bytes = current_information.password.encode('utf-8')
+                            if bcrypt.checkpw(new_password_bytes, current_password_bytes):
+                                logging.warning("SAL method change password, nothing changed")
+                                raise FailedTransaction("Nothing has changed, please try again!")
+                            else:
+                                logging.info("Finishing SAL method change password")
+                                result = self.customer_dao.change_password(customer_id, hashed_password)
+                                return result
+                        else:
+                            logging.warning("SAL method change password, passwords don't match")
+                            raise FailedTransaction("The passwords don't match, please try again!")
 
     def service_delete_customer(self, customer_id: int) -> bool:
         logging.info("Beginning SAL method delete customer")
