@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e8a38a19-ae71-48f4-be62-9b6770660768" name="Changes" comment="" />
+    <list default="true" id="e8a38a19-ae71-48f4-be62-9b6770660768" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/BankingApp/Tests/EndToEndTests/A_Register.feature" beforeDir="false" afterPath="$PROJECT_DIR$/BankingApp/Tests/EndToEndTests/A_Register.feature" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
