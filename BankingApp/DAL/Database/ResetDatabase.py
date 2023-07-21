@@ -49,8 +49,17 @@ def reset_database():
     truncate_transaction_table = "truncate table banking.transactions restart identity cascade;"
     cursor.execute(truncate_transaction_table)
 
-    test_transaction = "insert into banking.transactions values (-1, 'that one time', 'deposit', -1, 1.00);"
-    cursor.execute(test_transaction)
+    test_transaction1 = "insert into banking.transactions values (-1, 'initial', 'deposit', -1, 1.00);"
+    cursor.execute(test_transaction1)
+
+    test_transaction2 = "insert into banking.transactions values (-2, 'initial', 'deposit', -2, 5000.00);"
+    cursor.execute(test_transaction2)
+
+    test_transaction3 = "insert into banking.transactions values (-3, 'initial', 'deposit', -3, 50.00);"
+    cursor.execute(test_transaction3)
+
+    test_transaction4 = "insert into banking.transactions values (-4, 'initial', 'deposit', -4, 50.00);"
+    cursor.execute(test_transaction4)
 
     # reset session table and populate test session
     truncate_session_table = "truncate table banking.sessions restart identity cascade;"
