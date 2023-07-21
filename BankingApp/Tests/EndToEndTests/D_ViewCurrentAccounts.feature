@@ -11,7 +11,7 @@ Feature: Customers need to view their accounts
 
   Examples:
     | email           | password |
-    | no@accounts.com | work     |
+    | no@accounts.com | no       |
 
   Scenario Outline: As a customer I should be able to view my accounts
     Given I am on the login page

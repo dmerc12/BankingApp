@@ -3,7 +3,7 @@ from behave import when, then
 # when
 @when(u'I click the View Accounts button')
 def step_impl(context):
-    raise NotImplementedError(u'STEP: When I click the View Accounts button')
+    context.account_poms.view_accounts_button().click()
 
 
 # then

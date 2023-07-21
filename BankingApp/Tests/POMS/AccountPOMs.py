@@ -19,7 +19,7 @@ class AccountPOMs:
         element: WebElement = self.driver.find_element(By.ID, "createAccountNavigation")
         return element
 
-    def view_accounts_navigation(self):
+    def view_accounts_button(self):
         element: WebElement = self.driver.find_element(By.ID, "viewAccountsNavigation")
         return element
 

@@ -2,20 +2,20 @@ from behave import when, then
 # when
 @when(u'I enter {password} in the update password input')
 def step_impl(context, password: str):
-    raise NotImplementedError(u'STEP: When I enter this is too long and so it will fail and bring a desired error in the update password input')
+    context.customer_poms.change_password_input().send_keys(password)
 
 
 @when(u'I enter {confirmation_password} in the update password confirmation input')
 def step_impl(context, confirmation_password: str):
-    raise NotImplementedError(u'STEP: When I enter this is fine in the update password confirmation input')
+    context.customer_poms.change_password_confirmation_input().send_keys(confirmation_password)
 
 
 @when(u'I click the Change Password button')
 def step_impl(context):
-    raise NotImplementedError(u'STEP: When I click the Change Password button')
+    context.customer_poms.change_password_button().click()
 
 
 # then
 @then(u'I should be on a page with the title Changing Your Password')
 def step_impl(context):
-    raise NotImplementedError(u'STEP: Then I should be on a page with the title Changing Your Password')
+    assert context.driver.title == "Changing Your Password"
