@@ -11,5 +11,5 @@ Feature: Customers need to be able to leave the bank
     Then  I should be on a page with the title Login
 
     Examples:
-      | email          | password |
-      | test@email.com | work     |
+      | email             | password |
+      | updated@email.com | test     |

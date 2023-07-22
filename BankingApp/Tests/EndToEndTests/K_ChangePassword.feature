@@ -14,10 +14,10 @@ Feature: Customers need to be able to change their passwords
 
     Examples:
       | email          | password | updated_password                                               | confirmation_password                                          |
-      | test@email.com | work     | this is too long and so it will fail and bring a desired error | this is fine                                                   |
-      | test@email.com | work     | this is fine                                                   | this is too long and so it will fail and bring a desired error |
-      | test@email.com | work     | this is fine                                                   | this doesn't match                                             |
-      | test@email.com | work     | work                                                           | work                                                           |
+      | updated@email.com | work     | this is too long and so it will fail and bring a desired error | this is fine                                                   |
+      | updated@email.com | work     | this is fine                                                   | this is too long and so it will fail and bring a desired error |
+      | updated@email.com | work     | this is fine                                                   | this doesn't match                                             |
+      | updated@email.com | work     | work                                                           | work                                                           |
 
 
   Scenario Outline: As a customer, I should be able to change my password
@@ -33,6 +33,6 @@ Feature: Customers need to be able to change their passwords
     Then  I should be on a page with the title Managing Your Current Information
 
     Examples:
-      | email          | password | updated_password | confirmation_password |
-      | test@email.com | work     | test             | test                  |
+      | email             | password | updated_password | confirmation_password |
+      | updated@email.com | work     | test             | test                  |
 
