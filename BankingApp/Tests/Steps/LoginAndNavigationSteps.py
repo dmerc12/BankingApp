@@ -1,4 +1,10 @@
-from behave import when, then
+from behave import given, when, then
+
+# given
+@given(u'I am on the login page')
+def step_impl(context):
+    context.driver.get('http://127.0.0.1:5000/login')
+
 
 # when
 @when(u'I enter {email} in the login email input')
@@ -40,58 +46,10 @@ def step_impl(context):
     context.customer_poms.login_tab().click()
 
 
-@when(u'I click the Create Account navigation button')
+@when(u'I click the Manage Information navigation button')
 def step_impl(context):
-    context.account_poms.create_account_navigation().click()
+    context.customer_poms.manage_customer_navigation().click()
 
-
-@when(u'I click the View Accounts navigation button')
-def step_impl(context):
-    context.account_poms.view_accounts_navigation().click()
-
-
-@when(u'I click the View Transactions button')
-def step_impl(context):
-    context.account_poms.view_transactions_button().click()
-
-
-@when(u'I click the Back button')
-def step_impl(context):
-    context.account_poms.view_transactions_back_button().click()
-
-@when(u'I click the Deposit navigation button')
-def step_impl(context):
-    context.account_poms.deposit_navigation().click()
-
-
-@when(u'I click the Withdraw navigation button')
-def step_impl(context):
-    context.account_poms.withdraw_navigation().click()
-
-
-@when(u'I click the Transfer navigation button')
-def step_impl(context):
-    context.account_poms.transfer_navigation().click()
-
-
-@when(u'I click the Delete Account navigation button')
-def step_impl(context):
-    context.account_poms.delete_account_navigation().click()
-
-
-@when(u'I click the Update Information navigation button')
-def step_impl(context):
-    context.customer_poms.update_customer_navigation().click()
-
-
-@when(u'I click the Delete Information navigation button')
-def step_impl(context):
-    context.customer_poms.delete_customer_navigation().click()
-
-
-@when(u'I click the Change Password navigation button')
-def step_impl(context):
-    context.customer_poms.change_password_navigation().click()
 
 # then
 @then(u'I should be on a page with the title Managing Your Accounts')
@@ -104,6 +62,7 @@ def step_impl(context):
     assert context.driver.title == "Home Dashboard"
 
 
-@then(u'I should be on a page with the title Managing Your Information')
+@then(u'I should be on a page with the title Managing Your Current Information')
 def step_impl(context):
     assert context.driver.title == "Managing Your Current Information"
+

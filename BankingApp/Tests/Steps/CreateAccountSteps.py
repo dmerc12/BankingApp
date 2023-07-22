@@ -6,6 +6,11 @@ def step_impl(context):
     context.account_poms.manage_accounts_navigation().click()
 
 
+@when(u'I click the Create Account navigation button')
+def step_impl(context):
+    context.account_poms.create_account_navigation().click()
+
+
 @when(u'I enter {amount} in the starting amount')
 def step_impl(context, amount: float):
     context.account_poms.create_account_amount_input().send_keys(amount)

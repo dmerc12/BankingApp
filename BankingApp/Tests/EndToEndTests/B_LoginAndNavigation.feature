@@ -49,7 +49,7 @@ Feature: Customers need to manage their relationships with banks and subsequent 
     When  I enter <password> in the login password input
     When  I click the Login button
     When  I click the Manage Customer Information tab
-    Then  I should be on a page with the title Managing Your Information
+    Then  I should be on a page with the title Managing Your Current Information
 
     Examples:
       | email          | password |

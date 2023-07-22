@@ -1,5 +1,11 @@
 from behave import when, then
+
 # when
+@when(u'I click the Change Password navigation button')
+def step_impl(context):
+    context.customer_poms.change_password_navigation().click()
+
+
 @when(u'I enter {password} in the update password input')
 def step_impl(context, password: str):
     context.customer_poms.change_password_input().send_keys(password)
