@@ -8,6 +8,7 @@ from BankingApp.Entities.Transaction import Transaction
 from BankingApp.SAL.BankAccountSAL.BankAccountSALImplementation import BankAccountSALImplementation
 from BankingApp.SAL.TransactionSAL.TransactionSALInterface import TransactionSALInterface
 
+transaction_dao = TransactionDALImplementation()
 account_dao = BankAccountDALImplementation()
 account_sao = BankAccountSALImplementation(account_dao)
 

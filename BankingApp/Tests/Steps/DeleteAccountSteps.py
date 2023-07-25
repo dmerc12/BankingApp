@@ -1,5 +1,11 @@
 from behave import when
 
+# when
+@when(u'I click the Delete Account navigation button')
+def step_impl(context):
+    context.account_poms.delete_account_navigation().click()
+
+
 @when(u'I select {account} from the delete account dropdown')
 def step_impl(context, account: int):
     context.account_poms.delete_account_dropdown().send_keys(account)

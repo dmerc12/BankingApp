@@ -1,9 +1,9 @@
 from behave import when, then
 
 # when
-@when(u'I click the Manage Information navigation button')
+@when(u'I click the Update Information navigation button')
 def step_impl(context):
-    context.customer_poms.manage_customer_navigation().click()
+    context.customer_poms.update_customer_navigation().click()
 
 
 @when(u'I click the Update Your Information navigation button')
@@ -66,8 +66,3 @@ def step_impl(context):
 @then(u'I should be on a page with the title Updating Your Information')
 def step_impl(context):
     assert context.driver.title == "Updating Your Information"
-
-
-@then(u'I should be on a page with the title Managing Your Current Information')
-def step_impl(context):
-    assert context.driver.title == "Managing Your Current Information"

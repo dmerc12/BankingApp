@@ -2,10 +2,6 @@ from behave import given, when, then
 
 
 # given
-@given(u'I am on the login page')
-def step_impl(context):
-    context.driver.get('http://127.0.0.1:5000/login')
-
 @given(u'I am on the register page')
 def step_impl(context):
     context.driver.get('http://127.0.0.1:5000/register')

@@ -1,6 +1,11 @@
 from behave import when, then
 
 # when
+@when(u'I click the Transfer navigation button')
+def step_impl(context):
+    context.account_poms.transfer_navigation().click()
+
+
 @when(u'I select {withdraw_account} from the transfer withdraw account dropdown')
 def step_impl(context, withdraw_account: int):
     context.account_poms.transfer_withdraw_account_dropdown().send_keys(withdraw_account)

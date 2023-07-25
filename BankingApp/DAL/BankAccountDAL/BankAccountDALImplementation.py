@@ -4,7 +4,6 @@ from typing import List
 from BankingApp.DAL.BankAccountDAL.BankAccountDALInterface import BankAccountDALInterface
 from BankingApp.DAL.Database.config import Connect
 from BankingApp.Entities.BankAccount import BankAccount
-from BankingApp.Entities.FailedTransaction import FailedTransaction
 
 
 class BankAccountDALImplementation(BankAccountDALInterface):
