@@ -131,7 +131,7 @@ def test_service_create_customer_phone_number_too_long():
         customer_sao.service_create_customer(test_customer, successful_confirmation)
         assert False
     except FailedTransaction as error:
-        assert str(error) == "The phone number field cannot exceed 11 characters, please try again!"
+        assert str(error) == "The phone number field cannot exceed 12 characters, please try again!"
 
 def test_service_create_customer_phone_number_empty():
     try:
@@ -334,7 +334,7 @@ def test_service_update_customer_phone_number_too_long():
         customer_sao.service_update_customer(test_customer, successful_customer.customer_id)
         assert False
     except FailedTransaction as error:
-        assert str(error) == "The phone number field cannot exceed 11 characters, please try again!"
+        assert str(error) == "The phone number field cannot exceed 12 characters, please try again!"
 
 def test_service_update_customer_address_not_string():
     try:
