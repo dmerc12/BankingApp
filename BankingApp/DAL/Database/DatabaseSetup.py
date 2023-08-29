@@ -35,6 +35,10 @@ def database_setup():
                      "'123-456-7980', '123 That St, City, OK 73093');".format(hashed_password3)
     cursor.execute(test_customer3, [hashed_password3])
 
+    test_customer4 = "insert into banking.customers values (-4, 'test', 'login', 'login', 'login@test.com', " \
+                     "'123-4556-7890', '123 Test St, Test, OK 73093');"
+    cursor.execute(test_customer4)
+
     # bank account table setup and populate test accounts
     bank_account_table = "create table banking.bank_accounts(account_id serial primary key, customer_id int, " \
                          "balance float check (0 <= balance), constraint customerfk foreign key (customer_id) " \

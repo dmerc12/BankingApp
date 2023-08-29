@@ -24,7 +24,7 @@ def test_get_customer_by_email_success():
     assert result is not None
 
 def test_login_success():
-    result = customer_dao.login("test@email.com", "$2b$12$jCDkQynIqnuKA8CkkeBNYehVDCmaGkd3a97RuqDfIMInUYzC4E7QO")
+    result = customer_dao.login("login@test.com", "login")
     assert result is not None
 
 def test_update_customer_success():
