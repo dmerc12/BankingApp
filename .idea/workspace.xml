@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="e8a38a19-ae71-48f4-be62-9b6770660768" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/BankingApp/Tests/Environment.py" beforeDir="false" afterPath="$PROJECT_DIR$/BankingApp/Tests/Environment.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankingApp/Tests/UnitTests/DALTests/CustomerDALTests.py" beforeDir="false" afterPath="$PROJECT_DIR$/BankingApp/Tests/UnitTests/DALTests/CustomerDALTests.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankingApp/chromedriver.exe" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2SJt5MAw7s1h7bVSNfNwbyN1W5q" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RunManager" selected="Python tests.pytest in CustomerSALTests.py">
+    <configuration name="ResetDatabase" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="BankingApp" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+        <env name="DBNAME" value="postgres" />
+        <env name="HOST" value="localhost" />
+        <env name="PASSWORD" value="Mercer1282!" />
+        <env name="PORT" value="5432" />
+        <env name="USER" value="postgres" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/BankingApp/DAL/Database" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/BankingApp/DAL/Database/ResetDatabase.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="run" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="BankingApp" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+        <env name="DBNAME" value="postgres" />
+        <env name="HOST" value="localhost" />
+        <env name="PASSWORD" value="Mercer1282!" />
+        <env name="PORT" value="5432" />
+        <env name="USER" value="postgres" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/run.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="pytest in BankAccountDALTests.py" type="tests" factoryName="py.test">
+      <module name="BankingApp" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+        <env name="DBNAME" value="postgres" />
+        <env name="HOST" value="localhost" />
+        <env name="PASSWORD" value="Mercer1282!" />
+        <env name="PORT" value="5432" />
+        <env name="USER" value="postgres" />
+      </envs>
+      <option name="SDK_HOME" value="C:\Users\Dylan\OneDrive\Desktop\personal projects\BankingApp\venv\Scripts\python.exe" />
+      <option name="SDK_NAME" value="Python 3.11 (BankingApp)" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_keywords" value="&quot;&quot;" />
+      <option name="_new_parameters" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/BankingApp/Tests/UnitTests/DALTests/BankAccountDALTests.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="pytest in BankAccountSALTests.py" type="tests" factoryName="py.test" nameIsGenerated="true">
+      <module name="BankingApp" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+        <env name="DBNAME" value="postgres" />
+        <env name="HOST" value="localhost" />
+        <env name="PASSWORD" value="Mercer1282!" />
+        <env name="PORT" value="5432" />
+        <env name="USER" value="postgres" />
+      </envs>
+      <option name="SDK_HOME" value="C:\Users\Dylan\OneDrive\Desktop\personal projects\BankingApp\venv\Scripts\python.exe" />
+      <option name="SDK_NAME" value="Python 3.11 (BankingApp)" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_keywords" value="&quot;&quot;" />
+      <option name="_new_parameters" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/BankingApp/Tests/UnitTests/SALTests/BankAccountSALTests.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="pytest in CustomerDALTests.py" type="tests" factoryName="py.test" nameIsGenerated="true">
+      <module name="BankingApp" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+        <env name="DBNAME" value="postgres" />
+        <env name="HOST" value="localhost" />
+        <env name="PASSWORD" value="Mercer1282!" />
+        <env name="PORT" value="5432" />
+        <env name="USER" value="postgres" />
+      </envs>
+      <option name="SDK_HOME" value="C:\Users\Dylan\OneDrive\Desktop\personal projects\BankingApp\venv\Scripts\python.exe" />
+      <option name="SDK_NAME" value="Python 3.11 (BankingApp)" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_keywords" value="&quot;&quot;" />
+      <option name="_new_parameters" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/BankingApp/Tests/UnitTests/DALTests/CustomerDALTests.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="pytest in CustomerSALTests.py" type="tests" factoryName="py.test" nameIsGenerated="true">
+      <module name="BankingApp" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+        <env name="DBNAME" value="postgres" />
+        <env name="HOST" value="localhost" />
+        <env name="PASSWORD" value="Mercer1282!" />
+        <env name="PORT" value="5432" />
+        <env name="USER" value="postgres" />
+      </envs>
+      <option name="SDK_HOME" value="C:\Users\Dylan\OneDrive\Desktop\personal projects\BankingApp\venv\Scripts\python.exe" />
+      <option name="SDK_NAME" value="Python 3.11 (BankingApp)" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_keywords" value="&quot;&quot;" />
+      <option name="_new_parameters" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/BankingApp/Tests/UnitTests/SALTests/CustomerSALTests.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="pytest in SessionDALTests.py" type="tests" factoryName="py.test" nameIsGenerated="true">
+      <module name="BankingApp" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+        <env name="DBNAME" value="postgres" />
+        <env name="HOST" value="localhost" />
+        <env name="PASSWORD" value="Mercer1282!" />
+        <env name="PORT" value="5432" />
+        <env name="USER" value="postgres" />
+      </envs>
+      <option name="SDK_HOME" value="C:\Users\Dylan\OneDrive\Desktop\personal projects\BankingApp\venv\Scripts\python.exe" />
+      <option name="SDK_NAME" value="Python 3.11 (BankingApp)" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_keywords" value="&quot;&quot;" />
+      <option name="_new_parameters" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/BankingApp/Tests/UnitTests/DALTests/SessionDALTests.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="pytest in SessionSALTests.py" type="tests" factoryName="py.test" nameIsGenerated="true">
+      <module name="BankingApp" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+        <env name="DBNAME" value="postgres" />
+        <env name="HOST" value="localhost" />
+        <env name="PASSWORD" value="Mercer1282!" />
+        <env name="PORT" value="5432" />
+        <env name="USER" value="postgres" />
+      </envs>
+      <option name="SDK_HOME" value="C:\Users\Dylan\OneDrive\Desktop\personal projects\BankingApp\venv\Scripts\python.exe" />
+      <option name="SDK_NAME" value="Python 3.11 (BankingApp)" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_keywords" value="&quot;&quot;" />
+      <option name="_new_parameters" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/BankingApp/Tests/UnitTests/SALTests/SessionSALTests.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="pytest in TransactionDALTests.py" type="tests" factoryName="py.test" nameIsGenerated="true">
+      <module name="BankingApp" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+        <env name="DBNAME" value="postgres" />
+        <env name="HOST" value="localhost" />
+        <env name="PASSWORD" value="Mercer1282!" />
+        <env name="PORT" value="5432" />
+        <env name="USER" value="postgres" />
+      </envs>
+      <option name="SDK_HOME" value="C:\Users\Dylan\OneDrive\Desktop\personal projects\BankingApp\venv\Scripts\python.exe" />
+      <option name="SDK_NAME" value="Python 3.11 (BankingApp)" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_keywords" value="&quot;&quot;" />
+      <option name="_new_parameters" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/BankingApp/Tests/UnitTests/DALTests/TransactionDALTests.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="pytest in TransactionSALTests.py" type="tests" factoryName="py.test" nameIsGenerated="true">
+      <module name="BankingApp" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+        <env name="DBNAME" value="postgres" />
+        <env name="HOST" value="localhost" />
+        <env name="PASSWORD" value="Mercer1282!" />
+        <env name="PORT" value="5432" />
+        <env name="USER" value="postgres" />
+      </envs>
+      <option name="SDK_HOME" value="C:\Users\Dylan\OneDrive\Desktop\personal projects\BankingApp\venv\Scripts\python.exe" />
+      <option name="SDK_NAME" value="Python 3.11 (BankingApp)" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_keywords" value="&quot;&quot;" />
+      <option name="_new_parameters" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/BankingApp/Tests/UnitTests/SALTests/TransactionSALTests.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Python.run" />
+      <item itemvalue="Python.ResetDatabase" />
+      <item itemvalue="Python tests.pytest in BankAccountDALTests.py" />
+      <item itemvalue="Python tests.pytest in CustomerDALTests.py" />
+      <item itemvalue="Python tests.pytest in SessionDALTests.py" />
+      <item itemvalue="Python tests.pytest in TransactionDALTests.py" />
+      <item itemvalue="Python tests.pytest in TransactionSALTests.py" />
+      <item itemvalue="Python tests.pytest in BankAccountSALTests.py" />
+      <item itemvalue="Python tests.pytest in CustomerSALTests.py" />
+      <item itemvalue="Python tests.pytest in SessionSALTests.py" />
+    </list>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="e8a38a19-ae71-48f4-be62-9b6770660768" name="Changes" comment="" />
+      <created>1688876327780</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1688876327780</updated>
+    </task>
+    <servers />
+  </component>
+</project>
