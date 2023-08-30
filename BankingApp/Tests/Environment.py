@@ -1,5 +1,5 @@
 from behave.runner import Context
-from selenium.webdriver.chrome.webdriver import WebDriver
+from selenium.webdriver.edge.webdriver import WebDriver
 
 from BankingApp.Tests.POMS.AccountPOMs import AccountPOMs
 from BankingApp.Tests.POMS.CustomerPOMs import CustomerPOMs

@@ -29,6 +29,10 @@ def reset_database():
                      "'123-456-7980', '123 That St, City, OK 73093');".format(hashed_password3)
     cursor.execute(test_customer3, [hashed_password3])
 
+    test_customer4 = "insert into banking.customers values (-4, 'test', 'login', 'login', 'login@test.com', " \
+                     "'123-4556-7890', '123 Test St, Test, OK 73093');"
+    cursor.execute(test_customer4)
+
     # reset bank account table and populate test bank accounts
     truncate_bank_account_table = "truncate table banking.bank_accounts restart identity cascade;"
     cursor.execute(truncate_bank_account_table)
