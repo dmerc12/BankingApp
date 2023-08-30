@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e8a38a19-ae71-48f4-be62-9b6770660768" name="Changes" comment="" />
+    <list default="true" id="e8a38a19-ae71-48f4-be62-9b6770660768" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/BankingApp/DAL/Database/TableSetup.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankingApp/DAL/BankAccountDAL/BankAccountDALImplementation.py" beforeDir="false" afterPath="$PROJECT_DIR$/BankingApp/DAL/BankAccountDAL/BankAccountDALImplementation.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankingApp/DAL/Database/TableSetup.sql" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -35,7 +39,33 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="RunManager" selected="Python tests.pytest in CustomerSALTests.py">
+  <component name="RunManager" selected="Python.TableSetup">
+    <configuration name="DropDatabase" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="BankingApp" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+        <env name="DBNAME" value="postgres" />
+        <env name="HOST" value="localhost" />
+        <env name="PASSWORD" value="Mercer1282!" />
+        <env name="PORT" value="5432" />
+        <env name="USER" value="postgres" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/BankingApp/DAL/Database" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/BankingApp/DAL/Database/DropDatabase.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="ResetDatabase" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="BankingApp" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -54,6 +84,32 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/BankingApp/DAL/Database/ResetDatabase.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TableSetup" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="BankingApp" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+        <env name="DBNAME" value="postgres" />
+        <env name="HOST" value="localhost" />
+        <env name="PASSWORD" value="Mercer1282!" />
+        <env name="PORT" value="5432" />
+        <env name="USER" value="postgres" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/BankingApp/DAL/Database" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/BankingApp/DAL/Database/TableSetup.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -291,6 +347,8 @@
     <list>
       <item itemvalue="Python.run" />
       <item itemvalue="Python.ResetDatabase" />
+      <item itemvalue="Python.DropDatabase" />
+      <item itemvalue="Python.TableSetup" />
       <item itemvalue="Python tests.pytest in BankAccountDALTests.py" />
       <item itemvalue="Python tests.pytest in CustomerDALTests.py" />
       <item itemvalue="Python tests.pytest in SessionDALTests.py" />

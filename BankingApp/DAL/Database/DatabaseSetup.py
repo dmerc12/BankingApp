@@ -41,8 +41,8 @@ def database_setup():
 
     # bank account table setup and populate test accounts
     bank_account_table = "create table banking.bank_accounts(account_id serial primary key, customer_id int, " \
-                         "balance float check (0 <= balance), constraint customerfk foreign key (customer_id) " \
-                         "references Banking.customers(customer_id));"
+                         "balance float check (0 <= balance), constraint fk_customer_id foreign key (customer_id) " \
+                         "references banking.customers (customer_id) on delete cascade);"
     cursor.execute(bank_account_table)
 
     test_account1 = "insert into banking.bank_accounts values (-1, -1, 1.00);"
@@ -60,7 +60,8 @@ def database_setup():
     # transaction table setup and populate test transaction
     transaction_table = "create table banking.transactions(transaction_id serial primary key, time_and_date " \
                         "varchar(26), transaction_type varchar(16), account_id int, amount float, constraint " \
-                        "accountfk foreign key (account_id) references Banking.bank_accounts(account_id));"
+                        "fk_account_id foreign key (account_id) references banking.bank_accounts (account_id) on " \
+                        "delete cascade);"
     cursor.execute(transaction_table)
 
     test_transaction = "insert into banking.transactions values (-1, 'that one time', 'deposit', -1, 1.00);"
@@ -69,7 +70,7 @@ def database_setup():
     # session table setup and populate test session
     session_table = "create table banking.sessions(session_id serial primary key, customer_id int, expire_date_time " \
                     "varchar(26), constraint customerfk foreign key (customer_id) " \
-                    "references Banking.customers(customer_id));"
+                    "references Banking.customers(customer_id) on delete cascade);"
     cursor.execute(session_table)
 
     test_session1 = f"insert into banking.sessions values (-1, -1, " \
