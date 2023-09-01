@@ -38,6 +38,12 @@ class CustomerSALImplementation(CustomerSALInterface):
         elif len(customer.password) == 0:
             logging.warning("SAL method create customer, password left empty")
             raise FailedTransaction("The password field cannot be left  empty, please try again!")
+        elif type(password_confirmation) != str:
+            logging.warning("SAL method create customer, confirmation password not a string")
+            raise FailedTransaction("The confirmation password field must be a string, please try again!")
+        elif len(password_confirmation) == 0:
+            logging.warning("SAL method create customer, confirmation password empty")
+            raise FailedTransaction("The confirmation password field cannot be left empty, please try again!")
         elif type(customer.email) != str:
             logging.warning("SAL method crete customer, email not a string")
             raise FailedTransaction("The email field must be a string, please try again!")

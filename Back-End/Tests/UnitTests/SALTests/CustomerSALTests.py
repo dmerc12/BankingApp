@@ -84,6 +84,24 @@ def test_service_create_customer_password_empty():
     except FailedTransaction as error:
         assert str(error) == "The password field cannot be left  empty, please try again!"
 
+def test_service_create_customer_confirmation_password_empty():
+    try:
+        test_customer = Customer(0, "first", "last", "password", "test@email.com", "11234567890",
+                                 "123 First Street, City, State, ZIP")
+        customer_sao.service_create_customer(test_customer, "")
+        assert False
+    except FailedTransaction as error:
+        assert str(error) == "The confirmation password field cannot be left empty, please try again!"
+
+def test_service_create_customer_confirmation_password_not_string():
+    try:
+        test_customer = Customer(0, "first", "last", "test", "test@email.com", "11234567890",
+                                 "123 First Street, City, State, ZIP")
+        customer_sao.service_create_customer(test_customer, 6)
+        assert False
+    except FailedTransaction as error:
+        assert str(error) == "The confirmation password field must be a string, please try again!"
+
 def test_service_create_customer_email_not_string():
     try:
         test_customer = Customer(0, "first", "last", "password", 0, "11234567890",
