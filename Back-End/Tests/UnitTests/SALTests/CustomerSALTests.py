@@ -285,7 +285,7 @@ def test_service_update_customer_first_name_not_string():
 
 def test_service_update_customer_first_name_empty():
     try:
-        test_customer = Customer(successful_customer.customer_id, "first", "", "password", "test@email.com",
+        test_customer = Customer(successful_customer.customer_id, "", "last", "password", "test@email.com",
                                  "11234567890", "123 First Street, City, State, ZIP")
         customer_sao.service_update_customer(test_customer, successful_customer.customer_id)
         assert False
@@ -450,12 +450,43 @@ def test_service_change_password_password_new_password_not_string():
     except FailedTransaction as error:
         assert str(error) == "The new password field must be a string, please try again!"
 
+def test_service_change_password_password_new_password_empty():
+    try:
+        customer_sao.service_change_password(successful_customer.customer_id, "", "new")
+        assert False
+    except FailedTransaction as error:
+        assert str(error) == "The password field cannot be left empty, please try again!"
+
+def test_service_change_password_password_new_password_too_long():
+    try:
+        customer_sao.service_change_password(successful_customer.customer_id, "this is too long and so it should "
+                                                                              "raise the desired error message", "new")
+        assert False
+    except FailedTransaction as error:
+        assert str(error) == "The password field cannot exceed 36 characters, please try again!"
+
 def test_service_change_password_confirmation_password_not_string():
     try:
         customer_sao.service_change_password(successful_customer.customer_id, "new", -5000000)
         assert False
     except FailedTransaction as error:
         assert str(error) == "The confirmation password field must be a string, please try again!"
+
+def test_service_change_password_password_confirmation_password_empty():
+    try:
+        customer_sao.service_change_password(successful_customer.customer_id, "new", "")
+        assert False
+    except FailedTransaction as error:
+        assert str(error) == "The confirmation password cannot be left empty, please try again!"
+
+def test_service_change_password_password_confirmation_password_too_long():
+    try:
+        customer_sao.service_change_password(successful_customer.customer_id, "new", "this is too long and so it "
+                                                                                     "should raise the desired error "
+                                                                                     "message")
+        assert False
+    except FailedTransaction as error:
+        assert str(error) == "The confirmation password field cannot exceed 36 characters, please try again!"
 
 def test_service_change_password_customer_id_not_integer():
     try:
