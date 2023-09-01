@@ -3,6 +3,12 @@ import os
 from flask import Flask
 from flask_cors import CORS
 
+from API.AccountRoutes.CreateAccountBlueprint import create_account_route
+from API.AccountRoutes.DeleteAccountBlueprint import delete_account_route
+from API.AccountRoutes.DepositBlueprint import deposit_route
+from API.AccountRoutes.GetAllAccountsBlueprint import get_all_accounts_route
+from API.AccountRoutes.TransferBlueprint import transfer_route
+from API.AccountRoutes.WithdrawBlueprint import withdraw_route
 from API.CustomerRoutes.ChangePasswordBlueprint import change_password_route
 from API.CustomerRoutes.DeleteCustomerBlueprint import delete_customer_route
 from API.CustomerRoutes.GetCustomerBlueprint import get_customer_route
@@ -37,5 +43,11 @@ def create_back_end_api(config):
     app.register_blueprint(get_customer_route)
     app.register_blueprint(change_password_route)
     app.register_blueprint(delete_customer_route)
+    app.register_blueprint(create_account_route)
+    app.register_blueprint(deposit_route)
+    app.register_blueprint(withdraw_route)
+    app.register_blueprint(get_all_accounts_route)
+    app.register_blueprint(transfer_route)
+    app.register_blueprint(delete_account_route)
 
     return app

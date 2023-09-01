@@ -2,11 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bb6f7586-e331-45b8-9ec0-8cbe3f26c677" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Back-End/API/CustomerRoutes/DeleteCustomerBlueprint.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Back-End/API/AccountRoutes/CreateAccountBlueprint.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Back-End/API/AccountRoutes/DeleteAccountBlueprint.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Back-End/API/AccountRoutes/DepositBlueprint.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Back-End/API/AccountRoutes/GetAllAccountsBlueprint.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Back-End/API/AccountRoutes/TransferBlueprint.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Back-End/API/AccountRoutes/WithdrawBlueprint.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Back-End/API/TransactionRoutes/GetAllTransactionsBlueprint.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Back-End/API/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/API/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/SAL/CustomerSAL/CustomerSALImplementation.py" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/SAL/CustomerSAL/CustomerSALImplementation.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/Tests/UnitTests/SALTests/CustomerSALTests.py" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/Tests/UnitTests/SALTests/CustomerSALTests.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
