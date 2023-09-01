@@ -84,6 +84,16 @@ def test_service_create_customer_password_empty():
     except FailedTransaction as error:
         assert str(error) == "The password field cannot be left  empty, please try again!"
 
+def test_service_create_customer_password_too_long():
+    try:
+        test_customer = Customer(0, "first", "last", "this is much too long and so it should fail and get the "
+                                 "desired error message", "test@email.com", "11234567890",
+                                 "123 First Street, City, State, ZIP")
+        customer_sao.service_create_customer(test_customer, successful_confirmation)
+        assert False
+    except FailedTransaction as error:
+        assert str(error) == "The password field cannot exceed 36 characters, please try again!"
+
 def test_service_create_customer_confirmation_password_empty():
     try:
         test_customer = Customer(0, "first", "last", "password", "test@email.com", "11234567890",
@@ -92,6 +102,15 @@ def test_service_create_customer_confirmation_password_empty():
         assert False
     except FailedTransaction as error:
         assert str(error) == "The confirmation password field cannot be left empty, please try again!"
+
+def test_service_create_customer_confirmation_password_too_long():
+    try:
+        test_customer = Customer(0, "first", "last", "pass", "test@email.com", "11234567890",
+                                 "123 First Street, City, State, ZIP")
+        customer_sao.service_create_customer(test_customer, "this is much too long and should raise the desired error")
+        assert False
+    except FailedTransaction as error:
+        assert str(error) == "The confirmation password field cannot exceed 36 characters, please try again!"
 
 def test_service_create_customer_confirmation_password_not_string():
     try:

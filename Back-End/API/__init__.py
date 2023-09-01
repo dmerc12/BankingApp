@@ -4,6 +4,7 @@ from flask import Flask
 from flask_cors import CORS
 
 from API.CustomerRoutes.ChangePasswordBlueprint import change_password_route
+from API.CustomerRoutes.DeleteCustomerBlueprint import delete_customer_route
 from API.CustomerRoutes.GetCustomerBlueprint import get_customer_route
 from API.CustomerRoutes.LoginBlueprint import login_route
 from API.CustomerRoutes.LogoutBlueprint import logout_route
@@ -35,5 +36,6 @@ def create_back_end_api(config):
     app.register_blueprint(update_customer_route)
     app.register_blueprint(get_customer_route)
     app.register_blueprint(change_password_route)
+    app.register_blueprint(delete_customer_route)
 
     return app
