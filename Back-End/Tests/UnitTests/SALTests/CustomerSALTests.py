@@ -283,6 +283,15 @@ def test_service_update_customer_first_name_not_string():
     except FailedTransaction as error:
         assert str(error) == "The first name field must be a string, please try again!"
 
+def test_service_update_customer_first_name_empty():
+    try:
+        test_customer = Customer(successful_customer.customer_id, "first", "", "password", "test@email.com",
+                                 "11234567890", "123 First Street, City, State, ZIP")
+        customer_sao.service_update_customer(test_customer, successful_customer.customer_id)
+        assert False
+    except FailedTransaction as error:
+        assert str(error) == "The first name field cannot be empty, please try again!"
+
 def test_service_update_customer_first_name_too_long():
     try:
         test_customer = Customer(successful_customer.customer_id,
@@ -314,6 +323,18 @@ def test_service_update_customer_last_name_too_long():
     except FailedTransaction as error:
         assert str(error) == "The last name field cannot exceed 36 characters, please try again!"
 
+def test_service_update_customer_last_name_empty():
+    try:
+        test_customer = Customer(successful_customer.customer_id, "first",
+                                 ""
+                                 , "password", "test@email.com", "11234567890",
+                                 "123 First Street, City, State, ZIP")
+        customer_sao.service_update_customer(test_customer, successful_customer.customer_id)
+        assert False
+    except FailedTransaction as error:
+        assert str(error) == "The last name field cannot be empty, please try again!"
+
+
 def test_service_update_customer_email_not_string():
     try:
         test_customer = Customer(successful_customer.customer_id, "first", "last", "password", 0,
@@ -322,6 +343,16 @@ def test_service_update_customer_email_not_string():
         assert False
     except FailedTransaction as error:
         assert str(error) == "The email field must be a string, please try again!"
+
+def test_service_update_customer_email_empty():
+    try:
+        test_customer = Customer(successful_customer.customer_id, "first", "last", "password",
+                                 "",
+                                 "11234567890", "123 First Street, City, State, ZIP")
+        customer_sao.service_update_customer(test_customer, successful_customer.customer_id)
+        assert False
+    except FailedTransaction as error:
+        assert str(error) == "The email field cannot be empty, please try again!"
 
 def test_service_update_customer_email_too_long():
     try:
@@ -342,6 +373,16 @@ def test_service_update_customer_phone_number_not_string():
     except FailedTransaction as error:
         assert str(error) == "The phone number field must be a string, please try again!"
 
+def test_service_update_customer_phone_number_empty():
+    try:
+        test_customer = Customer(successful_customer.customer_id, "first", "last", "password",
+                                 "test@email.com", "",
+                                 "123 First Street, City, State, ZIP")
+        customer_sao.service_update_customer(test_customer, successful_customer.customer_id)
+        assert False
+    except FailedTransaction as error:
+        assert str(error) == "The phone number field cannot be empty, please try again!"
+
 def test_service_update_customer_phone_number_too_long():
     try:
         test_customer = Customer(successful_customer.customer_id, "first", "last", "password",
@@ -360,6 +401,15 @@ def test_service_update_customer_address_not_string():
         assert False
     except FailedTransaction as error:
         assert str(error) == "The address field must be a string, please try again!"
+
+def test_service_update_customer_address_empty():
+    try:
+        test_customer = Customer(successful_customer.customer_id, "first", "last", "password",
+                                 "test@email.com", "11234567890", "")
+        customer_sao.service_update_customer(test_customer, successful_customer.customer_id)
+        assert False
+    except FailedTransaction as error:
+        assert str(error) == "The address field cannot be empty, please try again!"
 
 def test_service_update_customer_address_too_long():
     try:
