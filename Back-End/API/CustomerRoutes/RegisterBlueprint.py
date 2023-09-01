@@ -5,12 +5,12 @@ from Entities.Customer import Customer
 from Entities.FailedTransaction import FailedTransaction
 from SAL.CustomerSAL.CustomerSALImplementation import CustomerSALImplementation
 
-create_customer = Blueprint('create_customer', __name__)
+create_customer_route = Blueprint('create_customer_route', __name__)
 
 customer_dao = CustomerDALImplementation()
 customer_sao = CustomerSALImplementation(customer_dao)
 
-@create_customer.route("/register-now", methods=["POST"])
+@create_customer_route.route("/register-now", methods=["POST"])
 def register():
     try:
         customer_info = request.json
@@ -20,15 +20,10 @@ def register():
             }
             return jsonify(response), 400
         current_app.logger.info("Beginning API function create customer with data: " + str(customer_info))
-        street_address = customer_info["registerStreetAddress"]
-        city = customer_info["registerCity"]
-        state = customer_info["registerState"]
-        zip_code = customer_info["registerZipCode"]
-        full_address = f"{street_address}, {city}, {state} {zip_code}"
-        new_customer = Customer(0, customer_info["registerFirstName"], customer_info["registerLastName"],
-                                customer_info["registerPassword"], customer_info["registerEmail"],
-                                customer_info["registerPhoneNumber"], full_address)
-        password_confirmation = customer_info["registerPasswordConfirmation"]
+        new_customer = Customer(0, customer_info["firstName"], customer_info["lastName"],
+                                customer_info["password"], customer_info["email"],
+                                customer_info["phoneNumber"], customer_info["address"])
+        password_confirmation = customer_info["passwordConfirmation"]
         result = customer_sao.service_create_customer(new_customer, password_confirmation)
         result_dictionary = {
             "firstName": result.first_name,
