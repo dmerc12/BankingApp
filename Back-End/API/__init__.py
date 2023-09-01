@@ -4,6 +4,8 @@ from flask import Flask
 from flask_cors import CORS
 
 from API.CustomerRoutes.LoginBlueprint import login_route
+from API.CustomerRoutes.LogoutBlueprint import logout_route
+from API.CustomerRoutes.RegisterBlueprint import create_customer
 
 
 def create_back_end_api(config):
@@ -27,5 +29,7 @@ def create_back_end_api(config):
         app.logger.setLevel(log_level)
 
     app.register_blueprint(login_route)
+    app.register_blueprint(logout_route)
+    app.register_blueprint(create_customer)
 
     return app

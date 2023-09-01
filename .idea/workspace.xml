@@ -2,72 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bb6f7586-e331-45b8-9ec0-8cbe3f26c677" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/BankingApp.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/.idea/Back-End.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/API/AccountRoutes/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/API/CustomerRoutes/LoginBlueprint.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/API/CustomerRoutes/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/API/TransactionRoutes/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/API/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/DAL/BankAccountDAL/BankAccountDALImplementation.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/DAL/BankAccountDAL/BankAccountDALInterface.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/DAL/BankAccountDAL/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/DAL/CustomerDAL/CustomerDALImplementation.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/DAL/CustomerDAL/CustomerDALInterface.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/DAL/CustomerDAL/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/DAL/SessionDAL/SessionDALImplementation.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/DAL/SessionDAL/SessionDALInterface.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/DAL/SessionDAL/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/DAL/TransactionDAL/TransactionDALImplementation.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/DAL/TransactionDAL/TransactionDALInterface.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/DAL/TransactionDAL/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/DAL/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/Database/DatabaseSetup.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/Database/DropDatabase.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/Database/ResetDatabase.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/Database/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/Database/config.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/Entities/BankAccount.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/Entities/Customer.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/Entities/FailedTransaction.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/Entities/Session.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/Entities/Transaction.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/Entities/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/LocationData/StateCodes.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/LocationData/ZipCodes.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/LocationData/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/SAL/BankAccountSAL/BankAccountSALImplementation.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/SAL/BankAccountSAL/BankAccountSALInterface.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/SAL/BankAccountSAL/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/SAL/CustomerSAL/CustomerSALImplementation.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/SAL/CustomerSAL/CustomerSALInterface.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/SAL/CustomerSAL/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/SAL/SessionSAL/SessionSALImplementation.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/SAL/SessionSAL/SessionSALInterface.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/SAL/SessionSAL/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/SAL/TransactionSAL/TransactionSALImplementation.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/SAL/TransactionSAL/TransactionSALInterface.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/SAL/TransactionSAL/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/SAL/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/Tests/UnitTests/DALTests/BankAccountDALTests.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/Tests/UnitTests/DALTests/CustomerDALTests.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/Tests/UnitTests/DALTests/SessionDALTests.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/Tests/UnitTests/DALTests/TransactionDALTests.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/Tests/UnitTests/DALTests/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/Tests/UnitTests/SALTests/BankAccountSALTests.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/Tests/UnitTests/SALTests/CustomerSALTests.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/Tests/UnitTests/SALTests/SessionSALTests.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/Tests/UnitTests/SALTests/TransactionSALTests.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/Tests/UnitTests/SALTests/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/Tests/UnitTests/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/Tests/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/run.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Back-End/API/CustomerRoutes/LogoutBlueprint.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Back-End/API/CustomerRoutes/RegisterBlueprint.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BankingApp/LocationData/StateCodes.py" beforeDir="false" afterPath="$PROJECT_DIR$/BankingApp/LocationData/StateCodes.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Back-End/API/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/API/__init__.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
