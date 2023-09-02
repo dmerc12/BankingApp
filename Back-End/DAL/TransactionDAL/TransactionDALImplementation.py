@@ -41,8 +41,7 @@ class TransactionDALImplementation(TransactionDALInterface):
         transaction_list = []
         for transaction in transaction_records:
             transaction = Transaction(*transaction)
-            transaction_dictionary = transaction.convert_to_dictionary()
-            transaction_list.append(transaction_dictionary)
+            transaction_list.append(transaction)
         logging.info("Finishing DAL method get all transactions")
         return transaction_list
 
