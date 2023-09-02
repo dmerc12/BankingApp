@@ -8,6 +8,5 @@ class BankAccount:
     def convert_to_dictionary(self):
         return {
             "accountId": self.account_id,
-            "customerId": self.customer_id,
             "balance": self.balance
         }
