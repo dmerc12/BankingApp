@@ -35,7 +35,7 @@ def deposit_api():
         session_data.expire_date_time = new_expire_date_time
         session_dao.update_session(session_data)
         result_dictionary = result.convert_to_dictionary()
-        current_app.logger.info("Finishing API function deposit with result: " + str(result))
+        current_app.logger.info("Finishing API function deposit with result: " + str(result_dictionary))
         return jsonify(result_dictionary), 200
     except FailedTransaction as error:
         current_app.logger.error("Error with API function deposit with error: " + str(error))
