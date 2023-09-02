@@ -25,7 +25,7 @@ def create_back_end_api(config):
     log_level = logging.DEBUG
     for handler in app.logger.handlers:
         app.logger.removeHandler(handler)
-    log_directory = os.path.join("Back-End", "Logs")
+    log_directory = os.path.join("Logs")
     os.makedirs(log_directory, exist_ok=True)
     log_file = os.path.join(log_directory,
                             'BankingLogs.log')
