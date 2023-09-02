@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 
-from flask import Blueprint, jsonify, current_app
+from flask import Blueprint, jsonify, current_app, request
 
 from DAL.CustomerDAL.CustomerDALImplementation import CustomerDALImplementation
 from DAL.SessionDAL.SessionDALImplementation import SessionDALImplementation
@@ -15,9 +15,10 @@ customer_sao = CustomerSALImplementation(customer_dao)
 session_dao = SessionDALImplementation()
 session_sao = SessionSALImplementation(session_dao)
 
-@get_customer_route.route("/get/customer/<int:session_id>", methods=["GET"])
-def get_customer(session_id):
+@get_customer_route.route("/get/customer/now", methods=["PATCH"])
+def get_customer():
     try:
+        session_id = request.json.get("sessionId")
         current_app.logger.info("Beginning API function get customer with data: " + str(session_id))
         current_customer_id = session_sao.service_get_session(session_id).customer_id
         current_customer = customer_sao.service_get_customer_by_id(current_customer_id)
