@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 
-from flask import Blueprint, current_app, jsonify
+from flask import Blueprint, current_app, jsonify, request
 
 from DAL.BankAccountDAL.BankAccountDALImplementation import BankAccountDALImplementation
 from DAL.SessionDAL.SessionDALImplementation import SessionDALImplementation
@@ -15,9 +15,10 @@ account_sao = BankAccountSALImplementation(account_dao)
 session_dao = SessionDALImplementation()
 session_sao = SessionSALImplementation(session_dao)
 
-@get_all_accounts_route.route("/get/accounts/<int:session_id>", methods=["GET"])
-def get_all_accounts_api(session_id):
+@get_all_accounts_route.route("/get/accounts", methods=["PATCH"])
+def get_all_accounts_api():
     try:
+        session_id = request.json.get("sessionId")
         current_app.logger.info("Beginning API function get all accounts with data: " + str(session_id))
         session_data = session_sao.service_get_session(session_id)
         customer_id = session_data.customer_id

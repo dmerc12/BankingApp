@@ -20,7 +20,7 @@ account_sao = BankAccountSALImplementation(account_dao)
 transaction_dao = TransactionDALImplementation()
 transaction_sao = TransactionSALImplementation(transaction_dao)
 
-@create_account_route.route("/create/account", methods=["POST"])
+@create_account_route.route("/create/account/now", methods=["POST"])
 def create_account_api():
     try:
         session_id = request.json.get("sessionId")
@@ -29,7 +29,6 @@ def create_account_api():
         customer_id = session_data.customer_id
         current_app.logger.info("Beginning API function create new account with data: " + str(session_id)
                                 + ", and " + str(starting_balance))
-        starting_balance = float(starting_balance)
         new_account = BankAccount(0, customer_id, starting_balance)
         result = account_sao.service_create_account(new_account)
         account_creation_transaction = Transaction(0, str(datetime.now()), "Account Created",
@@ -44,7 +43,7 @@ def create_account_api():
         new_expire_date_time = datetime.now() + timedelta(minutes=15)
         session_data.expire_date_time = new_expire_date_time
         session_dao.update_session(session_data)
-        return jsonify(response), 200
+        return jsonify(response), 201
     except FailedTransaction as error:
         current_app.logger.error("Error with API function create new account with error: " + str(error))
         response = {

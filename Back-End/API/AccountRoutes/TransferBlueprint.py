@@ -20,7 +20,7 @@ transaction_sao = TransactionSALImplementation(transaction_dao)
 session_dao = SessionDALImplementation()
 session_sao = SessionSALImplementation(session_dao)
 
-@transfer_route.route("/transfer/now", methods=["PUT"])
+@transfer_route.route("/transfer", methods=["PUT"])
 def transfer_api():
     try:
         session_id = request.json.get("sessionId")
@@ -32,11 +32,9 @@ def transfer_api():
                                 str(transfer_amount))
         session_data = session_sao.service_get_session(session_id)
         withdraw_transaction = Transaction(0, str(datetime.now()), "Withdraw",
-                                           int(withdraw_account_id),
-                                           float(transfer_amount))
+                                           withdraw_account_id, transfer_amount)
         deposit_transaction = Transaction(0, str(datetime.now()), "Deposit",
-                                          int(deposit_account_id),
-                                          float(transfer_amount))
+                                          deposit_account_id, transfer_amount)
         result = account_sao.service_transfer(withdraw_account_id, deposit_account_id, transfer_amount)
         transaction_sao.service_create_transaction(withdraw_transaction)
         transaction_sao.service_create_transaction(deposit_transaction)
