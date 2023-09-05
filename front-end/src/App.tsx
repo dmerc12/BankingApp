@@ -1,5 +1,6 @@
 import { ToastContainer } from 'react-toastify';
 import './App.css';
+import 'react-toastify/dist/ReactToastify.css';
 import { Navbar } from './components/Navbar';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ViewTransactions } from './pages/ViewTransactions';
