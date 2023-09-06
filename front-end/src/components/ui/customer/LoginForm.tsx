@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { toast } from 'react-toastify';
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import {  useState } from "react";
 import { FaSpinner, FaSync } from 'react-icons/fa';
 import { AiOutlineExclamationCircle } from 'react-icons/ai';
 
@@ -15,7 +16,6 @@ export const LoginForm = () => {
 
     const navigate = useNavigate();
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const onSubmit = async (event: any) => {
         event.preventDefault();
         setFailedToFetch(false);
@@ -44,7 +44,6 @@ export const LoginForm = () => {
             } else {
                 throw new Error("Something went horribly wrong!")
             }
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
             if (error.message === "Failed to fetch") {
                 setFailedToFetch(true);
