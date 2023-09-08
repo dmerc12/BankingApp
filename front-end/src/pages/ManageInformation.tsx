@@ -15,7 +15,7 @@ export const ManageInformation = () => {
             navigate('/login');
             toast.info("Please login or register to gain access!", {
                 toastId: 'customId'
-            })
+            });
         }
     }, [navigate, sessionId]);
 

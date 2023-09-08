@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { toast } from 'react-toastify';
-import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import {  useState } from "react";
 import { FaSpinner, FaSync } from 'react-icons/fa';
 import { AiOutlineExclamationCircle } from 'react-icons/ai';
+import Cookies from "js-cookie";
 
 export const LoginForm = () => {
     const [loginForm, setLoginForm] = useState({
