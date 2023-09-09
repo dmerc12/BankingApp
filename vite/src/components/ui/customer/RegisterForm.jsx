@@ -138,56 +138,56 @@ export const RegisterForm = () => {
             ) : (
                 <form className="form" onSubmit={onSubmit}>
                     <div className="form-field">
-                        <label className="form-label" htmlFor="registerFirstName">First Name: </label>
-                        <input className="form-input" type="text"  id="registerFirstName" name="registerFirstName" value={registerForm.firstName} onChange={onChange}/>
+                        <label className="form-label" htmlFor="firstName">First Name: </label>
+                        <input className="form-input" type="text"  id="registerFirstName" name="firstName" value={registerForm.firstName} onChange={onChange}/>
                         <br />
                     </div>
 
                     <div className="form-field">
-                        <label className="form-label" htmlFor="registerLastName">Last Name: </label>
-                        <input className="form-input" type="text"  id="registerLastName" name="registerLastName" value={registerForm.lastName} onChange={onChange}/>
+                        <label className="form-label" htmlFor="lastName">Last Name: </label>
+                        <input className="form-input" type="text"  id="registerLastName" name="lastName" value={registerForm.lastName} onChange={onChange}/>
                         <br />
                     </div>
 
                     <div className="form-field">
-                        <label className="form-label" htmlFor="registerEmail">Email: </label>
-                        <input className="form-input" type="email"  id="registerEmail" name="registerEmail" value={registerForm.email} onChange={onChange}/>
+                        <label className="form-label" htmlFor="email">Email: </label>
+                        <input className="form-input" type="email"  id="registerEmail" name="email" value={registerForm.email} onChange={onChange}/>
                         <br />
                     </div>
 
                     <div className="form-field">
-                        <label className="form-label" htmlFor="registerPassword">Password: </label>
-                        <input className="form-input" type="password"  id="registerPassword" name="registerPassword" value={registerForm.password} onChange={onChange}/>
+                        <label className="form-label" htmlFor="password">Password: </label>
+                        <input className="form-input" type="password"  id="registerPassword" name="password" value={registerForm.password} onChange={onChange}/>
                         <br />
                     </div>
 
                     <div className="form-field">
-                        <label className="form-label" htmlFor="registerConfirmationPassword">Confirm Password: </label>
-                        <input className="form-input" type="password"  id="registerConfirmationPassword" name="registerConfirmationPassword" value={registerForm.confirmationPassword} onChange={onChange}/>
+                        <label className="form-label" htmlFor="passwordConfirmation">Confirm Password: </label>
+                        <input className="form-input" type="password"  id="registerConfirmationPassword" name="passwordConfirmation" value={registerForm.confirmationPassword} onChange={onChange}/>
                         <br />
                     </div>
 
                     <div className="form-field">
-                        <label className="form-label" htmlFor="registerPhoneNumber">Phone Number: </label>
-                        <input className="form-input" type="text"  id="registerPhoneNumber" name="registerPhoneNumber" value={registerForm.phoneNumber} onChange={onChange}/>
+                        <label className="form-label" htmlFor="phoneNumber">Phone Number: </label>
+                        <input className="form-input" type="text"  id="registerPhoneNumber" name="phoneNumber" value={registerForm.phoneNumber} onChange={onChange}/>
                         <br />
                     </div>
 
                     <div className="form-field">
-                        <label className="form-label" htmlFor="registerStreetAddress">Street Address: </label>
-                        <input className="form-input" type="text"  id="registerStreetAddress" name="registerStreetAddress" value={address.streetAddress} onChange={onChange}/>
+                        <label className="form-label" htmlFor="streetAddress">Street Address: </label>
+                        <input className="form-input" type="text"  id="registerStreetAddress" name="streetAddress" value={address.streetAddress} onChange={onChange}/>
                         <br />
                     </div>
 
                     <div className="form-field">
-                        <label className="form-label" htmlFor="registerCity">City: </label>
-                        <input className="form-input" type="text"  id="registerCity" name="registerCity" value={address.city} onChange={onChange}/>
+                        <label className="form-label" htmlFor="city">City: </label>
+                        <input className="form-input" type="text"  id="registerCity" name="city" value={address.city} onChange={onChange}/>
                         <br />
                     </div>
 
                     <div className="form-field">
-                        <label className="form-label" htmlFor="registerState">State: </label>
-                        <select className="form-input" name="registerState" id="registerState" value={address.state} onChange={onChange}>
+                        <label className="form-label" htmlFor="state">State: </label>
+                        <select className="form-input" name="state" id="registerState" value={address.state} onChange={onChange}>
                             {states.length > 0 && (
                                 states.map(state => (
                                     <option key={state.code} value={state.code}>{state.name}</option>
@@ -197,8 +197,8 @@ export const RegisterForm = () => {
                     </div>
 
                     <div className="form-field">
-                        <label className="form-label" htmlFor="registerZipCode">Zip Code: </label>
-                        <select className="form-input" name="registerZipCode" id="registerZipCode" value={address.zipCode} onChange={onChange}>
+                        <label className="form-label" htmlFor="zipCode">Zip Code: </label>
+                        <select className="form-input" name="zipCode" id="registerZipCode" value={address.zipCode} onChange={onChange}>
                             {zipCodes.length > 0 && (
                                 zipCodes.map((zipCode, index) => (
                                     <option key={index} value={zipCode}>{zipCode}</option>
