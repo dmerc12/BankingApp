@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { toast } from 'react-toastify';
 import { useNavigate } from "react-router-dom";
 import {  useState } from "react";
@@ -16,7 +15,7 @@ export const LoginForm = () => {
 
     const navigate = useNavigate();
 
-    const onSubmit = async (event: any) => {
+    const onSubmit = async (event) => {
         event.preventDefault();
         setFailedToFetch(false);
         setLoading(true);
@@ -24,10 +23,7 @@ export const LoginForm = () => {
             const response = await fetch('http://127.0.0.1:5000/login/now', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({
-                    "email": loginForm.email,
-                    "password": loginForm.password
-                })
+                body: JSON.stringify(loginForm)
             });
 
             const result = await response.json();
@@ -44,7 +40,7 @@ export const LoginForm = () => {
             } else {
                 throw new Error("Something went horribly wrong!")
             }
-        } catch (error: any) {
+        } catch (error) {
             if (error.message === "Failed to fetch") {
                 setFailedToFetch(true);
                 setLoading(false);
@@ -57,7 +53,7 @@ export const LoginForm = () => {
         } 
     };
 
-    const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const onChange = (event) => {
         const { name, value } = event.target;
         setLoginForm((prevLoginForm) => ({
             ...prevLoginForm,

@@ -1,16 +1,16 @@
-import React from 'react';
+import { PropTypes } from 'prop-types'
 
-interface ModalProps {
-    visible: boolean;
-    onClose: () => void;
-    children: React.ReactNode;
+Modal.propTypes = {
+    visible: PropTypes.bool.isRequired,
+    onClose: PropTypes.func.isRequired,
+    children: PropTypes.node.isRequired
 }
 
-export const Modal = ({ visible, onClose, children }: ModalProps) => {
+export const Modal = ({ visible, onClose, children }) => {
     if (!visible) return null;
 
-    const handleClose = (event: React.MouseEvent<HTMLDivElement>) => {
-        const targetElement = event.target as HTMLDivElement;
+    const handleClose = (event) => {
+        const targetElement = event.target;
         if (targetElement.id === "wrapper") onClose();
     }
 

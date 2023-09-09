@@ -1,13 +1,12 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { SetStateAction, useState } from "react";
+import { useState } from "react";
 
 export const useFetch = () => {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState<SetStateAction<string | null>>(null);
-    const [responseStatus, setResponseStatus] = useState<SetStateAction<number | null>>(null);
+    const [error, setError] = useState(null);
+    const [responseStatus, setResponseStatus] = useState(null);
 
-    const fetchData = async (url: string, method: string, body: any) => {
+    const fetchData = async (url, method, body) => {
         setLoading(true);
         try {
             const response = await fetch(url, {
@@ -25,7 +24,7 @@ export const useFetch = () => {
             } else {
                 setError(`${result.message}`);
             }
-        } catch (error: any) {
+        } catch (error) {
             setError(error);
         } finally {
             setLoading(false);
