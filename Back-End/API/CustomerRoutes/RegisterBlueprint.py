@@ -10,7 +10,7 @@ create_customer_route = Blueprint('create_customer_route', __name__)
 customer_dao = CustomerDALImplementation()
 customer_sao = CustomerSALImplementation(customer_dao)
 
-@create_customer_route.route("/register-now", methods=["POST"])
+@create_customer_route.route("/register/now", methods=["POST"])
 def register():
     try:
         customer_info = request.json

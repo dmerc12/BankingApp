@@ -23,10 +23,7 @@ export const LoginForm = () => {
             const response = await fetch('http://127.0.0.1:5000/login/now', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({
-                    "email": loginForm.email,
-                    "password": loginForm.password
-                })
+                body: JSON.stringify(loginForm)
             });
 
             const result = await response.json();
