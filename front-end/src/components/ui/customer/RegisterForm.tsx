@@ -5,6 +5,7 @@ import { states } from '../../../lib/States';
 import { zipCodes } from '../../../lib/ZipCodes';
 import { FaSpinner, FaSync } from 'react-icons/fa';
 import { AiOutlineExclamationCircle } from 'react-icons/ai';
+import { ZipCodeData } from '../../../lib/ZipCodes';
 
 export const RegisterForm = () => {
     const [registerForm, setRegisterForm] = useState({
@@ -34,7 +35,10 @@ export const RegisterForm = () => {
         const selectedStateCode = event.target.value;
         const selectedZipCodes = zipCodes[selectedStateCode] || [];
         setZipCodes(selectedZipCodes);
-        setAddress()
+        setAddress((previousAddress) => ({
+            ...previousAddress,
+            state: selectedStateCode
+        }))
     }
 
     return (
