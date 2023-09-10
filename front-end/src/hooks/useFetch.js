@@ -1,41 +1,26 @@
-import { useState } from "react";
-
 export const useFetch = () => {
-    const [data, setData] = useState(null);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
-    const [responseStatus, setResponseStatus] = useState(null);
 
-    const fetchData = async (url, method, body) => {
-        setLoading(true);
+    const fetchData = async (url, requestMethod, requestBody) => {
         try {
-            const response = await fetch(url, {
-                method: method,
+            const response = await fetch(`http://127.0.0.1:5000${url}`, {
+                method: requestMethod,
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({body})
+                body: JSON.stringify(requestBody)
             });
-
-            setResponseStatus(response.status)
-
+    
             const result = await response.json();
-
-            if (response.status === 200) {
-                setData(result);
-            } else {
-                setError(`${result.message}`);
+    
+            return {
+                data: result,
+                responseStatus: response.status
             }
         } catch (error) {
-            setError(error);
-        } finally {
-            setLoading(false);
+            throw new Error("Failed to fetch")
         }
+        
     };
 
     return {
-        data,
-        loading,
-        error,
-        responseStatus,
         fetchData
     };
 };
