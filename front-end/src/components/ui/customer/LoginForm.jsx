@@ -4,6 +4,7 @@ import {  useState } from "react";
 import { FaSpinner, FaSync } from 'react-icons/fa';
 import { AiOutlineExclamationCircle } from 'react-icons/ai';
 import Cookies from "js-cookie";
+import { useFetch } from '../../../hooks/useFetch';
 
 export const LoginForm = () => {
     const [loginForm, setLoginForm] = useState({
@@ -13,6 +14,8 @@ export const LoginForm = () => {
     const [loading, setLoading] = useState(false);
     const [failedToFetch, setFailedToFetch] = useState(false);
 
+    const { fetchData } = useFetch();
+
     const navigate = useNavigate();
 
     const onSubmit = async (event) => {
@@ -20,23 +23,17 @@ export const LoginForm = () => {
         setFailedToFetch(false);
         setLoading(true);
         try {
-            const response = await fetch('http://127.0.0.1:5000/login/now', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(loginForm)
-            });
+            const { responseStatus, data } = await fetchData('/login/now', 'POST', loginForm);
 
-            const result = await response.json();
-
-            if (response.status === 200) {
-                Cookies.set('sessionId', result.sessionId);
-                navigate('/home');
+            if (responseStatus === 200) {
+                Cookies.set('sessionId', data.sessionId);
+                navigate('home');
                 setLoading(false);
                 toast.success("Welcome!", {
-                    toastId: "customId"
+                    toastId: 'customId'
                 });
-            } else if (response.status === 400) {
-                throw new Error(`${result.message}`);
+            } else if (responseStatus === 400) {
+                throw new Error(`${data.message}`);
             } else {
                 throw new Error("Something went horribly wrong!")
             }
@@ -47,10 +44,10 @@ export const LoginForm = () => {
             } else {
                 setLoading(false);
                 toast.warn(error.message, {
-                    toastId: "customId"
+                    toastId: 'customId'
                 });
             }
-        } 
+        }
     };
 
     const onChange = (event) => {
