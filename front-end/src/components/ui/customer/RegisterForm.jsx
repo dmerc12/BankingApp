@@ -5,6 +5,7 @@ import { states } from '../../../lib/States';
 import { FaSpinner, FaSync } from 'react-icons/fa';
 import { AiOutlineExclamationCircle } from 'react-icons/ai';
 import { zipCodeData } from '../../../lib/ZipCodes';
+import { useFetch } from '../../../hooks/useFetch';
 
 export const RegisterForm = () => {
     const [registerForm, setRegisterForm] = useState({
@@ -25,6 +26,8 @@ export const RegisterForm = () => {
     const [zipCodes, setZipCodes] = useState([]);
     const [loading, setLoading] = useState(false);
     const [failedToFetch, setFailedToFetch] = useState(false);
+
+    const { fetchData } = useFetch();
 
     const navigate = useNavigate();
 
@@ -69,7 +72,7 @@ export const RegisterForm = () => {
                 ...prevAddress,
                 [name]: value
             }));
-            const fullAddress = `${value}, ${address.city}, ${address.state} ${address.zipCode}`;
+            const fullAddress = `${address.streetAddress}, ${address.city}, ${address.state} ${address.zipCode}`;
             setRegisterForm((prevRegisterForm) => ({
                 ...prevRegisterForm,
                 address: fullAddress
@@ -87,22 +90,25 @@ export const RegisterForm = () => {
         setLoading(true);
         setFailedToFetch(false);
         try {
-            const response = await fetch('http://127.0.0.1:5000/register/now', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(registerForm)
-            })
+            const { responseStatus, data } = await fetchData('/register/now', 'POST', registerForm);
+            
 
-            const result = await response.json();
+            // const response = await fetch('http://127.0.0.1:5000/register/now', {
+            //     method: 'POST',
+            //     headers: {'Content-Type': 'application/json'},
+            //     body: JSON.stringify(registerForm)
+            // })
 
-            if (response.status === 201) {
+            // const result = await response.json();
+
+            if (responseStatus === 201) {
                 navigate('/login');
                 setLoading(false);
                 toast.success("Profile successfully created, please log in!", {
                     toastId: 'customId'
                 });
-            } else if (response.status === 400) {
-                throw new Error(`${result.message}`);
+            } else if (responseStatus === 400) {
+                throw new Error(`${data.message}`);
             } else {
                 throw new Error("Something went horribly wrong!")
             }
