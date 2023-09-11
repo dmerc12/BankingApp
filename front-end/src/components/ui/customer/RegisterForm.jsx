@@ -61,11 +61,21 @@ export const RegisterForm = () => {
                 state: selectedStateCode,
                 zipCode: ''
             }));
+            const fullAddress = `${address.streetAddress}, ${address.city}, ${selectedStateCode} ${address.zipCode}`;
+            setRegisterForm((prevRegisterForm) => ({
+                ...prevRegisterForm,
+                address: fullAddress
+            }));
             setZipCodes(selectedZipCodes);
         } else if (name === 'zipCode') {
             setAddress((prevAddress) => ({
                 ...prevAddress,
                 zipCode: value
+            }));
+            const fullAddress = `${address.streetAddress}, ${address.city}, ${address.state} ${value}`;
+            setRegisterForm((prevRegisterForm) => ({
+                ...prevRegisterForm,
+                address: fullAddress
             }));
         } else if (name === 'streetAddress' || name === 'city') {
             setAddress((prevAddress) => ({
@@ -92,15 +102,6 @@ export const RegisterForm = () => {
         try {
             const { responseStatus, data } = await fetchData('/register/now', 'POST', registerForm);
             
-
-            // const response = await fetch('http://127.0.0.1:5000/register/now', {
-            //     method: 'POST',
-            //     headers: {'Content-Type': 'application/json'},
-            //     body: JSON.stringify(registerForm)
-            // })
-
-            // const result = await response.json();
-
             if (responseStatus === 201) {
                 navigate('/login');
                 setLoading(false);
