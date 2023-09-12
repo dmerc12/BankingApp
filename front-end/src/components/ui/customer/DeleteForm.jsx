@@ -1,4 +1,5 @@
 import { toast } from "react-toastify";
+import { Modal } from "../../Modal";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useFetch } from "../../../hooks/useFetch";
@@ -20,7 +21,19 @@ export const DeleteForm = () => {
 
     useEffect(() => {
         setDeleteForm({sessionId: sessionId});
-    }, [sessionId])
+    }, [sessionId]);
+
+    const showModal = () => {
+        setVisible(true);
+    };
+
+    const closeModal = () => {
+        setVisible(false);
+    };
+
+    const goBack = () => {
+        setFailedToFetch(false);
+    };
 
     const onSubmit = async (event) => {
         event.preventDefault();
@@ -64,7 +77,34 @@ export const DeleteForm = () => {
 
     return (
         <>
-            
+            <div className="component">
+                <button onClick={showModal} className="action-btn" id="deleteProfileModal">Delete Profile</button>
+            </div>
+
+            <Modal visible={visible} onClose={closeModal}>
+                {loading ? (
+                    <div className='loading-indicator'>
+                        <FaSpinner className='spinner' />
+                    </div>
+                ) : failedToFetch ? (
+                    <div className='failed-to-fetch'>
+                        <AiOutlineExclamationCircle className='warning-icon'/>
+                        <p>Cannot connect to the back end server.</p>
+                        <p>Please check your internet connection and try again.</p>
+                        <button className='retry-button' onClick={onSubmit}>
+                            <FaSync className='retry-icon'/> Retry
+                        </button>
+                        <button className='back-button' onClick={goBack}>Go Back</button>
+                    </div>
+                ) : (
+                    <form className="form" onSubmit={onSubmit}>
+                        <h1>Confirm Profile Deletion Below</h1>
+                        <p>Any accounts and associated information will also be deleted. Are you sure?</p>
+
+                        <button className="form-btn-1" type="submit" id="deleteProfileButton">Delete Profile</button>
+                    </form>
+                )}
+            </Modal>
         </>
     )
 }
