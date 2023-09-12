@@ -22,14 +22,14 @@ def update_customer():
         updated_info = request.json
         current_app.logger.info("Beginning API function update customer with data: " + str(updated_info))
         session_id = updated_info["sessionId"]
-        current_customer = customer_sao.service_get_customer_by_id(session_id)
+        current_session = session_sao.service_get_session(session_id)
+        current_customer = customer_sao.service_get_customer_by_id(current_session.customer_id)
         updated_customer = Customer(customer_id=current_customer.customer_id, first_name=updated_info["firstName"],
                                     last_name=updated_info["lastName"],
                                     email=updated_info["email"],
                                     phone_number=updated_info["phoneNumber"],
                                     address=updated_info["address"], password=current_customer.password)
         result = customer_sao.service_update_customer(updated_customer, current_customer.customer_id)
-        current_session = session_sao.service_get_session(session_id)
         updated_session_time = datetime.now() + timedelta(minutes=15)
         current_session.expire_date_time = updated_session_time
         session_dao.update_session(current_session)
