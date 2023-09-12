@@ -1,11 +1,4 @@
-import { PropTypes } from 'prop-types'
-
-Modal.propTypes = {
-    visible: PropTypes.bool.isRequired,
-    onClose: PropTypes.func.isRequired,
-    children: PropTypes.node.isRequired
-}
-
+// eslint-disable-next-line react/prop-types
 export const Modal = ({ visible, onClose, children }) => {
     if (!visible) return null;
 

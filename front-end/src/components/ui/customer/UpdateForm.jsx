@@ -36,11 +36,21 @@ export const UpdateForm = () => {
 
     const navigate = useNavigate();
 
+    const showModal = () => {
+        setVisible(true);
+    };
+
+    const closeModal = () => {
+        setVisible(false);
+    };
+
     const goBack = () => {
         if (customerPresent) {
             setFailedToFetchSubmission(false);
+            setFailedToFetchData(false);
         } else {
             setFailedToFetchSubmission(false);
+            setFailedToFetchData(false);
             setVisible(false);
         }
     };
@@ -109,7 +119,7 @@ export const UpdateForm = () => {
         setLoading(true);
         setFailedToFetchData(false);
         try {
-            const { responseStatus, data } = await fetchData('/get/customer/now', 'PATCH', sessionId);
+            const { responseStatus, data } = await fetchData('/get/customer/now', 'PATCH', {'sessionId': Number(sessionId)});
 
             if (responseStatus === 200) {
                 setUpdateForm({
@@ -178,13 +188,101 @@ export const UpdateForm = () => {
     };
     
     useEffect(() => {
-        fetchCustomer();
+        if (!customerPresent) {
+            fetchCustomer();
+        }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    }, [customerPresent])
 
     return (
         <>
-        
+            <div className='component'>
+                <button onClick={showModal} className='action-btn' id='updateInformationModal'>Update Information</button>
+            </div>
+
+            <Modal visible={visible} onClose={closeModal}>
+                {loading ? (
+                    <div className='loading-indicator'>
+                        <FaSpinner className='spinner' />
+                    </div>
+                ) : failedToFetchData ? (
+                    <div className='failed-to-fetch'>
+                        <AiOutlineExclamationCircle className='warning-icon'/>
+                        <p>Cannot connect to the back end server.</p>
+                        <p>Please check your internet connection and try again.</p>
+                        <button className='retry-button' onClick={fetchCustomer}>
+                            <FaSync className='retry-icon'/> Retry
+                        </button>
+                        <button className='back-button' onClick={goBack}>Go Back</button>
+                    </div>
+                ) : failedToFetchSubmission ? (
+                    <div className='failed-to-fetch'>
+                        <AiOutlineExclamationCircle className='warning-icon'/>
+                        <p>Cannot connect to the back end server.</p>
+                        <p>Please check your internet connection and try again.</p>
+                        <button className='retry-button' onClick={onSubmit}>
+                            <FaSync className='retry-icon'/> Retry
+                        </button>
+                        <button className='back-button' onClick={goBack}>Go Back</button>
+                    </div>
+                ) : (
+                    <form className='form' onSubmit={onSubmit}>
+                        <div className='form-field'>
+                            <label className='form-label' htmlFor="firstName">First Name: </label>
+                            <input className='form-input' type="text" id='updateFirstName' name='firstName' value={updateForm.firstName} onChange={onChange}/>
+                        </div>
+
+                        <div className='form-field'>
+                            <label className='form-label' htmlFor="lastName">Last Name: </label>
+                            <input className='form-input' type="text" id='updateLastName' name='lastName' value={updateForm.lastName} onChange={onChange}/>
+                        </div>
+
+                        <div className='form-field'>
+                            <label className='form-label' htmlFor="email">Email: </label>
+                            <input className='form-input' type="text" id='updateEmail' name='email' value={updateForm.email} onChange={onChange}/>
+                        </div>
+
+                        <div className='form-field'>
+                            <label className='form-label' htmlFor="phoneNumber">Phone Number: </label>
+                            <input className='form-input' type="text" id='updatePhoneNumber' name='phoneNumber' value={updateForm.phoneNumber} onChange={onChange}/>
+                        </div>
+
+                        <div className='form-field'>
+                            <label className='form-label' htmlFor="streetAddress">Street Address: </label>
+                            <input className='form-input' type="text" id='updateStreetAddress' name='streetAddress' value={address.streetAddress} onChange={onChange}/>
+                        </div>
+
+                        <div className='form-field'>
+                            <label className='form-label' htmlFor="city">City: </label>
+                            <input className='form-input' type="text" id='updateCity' name='city' value={address.city} onChange={onChange}/>
+                        </div>
+
+                        <div className='form-field'>
+                            <label className='form-label' htmlFor="state">State: </label>
+                            <select className='form-input' type="text" id='updateState' name='state' value={address.state} onChange={onChange}>
+                                {states.length > 0 && (
+                                    states.map(state => (
+                                        <option key={state.code} value={state.code}>{state.name}</option>
+                                    ))
+                                )}
+                            </select>
+                        </div>
+
+                        <div className='form-field'>
+                            <label className='form-label' htmlFor="zipCode">Zip Code: </label>
+                            <select className='form-input' type="text" id='updateZipCode' name='zipCode' value={address.zipCode} onChange={onChange}>
+                                {zipCodes.length > 0 && (
+                                    zipCodes.map((zipCode, index) => (
+                                        <option key={index} value={zipCode}>{zipCode}</option>
+                                    ))
+                                )}
+                            </select>
+                        </div>
+
+                        <button id='updateInformationButton' className='form-btn-3' type='submit'>Update Information</button>
+                    </form>
+                )}
+            </Modal>
         </>
     )
 }
