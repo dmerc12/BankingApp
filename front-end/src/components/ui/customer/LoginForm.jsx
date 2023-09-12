@@ -27,7 +27,7 @@ export const LoginForm = () => {
 
             if (responseStatus === 200) {
                 Cookies.set('sessionId', data.sessionId);
-                navigate('home');
+                navigate('/home');
                 setLoading(false);
                 toast.success("Welcome!", {
                     toastId: 'customId'
