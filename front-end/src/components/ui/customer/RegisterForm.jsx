@@ -33,7 +33,7 @@ export const RegisterForm = () => {
 
     const goBack = () => {
         setFailedToFetch(false);
-    }
+    };
 
     const onChange = (event) => {
         const { name, value } = event.target;

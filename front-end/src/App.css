@@ -10,8 +10,6 @@
     justify-content: center;
     align-items: center;
     z-index: 0;
-    transition-property: all;
-    transition-duration: 0.3s;
   }
   
   .modal-interior-wrapper {
@@ -22,28 +20,32 @@
     background-color: black;
     padding: 1rem;
     border-radius: 0.5rem;
-    transition-property: all;
-    transition-duration: 0.3s;
-    max-height: 100vh;
+    max-height: 80%;
     overflow-y: auto;
+    width: auto;
+    max-width: 80%;
+    height: auto;
   }
   
   .modal {
     color: white;
     padding: 0.5rem;
     align-self: flex-end;
-    cursor: pointer;
     font-size: 15px;
     font-weight: 575;
     border: none;
-    background-color: grey;
+    background-color: black;
     border-radius: 5px;
-    width: 3.75rem;
-    height: 2.2rem;
+    width: auto;
+    max-width: 100%;
+    height: auto;
   }
-  
-  .modal:hover {
-    transform: scale(0.975);
+
+  .close-button {
+    width: 4em;
+    align-self:last baseline;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
   }
   
   .modal-interior {
