@@ -46,7 +46,7 @@ export const ChangePasswordForm = () => {
     useEffect(() => {
         setChangePasswordForm((prevForm) => ({
             ...prevForm,
-            sessionId: sessionId
+            sessionId: Number(sessionId)
         }))
     }, [sessionId])
 
@@ -58,7 +58,11 @@ export const ChangePasswordForm = () => {
             const { responseStatus, data } = await fetchData('/change/password/now', 'PUT', changePasswordForm);
 
             if (responseStatus === 200) {
-                window.location.reload();
+                setChangePasswordForm({
+                    sessionId: sessionId,
+                    password: '',
+                    confirmationPassword: ''
+                });
                 setVisible(false);
                 setLoading(false);
                 toast.success("Password successfully changed!", {
@@ -91,7 +95,41 @@ export const ChangePasswordForm = () => {
 
     return (
         <>
-        
+            <div className="component">
+                <button onClick={showModal} className="action-btn" id="changePasswordModal">Change Password</button>
+            </div>
+
+            <Modal visible={visible} onClose={closeModal}>
+                {loading ? (
+                    <div className='loading-indicator'>
+                        <FaSpinner className='spinner' />
+                    </div>
+                ) : failedToFetch ? (
+                    <div className='failed-to-fetch'>
+                        <AiOutlineExclamationCircle className='warning-icon'/>
+                        <p>Cannot connect to the back end server.</p>
+                        <p>Please check your internet connection and try again.</p>
+                        <button className='retry-button' onClick={onSubmit}>
+                            <FaSync className='retry-icon'/> Retry
+                        </button>
+                        <button className='back-button' onClick={goBack}>Go Back</button>
+                    </div>
+                ) : (
+                    <form className="form" onSubmit={onSubmit}>
+                        <div className="form-field">
+                            <label className="form-label" htmlFor="password">New Password: </label>
+                            <input className="form-input" type="password" id="newPassword" name="password" value={changePasswordForm.password} onChange={onChange}/>
+                        </div>
+
+                        <div className="form-field">
+                            <label className="form-label" htmlFor="confirmationPassword">Confirm Password: </label>
+                            <input className="form-input" type="password" id="newConfirmationPassword" name="confirmationPassword" value={changePasswordForm.confirmationPassword} onChange={onChange}/>
+                        </div>
+
+                        <button id="changePasswordButton" className="form-btn-1" type="submit">Change Password</button>
+                    </form>
+                )}
+            </Modal>
         </>
     )
 }

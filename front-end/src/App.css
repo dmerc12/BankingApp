@@ -47,6 +47,10 @@
     cursor: pointer;
     transition: all 0.2s ease-in-out;
   }
+
+  .close-button:hover {
+    transform: scale(0.95);
+  }
   
   .modal-interior {
     padding: 0.5rem;
@@ -244,6 +248,10 @@
     font-size: 15px;
     font-weight: 575;
     cursor: pointer;
+  }
+
+  .form-btn-3:hover {
+    transform: scale(0.95);
   }
   
   .form-btn-1:hover {
