@@ -20,9 +20,9 @@ session_sao = SessionSALImplementation(session_dao)
 def update_customer():
     try:
         updated_info = request.json
+        current_app.logger.info("Beginning API function update customer with data: " + str(updated_info))
         session_id = updated_info["sessionId"]
         current_customer = customer_sao.service_get_customer_by_id(session_id)
-        current_app.logger.info("Beginning API function update customer with data: " + str(updated_info))
         updated_customer = Customer(customer_id=current_customer.customer_id, first_name=updated_info["firstName"],
                                     last_name=updated_info["lastName"],
                                     email=updated_info["email"],
@@ -44,7 +44,7 @@ def update_customer():
                                 str(result_dictionary))
         return jsonify(result_dictionary), 200
     except FailedTransaction as error:
-        current_app.logger.error("Error with API function create customer with error: " + str(error))
+        current_app.logger.error("Error with API function update customer with error: " + str(error))
         response = {
             "message": str(error)
         }

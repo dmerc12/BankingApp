@@ -11,6 +11,7 @@ import Cookies from 'js-cookie';
 
 export const UpdateForm = () => {
     const [updateForm, setUpdateForm] = useState({
+        sessionId: 0,
         firstName: '',
         lastName: '',
         email: '',
@@ -123,12 +124,14 @@ export const UpdateForm = () => {
 
             if (responseStatus === 200) {
                 setUpdateForm({
+                    sessionId: Number(sessionId),
                     firstName: data.firstName,
                     lastName: data.lastName,
                     email: data.email,
                     phoneNumber: data.phoneNumber,
                     address: data.address
                 });
+                setZipCodes(zipCodeData[data.address.split(', ')[2].split(' ')[0]])
                 setAddress({
                     streetAddress: data.address.split(', ')[0],
                     city: data.address.split(', ')[1],
