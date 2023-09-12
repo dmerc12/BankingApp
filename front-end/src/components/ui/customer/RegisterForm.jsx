@@ -1,10 +1,10 @@
-import { useState } from 'react';
 import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
-import { states } from '../../../lib/States';
 import { FaSpinner, FaSync } from 'react-icons/fa';
 import { AiOutlineExclamationCircle } from 'react-icons/ai';
+import { states } from '../../../lib/States';
 import { zipCodeData } from '../../../lib/ZipCodes';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useFetch } from '../../../hooks/useFetch';
 
 export const RegisterForm = () => {

@@ -1,10 +1,10 @@
 import { toast } from 'react-toastify';
-import { useNavigate } from "react-router-dom";
-import {  useState } from "react";
 import { FaSpinner, FaSync } from 'react-icons/fa';
 import { AiOutlineExclamationCircle } from 'react-icons/ai';
-import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
+import {  useState } from "react";
 import { useFetch } from '../../../hooks/useFetch';
+import Cookies from "js-cookie";
 
 export const LoginForm = () => {
     const [loginForm, setLoginForm] = useState({
@@ -17,6 +17,18 @@ export const LoginForm = () => {
     const { fetchData } = useFetch();
 
     const navigate = useNavigate();
+
+    const onChange = (event) => {
+        const { name, value } = event.target;
+        setLoginForm((prevLoginForm) => ({
+            ...prevLoginForm,
+            [name]: value
+        }));
+    };
+
+    const goBack = () => {
+        setFailedToFetch(false);
+    };
 
     const onSubmit = async (event) => {
         event.preventDefault();
@@ -48,18 +60,6 @@ export const LoginForm = () => {
                 });
             }
         }
-    };
-
-    const onChange = (event) => {
-        const { name, value } = event.target;
-        setLoginForm((prevLoginForm) => ({
-            ...prevLoginForm,
-            [name]: value
-        }));
-    };
-
-    const goBack = () => {
-        setFailedToFetch(false);
     };
 
     return (

@@ -146,13 +146,20 @@ export const UpdateForm = () => {
                 throw new Error("Something went horribly wrong!");
             }
         } catch (error) {
-            if (error.message === "Failed to fetch") {
+            if (error.message === "No session found, please try again!" || error.message === "Session has expired, please log in!") {
+                Cookies.remove('sessionId');
+                navigate('/login');
+                setLoading(false);
+                toast.warn(error.message, {
+                    toastId: "customId"
+                });
+            } else if (error.message === "Failed to fetch") {
                 setFailedToFetchData(true);
                 setLoading(false);
             } else {
                 setLoading(false);
                 toast.warn(error.message, {
-                    toastId: 'customId'
+                    toastId: "customId"
                 });
             }
         } 
@@ -166,7 +173,6 @@ export const UpdateForm = () => {
             const { responseStatus, data } = await fetchData('/update/customer/now', 'PUT', updateForm);
 
             if (responseStatus === 200) {
-                navigate('/manage/information');
                 setVisible(false);
                 setLoading(false);
                 toast.success("Information successfully updated!", {
@@ -178,13 +184,20 @@ export const UpdateForm = () => {
                 throw new Error("Something went horribly wrong!");
             }
         } catch (error) {
-            if (error.message === "Failed to fetch") {
+            if (error.message === "No session found, please try again!" || error.message === "Session has expired, please log in!") {
+                Cookies.remove('sessionId');
+                navigate('/login');
+                setLoading(false);
+                toast.warn(error.message, {
+                    toastId: "customId"
+                });
+            } else if (error.message === "Failed to fetch") {
                 setFailedToFetchSubmission(true);
                 setLoading(false);
             } else {
                 setLoading(false);
                 toast.warn(error.message, {
-                    toastId: 'customId'
+                    toastId: "customId"
                 });
             }
         }
