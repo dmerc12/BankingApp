@@ -20,7 +20,7 @@ export const DeleteForm = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        setDeleteForm({sessionId: sessionId});
+        setDeleteForm({sessionId: Number(sessionId)});
     }, [sessionId]);
 
     const showModal = () => {
@@ -40,7 +40,7 @@ export const DeleteForm = () => {
         setLoading(true);
         setFailedToFetch(false);
         try {
-            const { responseStatus, data } = fetchData('/delete/customer/now', 'DELETE', deleteForm);
+            const { responseStatus, data } = await fetchData('/delete/customer/now', 'DELETE', deleteForm);
 
             if (responseStatus === 200) {
                 Cookies.remove('sessionId');
