@@ -1,10 +1,10 @@
 import { toast } from 'react-toastify';
-import { useNavigate } from "react-router-dom";
-import {  useState } from "react";
 import { FaSpinner, FaSync } from 'react-icons/fa';
 import { AiOutlineExclamationCircle } from 'react-icons/ai';
-import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
+import {  useState } from "react";
 import { useFetch } from '../../../hooks/useFetch';
+import Cookies from "js-cookie";
 
 export const LoginForm = () => {
     const [loginForm, setLoginForm] = useState({
@@ -18,6 +18,18 @@ export const LoginForm = () => {
 
     const navigate = useNavigate();
 
+    const onChange = (event) => {
+        const { name, value } = event.target;
+        setLoginForm((prevLoginForm) => ({
+            ...prevLoginForm,
+            [name]: value
+        }));
+    };
+
+    const goBack = () => {
+        setFailedToFetch(false);
+    };
+
     const onSubmit = async (event) => {
         event.preventDefault();
         setFailedToFetch(false);
@@ -27,7 +39,7 @@ export const LoginForm = () => {
 
             if (responseStatus === 200) {
                 Cookies.set('sessionId', data.sessionId);
-                navigate('home');
+                navigate('/home');
                 setLoading(false);
                 toast.success("Welcome!", {
                     toastId: 'customId'
@@ -48,18 +60,6 @@ export const LoginForm = () => {
                 });
             }
         }
-    };
-
-    const onChange = (event) => {
-        const { name, value } = event.target;
-        setLoginForm((prevLoginForm) => ({
-            ...prevLoginForm,
-            [name]: value
-        }));
-    };
-
-    const goBack = () => {
-        setFailedToFetch(false);
     };
 
     return (
