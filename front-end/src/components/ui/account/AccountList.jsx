@@ -13,7 +13,7 @@ import Cookies from 'js-cookie';
 export const AccountList = () => {
     const [accounts, setAccounts] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [Failed, setFailedToFetch] = useState(false);
+    const [failedToFetch, setFailedToFetch] = useState(false);
 
     const { fetchData } = useFetch();
 
@@ -92,7 +92,35 @@ export const AccountList = () => {
 
     return (
         <>
-        
+            {loading ? (
+               <div className='loading-indicator'>
+                    <FaSpinner className='spinner' />
+                </div> 
+            ) : failedToFetch ? (
+                <div className='failed-to-fetch'>
+                    <AiOutlineExclamationCircle className='warning-icon'/>
+                    <p>Cannot connect to the back end server.</p>
+                    <p>Please check your internet connection and try again.</p>
+                    <button className='retry-button' onClick={fetchAccounts}>
+                        <FaSync className='retry-icon'/> Retry
+                    </button>
+                    <button className='back-button' onClick={goBack}>Go Back</button>
+                </div>
+            ) : accounts.length === 0 ? (
+                <div className='empty-list'>No accounts have been created yet. Click the Create Account button to create a new account.</div>
+            ) : (
+                <div className='list'>
+                    <table className='table'> 
+                        <thead>
+                            <tr>
+                                <th className='table head'>Account ID</th>
+                                <th className='table head'>Current Balance</th>
+                                <th className='table head'>Actions</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            )}
         </>
     )
 }
