@@ -94,7 +94,36 @@ export const CreateAccount = () => {
 
     return (
         <>
-        
+            <div className="component">
+                <button onClick={showModal} className="action-btn" id="createAccountModal">Add New Account</button>
+            </div>
+
+            <Modal visible={visible} onClose={closeModal}>
+                {loading ? (
+                    <div className='loading-indicator'>
+                        <FaSpinner className='spinner' />
+                    </div>
+                ) : failedToFetch ? (
+                    <div className='failed-to-fetch'>
+                        <AiOutlineExclamationCircle className='warning-icon'/>
+                        <p>Cannot connect to the back end server.</p>
+                        <p>Please check your internet connection and try again.</p>
+                        <button className='retry-button' onClick={onSubmit}>
+                            <FaSync className='retry-icon'/> Retry
+                        </button>
+                        <button className='back-button' onClick={goBack}>Go Back</button>
+                    </div>
+                ) : (
+                    <form className="form" onSubmit={onSubmit}>
+                        <div className="form-field">
+                            <label className="form-label" htmlFor="startingBalance">Starting Balance: </label>
+                            <input className="form-input" type="number" id="startingBalance" name="startingBalance" value={createAccountForm.startingBalance} onChange={onChange}/>
+                        </div>
+
+                        <button className="form-btn-1" type="submit" id="createAccountButton">Create Account</button>
+                    </form>
+                )}
+            </Modal>
         </>
     )
 }
