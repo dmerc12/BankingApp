@@ -10,7 +10,7 @@ import Cookies from "js-cookie";
 export const CreateAccount = () => {
     const [createAccountForm, setCreateAccountForm] = useState({
         sessionId: Number(0),
-        startingBalance: parseFloat('0').toFixed(2)
+        startingBalance: parseFloat(0).toFixed(2)
     });
     const [loading, setLoading] = useState(false);
     const [failedToFetch, setFailedToFetch] = useState(false);
@@ -25,7 +25,7 @@ export const CreateAccount = () => {
     useEffect(() => {
         setCreateAccountForm({
             sessionId: Number(sessionId),
-            startingBalance: parseFloat('0').toFixed(2)
+            startingBalance: parseFloat(0).toFixed(2)
         });
     }, [sessionId]);
 
@@ -33,7 +33,7 @@ export const CreateAccount = () => {
         const { name, value } = event.target;
         setCreateAccountForm((prevForm) => ({
             ...prevForm,
-            [name]: Number(value)
+            [name]: parseFloat(value)
         }));
     };
 
@@ -62,7 +62,7 @@ export const CreateAccount = () => {
                 setLoading(false);
                 setCreateAccountForm({
                     sessionId: Number(sessionId),
-                    startingBalance: parseFloat(parseFloat('0').toFixed(2))
+                    startingBalance: parseFloat(0).toFixed(2)
                 });
                 toast.success("Account successfully created!", {
                     toastId: 'customId'

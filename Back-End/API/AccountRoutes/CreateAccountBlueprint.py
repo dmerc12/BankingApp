@@ -23,11 +23,11 @@ transaction_sao = TransactionSALImplementation(transaction_dao)
 @create_account_route.route("/create/account/now", methods=["POST"])
 def create_account_api():
     try:
+        current_app.logger.info("Beginning API function create new account with data: " + str(request.json))
         session_id = request.json.get("sessionId")
-        starting_balance = request.json.get("startingBalance")
+        starting_balance = float(request.json.get("startingBalance"))
         session_data = session_sao.service_get_session(session_id)
         customer_id = session_data.customer_id
-        current_app.logger.info("Beginning API function create new account with data: " + str(request.json))
         new_account = BankAccount(0, customer_id, starting_balance)
         result = account_sao.service_create_account(new_account)
         account_creation_transaction = Transaction(0, str(datetime.now()), "Account Created",

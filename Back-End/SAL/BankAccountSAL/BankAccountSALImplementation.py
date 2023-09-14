@@ -18,15 +18,12 @@ class BankAccountSALImplementation(BankAccountSALInterface):
     def service_create_account(self, account: BankAccount) -> BankAccount:
         logging.info("Beginning SAL method create account with data: " +
                      str(account.convert_to_dictionary()))
-        if type(account.balance) != float:
-            logging.warning("SAL method create account, account balance not a float")
-            raise FailedTransaction("The balance field must be a float, please try again!")
-        elif type(account.customer_id) != int:
-            logging.warning("SAL method create account, customer ID not an integer")
-            raise FailedTransaction("The customer ID field must be an integer, please try again!")
-        elif account.balance < 0.00:
+        if account.balance < 0.00:
             logging.warning("SAL method create account, negative balance attempted")
             raise FailedTransaction("The balance field cannot be negative, please try again!")
+        elif account.balance == 0.00:
+            logging.warning("SAL method create account, balance is 0.00")
+            raise FailedTransaction("The balance field must be greater than 0.00, please try again!")
         else:
             self.customer_sao.service_get_customer_by_id(account.customer_id)
             new_account = self.account_dao.create_account(account)
