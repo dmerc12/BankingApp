@@ -7,6 +7,7 @@ import { FaSpinner, FaSync } from "react-icons/fa";
 import { AiOutlineExclamationCircle } from "react-icons/ai";
 import Cookies from "js-cookie";
 
+// eslint-disable-next-line react/prop-types
 export const CreateAccount = ({ fetchAccounts }) => {
     const [createAccountForm, setCreateAccountForm] = useState({
         sessionId: Number(0),
@@ -57,7 +58,6 @@ export const CreateAccount = ({ fetchAccounts }) => {
             const { responseStatus, data } = await fetchData('/create/account/now', 'POST', createAccountForm);
 
             if (responseStatus === 201) {
-                Cookies.set('accountCreated', true)
                 setVisible(false);
                 setLoading(false);
                 setCreateAccountForm({
