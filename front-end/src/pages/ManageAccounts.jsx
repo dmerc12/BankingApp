@@ -1,4 +1,4 @@
-import { CreateAccount } from "../components/ui/account/CreateAccount";
+// import { CreateAccount } from "../components/ui/account/CreateAccount";
 import { AccountList } from "../components/ui/account/AccountList";
 import { useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
@@ -21,7 +21,7 @@ export const ManageAccounts = () => {
     return (
         <>
             <h1>Manage Accounts Below!</h1>
-            <CreateAccount />
+            {/* <CreateAccount /> */}
             <AccountList />
         </>
     )

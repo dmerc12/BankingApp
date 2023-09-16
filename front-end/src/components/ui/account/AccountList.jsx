@@ -2,6 +2,7 @@ import { Deposit } from './Deposit';
 import { Withdraw } from './Withdraw';
 import { Transfer } from './Transfer';
 import { DeleteAccount } from './DeleteAccount';
+import { CreateAccount } from './CreateAccount';
 import { useNavigate } from 'react-router-dom';
 import { useFetch } from '../../../hooks/useFetch';
 import { useState, useEffect } from 'react';
@@ -20,15 +21,9 @@ export const AccountList = () => {
     const navigate = useNavigate();
 
     const sessionId = Cookies.get('sessionId');
-    const accountCreated = Cookies.get('accountCreated');
 
     useEffect(() => {
         fetchAccounts();
-
-        if (accountCreated === true) {
-            fetchAccounts();
-            Cookies.remove('accountCreated');
-        }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
     
@@ -93,6 +88,7 @@ export const AccountList = () => {
 
     return (
         <>
+            <CreateAccount fetchAccounts={fetchAccounts}/>
             {loading ? (
                <div className='loading-indicator'>
                     <FaSpinner className='spinner' />
