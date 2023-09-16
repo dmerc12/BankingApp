@@ -32,13 +32,13 @@ def test_service_create_account_balance_not_float():
     except FailedTransaction as error:
         assert str(error) == "The balance field must be a float, please try again!"
 
-def test_service_create_account_customer_id_not_integer():
+def test_service_create_account_amount_zero():
     try:
-        test_account = BankAccount(successful_account.account_id, "won't work", 25.00)
+        test_account = BankAccount(successful_account.account_id, successful_account.customer_id, 0.00)
         account_sao.service_create_account(test_account)
         assert False
     except FailedTransaction as error:
-        assert str(error) == "The customer ID field must be an integer, please try again!"
+        assert str(error) == "The balance field must be greater than 0.00, please try again!"
 
 def test_service_create_account_success():
     result = account_sao.service_create_account(successful_account)

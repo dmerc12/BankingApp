@@ -7,10 +7,11 @@ import { FaSpinner, FaSync } from "react-icons/fa";
 import { AiOutlineExclamationCircle } from "react-icons/ai";
 import Cookies from "js-cookie";
 
-export const CreateAccount = () => {
+// eslint-disable-next-line react/prop-types
+export const CreateAccount = ({ fetchAccounts }) => {
     const [createAccountForm, setCreateAccountForm] = useState({
         sessionId: Number(0),
-        startingBalance: parseFloat('0').toFixed(2)
+        startingBalance: parseFloat(0).toFixed(2)
     });
     const [loading, setLoading] = useState(false);
     const [failedToFetch, setFailedToFetch] = useState(false);
@@ -25,7 +26,7 @@ export const CreateAccount = () => {
     useEffect(() => {
         setCreateAccountForm({
             sessionId: Number(sessionId),
-            startingBalance: parseFloat('0').toFixed(2)
+            startingBalance: parseFloat(0).toFixed(2)
         });
     }, [sessionId]);
 
@@ -33,7 +34,7 @@ export const CreateAccount = () => {
         const { name, value } = event.target;
         setCreateAccountForm((prevForm) => ({
             ...prevForm,
-            [name]: Number(value)
+            [name]: parseFloat(value)
         }));
     };
 
@@ -57,13 +58,13 @@ export const CreateAccount = () => {
             const { responseStatus, data } = await fetchData('/create/account/now', 'POST', createAccountForm);
 
             if (responseStatus === 201) {
-                Cookies.set('accountCreated', true)
                 setVisible(false);
                 setLoading(false);
                 setCreateAccountForm({
                     sessionId: Number(sessionId),
-                    startingBalance: parseFloat(parseFloat('0').toFixed(2))
+                    startingBalance: parseFloat(0).toFixed(2)
                 });
+                fetchAccounts();
                 toast.success("Account successfully created!", {
                     toastId: 'customId'
                 });
