@@ -22,10 +22,9 @@ transaction_sao = TransactionSALImplementation(transaction_dao)
 @delete_account_route.route("/delete/account", methods=["DELETE"])
 def delete_account_api():
     try:
+        current_app.logger.info("Beginning API function delete account with data: " + str(request.json))
         session_id = request.json.get("sessionId")
         account_id = request.json.get("accountId")
-        current_app.logger.info("Beginning API function delete account with data: " + str(session_id) +
-                                ", and " + str(account_id))
         session_data = session_sao.service_get_session(session_id)
         transaction_sao.service_delete_all_transactions(account_id)
         result = account_sao.service_delete_account(account_id)

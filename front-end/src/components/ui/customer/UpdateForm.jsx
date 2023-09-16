@@ -10,8 +10,10 @@ import { AiOutlineExclamationCircle } from 'react-icons/ai';
 import Cookies from 'js-cookie';
 
 export const UpdateForm = () => {
+    const sessionId = Cookies.get('sessionId');
+
     const [updateForm, setUpdateForm] = useState({
-        sessionId: 0,
+        sessionId: Number(sessionId),
         firstName: '',
         lastName: '',
         email: '',
@@ -30,8 +32,6 @@ export const UpdateForm = () => {
     const [failedToFetchData, setFailedToFetchData] = useState(false);
     const [failedToFetchSubmission, setFailedToFetchSubmission] = useState(false);
     const [visible, setVisible] = useState(false); 
-
-    const sessionId = Cookies.get('sessionId');
 
     const { fetchData } = useFetch();
 
@@ -64,13 +64,13 @@ export const UpdateForm = () => {
             const parts = phoneNumberDigits.match(/^(\d{3})(\d{0,3})(\d{0,4})$/);
             if (parts) {
                 const formattedPhoneNumber = `${parts[1]}${parts[2] ? '-' + parts[2] : ''}${parts[3] ? '-' + parts[3] : ''}`;
-                setUpdateForm((prevRegisterForm) => ({
-                    ...prevRegisterForm,
+                setUpdateForm((prevForm) => ({
+                    ...prevForm,
                     phoneNumber: formattedPhoneNumber
                 }));
             } else {
-                setUpdateForm((prevRegisterForm) => ({
-                    ...prevRegisterForm,
+                setUpdateForm((prevForm) => ({
+                    ...prevForm,
                     phoneNumber: value
                 }));
             }
@@ -83,8 +83,8 @@ export const UpdateForm = () => {
                 zipCode: ''
             }));
             const fullAddress = `${address.streetAddress}, ${address.city}, ${selectedStateCode} ${address.zipCode}`;
-            setUpdateForm((prevRegisterForm) => ({
-                ...prevRegisterForm,
+            setUpdateForm((prevForm) => ({
+                ...prevForm,
                 address: fullAddress
             }));
             setZipCodes(selectedZipCodes);
@@ -94,8 +94,8 @@ export const UpdateForm = () => {
                 zipCode: value
             }));
             const fullAddress = `${address.streetAddress}, ${address.city}, ${address.state} ${value}`;
-            setUpdateForm((prevRegisterForm) => ({
-                ...prevRegisterForm,
+            setUpdateForm((prevForm) => ({
+                ...prevForm,
                 address: fullAddress
             }));
         } else if (name === 'streetAddress' || name === 'city') {
@@ -104,13 +104,13 @@ export const UpdateForm = () => {
                 [name]: value
             }));
             const fullAddress = `${address.streetAddress}, ${address.city}, ${address.state} ${address.zipCode}`;
-            setUpdateForm((prevRegisterForm) => ({
-                ...prevRegisterForm,
+            setUpdateForm((prevForm) => ({
+                ...prevForm,
                 address: fullAddress
             }));
         } else {
-            setUpdateForm((prevRegisterForm) => ({
-                ...prevRegisterForm,
+            setUpdateForm((prevForm) => ({
+                ...prevForm,
                 [name]: value
             }));
         }
@@ -123,14 +123,14 @@ export const UpdateForm = () => {
             const { responseStatus, data } = await fetchData('/get/customer/now', 'PATCH', {'sessionId': Number(sessionId)});
 
             if (responseStatus === 200) {
-                setUpdateForm({
-                    sessionId: Number(sessionId),
+                setUpdateForm((prevForm) => ({
+                    ...prevForm,
                     firstName: data.firstName,
                     lastName: data.lastName,
                     email: data.email,
                     phoneNumber: data.phoneNumber,
                     address: data.address
-                });
+                }));
                 setZipCodes(zipCodeData[data.address.split(', ')[2].split(' ')[0]])
                 setAddress({
                     streetAddress: data.address.split(', ')[0],

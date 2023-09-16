@@ -40,7 +40,7 @@ export const AccountList = () => {
                         <Deposit />
                         <Withdraw />
                         <Transfer />
-                        <DeleteAccount />
+                        <DeleteAccount account={account} fetchAccounts={fetchAccounts}/>
                     </td>
                 </tr>
             )
