@@ -29,24 +29,6 @@ export const AccountList = () => {
     
     let accountRows = [];
 
-    if (accounts.length > 0) {
-        for (let i=0; i < accounts.length; i++) {
-            const account = accounts[i];
-            accountRows.unshift(
-                <tr key={account.accountId}>
-                    <td className='table-data'>{account.accountId}</td>
-                    <td className='table-data'>{account.balance}</td>
-                    <td className='table-data crud-icons'>
-                        <Deposit />
-                        <Withdraw />
-                        <Transfer />
-                        <DeleteAccount account={account} fetchAccounts={fetchAccounts}/>
-                    </td>
-                </tr>
-            )
-        }
-    }
-
     const goBack = () => {
         navigate('/home');
         setFailedToFetch(false);
@@ -86,6 +68,24 @@ export const AccountList = () => {
         }
     };
 
+    if (accounts.length > 0) {
+        for (let i=0; i < accounts.length; i++) {
+            const account = accounts[i];
+            accountRows.unshift(
+                <tr key={account.accountId}>
+                    <td className='table-data'>{account.accountId}</td>
+                    <td className='table-data'>{account.balance}</td>
+                    <td className='table-data crud-icons'>
+                        <Deposit />
+                        <Withdraw />
+                        <Transfer />
+                        <DeleteAccount account={account} fetchAccounts={fetchAccounts}/>
+                    </td>
+                </tr>
+            )
+        }
+    }
+
     return (
         <>
             <CreateAccount fetchAccounts={fetchAccounts}/>
@@ -110,9 +110,9 @@ export const AccountList = () => {
                     <table className='table'> 
                         <thead>
                             <tr>
-                                <th className='table head'>Account ID</th>
-                                <th className='table head'>Current Balance</th>
-                                <th className='table head'>Actions</th>
+                                <th className='table-head'>Account ID</th>
+                                <th className='table-head'>Current Balance</th>
+                                <th className='table-head'>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
