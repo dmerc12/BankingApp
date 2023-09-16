@@ -40,6 +40,7 @@ export const AccountList = () => {
             accountRows.unshift(
                 <tr key={account.accountId}>
                     <td className='table-data'>{account.accountId}</td>
+                    <td className='table-data'>{account.balance}</td>
                     <td className='table-data crud-icons'>
                         <Deposit />
                         <Withdraw />
@@ -118,6 +119,9 @@ export const AccountList = () => {
                                 <th className='table head'>Actions</th>
                             </tr>
                         </thead>
+                        <tbody>
+                            {accountRows}
+                        </tbody>
                     </table>
                 </div>
             )}
