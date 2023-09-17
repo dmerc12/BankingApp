@@ -86,7 +86,38 @@ export const Deposit = ({ account, fetchAccounts}) => {
 
     return (
         <>
+            <FaPlus onClick={showModal} cursor={'pointer'} size={15} id='depositModal'/>
+            <Modal visible={visible} onClose={closeModal}>
+                {loading ? (
+                    <div className='loading-indicator'>
+                        <FaSpinner className='spinner' />
+                    </div>
+                ) : failedToFetch ? (
+                    <div className='failed-to-fetch'>
+                        <AiOutlineExclamationCircle className='warning-icon'/>
+                        <p>Cannot connect to the back end server.</p>
+                        <p>Please check your internet connection and try again.</p>
+                        <button className='retry-button' onClick={onSubmit}>
+                            <FaSync className='retry-icon'/> Retry
+                        </button>
+                        <button className='back-button' onClick={goBack}>Go Back</button>
+                    </div>
+                ) : (
+                    <form className="form" onSubmit={onSubmit}>
+                        <div className="form-field">
+                            <label className="form-label" htmlFor="accountId">Account ID: </label>
+                            <input className="form-input" type="number" disabled id="depositAccountId" name="accountId" value={depositForm.accountId}/>
+                        </div>
 
+                        <div className="form-field">
+                            <label className="form-label" htmlFor="depositAmount">Deposit Amount: </label>
+                            <input className="form-input" type="number" id="depositAmount" name="depositAmount" value={depositForm.depositAmount} onChange={onChange}/>
+                        </div>
+
+                        <button className="form-btn-1" type="submit" id="depositButton">Deposit</button>
+                    </form>
+                )}
+            </Modal>
         </>
     )
 }
