@@ -22,12 +22,11 @@ transaction_sao = TransactionSALImplementation(transaction_dao)
 @withdraw_route.route("/withdraw", methods=["PUT"])
 def withdraw_api():
     try:
+        current_app.logger.info("Beginning API function withdraw with session ID: " + str(request.json))
         session_id = request.json.get("sessionId")
         account_id = request.json.get("accountId")
         withdraw_amount = request.json.get("withdrawAmount")
         session_data = session_sao.service_get_session(session_id)
-        current_app.logger.info("Beginning API function withdraw with session ID: " + str(session_id) +
-                                ", and account ID: " + str(account_id) + ", and withdraw amount:" + str(withdraw_amount))
         withdraw_transaction = Transaction(0, str(datetime.now()), "Withdraw", account_id, withdraw_amount)
         result = account_sao.service_withdraw(account_id, withdraw_amount)
         transaction_sao.service_create_transaction(withdraw_transaction)

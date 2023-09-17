@@ -19,6 +19,7 @@ class TransactionSALImplementation(TransactionSALInterface):
 
     def service_create_transaction(self, transaction: Transaction) -> Transaction:
         logging.info("Beginning SAL method create transaction")
+        transaction.amount = float(transaction.amount)
         if type(transaction.date_time) != str:
             logging.info("SAL method create transaction, date and time not a string")
             raise FailedTransaction("The date and time field must be a string, please try again!")
@@ -40,9 +41,6 @@ class TransactionSALImplementation(TransactionSALInterface):
         elif type(transaction.account_id) != int:
             logging.warning("SAL method create transaction, account ID not an integer")
             raise FailedTransaction("The account ID field must be an integer, please try again!")
-        elif type(transaction.amount) != float:
-            logging.warning("SAL method create transaction, transaction amount not a float")
-            raise FailedTransaction("The transaction amount field must be a float, please try again!")
         elif transaction.amount < 0.00:
             logging.warning("SAL method create transaction, transaction amount negative")
             raise FailedTransaction("The transaction amount field cannot be negative, please try again!")

@@ -23,13 +23,11 @@ session_sao = SessionSALImplementation(session_dao)
 @transfer_route.route("/transfer", methods=["PUT"])
 def transfer_api():
     try:
+        current_app.logger.info("Beginning API function transfer with data: " + str(request.json))
         session_id = request.json.get("sessionId")
         withdraw_account_id = request.json.get("withdrawAccountId")
         deposit_account_id = request.json.get("depositAccountId")
         transfer_amount = request.json.get("transferAmount")
-        current_app.logger.info("Beginning API function transfer with data: " + str(session_id) + ", and " +
-                                str(withdraw_account_id) + ", and " + str(deposit_account_id) + ", and " +
-                                str(transfer_amount))
         session_data = session_sao.service_get_session(session_id)
         withdraw_transaction = Transaction(0, str(datetime.now()), "Withdraw",
                                            withdraw_account_id, transfer_amount)

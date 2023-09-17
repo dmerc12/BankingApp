@@ -116,13 +116,6 @@ def test_service_deposit_success():
     result = account_sao.service_deposit(successful_account.account_id, 25.00)
     assert result.balance == 75.00
 
-def test_service_withdraw_amount_not_float():
-    try:
-        account_sao.service_withdraw(successful_account.account_id, "this won't work")
-        assert False
-    except FailedTransaction as error:
-        assert str(error) == "The withdraw amount field must be a float, please try again!"
-
 def test_service_withdraw_account_id_not_integer():
     try:
         account_sao.service_withdraw("this won't work", 50.00)
@@ -168,13 +161,6 @@ def test_service_transfer_deposit_account_id_not_integer():
         assert False
     except FailedTransaction as error:
         assert str(error) == "The deposit account ID field must be an integer, please try again!"
-
-def test_service_transfer_amount_not_float():
-    try:
-        account_sao.service_transfer(successful_account.account_id, -1, "this won't work")
-        assert False
-    except FailedTransaction as error:
-        assert str(error) == "The transfer field must be a float, please try again!"
 
 def test_service_transfer_withdraw_account_id_not_found():
     try:

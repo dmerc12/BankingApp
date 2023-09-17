@@ -74,14 +74,6 @@ def test_service_create_transaction_account_id_not_found():
     except FailedTransaction as error:
         assert str(error) == "This account cannot be found, please try again!"
 
-def test_service_create_transaction_amount_not_float():
-    try:
-        test_transaction = Transaction(0, str(datetime.now()), "deposit", 1, "25.00")
-        transaction_sao.service_create_transaction(test_transaction)
-        assert False
-    except FailedTransaction as error:
-        assert str(error) == "The transaction amount field must be a float, please try again!"
-
 def test_service_create_transaction_amount_negative():
     try:
         test_transaction = Transaction(0, str(datetime.now()), "deposit", 1, -25.00)
