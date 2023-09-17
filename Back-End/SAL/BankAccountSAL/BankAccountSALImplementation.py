@@ -81,15 +81,13 @@ class BankAccountSALImplementation(BankAccountSALInterface):
         if type(account_id) != int:
             logging.warning("SAL method deposit, account ID not an integer")
             raise FailedTransaction("The deposit account ID field must be an integer, please try again!")
-        elif type(deposit_amount) != float:
-            logging.warning("SAL method deposit, deposit amount not a float")
-            raise FailedTransaction("The deposit amount field must be a float, please try again!")
         else:
             self.service_get_account_by_id(account_id)
             if deposit_amount <= 0.00:
                 logging.warning("SAL method deposit, deposit amount negative or 0")
                 raise FailedTransaction("The deposit amount field cannot be negative or 0.00, please try again!")
             else:
+                deposit_amount = float(deposit_amount)
                 deposit_result = self.account_dao.deposit(account_id, deposit_amount)
                 logging.info("Finishing SAL method deposit with result: " +
                              str(deposit_result.convert_to_dictionary()))

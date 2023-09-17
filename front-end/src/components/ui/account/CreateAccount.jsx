@@ -1,7 +1,7 @@
 import { toast } from "react-toastify";
 import { Modal } from "../../Modal";
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useFetch } from "../../../hooks/useFetch";
 import { FaSpinner, FaSync } from "react-icons/fa";
 import { AiOutlineExclamationCircle } from "react-icons/ai";
@@ -9,26 +9,19 @@ import Cookies from "js-cookie";
 
 // eslint-disable-next-line react/prop-types
 export const CreateAccount = ({ fetchAccounts }) => {
+    const sessionId = Cookies.get('sessionId');
+
     const [createAccountForm, setCreateAccountForm] = useState({
-        sessionId: Number(0),
+        sessionId: Number(sessionId),
         startingBalance: parseFloat(0).toFixed(2)
     });
     const [loading, setLoading] = useState(false);
     const [failedToFetch, setFailedToFetch] = useState(false);
     const [visible, setVisible] = useState(false);
 
-    const sessionId = Cookies.get('sessionId');
-
     const { fetchData } = useFetch();
 
     const navigate = useNavigate();
-
-    useEffect(() => {
-        setCreateAccountForm({
-            sessionId: Number(sessionId),
-            startingBalance: parseFloat(0).toFixed(2)
-        });
-    }, [sessionId]);
 
     const onChange = (event) => {
         const { name, value } = event.target;

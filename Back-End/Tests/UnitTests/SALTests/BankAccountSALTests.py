@@ -91,13 +91,6 @@ def tests_service_get_accounts_for_delete_success():
     result = account_sao.service_get_accounts_for_delete(-2)
     assert len(result) > 0
 
-def test_service_deposit_amount_not_float():
-    try:
-        account_sao.service_deposit(successful_account.account_id, "this won't work")
-        assert False
-    except FailedTransaction as error:
-        assert str(error) == "The deposit amount field must be a float, please try again!"
-
 def test_service_deposit_account_id_left_not_integer():
     try:
         account_sao.service_deposit("this won't work", 50.00)

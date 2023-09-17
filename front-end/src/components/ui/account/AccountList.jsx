@@ -12,6 +12,8 @@ import { AiOutlineExclamationCircle } from 'react-icons/ai';
 import Cookies from 'js-cookie';
 
 export const AccountList = () => {
+    const sessionId = Cookies.get('sessionId');
+    
     const [accounts, setAccounts] = useState([]);
     const [loading, setLoading] = useState(false);
     const [failedToFetch, setFailedToFetch] = useState(false);
@@ -19,8 +21,6 @@ export const AccountList = () => {
     const { fetchData } = useFetch();
 
     const navigate = useNavigate();
-
-    const sessionId = Cookies.get('sessionId');
 
     useEffect(() => {
         fetchAccounts();
@@ -76,9 +76,9 @@ export const AccountList = () => {
                     <td className='table-data'>{account.accountId}</td>
                     <td className='table-data'>{account.balance}</td>
                     <td className='table-data crud-icons'>
-                        <Deposit />
-                        <Withdraw />
-                        <Transfer />
+                        <Deposit account={account} fetchAccounts={fetchAccounts}/>
+                        <Withdraw account={account} fetchAccounts={fetchAccounts}/>
+                        <Transfer account={account} fetchAccounts={fetchAccounts}/>
                         <DeleteAccount account={account} fetchAccounts={fetchAccounts}/>
                     </td>
                 </tr>

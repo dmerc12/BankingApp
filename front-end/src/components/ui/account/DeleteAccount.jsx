@@ -47,10 +47,7 @@ export const DeleteAccount = ({ account, fetchAccounts }) => {
                 fetchAccounts();
                 setVisible(false);
                 setLoading(false);
-                setDeleteAccountForm({
-                    sessionId: Number(sessionId),
-                    accountId: Number(account.accountId)
-                });
+                setDeleteAccountForm({});
                 toast.success("Account Successfully Deleted!", {
                     toastId: 'customId'
                 });
