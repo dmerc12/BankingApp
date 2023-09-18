@@ -42,11 +42,7 @@ export const Transfer = ({ accounts, fetchAccounts }) => {
         setVisibleForm(false);
     };
 
-    const showAccountsListModal = (fieldName) => {
-        setTranferForm((prevForm) => ({
-            ...prevForm,
-            [fieldName]: Number(0)
-        }));
+    const showAccountsListModal = () => {
         setVisibleAccountsList(true);
     };
 
@@ -57,13 +53,6 @@ export const Transfer = ({ accounts, fetchAccounts }) => {
     const goBack = () => {
         setFailedToFetch(false);
     };
-
-    const filteredAccounts = accounts.filter((account) => {
-        return (
-            account.accountId !== transferForm.withdrawAccountId &&
-            account.accountId !== transferForm.depositAccountId
-        );
-    });
 
     const selectAccount = (account) => {
         const accountId = account.accountId;
@@ -144,12 +133,12 @@ export const Transfer = ({ accounts, fetchAccounts }) => {
                     <form className="form" onSubmit={onSubmit}>
                         <div className="form-field">
                             <label className="form-label" htmlFor="withdrawAccountId">Account ID: </label>
-                            <input className="form-input" type="number" id="transferWithdrawAccountId" name="withdrawAcountId" value={transferForm.withdrawAccountId} onClick={showAccountsListModal('withdrawAccountId')}/>
+                            <input className="form-input" type="number" id="transferWithdrawAccountId" name="withdrawAcountId" value={transferForm.withdrawAccountId} onClick={showAccountsListModal}/>
                         </div>
 
                         <div className="form-field">
                             <label className="form-label" htmlFor="depositAccountId">Account ID: </label>
-                            <input className="form-input" type="number" id="transferDepositAccountId" name="depositAccountId" value={transferForm.depositAccountId} onClick={showAccountsListModal('depositAccountId')}/>
+                            <input className="form-input" type="number" id="transferDepositAccountId" name="depositAccountId" value={transferForm.depositAccountId} onClick={showAccountsListModal}/>
                         </div>
 
                         <div className="form-field">
@@ -162,27 +151,29 @@ export const Transfer = ({ accounts, fetchAccounts }) => {
                 )}
             </Modal>
 
-            <Modal visible={visibleAccountsList} onClose={closeAccountsListModal}>
-                <h1>Select An Account Below</h1>
-                <div className="list">
-                    <table className="table">
-                        <thead>
-                            <tr>
-                                <th className="table-head">Account ID</th>
-                                <th className="table-head">Current Balance</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {filteredAccounts.map((account) => (
-                                <tr key={account.accountId} onClick={() => selectAccount(account)}>
-                                    <td className="table-data">{account.accountId}</td>
-                                    <td className="table-data">{account.balance}</td>
+            {visibleAccountsList && (
+                <Modal visible={visibleAccountsList} onClose={closeAccountsListModal}>
+                    <h1>Select An Account Below</h1>
+                    <div className="list">
+                        <table className="table">
+                            <thead>
+                                <tr>
+                                    <th className="table-head">Account ID</th>
+                                    <th className="table-head">Current Balance</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
-            </Modal>
+                            </thead>
+                            <tbody>
+                                {accounts.map((account) => (
+                                    <tr key={account.accountId} onClick={() => selectAccount(account)}>
+                                        <td className="table-data">{account.accountId}</td>
+                                        <td className="table-data">{account.balance}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </Modal>
+            )}
         </>
     )
 }
