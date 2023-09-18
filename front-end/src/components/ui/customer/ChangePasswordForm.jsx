@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useFetch } from "../../../hooks/useFetch";
 import { toast } from "react-toastify";
@@ -8,16 +8,16 @@ import { AiOutlineExclamationCircle } from "react-icons/ai";
 import Cookies from "js-cookie";
 
 export const ChangePasswordForm = () => {
+    const sessionId = Cookies.get('sessionId');
+
     const [changePasswordForm, setChangePasswordForm] = useState({
-        sessionId: 0,
+        sessionId: Number(sessionId),
         password: '',
         confirmationPassword: ''
     });
     const [visible, setVisible] = useState(false);
     const [loading, setLoading] = useState(false);
     const [failedToFetch, setFailedToFetch] = useState(false);
-
-    const sessionId = Cookies.get('sessionId');
     
     const { fetchData } = useFetch();
 
@@ -42,13 +42,6 @@ export const ChangePasswordForm = () => {
             [name]: value
         }));
     };
-
-    useEffect(() => {
-        setChangePasswordForm((prevForm) => ({
-            ...prevForm,
-            sessionId: Number(sessionId)
-        }))
-    }, [sessionId])
 
     const onSubmit = async (event) => {
         event.preventDefault();

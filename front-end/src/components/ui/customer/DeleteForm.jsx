@@ -1,27 +1,22 @@
 import { toast } from "react-toastify";
 import { Modal } from "../../Modal";
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useFetch } from "../../../hooks/useFetch";
 import { FaSpinner, FaSync } from "react-icons/fa";
 import { AiOutlineExclamationCircle } from "react-icons/ai";
 import Cookies from "js-cookie";
 
 export const DeleteForm = () => {
-    const [deleteForm, setDeleteForm] = useState({sessionId: 0});
+    const sessionId = Cookies.get('sessionId');
+
     const [loading, setLoading] = useState(false);
     const [failedToFetch, setFailedToFetch] = useState(false);
     const [visible, setVisible] = useState(false);
 
-    const sessionId = Cookies.get('sessionId');
-
     const { fetchData } = useFetch();
 
     const navigate = useNavigate();
-
-    useEffect(() => {
-        setDeleteForm({sessionId: Number(sessionId)});
-    }, [sessionId]);
 
     const showModal = () => {
         setVisible(true);
@@ -40,7 +35,7 @@ export const DeleteForm = () => {
         setLoading(true);
         setFailedToFetch(false);
         try {
-            const { responseStatus, data } = await fetchData('/delete/customer/now', 'DELETE', deleteForm);
+            const { responseStatus, data } = await fetchData('/delete/customer/now', 'DELETE', {sessionId: Number(sessionId)});
 
             if (responseStatus === 200) {
                 Cookies.remove('sessionId');

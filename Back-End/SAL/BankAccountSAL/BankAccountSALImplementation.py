@@ -81,15 +81,13 @@ class BankAccountSALImplementation(BankAccountSALInterface):
         if type(account_id) != int:
             logging.warning("SAL method deposit, account ID not an integer")
             raise FailedTransaction("The deposit account ID field must be an integer, please try again!")
-        elif type(deposit_amount) != float:
-            logging.warning("SAL method deposit, deposit amount not a float")
-            raise FailedTransaction("The deposit amount field must be a float, please try again!")
         else:
             self.service_get_account_by_id(account_id)
             if deposit_amount <= 0.00:
                 logging.warning("SAL method deposit, deposit amount negative or 0")
                 raise FailedTransaction("The deposit amount field cannot be negative or 0.00, please try again!")
             else:
+                deposit_amount = float(deposit_amount)
                 deposit_result = self.account_dao.deposit(account_id, deposit_amount)
                 logging.info("Finishing SAL method deposit with result: " +
                              str(deposit_result.convert_to_dictionary()))
@@ -98,12 +96,10 @@ class BankAccountSALImplementation(BankAccountSALInterface):
     def service_withdraw(self, account_id: int, withdraw_amount: float) -> BankAccount:
         logging.info("Beginning SAL method withdraw with withdraw account ID: " + str(account_id) +
                      ", and withdraw amount: " + str(withdraw_amount))
+        withdraw_amount = float(withdraw_amount)
         if type(account_id) != int:
             logging.warning("SAL method withdraw, account ID not an integer")
             raise FailedTransaction("The withdraw account ID field must be an integer, please try again!")
-        elif type(withdraw_amount) != float:
-            logging.warning("SAL method withdraw, withdraw amount not float")
-            raise FailedTransaction("The withdraw amount field must be a float, please try again!")
         else:
             current_information = self.service_get_account_by_id(account_id)
             if withdraw_amount <= 0.00:
@@ -124,15 +120,13 @@ class BankAccountSALImplementation(BankAccountSALInterface):
         logging.info("Beginning SAL method transfer with withdraw account ID: " + str(withdraw_account_id) +
                      ", and deposit account ID: " + str(deposit_account_id) + ", and transfer amount: " +
                      str(transfer_amount))
+        transfer_amount = float(transfer_amount)
         if type(withdraw_account_id) != int:
             logging.warning("SAL method transfer, withdraw account ID not integer")
             raise FailedTransaction("The withdraw account ID field must be an integer, please try again!")
         elif type(deposit_account_id) != int:
             logging.warning("SAL method transfer, deposit account ID not integer")
             raise FailedTransaction("The deposit account ID field must be an integer, please try again!")
-        elif type(transfer_amount) != float:
-            logging.warning("SAL method transfer, transfer amount not float")
-            raise FailedTransaction("The transfer field must be a float, please try again!")
         elif withdraw_account_id == deposit_account_id:
             logging.warning("SAL method transfer, deposit and withdraw accounts the same")
             raise FailedTransaction("The deposit and withdraw accounts cannot be the same, please try again!")

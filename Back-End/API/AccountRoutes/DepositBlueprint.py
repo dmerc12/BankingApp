@@ -22,12 +22,11 @@ transaction_sao = TransactionSALImplementation(transaction_dao)
 @deposit_route.route("/deposit", methods=["PUT"])
 def deposit_api():
     try:
+        current_app.logger.info("Beginning API function deposit with data: " + str(request.json))
         session_id = request.json.get("sessionId")
         account_id = request.json.get("accountId")
         deposit_amount = request.json.get("depositAmount")
         session_data = session_sao.service_get_session(session_id)
-        current_app.logger.info("Beginning API function deposit with data: " + str(session_id) + ", and "
-                                + str(account_id) + ", and " + str(deposit_amount))
         deposit_transaction = Transaction(0, str(datetime.now()), "Deposit", account_id, deposit_amount)
         result = account_sao.service_deposit(account_id, deposit_amount)
         transaction_sao.service_create_transaction(deposit_transaction)

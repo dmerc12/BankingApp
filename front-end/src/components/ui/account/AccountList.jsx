@@ -12,6 +12,8 @@ import { AiOutlineExclamationCircle } from 'react-icons/ai';
 import Cookies from 'js-cookie';
 
 export const AccountList = () => {
+    const sessionId = Cookies.get('sessionId');
+    
     const [accounts, setAccounts] = useState([]);
     const [loading, setLoading] = useState(false);
     const [failedToFetch, setFailedToFetch] = useState(false);
@@ -20,32 +22,12 @@ export const AccountList = () => {
 
     const navigate = useNavigate();
 
-    const sessionId = Cookies.get('sessionId');
-
     useEffect(() => {
         fetchAccounts();
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
     
     let accountRows = [];
-
-    if (accounts.length > 0) {
-        for (let i=0; i < accounts.length; i++) {
-            const account = accounts[i];
-            accountRows.unshift(
-                <tr key={account.accountId}>
-                    <td className='table-data'>{account.accountId}</td>
-                    <td className='table-data'>{account.balance}</td>
-                    <td className='table-data crud-icons'>
-                        <Deposit />
-                        <Withdraw />
-                        <Transfer />
-                        <DeleteAccount account={account} fetchAccounts={fetchAccounts}/>
-                    </td>
-                </tr>
-            )
-        }
-    }
 
     const goBack = () => {
         navigate('/home');
@@ -86,9 +68,27 @@ export const AccountList = () => {
         }
     };
 
+    if (accounts.length > 0) {
+        for (let i=0; i < accounts.length; i++) {
+            const account = accounts[i];
+            accountRows.unshift(
+                <tr key={account.accountId}>
+                    <td className='table-data'>{account.accountId}</td>
+                    <td className='table-data'>{account.balance}</td>
+                    <td className='table-data crud-icons'>
+                        <Deposit account={account} fetchAccounts={fetchAccounts}/>
+                        <Withdraw account={account} fetchAccounts={fetchAccounts}/>
+                        <DeleteAccount account={account} fetchAccounts={fetchAccounts}/>
+                    </td>
+                </tr>
+            )
+        }
+    }
+
     return (
         <>
             <CreateAccount fetchAccounts={fetchAccounts}/>
+            {accounts.length > 1 && <Transfer fetchAccounts={fetchAccounts}/>}
             {loading ? (
                <div className='loading-indicator'>
                     <FaSpinner className='spinner' />
@@ -110,9 +110,9 @@ export const AccountList = () => {
                     <table className='table'> 
                         <thead>
                             <tr>
-                                <th className='table head'>Account ID</th>
-                                <th className='table head'>Current Balance</th>
-                                <th className='table head'>Actions</th>
+                                <th className='table-head'>Account ID</th>
+                                <th className='table-head'>Current Balance</th>
+                                <th className='table-head'>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
