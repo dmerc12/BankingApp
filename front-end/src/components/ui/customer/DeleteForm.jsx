@@ -10,7 +10,6 @@ import Cookies from "js-cookie";
 export const DeleteForm = () => {
     const sessionId = Cookies.get('sessionId');
 
-    const [deleteForm, setDeleteForm] = useState({sessionId: Number(sessionId)});
     const [loading, setLoading] = useState(false);
     const [failedToFetch, setFailedToFetch] = useState(false);
     const [visible, setVisible] = useState(false);
@@ -36,14 +35,13 @@ export const DeleteForm = () => {
         setLoading(true);
         setFailedToFetch(false);
         try {
-            const { responseStatus, data } = await fetchData('/delete/customer/now', 'DELETE', deleteForm);
+            const { responseStatus, data } = await fetchData('/delete/customer/now', 'DELETE', {sessionId: Number(sessionId)});
 
             if (responseStatus === 200) {
                 Cookies.remove('sessionId');
                 navigate('/login');
                 setLoading(false);
                 setVisible(false);
-                setDeleteForm({});
                 toast.success("Profile successfully deleted, goodbye!", {
                     toastId: 'customId'
                 });

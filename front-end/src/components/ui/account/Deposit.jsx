@@ -55,7 +55,11 @@ export const Deposit = ({ account, fetchAccounts}) => {
                 fetchAccounts();
                 setVisible(false);
                 setLoading(false);
-                setDepositForm({});
+                setDepositForm({
+                    sessionId: Number(sessionId),
+                    accountId: Number(account.accountId),
+                    depositAmount: parseFloat(0).toFixed(2)
+                });
                 toast.success("Deposit Successful!", {
                     toastId: 'customId'
                 });
