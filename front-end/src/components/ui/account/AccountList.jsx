@@ -88,7 +88,7 @@ export const AccountList = () => {
     return (
         <>
             <CreateAccount fetchAccounts={fetchAccounts}/>
-            {accounts.length > 2 && <Transfer fetchAccounts={fetchAccounts}/>}
+            {accounts.length > 1 && <Transfer fetchAccounts={fetchAccounts}/>}
             {loading ? (
                <div className='loading-indicator'>
                     <FaSpinner className='spinner' />

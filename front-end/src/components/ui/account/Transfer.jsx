@@ -92,7 +92,46 @@ export const Transfer = ({ fetchAccounts }) => {
 
     return (
         <>
-        
+            <div className="component">
+                <button className="action-btn" onClick={showModal} id="transferModal">Transfer Between Accounts<FaExchangeAlt size={15}/></button>
+            </div>
+            
+            <Modal visible={visible} onClose={closeModal}>
+                {loading ? (
+                    <div className='loading-indicator'>
+                        <FaSpinner className='spinner' />
+                    </div>        
+                ) : failedToFetch ? (
+                    <div className='failed-to-fetch'>
+                        <AiOutlineExclamationCircle className='warning-icon'/>
+                        <p>Cannot connect to the back end server.</p>
+                        <p>Please check your internet connection and try again.</p>
+                        <button className='retry-button' onClick={onSubmit}>
+                            <FaSync className='retry-icon'/> Retry
+                        </button>
+                        <button className='back-button' onClick={goBack}>Go Back</button>
+                    </div>
+                ) : (
+                    <form className="form" onSubmit={onSubmit}>
+                        <div className="form-field">
+                            <label className="form-label" htmlFor="withdrawAccountId">Account ID: </label>
+                            <input className="form-input" type="number" disabled id="transferWithdrawAccountId" name="withdrawAcountId" value={transferForm.withdrawAccountId}/>
+                        </div>
+
+                        <div className="form-field">
+                            <label className="form-label" htmlFor="depositAccountId">Account ID: </label>
+                            <input className="form-input" type="number" disabled id="transferDepositAccountId" name="depositAccountId" value={transferForm.depositAccountId}/>
+                        </div>
+
+                        <div className="form-field">
+                            <label className="form-label" htmlFor="transferAmount">Transfer Amount: </label>
+                            <input className="form-input" type="number" id="transferAmount" name="transferAmount" value={transferForm.transferAmount}  onChange={onChange}/>
+                        </div>
+
+                        <button className="form-btn-1" type="submit" id="transferButton">Transfer</button>
+                    </form>
+                )}
+            </Modal>
         </>
     )
 }
