@@ -8,7 +8,7 @@ import { useFetch } from "../../../hooks/useFetch";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 
-export const Transfer = ({ fetchAccounts }) => {
+export const Transfer = ({ accounts, fetchAccounts }) => {
     const sessionId = Cookies.get('sessionId');
 
     const [transferForm, setTranferForm] = useState({
@@ -19,7 +19,8 @@ export const Transfer = ({ fetchAccounts }) => {
     });
     const [loading, setLoading] = useState(false);
     const [failedToFetch, setFailedToFetch] = useState(false);
-    const [visible, setVisible] = useState(false);
+    const [visibleForm, setVisibleForm] = useState(false);
+    const [visibleAccountsList, setVisibleAccountsList] = useState(false);
 
     const { fetchData } = useFetch();
 
@@ -33,16 +34,44 @@ export const Transfer = ({ fetchAccounts }) => {
         }));
     };
 
-    const showModal = () => {
-        setVisible(true);
+    const showFormModal = () => {
+        setVisibleForm(true);
     };
 
-    const closeModal = () => {
-        setVisible(false);
+    const closeFormModal = () => {
+        setVisibleForm(false);
+    };
+
+    const showAccountsListModal = (fieldName) => {
+        setTranferForm((prevForm) => ({
+            ...prevForm,
+            [fieldName]: Number(0)
+        }));
+        setVisibleAccountsList(true);
+    };
+
+    const closeAccountsListModal = () => {
+        setVisibleAccountsList(false);
     };
 
     const goBack = () => {
         setFailedToFetch(false);
+    };
+
+    const filteredAccounts = accounts.filter((account) => {
+        return (
+            account.accountId !== transferForm.withdrawAccountId &&
+            account.accountId !== transferForm.depositAccountId
+        );
+    });
+
+    const selectAccount = (account) => {
+        const accountId = account.accountId;
+        setTranferForm((prevForm) => ({
+            ...prevForm,
+            [name]: Number(accountId)
+        }));
+        closeAccountsListModal();
     };
 
     const onSubmit = async (event) => {
@@ -54,7 +83,7 @@ export const Transfer = ({ fetchAccounts }) => {
 
             if (responseStatus === 200) {
                 fetchAccounts();
-                setVisible(false);
+                setVisibleForm(false);
                 setLoading(false);
                 setTranferForm({
                     sessionId: Number(sessionId),
@@ -93,10 +122,10 @@ export const Transfer = ({ fetchAccounts }) => {
     return (
         <>
             <div className="component">
-                <button className="action-btn" onClick={showModal} id="transferModal">Transfer Between Accounts<FaExchangeAlt size={15}/></button>
+                <button className="action-btn" onClick={showFormModal} id="transferModal">Transfer Between Accounts<FaExchangeAlt size={15}/></button>
             </div>
             
-            <Modal visible={visible} onClose={closeModal}>
+            <Modal visible={visibleForm} onClose={closeFormModal}>
                 {loading ? (
                     <div className='loading-indicator'>
                         <FaSpinner className='spinner' />
@@ -115,12 +144,12 @@ export const Transfer = ({ fetchAccounts }) => {
                     <form className="form" onSubmit={onSubmit}>
                         <div className="form-field">
                             <label className="form-label" htmlFor="withdrawAccountId">Account ID: </label>
-                            <input className="form-input" type="number" disabled id="transferWithdrawAccountId" name="withdrawAcountId" value={transferForm.withdrawAccountId}/>
+                            <input className="form-input" type="number" id="transferWithdrawAccountId" name="withdrawAcountId" value={transferForm.withdrawAccountId} onClick={showAccountsListModal('withdrawAccountId')}/>
                         </div>
 
                         <div className="form-field">
                             <label className="form-label" htmlFor="depositAccountId">Account ID: </label>
-                            <input className="form-input" type="number" disabled id="transferDepositAccountId" name="depositAccountId" value={transferForm.depositAccountId}/>
+                            <input className="form-input" type="number" id="transferDepositAccountId" name="depositAccountId" value={transferForm.depositAccountId} onClick={showAccountsListModal('depositAccountId')}/>
                         </div>
 
                         <div className="form-field">
@@ -131,6 +160,28 @@ export const Transfer = ({ fetchAccounts }) => {
                         <button className="form-btn-1" type="submit" id="transferButton">Transfer</button>
                     </form>
                 )}
+            </Modal>
+
+            <Modal visible={visibleAccountsList} onClose={closeAccountsListModal}>
+                <h1>Select An Account Below</h1>
+                <div className="list">
+                    <table className="table">
+                        <thead>
+                            <tr>
+                                <th className="table-head">Account ID</th>
+                                <th className="table-head">Current Balance</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {filteredAccounts.map((account) => (
+                                <tr key={account.accountId} onClick={() => selectAccount(account)}>
+                                    <td className="table-data">{account.accountId}</td>
+                                    <td className="table-data">{account.balance}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             </Modal>
         </>
     )
