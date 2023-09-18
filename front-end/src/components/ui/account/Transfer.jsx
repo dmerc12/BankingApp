@@ -8,7 +8,88 @@ import { useFetch } from "../../../hooks/useFetch";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 
-export const Transfer = ({ account, fetchAccounts}) => {
+export const Transfer = ({ fetchAccounts }) => {
+    const sessionId = Cookies.get('sessionId');
+
+    const [transferForm, setTranferForm] = useState({
+        sessionId: Number(sessionId),
+        withdrawAccountId: 0,
+        depositAccountId: 0,
+        transferAmount: parseFloat(0).toFixed(2)
+    });
+    const [loading, setLoading] = useState(false);
+    const [failedToFetch, setFailedToFetch] = useState(false);
+    const [visible, setVisible] = useState(false);
+
+    const { fetchData } = useFetch();
+
+    const navigate = useNavigate();
+
+    const onChange = (event) => {
+        const { name, value } = event.target;
+        setTranferForm((prevForm) => ({
+            ...prevForm,
+            [name]: parseFloat(value)
+        }));
+    };
+
+    const showModal = () => {
+        setVisible(true);
+    };
+
+    const closeModal = () => {
+        setVisible(false);
+    };
+
+    const goBack = () => {
+        setFailedToFetch(false);
+    };
+
+    const onSubmit = async (event) => {
+        event.preventDefault();
+        setLoading(true);
+        setFailedToFetch(false);
+        try {
+            const { responseStatus, data } = await fetchData('/transfer', 'PUT', transferForm);
+
+            if (responseStatus === 200) {
+                fetchAccounts();
+                setVisible(false);
+                setLoading(false);
+                setTranferForm({
+                    sessionId: Number(sessionId),
+                    withdrawAccountId: 0,
+                    depositAccountId: 0,
+                    transferAmount: parseFloat(0).toFixed(2)
+                });
+                toast.success("Transfer Successful!", {
+                    toastId: 'customId'
+                });
+            } else if (responseStatus === 400) {
+                throw new Error(`${data.message}`);
+            } else {
+                throw new Error("Something went horribly wrong!")
+            }
+        } catch (error) {
+            if (error.message === "No session found, please try again!" || error.message === "Session has expired, please log in!") {
+                Cookies.remove('sessionId');
+                navigate('/login');
+                setLoading(false);
+                toast.warn(error.message, {
+                    toastId: "customId"
+                });
+            } else if (error.message === "Failed to fetch") {
+                setFailedToFetch(true);
+                setLoading(false);
+            } else {
+                setLoading(false);
+                toast.warn(error.message, {
+                    toastId: "customId"
+                });
+            }
+        }
+    };
+
     return (
         <>
         

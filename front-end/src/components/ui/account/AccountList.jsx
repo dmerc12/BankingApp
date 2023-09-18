@@ -78,7 +78,6 @@ export const AccountList = () => {
                     <td className='table-data crud-icons'>
                         <Deposit account={account} fetchAccounts={fetchAccounts}/>
                         <Withdraw account={account} fetchAccounts={fetchAccounts}/>
-                        <Transfer account={account} fetchAccounts={fetchAccounts}/>
                         <DeleteAccount account={account} fetchAccounts={fetchAccounts}/>
                     </td>
                 </tr>
@@ -89,6 +88,7 @@ export const AccountList = () => {
     return (
         <>
             <CreateAccount fetchAccounts={fetchAccounts}/>
+            {accounts.length > 2 && <Transfer fetchAccounts={fetchAccounts}/>}
             {loading ? (
                <div className='loading-indicator'>
                     <FaSpinner className='spinner' />
