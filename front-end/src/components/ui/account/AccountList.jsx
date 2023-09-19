@@ -3,6 +3,7 @@ import { Withdraw } from './Withdraw';
 import { Transfer } from './Transfer';
 import { DeleteAccount } from './DeleteAccount';
 import { CreateAccount } from './CreateAccount';
+import { TransactionList } from '../transactions/TransactionList';
 import { useNavigate } from 'react-router-dom';
 import { useFetch } from '../../../hooks/useFetch';
 import { useState, useEffect } from 'react';
@@ -102,6 +103,7 @@ export const AccountList = () => {
                                         <td className='table-data'>{account.accountId}</td>
                                         <td className='table-data'>{account.balance}</td>
                                         <td className='table-data crud-icons'>
+                                            <TransactionList account={account} />
                                             <Deposit account={account} fetchAccounts={fetchAccounts}/>
                                             <Withdraw account={account} fetchAccounts={fetchAccounts}/>
                                             <DeleteAccount account={account} fetchAccounts={fetchAccounts}/>
