@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { FaSpinner, FaSync } from "react-icons/fa";
+import { FaList, FaSpinner, FaSync } from "react-icons/fa";
 import { AiOutlineExclamationCircle } from "react-icons/ai";
 import { Modal } from "../../Modal";
 import { toast } from "react-toastify";
@@ -80,7 +80,10 @@ export const TransactionList = ({ account }) => {
     }, [])
     return (
         <>
-
+            <FaList onClick={showModal} cursor={'pointer'} size={15} id="transactionsModal" />
+            <Modal visible={visible} onClose={closeModal}>
+                
+            </Modal>
         </>
     )
 }
