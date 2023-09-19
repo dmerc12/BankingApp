@@ -149,12 +149,12 @@ export const Transfer = ({ accounts, fetchAccounts }) => {
                     <form className="form" onSubmit={onSubmit}>
                         <div className="form-field">
                             <label className="form-label" htmlFor="withdrawAccountId">Account ID: </label>
-                            <input className="form-input" type="number" id="transferWithdrawAccountId" name="withdrawAcountId" value={transferForm.withdrawAccountId} onClick={showWithdrawAccountsListModal}/>
+                            <input className="form-input" type="number" id="transferWithdrawAccountId" name="withdrawAcountId" value={transferForm.withdrawAccountId} onClick={showWithdrawAccountsListModal} onChange={() => {}}/>
                         </div>
 
                         <div className="form-field">
                             <label className="form-label" htmlFor="depositAccountId">Account ID: </label>
-                            <input className="form-input" type="number" id="transferDepositAccountId" name="depositAccountId" value={transferForm.depositAccountId} onClick={showDepositAccountsListModal}/>
+                            <input className="form-input" type="number" id="transferDepositAccountId" name="depositAccountId" value={transferForm.depositAccountId} onClick={showDepositAccountsListModal} onChange={() => {}}/>
                         </div>
 
                         <div className="form-field">
@@ -179,7 +179,7 @@ export const Transfer = ({ accounts, fetchAccounts }) => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {accounts.filter((account) => account.accountId !== transferForm.withdrawAccountId || account.accountId !== transferForm.depositAccountId).map((account) => (
+                                {accounts.filter((account) => (account.accountId !== transferForm.withdrawAccountId && account.accountId !== transferForm.depositAccountId)).map((account) => (
                                     <tr key={account.accountId} onClick={() => selectAccount(account)}>
                                         <td className="table-data">{account.accountId}</td>
                                         <td className="table-data">{account.balance}</td>
