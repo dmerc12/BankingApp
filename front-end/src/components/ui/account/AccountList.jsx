@@ -3,6 +3,7 @@ import { Withdraw } from './Withdraw';
 import { Transfer } from './Transfer';
 import { DeleteAccount } from './DeleteAccount';
 import { CreateAccount } from './CreateAccount';
+import { TransactionList } from '../transactions/TransactionList';
 import { useNavigate } from 'react-router-dom';
 import { useFetch } from '../../../hooks/useFetch';
 import { useState, useEffect } from 'react';
@@ -27,8 +28,6 @@ export const AccountList = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
     
-    let accountRows = [];
-
     const goBack = () => {
         navigate('/home');
         setFailedToFetch(false);
@@ -68,27 +67,10 @@ export const AccountList = () => {
         }
     };
 
-    if (accounts.length > 0) {
-        for (let i=0; i < accounts.length; i++) {
-            const account = accounts[i];
-            accountRows.unshift(
-                <tr key={account.accountId}>
-                    <td className='table-data'>{account.accountId}</td>
-                    <td className='table-data'>{account.balance}</td>
-                    <td className='table-data crud-icons'>
-                        <Deposit account={account} fetchAccounts={fetchAccounts}/>
-                        <Withdraw account={account} fetchAccounts={fetchAccounts}/>
-                        <DeleteAccount account={account} fetchAccounts={fetchAccounts}/>
-                    </td>
-                </tr>
-            )
-        }
-    }
-
     return (
         <>
             <CreateAccount fetchAccounts={fetchAccounts}/>
-            {accounts.length > 1 && <Transfer fetchAccounts={fetchAccounts}/>}
+            {accounts.length > 1 && <Transfer accounts={accounts} fetchAccounts={fetchAccounts}/>}
             {loading ? (
                <div className='loading-indicator'>
                     <FaSpinner className='spinner' />
@@ -116,7 +98,19 @@ export const AccountList = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {accountRows}
+                            {accounts.map((account) => (
+                                    <tr key={account.accountId}>
+                                        <td className='table-data'>{account.accountId}</td>
+                                        <td className='table-data'>{account.balance}</td>
+                                        <td className='table-data crud-icons'>
+                                            <TransactionList account={account} />
+                                            <Deposit account={account} fetchAccounts={fetchAccounts}/>
+                                            <Withdraw account={account} fetchAccounts={fetchAccounts}/>
+                                            <DeleteAccount account={account} fetchAccounts={fetchAccounts}/>
+                                        </td>
+                                    </tr>
+                                ))
+                            }
                         </tbody>
                     </table>
                 </div>
