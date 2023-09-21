@@ -43,6 +43,7 @@ export const TransactionList = ({ account }) => {
             const { responseStatus, data } = await fetchData('/get/transactions', 'PATCH', transactionForm);
 
             if (responseStatus === 200) {
+                if (Array.isArray(data))
                 setTransactions(data);
                 setLoading(false);
                 setTransactionForm({
@@ -82,7 +83,46 @@ export const TransactionList = ({ account }) => {
         <>
             <FaList onClick={showModal} cursor={'pointer'} size={15} id="transactionsModal" />
             <Modal visible={visible} onClose={closeModal}>
-                
+                {loading ? (
+                    <div className='loading-indicator'>
+                        <FaSpinner className='spinner' />
+                    </div> 
+                ) : failedToFetch ? (
+                    <div className='failed-to-fetch'>
+                        <AiOutlineExclamationCircle className='warning-icon'/>
+                        <p>Cannot connect to the back end server.</p>
+                        <p>Please check your internet connection and try again.</p>
+                        <button className='retry-button' onClick={fetchTransactions}>
+                            <FaSync className='retry-icon'/> Retry
+                        </button>
+                        <button className='back-button' onClick={goBack}>Go Back</button>
+                    </div>
+                ) : (
+                    <div className="list">
+                        <table className="table">
+                            <thead>
+                                <tr>
+                                    <th className="table-head">Account ID</th>
+                                    <th className="table-head">Transaction ID</th>
+                                    <th className="table-head">Time and Date</th>
+                                    <th className="table-head">Transaction Type</th>
+                                    <th className="table-head">Transaction Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {transactions.map((transaction) => (
+                                    <tr key={transaction.transactionId}>
+                                        <td className="table-date">{transaction.accountId}</td>
+                                        <td className="table-date">{transaction.transactionId}</td>
+                                        <td className="table-date">{transaction.dateTime}</td>
+                                        <td className="table-date">{transaction.transactionType}</td>
+                                        <td className="table-date">{transaction.amount}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>  
+                )}
             </Modal>
         </>
     )
