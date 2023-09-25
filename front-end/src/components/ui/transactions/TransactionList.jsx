@@ -18,11 +18,12 @@ export const TransactionList = ({ account }) => {
     const [loading, setLoading] = useState(false);
     const [failedToFetch, setFailedToFetch] = useState(false);
     const [visible, setVisible] = useState(false);
-    const [transactions, setTransactions] = useState([])
 
     const { fetchData } = useFetch();
 
     const navigate = useNavigate();
+
+    let transactionRows = []
 
     const showModal = () => {
         setVisible(true);
@@ -45,7 +46,17 @@ export const TransactionList = ({ account }) => {
 
             if (responseStatus === 200) {
                 if (Array.isArray(data))
-                setTransactions(data);
+                for (const transaction of data) {
+                    transactionRows.push(
+                        <tr key={transaction.transationId}>
+                            <td className="table-date">{transaction.accountId}</td>
+                            <td className="table-date">{transaction.transactionId}</td>
+                            <td className="table-date">{transaction.dateTime}</td>
+                            <td className="table-date">{transaction.transactionType}</td>
+                            <td className="table-date">{transaction.amount}</td>
+                        </tr>
+                    )
+                }
                 setLoading(false);
                 setTransactionForm({
                     sessionId: Number(sessionId),
@@ -107,15 +118,14 @@ export const TransactionList = ({ account }) => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {transactions.map((transaction) => (
-                                    <tr key={transaction.transactionId}>
-                                        <td className="table-date">{transaction.accountId}</td>
-                                        <td className="table-date">{transaction.transactionId}</td>
-                                        <td className="table-date">{transaction.dateTime}</td>
-                                        <td className="table-date">{transaction.transactionType}</td>
-                                        <td className="table-date">{transaction.amount}</td>
-                                    </tr>
-                                ))}
+                                <tr>
+                                    <td className="table-data">1</td>
+                                    <td className="table-data">5</td>
+                                    <td className="table-data">Now</td>
+                                    <td className="table-data">Test Deposit</td>
+                                    <td className="table-data">5000.00</td>
+                                </tr>
+                                {transactionRows}
                             </tbody>
                         </table>
                     </div>  
