@@ -346,6 +346,11 @@
     width: 100%;
     overflow-x: auto;
   }
+
+  .transaction-list {
+    width: 100%;
+    overflow-x: auto;
+  }
   
   .table-head {
     text-align: left;

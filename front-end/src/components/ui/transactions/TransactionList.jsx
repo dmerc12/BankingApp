@@ -3,7 +3,7 @@ import { FaList, FaSpinner, FaSync } from "react-icons/fa";
 import { AiOutlineExclamationCircle } from "react-icons/ai";
 import { Modal } from "../../Modal";
 import { toast } from "react-toastify";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useFetch } from "../../../hooks/useFetch";
 import Cookies from "js-cookie";
@@ -37,6 +37,7 @@ export const TransactionList = ({ account }) => {
     };
 
     const fetchTransactions = async () => {
+        showModal();
         setLoading(true);
         setFailedToFetch(false);
         try {
@@ -75,13 +76,9 @@ export const TransactionList = ({ account }) => {
         }
     }
 
-    useEffect(() => {
-        fetchTransactions();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
     return (
         <>
-            <FaList onClick={showModal} cursor={'pointer'} size={15} id="transactionsModal" />
+            <FaList onClick={fetchTransactions} cursor={'pointer'} size={15} id="transactionsModal" />
             <Modal visible={visible} onClose={closeModal}>
                 {loading ? (
                     <div className='loading-indicator'>
@@ -98,7 +95,7 @@ export const TransactionList = ({ account }) => {
                         <button className='back-button' onClick={goBack}>Go Back</button>
                     </div>
                 ) : (
-                    <div className="list">
+                    <div className="transaction-list">
                         <table className="table">
                             <thead>
                                 <tr>
