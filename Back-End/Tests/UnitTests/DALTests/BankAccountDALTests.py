@@ -17,7 +17,7 @@ def test_get_all_accounts_success():
     assert len(result) > 0
 
 def test_get_accounts_for_delete_success():
-    result = account_dao.get_accounts_for_delete(-2)
+    result = account_dao.get_accounts_for_delete(-1)
     assert len(result) > 0
 
 def test_deposit_success():

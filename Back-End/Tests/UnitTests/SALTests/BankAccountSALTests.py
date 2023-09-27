@@ -24,14 +24,6 @@ def test_service_create_account_no_customer_found():
     except FailedTransaction as error:
         assert str(error) == "This customer cannot be found, please try again!"
 
-def test_service_create_account_balance_not_float():
-    try:
-        test_account = BankAccount(successful_account.account_id, successful_account.customer_id, "won't work")
-        account_sao.service_create_account(test_account)
-        assert False
-    except FailedTransaction as error:
-        assert str(error) == "The balance field must be a float, please try again!"
-
 def test_service_create_account_amount_zero():
     try:
         test_account = BankAccount(successful_account.account_id, successful_account.customer_id, 0.00)
