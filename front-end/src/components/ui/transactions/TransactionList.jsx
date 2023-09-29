@@ -23,7 +23,7 @@ export const TransactionList = ({ account }) => {
 
     const navigate = useNavigate();
 
-    let transactionRows = []
+    let transactionRows = [];
 
     const showModal = () => {
         setVisible(true);
@@ -48,12 +48,12 @@ export const TransactionList = ({ account }) => {
                 if (Array.isArray(data))
                 for (const transaction of data) {
                     transactionRows.push(
-                        <tr key={transaction.transationId}>
-                            <td className="table-date">{transaction.accountId}</td>
-                            <td className="table-date">{transaction.transactionId}</td>
-                            <td className="table-date">{transaction.dateTime}</td>
-                            <td className="table-date">{transaction.transactionType}</td>
-                            <td className="table-date">{transaction.amount}</td>
+                        <tr key={transaction.transaction.transactionId}>
+                            <td className="table-data">{transaction.accountId}</td>
+                            <td className="table-data">{transaction.transactionId}</td>
+                            <td className="table-data">{transaction.dateTime}</td>
+                            <td className="table-data">{transaction.transactionType}</td>
+                            <td className="table-data">{transaction.amount}</td>
                         </tr>
                     )
                 }
@@ -87,6 +87,20 @@ export const TransactionList = ({ account }) => {
         }
     }
 
+    // let rows = [];
+    // for (let i=0; i<transactions.length; i++) {
+    //     const transaction = transactions[i];
+    //     rows.push(
+    //         <tr key={transaction.transaction.transactionId}>
+    //             <td className="table-data">{transaction.accountId}</td>
+    //             <td className="table-data">{transaction.transactionId}</td>
+    //             <td className="table-data">{transaction.dateTime}</td>
+    //             <td className="table-data">{transaction.transactionType}</td>
+    //             <td className="table-data">{transaction.amount}</td>
+    //         </tr>
+    //     );
+    // }
+
     return (
         <>
             <FaList onClick={fetchTransactions} cursor={'pointer'} size={15} id="transactionsModal" />
@@ -118,13 +132,6 @@ export const TransactionList = ({ account }) => {
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td className="table-data">1</td>
-                                    <td className="table-data">5</td>
-                                    <td className="table-data">Now</td>
-                                    <td className="table-data">Test Deposit</td>
-                                    <td className="table-data">5000.00</td>
-                                </tr>
                                 {transactionRows}
                             </tbody>
                         </table>
