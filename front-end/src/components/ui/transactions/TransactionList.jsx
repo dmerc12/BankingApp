@@ -15,6 +15,7 @@ export const TransactionList = ({ account }) => {
         sessionId: Number(sessionId),
         accountId: Number(account.accountId)
     });
+    const [transactionRows, setTransactionRows] = useState([])
     const [loading, setLoading] = useState(false);
     const [failedToFetch, setFailedToFetch] = useState(false);
     const [visible, setVisible] = useState(false);
@@ -22,8 +23,6 @@ export const TransactionList = ({ account }) => {
     const { fetchData } = useFetch();
 
     const navigate = useNavigate();
-
-    let transactionRows = [];
 
     const showModal = () => {
         setVisible(true);
@@ -47,7 +46,8 @@ export const TransactionList = ({ account }) => {
             if (responseStatus === 200) {
                 if (Array.isArray(data))
                 for (const transaction of data) {
-                    transactionRows.push(
+                    setTransactionRows(prevRows => [
+                        ...prevRows, 
                         <tr key={transaction.transaction.transactionId}>
                             <td className="table-data">{transaction.accountId}</td>
                             <td className="table-data">{transaction.transactionId}</td>
@@ -55,7 +55,7 @@ export const TransactionList = ({ account }) => {
                             <td className="table-data">{transaction.transactionType}</td>
                             <td className="table-data">{transaction.amount}</td>
                         </tr>
-                    )
+                    ]);
                 }
                 setLoading(false);
                 setTransactionForm({
