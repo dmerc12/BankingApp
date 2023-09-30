@@ -87,20 +87,6 @@ export const TransactionList = ({ account }) => {
         }
     }
 
-    // let rows = [];
-    // for (let i=0; i<transactions.length; i++) {
-    //     const transaction = transactions[i];
-    //     rows.push(
-    //         <tr key={transaction.transaction.transactionId}>
-    //             <td className="table-data">{transaction.accountId}</td>
-    //             <td className="table-data">{transaction.transactionId}</td>
-    //             <td className="table-data">{transaction.dateTime}</td>
-    //             <td className="table-data">{transaction.transactionType}</td>
-    //             <td className="table-data">{transaction.amount}</td>
-    //         </tr>
-    //     );
-    // }
-
     return (
         <>
             <FaList onClick={fetchTransactions} cursor={'pointer'} size={15} id="transactionsModal" />
