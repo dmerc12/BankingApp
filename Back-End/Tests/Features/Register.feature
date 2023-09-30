@@ -1,4 +1,4 @@
-Feature: As a new customer I need to register a profile with the banking system.
+Feature: A new customer needs to register a profile with the banking system.
 
   Scenario Outline: As a new customer, I input the needed information incorrectly to register a profile.
     Given I am on the login page
@@ -56,7 +56,7 @@ Feature: As a new customer I need to register a profile with the banking system.
     When  I input <state> in the register state input
     When  I input <zip_code> in the register zip code input
     When  I click the register button
-    Then  I am routed back to the login page
+    Then  I am routed to the login page
 
     Examples:
       | first_name | last_name | email             | password | confirmation_password | phone_number   | street_address | city    | state | zip_code |
