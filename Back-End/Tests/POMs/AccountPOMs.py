@@ -4,7 +4,7 @@ from selenium.webdriver.safari.webdriver import WebDriver
 # from selenium.webdriver.edge.webdriver import WebDriver
 
 
-class DepositPOMs:
+class AccountPOMs:
 
     def __init__(self, driver: WebDriver):
         self.driver = driver

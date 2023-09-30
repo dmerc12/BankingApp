@@ -19,19 +19,19 @@ export const Navbar = () => {
         <>
             <nav className='nav-bar'>
                 <div className='nav-left'>
-                    <Link className='nav-item' to='/home'>Home</Link>
-                    <Link className='nav-item' to='/manage/information'>Manage Information</Link>
-                    <Link className='nav-item' to='/manage/accounts'>Manage Accounts</Link>
+                    <Link id='homeNav' className='nav-item' to='/home'>Home</Link>
+                    <Link id='manageInformationNav' className='nav-item' to='/manage/information'>Manage Information</Link>
+                    <Link id='manageAccountsNav' className='nav-item' to='/manage/accounts'>Manage Accounts</Link>
                 </div>
                 <div className='nav-right'>
                     {loggedIn ? (
                         <>
-                            <button id='logoutButton' className='nav-item' onClick={handleLogout}>Logout</button>
+                            <button id='logoutNav' className='nav-item' onClick={handleLogout}>Logout</button>
                         </>
                     ) : (
                         <>
-                            <Link className='nav-item' to='/login'>Login</Link>
-                            <Link className='nav-item' to='/register'>Register</Link>
+                            <Link id='loginNav' className='nav-item' to='/login'>Login</Link>
+                            <Link id='registerNav' className='nav-item' to='/register'>Register</Link>
                         </>
                     )}
                 </div>

@@ -27,4 +27,3 @@ Feature: A customer needs to be able to login with their current credentials and
     Given I am on the home page
     When  I click the logout button
     Then  I am routed to the login page
-    
