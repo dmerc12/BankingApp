@@ -57,16 +57,6 @@ def database_setup():
     test_account4 = "insert into banking.bank_accounts values (-4, -2, 50.00);"
     cursor.execute(test_account4)
 
-    # transaction table setup and populate test transaction
-    transaction_table = "create table banking.transactions(transaction_id serial primary key, time_and_date " \
-                        "varchar(26), transaction_type varchar(16), account_id int, amount float, constraint " \
-                        "fk_account_id foreign key (account_id) references banking.bank_accounts (account_id) on " \
-                        "delete cascade);"
-    cursor.execute(transaction_table)
-
-    test_transaction = "insert into banking.transactions values (-1, 'that one time', 'deposit', -1, 1.00);"
-    cursor.execute(test_transaction)
-
     # session table setup and populate test session
     session_table = "create table banking.sessions(session_id serial primary key, customer_id int, expire_date_time " \
                     "varchar(26), constraint customerfk foreign key (customer_id) " \

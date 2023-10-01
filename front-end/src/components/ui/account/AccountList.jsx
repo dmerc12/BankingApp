@@ -103,7 +103,6 @@ export const AccountList = () => {
                                         <td className='table-data'>{account.accountId}</td>
                                         <td className='table-data'>{account.balance}</td>
                                         <td className='table-data crud-icons'>
-                                            <TransactionList account={account} />
                                             <Deposit account={account} fetchAccounts={fetchAccounts}/>
                                             <Withdraw account={account} fetchAccounts={fetchAccounts}/>
                                             <DeleteAccount account={account} fetchAccounts={fetchAccounts}/>

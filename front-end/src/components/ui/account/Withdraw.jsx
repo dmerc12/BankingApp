@@ -90,7 +90,7 @@ export const Withdraw = ({ account, fetchAccounts}) => {
 
     return (
         <>
-            <FaMinus onClick={showModal} cursor={'pointer'} size={15} id="withdrawModal" />
+            <FaMinus onClick={showModal} cursor={'pointer'} size={15} id={`withdrawModal${account.accountId}`} />
             <Modal visible={visible} onClose={closeModal}>
                 {loading ? (
                     <div className='loading-indicator'>

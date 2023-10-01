@@ -16,7 +16,6 @@ from API.CustomerRoutes.LoginBlueprint import login_route
 from API.CustomerRoutes.LogoutBlueprint import logout_route
 from API.CustomerRoutes.RegisterBlueprint import create_customer_route
 from API.CustomerRoutes.UpdateCustomerBlueprint import update_customer_route
-from API.TransactionRoutes.GetAllTransactionsBlueprint import get_transactions_route
 
 def create_back_end_api(config):
     app: Flask = Flask(__name__)
@@ -50,6 +49,5 @@ def create_back_end_api(config):
     app.register_blueprint(get_all_accounts_route)
     app.register_blueprint(transfer_route)
     app.register_blueprint(delete_account_route)
-    app.register_blueprint(get_transactions_route)
 
     return app

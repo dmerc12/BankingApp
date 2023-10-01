@@ -90,7 +90,7 @@ export const Deposit = ({ account, fetchAccounts}) => {
 
     return (
         <>
-            <FaPlus onClick={showModal} cursor={'pointer'} size={15} id='depositModal'/>
+            <FaPlus onClick={showModal} cursor={'pointer'} size={15} id={`depositModal${account.accountId}`}/>
             <Modal visible={visible} onClose={closeModal}>
                 {loading ? (
                     <div className='loading-indicator'>

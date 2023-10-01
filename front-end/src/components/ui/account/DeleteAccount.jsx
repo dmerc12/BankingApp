@@ -81,7 +81,7 @@ export const DeleteAccount = ({ account, fetchAccounts }) => {
 
     return (
         <>
-            <FiTrash2 onClick={showModal} cursor='pointer' size={15} id='deleteAccountModal'/>
+            <FiTrash2 onClick={showModal} cursor='pointer' size={15} id={`deleteAccountModal${account.accountId}`}/>
             <Modal visible={visible} onClose={closeModal}>
                 {loading ? (
                     <div className='loading-indicator'>
@@ -103,7 +103,7 @@ export const DeleteAccount = ({ account, fetchAccounts }) => {
                             <label className="form-label">Are you sure?</label>
                         </div>
 
-                        <button className="form-btn-1" type="submit" id="deleteCategoryButton">Delete Account</button>
+                        <button className="form-btn-1" type="submit" id="deleteAccountButton">Delete Account</button>
                     </form>
                 )}
             </Modal>

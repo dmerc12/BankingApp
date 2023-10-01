@@ -63,18 +63,6 @@ class BankAccountSALImplementation(BankAccountSALInterface):
                                  str(account.convert_to_dictionary()))
                 return account_list
 
-    def service_get_accounts_for_delete(self, customer_id: int) -> List[BankAccount]:
-        logging.info("Beginning SAL method get accounts for delete with customer ID: " + str(customer_id))
-        if type(customer_id) != int:
-            logging.warning("SAL method get accounts for delete, customer ID not an integer")
-            raise FailedTransaction("The customer ID field must be an integer, please try again!")
-        else:
-            account_list = self.account_dao.get_accounts_for_delete(customer_id)
-            for account in account_list:
-                logging.info("Finishing SAL method get all accounts with account: " +
-                             str(account.convert_to_dictionary()))
-            return account_list
-
     def service_deposit(self, account_id: int, deposit_amount: float) -> BankAccount:
         logging.info("Beginning SAL method deposit with deposit account ID: " + str(account_id) +
                      ", and deposit amount: " + str(deposit_amount))

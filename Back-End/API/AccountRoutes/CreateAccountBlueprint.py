@@ -3,13 +3,10 @@ from datetime import datetime, timedelta
 
 from DAL.BankAccountDAL.BankAccountDALImplementation import BankAccountDALImplementation
 from DAL.SessionDAL.SessionDALImplementation import SessionDALImplementation
-from DAL.TransactionDAL.TransactionDALImplementation import TransactionDALImplementation
 from Entities.BankAccount import BankAccount
 from Entities.FailedTransaction import FailedTransaction
-from Entities.Transaction import Transaction
 from SAL.BankAccountSAL.BankAccountSALImplementation import BankAccountSALImplementation
 from SAL.SessionSAL.SessionSALImplementation import SessionSALImplementation
-from SAL.TransactionSAL.TransactionSALImplementation import TransactionSALImplementation
 
 create_account_route = Blueprint('create_account_route', __name__)
 
@@ -17,8 +14,6 @@ session_dao = SessionDALImplementation()
 session_sao = SessionSALImplementation(session_dao)
 account_dao = BankAccountDALImplementation()
 account_sao = BankAccountSALImplementation(account_dao)
-transaction_dao = TransactionDALImplementation()
-transaction_sao = TransactionSALImplementation(transaction_dao)
 
 @create_account_route.route("/create/account/now", methods=["POST"])
 def create_account_api():
@@ -30,9 +25,6 @@ def create_account_api():
         customer_id = session_data.customer_id
         new_account = BankAccount(0, customer_id, starting_balance)
         result = account_sao.service_create_account(new_account)
-        account_creation_transaction = Transaction(0, str(datetime.now()), "Account Created",
-                                                   int(new_account.account_id), starting_balance)
-        transaction_sao.service_create_transaction(account_creation_transaction)
         response = {
             "accountId": result.account_id,
             "startingBalance": result.balance
