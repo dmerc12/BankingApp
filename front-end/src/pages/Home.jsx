@@ -21,7 +21,7 @@ export const Home = () => {
             <h1>Welcome Home!</h1>
             <div className="action-btn-container">
                 <Link id="manageInformationButton" className="home-nav" to='/manage/information'>Manage Information</Link>
-                <Link id="managAccountsButton" className="home-nav" to='/manage/accounts'>Manage Accounts</Link>
+                <Link id="manageAccountsButton" className="home-nav" to='/manage/accounts'>Manage Accounts</Link>
             </div>
         </>
     )
