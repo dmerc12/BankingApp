@@ -3,7 +3,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import { Navbar } from './components/Navbar';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { ViewTransactions } from './pages/ViewTransactions';
 import { Login } from './pages/Login';
 import { Register } from './pages/Register';
 import { ManageInformation } from './pages/ManageInformation';
@@ -24,7 +23,6 @@ function App() {
           <Route index path='/home' element={<Home />}/>
           <Route index path='/manage/information' element={<ManageInformation />}/>
           <Route index path='/manage/accounts' element={<ManageAccounts />}/>
-          <Route index path='/manage/accounts' element={<ViewTransactions />}/>
         </Routes>
       </BrowserRouter>
 
