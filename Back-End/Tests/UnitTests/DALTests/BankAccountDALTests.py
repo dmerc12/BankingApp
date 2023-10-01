@@ -16,10 +16,6 @@ def test_get_all_accounts_success():
     result = account_dao.get_all_accounts(test_account.customer_id)
     assert len(result) > 0
 
-def test_get_accounts_for_delete_success():
-    result = account_dao.get_accounts_for_delete(-1)
-    assert len(result) > 0
-
 def test_deposit_success():
     result = account_dao.deposit(test_account.account_id, 25.00)
     assert result.balance == 75.00

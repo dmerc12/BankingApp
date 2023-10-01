@@ -3,10 +3,6 @@ from Database.config import Connect
 def drop_database():
     cursor = Connect.connection.cursor()
 
-    # drop transaction table
-    drop_transaction_table = "drop table banking.transactions;"
-    cursor.execute(drop_transaction_table)
-
     # drop session table
     drop_session_table = "drop table banking.sessions;"
     cursor.execute(drop_session_table)

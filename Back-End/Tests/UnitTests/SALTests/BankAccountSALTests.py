@@ -72,17 +72,6 @@ def test_service_get_all_accounts_success():
     result = account_sao.service_get_all_accounts(successful_account.customer_id)
     assert len(result) > 0
 
-def test_service_get_accounts_for_delete_customer_id_not_integer():
-    try:
-        account_sao.service_get_accounts_for_delete("this won't work")
-        assert False
-    except FailedTransaction as error:
-        assert str(error) == "The customer ID field must be an integer, please try again!"
-
-def tests_service_get_accounts_for_delete_success():
-    result = account_sao.service_get_accounts_for_delete(-2)
-    assert len(result) > 0
-
 def test_service_deposit_account_id_left_not_integer():
     try:
         account_sao.service_deposit("this won't work", 50.00)

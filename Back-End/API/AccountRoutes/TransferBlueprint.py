@@ -4,19 +4,14 @@ from flask import Blueprint, request, current_app, jsonify
 
 from DAL.BankAccountDAL.BankAccountDALImplementation import BankAccountDALImplementation
 from DAL.SessionDAL.SessionDALImplementation import SessionDALImplementation
-from DAL.TransactionDAL.TransactionDALImplementation import TransactionDALImplementation
 from Entities.FailedTransaction import FailedTransaction
-from Entities.Transaction import Transaction
 from SAL.BankAccountSAL.BankAccountSALImplementation import BankAccountSALImplementation
 from SAL.SessionSAL.SessionSALImplementation import SessionSALImplementation
-from SAL.TransactionSAL.TransactionSALImplementation import TransactionSALImplementation
 
 transfer_route = Blueprint('transfer_route', __name__)
 
 account_dao = BankAccountDALImplementation()
 account_sao = BankAccountSALImplementation(account_dao)
-transaction_dao = TransactionDALImplementation()
-transaction_sao = TransactionSALImplementation(transaction_dao)
 session_dao = SessionDALImplementation()
 session_sao = SessionSALImplementation(session_dao)
 
@@ -29,10 +24,6 @@ def transfer_api():
         deposit_account_id = request.json.get("depositAccountId")
         transfer_amount = request.json.get("transferAmount")
         session_data = session_sao.service_get_session(session_id)
-        withdraw_transaction = Transaction(0, str(datetime.now()), "Withdraw",
-                                           withdraw_account_id, transfer_amount)
-        deposit_transaction = Transaction(0, str(datetime.now()), "Deposit",
-                                          deposit_account_id, transfer_amount)
         result = account_sao.service_transfer(withdraw_account_id, deposit_account_id, transfer_amount)
         transaction_sao.service_create_transaction(withdraw_transaction)
         transaction_sao.service_create_transaction(deposit_transaction)

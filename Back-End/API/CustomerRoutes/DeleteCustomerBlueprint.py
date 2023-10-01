@@ -5,12 +5,10 @@ from flask import Blueprint, jsonify, request, current_app, session
 from DAL.BankAccountDAL.BankAccountDALImplementation import BankAccountDALImplementation
 from DAL.CustomerDAL.CustomerDALImplementation import CustomerDALImplementation
 from DAL.SessionDAL.SessionDALImplementation import SessionDALImplementation
-from DAL.TransactionDAL.TransactionDALImplementation import TransactionDALImplementation
 from Entities.FailedTransaction import FailedTransaction
 from SAL.BankAccountSAL.BankAccountSALImplementation import BankAccountSALImplementation
 from SAL.CustomerSAL.CustomerSALImplementation import CustomerSALImplementation
 from SAL.SessionSAL.SessionSALImplementation import SessionSALImplementation
-from SAL.TransactionSAL.TransactionSALImplementation import TransactionSALImplementation
 
 delete_customer_route = Blueprint("delete_customer_route", __name__)
 
@@ -20,8 +18,6 @@ session_dao = SessionDALImplementation()
 session_sao = SessionSALImplementation(session_dao)
 account_dao = BankAccountDALImplementation()
 account_sao = BankAccountSALImplementation(account_dao)
-transaction_dao = TransactionDALImplementation()
-transaction_sao = TransactionSALImplementation(transaction_dao)
 
 @delete_customer_route.route("/delete/customer/now", methods=["DELETE"])
 def delete_customer_api():
@@ -32,9 +28,6 @@ def delete_customer_api():
         current_app.logger.info("Beginning API function delete customer with session ID: " + str(session_id) +
                                 ", and customer ID: " + str(customer_id))
         session_sao.service_delete_all_sessions(customer_id)
-        account_list = account_sao.service_get_accounts_for_delete(customer_id)
-        for account in account_list:
-            transaction_sao.service_delete_all_transactions(account.account_id)
         account_sao.service_delete_all_accounts(customer_id)
         result = customer_sao.service_delete_customer(customer_id)
         new_expire_date_time = datetime.now() + timedelta(minutes=15)
