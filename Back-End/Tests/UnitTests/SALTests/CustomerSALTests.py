@@ -212,10 +212,6 @@ def test_service_create_customer_confirmation_password_not_matching_password():
     except FailedTransaction as error:
         assert str(error) == "The passwords do not match, please try again!"
 
-def test_service_create_customer_success():
-    result = customer_sao.service_create_customer(successful_customer, successful_confirmation)
-    assert result.customer_id != 0
-
 def test_service_create_customer_already_exists():
     try:
         test_customer = Customer(0, "first", "last", "password", "new@email.com", "11234567890",
@@ -224,6 +220,10 @@ def test_service_create_customer_already_exists():
         assert False
     except FailedTransaction as error:
         assert str(error) == "A customer already exists with this username, please log in!"
+
+def test_service_create_customer_success():
+    result = customer_sao.service_create_customer(successful_customer, successful_confirmation)
+    assert result.customer_id != 0
 
 def test_service_get_customer_by_id_not_integer():
     try:
