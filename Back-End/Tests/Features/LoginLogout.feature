@@ -5,25 +5,30 @@ Feature: A customer needs to be able to login with their current credentials and
     When  I input <email> in the login email input
     When  I input <password> in the login password input
     When  I click the login button
-    Then  I remain on the login page
+    Then  I should see a toast notification saying <expected_toast_text>
 
     Examples:
-      | email              | password |
-      | "wrong@email.com"  | "info"   |
-      | ""                 | "info"   |
-      | ""wrong@email.com" |""        |
-  Scenario Outline: As a customer, I input my login credentials incorrectly.
+      | email              | password | expected_toast_text                                             |
+      | "wrong@email.com"  | "info"   | "Either the email or password are incorrect, please try again!" |
+      | ""                 | "info"   | "The email field cannot be left empty, please try again!"       |
+      | ""wrong@email.com" | ""       | "The password field cannot be left empty, please try again!"    |
+
+  Scenario Outline: As a customer, I input my login credentials correctly.
     Given I am on the login page
     When  I input <email> in the login email input
     When  I input <password> in the login password input
     When  I click the login button
-    Then  I am routed to the home page
+    Then  I should see a toast notification saying <expected_toast_text>
 
     Examples:
-      | email            | password |
-      | "test@email.com" | "work"   |
+      | email            | password | expected_toast_text |
+      | "test@email.com" | "work"   | "Welcome!"          |
 
-  Scenario: As a customer already logged in, I attempt to logout.
+  Scenario Outline: As a customer already logged in, I attempt to logout.
     Given I am on the home page
     When  I click the logout button
-    Then  I am routed to the login page
+    Then  I should see a toast notification saying <expected_toast_text>
+
+    Examples:
+      | expected_toast_text |
+      | "Goodbye!"          |
