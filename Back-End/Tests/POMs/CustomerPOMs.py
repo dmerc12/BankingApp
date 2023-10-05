@@ -154,5 +154,5 @@ class CustomerPOMs:
         return element
 
     def toast_notification(self):
-        element: WebElement = self.driver.find_element(By.CSS_SELECTOR, ".toast-message")
+        element: WebElement = self.driver.find_element(By.CLASS_NAME, "Toastify")
         return element

@@ -1,4 +1,5 @@
 from behave import given, when, then
+from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 
@@ -98,8 +99,9 @@ def step_impl(context):
     context.customer_poms.register_button().click()
 
 
-@then(u'I should see a toast notification saying {toast_text}')
-def step_impl(context, toast_text):
-    WebDriverWait(context.driver, 10).until(expected_conditions.alert_is_present())
-    toast_element = context.driver.switch_to_alert
-    assert toast_text == toast_element.text
+@then(u'I should see a toast notification saying {expected_toast}')
+def step_impl(context, expected_toast):
+    toast_message = context.customer_poms.toast_notification()
+    print("expected: " + expected_toast)
+    print("actual: " + toast_message.text)
+    assert expected_toast == toast_message.text
