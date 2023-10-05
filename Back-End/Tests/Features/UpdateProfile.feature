@@ -1,6 +1,6 @@
 Feature: A customer needs to be able to update their current information.
 
-  Scenario Outline: As a customer, I correctly update my information
+  Scenario Outline: As a customer, I incorrectly update my information
     Given I am on the login page
     When  I input <email> in the login email input
     When  I input <password> in the login password input
