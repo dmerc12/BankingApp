@@ -13,13 +13,13 @@ Feature: A customer needs to be able to change their current password.
     Then  I should see a toast notification saying <expected_toast_text>
 
     Examples:
-      | email            | password | updated_password                                                   | confirmation_password                                              | expected_toast_text                                                              |
-      | "test@email.com" | "work"   | ""                                                                 | "test"                                                             | "The password field cannot be left empty, please try again!"                     |
-      | "test@email.com" | "work"   | "this is too long and so it will fail and raise the desired error" | "test"                                                             | "The password field cannot exceed 36 characters, please try again!"              |
-      | "test@email.com" | "work"   | "test"                                                             | ""                                                                 | "The confirmation password cannot be left empty, please try again!"              |
-      | "test@email.com" | "work"   | "test"                                                             | "this is too long and so it will fail and raise the desired error" | "The confirmation password field cannot exceed 36 characters, please try again!" |
-      | "test@email.com" | "work"   | "don't"                                                            | "match"                                                            | "The passwords don't match, please try again!"                                   |
-      | "test@email.com" | "work"   | "work"                                                             | "work"                                                             | "Nothing has changed, please try again!"                                         |
+      | email          | password | updated_password                                                 | confirmation_password                                            | expected_toast_text                                                            |
+      | test@email.com | work     | N/A                                                              | test                                                             | The password field cannot be left empty, please try again!                     |
+      | test@email.com | work     | this is too long and so it will fail and raise the desired error | test                                                             | The password field cannot exceed 36 characters, please try again!              |
+      | test@email.com | work     | test                                                             | N/A                                                              | The confirmation password cannot be left empty, please try again!              |
+      | test@email.com | work     | test                                                             | this is too long and so it will fail and raise the desired error | The confirmation password field cannot exceed 36 characters, please try again! |
+      | test@email.com | work     | don't                                                            | match                                                            | The passwords don't match, please try again!                                   |
+      | test@email.com | work     | work                                                             | work                                                             | Nothing has changed, please try again!                                         |
 
   Scenario Outline: As a customer, I correctly change my password
     Given I am on the login page
@@ -34,5 +34,5 @@ Feature: A customer needs to be able to change their current password.
     Then  I should see a toast notification saying <expected_toast_text>
 
     Examples:
-      | email            | password | updated_password | confirmation_password | expected_toast_text              |
-      | "test@email.com" | "work"   | "test"           | "test"                | "Password successfully changed!" |
+      | email          | password | updated_password | confirmation_password | expected_toast_text            |
+      | test@email.com | work     | test             | test                  | Password successfully changed! |

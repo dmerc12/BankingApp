@@ -120,6 +120,32 @@ def step_impl(context):
 def step_impl(context):
     context.customer_poms.logout_nav_button().click()
 
+@when(u'I click the manage information button')
+def step_impl(context):
+    context.customer_poms.manage_info_button().click()
+
+@when(u'I click the change password modal')
+def step_impl(context):
+    context.customer_poms.change_password_modal().click()
+
+@when(u'I input {password} in the change password input')
+def step_impl(context, password):
+    if password == "N/A":
+        context.customer_poms.change_password_input().send_keys()
+    else:
+        context.customer_poms.change_password_input().send_keys(password)
+
+@when(u'I input {confirmation_password} in the change password confirmation input')
+def step_impl(context, confirmation_password):
+    if confirmation_password == "N/A":
+        context.customer_poms.change_confirmation_password_input().send_keys()
+    else:
+        context.customer_poms.change_confirmation_password_input().send_keys(confirmation_password)
+
+@when(u'I click the change password button')
+def step_impl(context):
+    context.customer_poms.change_password_button().click()
+
 
 @then(u'I should see a toast notification saying {expected_toast}')
 def step_impl(context, expected_toast):
