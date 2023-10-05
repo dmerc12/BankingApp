@@ -15,52 +15,82 @@ def step_impl(context):
 
 @when(u'I input {first_name} in the register first name input')
 def step_impl(context, first_name):
-    context.customer_poms.register_first_name_input().send_keys(first_name)
+    if first_name == "N/A":
+        context.customer_poms.register_first_name_input().send_keys()
+    else:
+        context.customer_poms.register_first_name_input().send_keys(first_name)
 
 
 @when(u'I input {last_name} in the register last name input')
 def step_impl(context, last_name):
-    context.customer_poms.register_last_name_input().send_keys(last_name)
+    if last_name == "N/A":
+        context.customer_poms.register_last_name_input().send_keys()
+    else:
+        context.customer_poms.register_last_name_input().send_keys(last_name)
 
 
 @when(u'I input {email} in the register email input')
 def step_impl(context, email):
-    context.customer_poms.register_email_input().send_keys(email)
+    if email == "N/A":
+        context.customer_poms.register_email_input().send_keys()
+    else:
+        context.customer_poms.register_email_input().send_keys(email)
 
 
 @when(u'I input {password} in the register password input')
 def step_impl(context, password):
-    context.customer_poms.register_password_input().send_keys(password)
+    if password == "N/A":
+        context.customer_poms.register_password_input().send_keys()
+    else:
+        context.customer_poms.register_password_input().send_keys(password)
 
 
 @when(u'I input {confirmation_password} in the register confirmation password input')
 def step_impl(context, confirmation_password):
-    context.customer_poms.register_confirmation_password_input().send_keys(confirmation_password)
+    if confirmation_password == "N/A":
+        context.customer_poms.register_confirmation_password_input().send_keys()
+    else:
+        context.customer_poms.register_confirmation_password_input().send_keys(confirmation_password)
 
 
 @when(u'I input {phone_number} in the register phone number input')
 def step_impl(context, phone_number):
-    context.customer_poms.register_phone_number_input().send_keys(phone_number)
+    if phone_number == "N/A":
+        context.customer_poms.register_phone_number_input().send_keys()
+    else:
+        context.customer_poms.register_phone_number_input().send_keys(phone_number)
 
 
 @when(u'I input {street_address} in the register street address input')
 def step_impl(context, street_address):
-    context.customer_poms.register_street_address_input().send_keys(street_address)
+    if street_address == "N/A":
+        context.customer_poms.register_street_address_input().send_keys()
+    else:
+        context.customer_poms.register_street_address_input().send_keys(street_address)
 
 
 @when(u'I input {city} in the register city input')
 def step_impl(context, city):
-    context.customer_poms.register_city_input().send_keys(city)
+    if city == "N/A":
+        context.customer_poms.register_city_input().send_keys()
+    else:
+        context.customer_poms.register_city_input().send_keys(city)
 
 
 @when(u'I input {state} in the register state input')
 def step_impl(context, state):
-    context.customer_poms.register_state_input().send_keys(state)
+    if state == "N/A":
+        context.customer_poms.register_state_input().send_keys()
+    else:
+        context.customer_poms.register_state_input().send_keys(state)
 
 
 @when(u'I input {zip_code} in the register zip code input')
 def step_impl(context, zip_code):
-    context.customer_poms.register_zip_code_input().send_keys(zip_code)
+    if zip_code == "N/A":
+        context.customer_poms.register_zip_code_input().send_keys()
+    else:
+        context.customer_poms.register_zip_code_input().send_keys(zip_code)
 
 
 @when(u'I click the register button')
@@ -70,6 +100,6 @@ def step_impl(context):
 
 @then(u'I should see a toast notification saying {toast_text}')
 def step_impl(context, toast_text):
-    toast_element = WebDriverWait(context.driver, 10).until(expected_conditions.visibility_of_element_located(
-        context.customer_poms.toast_notification()))
+    WebDriverWait(context.driver, 10).until(expected_conditions.alert_is_present())
+    toast_element = context.driver.switch_to_alert
     assert toast_text == toast_element.text
