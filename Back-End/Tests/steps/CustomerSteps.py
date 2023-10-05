@@ -1,70 +1,75 @@
 from behave import given, when, then
+from selenium.webdriver.support import expected_conditions
+from selenium.webdriver.support.wait import WebDriverWait
+
 
 @given(u'I am on the login page')
 def step_impl(context):
-    raise NotImplementedError(u'STEP: Given I am on the login page')
+    context.driver.get('http://localhost:5173/')
 
 
 @when(u'I click the register tab in the nav bar')
 def step_impl(context):
-    raise NotImplementedError(u'STEP: When I click the register tab in the nav bar')
+    context.customer_poms.register_nav_button().click()
 
 
 @when(u'I input {first_name} in the register first name input')
 def step_impl(context, first_name):
-    raise NotImplementedError(u'STEP: When I input "" in the register first name input')
+    context.customer_poms.register_first_name_input().send_keys(first_name)
 
 
 @when(u'I input {last_name} in the register last name input')
 def step_impl(context, last_name):
-    raise NotImplementedError(u'STEP: When I input "last" in the register last name input')
+    context.customer_poms.register_last_name_input().send_keys(last_name)
 
 
 @when(u'I input {email} in the register email input')
 def step_impl(context, email):
-    raise NotImplementedError(u'STEP: When I input "first@email.com" in the register email input')
+    context.customer_poms.register_email_input().send_keys(email)
 
 
 @when(u'I input {password} in the register password input')
 def step_impl(context, password):
-    raise NotImplementedError(u'STEP: When I input "first" in the register password input')
+    context.customer_poms.register_password_input().send_keys(password)
 
 
 @when(u'I input {confirmation_password} in the register confirmation password input')
 def step_impl(context, confirmation_password):
-    raise NotImplementedError(u'STEP: When I input "first" in the register confirmation password input')
+    context.customer_poms.register_confirmation_password_input().send_keys(confirmation_password)
 
 
 @when(u'I input {phone_number} in the register phone number input')
 def step_impl(context, phone_number):
-    raise NotImplementedError(u'STEP: When I input "1234567890" in the register phone number input')
+    context.customer_poms.register_phone_number_input().send_keys(phone_number)
 
 
 @when(u'I input {street_address} in the register street address input')
 def step_impl(context, street_address):
-    raise NotImplementedError(u'STEP: When I input "123 First St" in the register street address input')
+    context.customer_poms.register_street_address_input().send_keys(street_address)
 
 
 @when(u'I input {city} in the register city input')
 def step_impl(context, city):
-    raise NotImplementedError(u'STEP: When I input "First" in the register city input')
+    context.customer_poms.register_city_input().send_keys(city)
 
 
 @when(u'I input {state} in the register state input')
 def step_impl(context, state):
-    raise NotImplementedError(u'STEP: When I input "OK" in the register state input')
+    context.customer_poms.register_state_input().send_keys(state)
 
 
 @when(u'I input {zip_code} in the register zip code input')
 def step_impl(context, zip_code):
-    raise NotImplementedError(u'STEP: When I input "73072" in the register zip code input')
+    context.customer_poms.register_zip_code_input().send_keys(zip_code)
 
 
 @when(u'I click the register button')
 def step_impl(context):
-    raise NotImplementedError(u'STEP: When I click the register button')
+    context.customer_poms.register_button().click()
 
 
 @then(u'I should see a toast notification saying {toast_text}')
 def step_impl(context, toast_text):
-    raise NotImplementedError(u'STEP: Then I should see a toast notification saying "The first name field cannot be left empty, please try again!"')
+    toast_element = WebDriverWait(context.driver, 10).until(expected_conditions.visibility_of_element_located(
+        context.customer_poms.toast_notification()))
+    assert toast_text == toast_element.text
