@@ -1,8 +1,4 @@
 from behave import given, when, then
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions
-from selenium.webdriver.support.wait import WebDriverWait
-
 
 @given(u'I am on the login page')
 def step_impl(context):
@@ -97,6 +93,32 @@ def step_impl(context, zip_code):
 @when(u'I click the register button')
 def step_impl(context):
     context.customer_poms.register_button().click()
+
+
+@when(u'I input {email} in the login email input')
+def step_impl(context, email):
+    if email == "N/A":
+        context.customer_poms.login_email_input().send_keys()
+    else:
+        context.customer_poms.login_email_input().send_keys(email)
+
+
+@when(u'I input {password} in the login password input')
+def step_impl(context, password):
+    if password == "N/A":
+        context.customer_poms.login_password_input().send_keys()
+    else:
+        context.customer_poms.login_password_input().send_keys(password)
+
+
+@when(u'I click the login button')
+def step_impl(context):
+    context.customer_poms.login_button().click()
+
+
+@when(u'I click the logout button')
+def step_impl(context):
+    context.customer_poms.logout_nav_button().click()
 
 
 @then(u'I should see a toast notification saying {expected_toast}')
