@@ -152,3 +152,7 @@ class CustomerPOMs:
     def delete_profile_button(self):
         element: WebElement = self.driver.find_element(By.ID, "deleteProfileButton")
         return element
+
+    def toast_notification(self):
+        element: WebElement = self.driver.find_element(By.CLASS_NAME, "Toastify")
+        return element
