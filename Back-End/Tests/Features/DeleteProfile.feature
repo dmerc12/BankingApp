@@ -11,5 +11,5 @@ Feature: A customer needs to be able to close all accounts and delete their prof
     Then  I should see a toast notification saying <expected_toast_text>
 
     Examples:
-      | email            | password | expected_toast_text                      |
-      | "test@email.com" | "work"   | "Profile successfully deleted, goodbye!" |
+      | email          | password | expected_toast_text                    |
+      | test@email.com | work     | Profile successfully deleted, goodbye! |

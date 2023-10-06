@@ -221,9 +221,19 @@ def step_impl(context, zip_code):
         context.customer_poms.update_zip_code_input().send_keys(zip_code)
 
 
-when(u'I click the update information button')
+@when(u'I click the update information button')
 def step_impl(context):
     context.customer_poms.update_button().click()
+
+
+@when(u'I click the delete profile modal')
+def step_impl(context):
+    context.customer_poms.delete_profile_modal().click()
+
+
+@when(u'I click the delete profile button')
+def step_impl(context):
+    context.customer_poms.delete_profile_button().click()
 
 
 @then(u'I should see a toast notification saying {expected_toast}')
