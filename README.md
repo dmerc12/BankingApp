@@ -2,12 +2,13 @@
 A banking app written in python.
 
 # Technologies Used:
-- HTML and CSS
+- React
+- CSS
 - Python
 - Gherkin
-- Docker PostgresSQL
+- Docker 
+- PostgresSQL
 - Bcrypt
-- Bootstrap
 - PyTest
 - Flask
 - Flask-CORS
@@ -17,6 +18,7 @@ A banking app written in python.
 - Git
 - GitHub
 - PyCharm
+- VS Code
 - DBeaver
 
 # Usage and Features:
@@ -32,10 +34,3 @@ A banking app written in python.
 - Users can change their password.
 - Users can close their accounts.
 - Users can leave the bank.
-
-# Getting Started:
-- to clone: 
-  - git clone https://github.com/dmerc12/PythonBanking.git
-- to deploy:
-  - Use requirements.txt to install necessary dependencies.
-  - Use run.py to start the application.
