@@ -1,6 +1,6 @@
 Feature: A customer needs to be able to delete an existing account.
 
-  Scenario Outiline: As a customer, I delete an existing account.
+  Scenario Outline: As a customer, I delete an existing account.
     Given I am on the login page
     When  I input <email> in the login email input
     When  I input <password> in the login password input
@@ -13,4 +13,3 @@ Feature: A customer needs to be able to delete an existing account.
     Examples:
       | email          | password | account_number | expected_toast_text           |
       | test@email.com | work     | 1              | Account Successfully Deleted! |
-    
