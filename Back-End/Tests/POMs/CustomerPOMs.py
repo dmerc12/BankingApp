@@ -9,150 +9,146 @@ class CustomerPOMs:
     def __init__(self, driver: WebDriver):
         self.driver = driver
 
-    def register_nav_button(self):
+    def click_register_nav_button(self):
         element: WebElement = self.driver.find_element(By.ID, "registerNav")
-        return element
+        return element.click()
 
-    def login_nav_button(self):
+    def click_login_nav_button(self):
         element: WebElement = self.driver.find_element(By.ID, "loginNav")
-        return element
+        return element.click()
 
-    def logout_nav_button(self):
+    def click_logout_nav_button(self):
         element: WebElement = self.driver.find_element(By.ID, "logoutNav")
-        return element
+        return element.click()
 
-    def manage_info_nav_button(self):
+    def click_manage_info_nav_button(self):
         element: WebElement = self.driver.find_element(By.ID, "manageInformationNav")
-        return element
+        return element.click()
 
-    def home_nav_button(self):
+    def click_home_nav_button(self):
         element: WebElement = self.driver.find_element(By.ID, "homeNav")
-        return element
+        return element.click()
 
-    def manage_info_button(self):
+    def click_manage_info_button(self):
         element: WebElement = self.driver.find_element(By.ID, "manageInformationButton")
-        return element
+        return element.click()
 
-    def update_profile_modal(self):
+    def click_update_profile_modal(self):
         element: WebElement = self.driver.find_element(By.ID, "updateInformationModal")
-        return element
+        return element.click()
 
-    def change_password_modal(self):
+    def click_change_password_modal(self):
         element: WebElement = self.driver.find_element(By.ID, "changePasswordModal")
-        return element
+        return element.click()
 
-    def delete_profile_modal(self):
+    def click_delete_profile_modal(self):
         element: WebElement = self.driver.find_element(By.ID, "deleteProfileModal")
-        return element
+        return element.click()
 
-    def register_first_name_input(self):
+    def input_register_first_name(self, first_name):
         element: WebElement = self.driver.find_element(By.ID, "registerFirstName")
-        return element
+        return element.send_keys(first_name)
 
-    def register_last_name_input(self):
+    def input_register_last_name(self, last_name):
         element: WebElement = self.driver.find_element(By.ID, "registerLastName")
-        return element
+        return element.send_keys(last_name)
 
-    def register_email_input(self):
+    def input_register_email(self, email):
         element: WebElement = self.driver.find_element(By.ID, "registerEmail")
-        return element
+        return element.send_keys(email)
 
-    def register_password_input(self):
+    def input_register_password(self, password):
         element: WebElement = self.driver.find_element(By.ID, "registerPassword")
-        return element
+        return element.send_keys(password)
 
-    def register_confirmation_password_input(self):
+    def input_register_confirmation_password(self, confirmation_password):
         element: WebElement = self.driver.find_element(By.ID, "registerConfirmationPassword")
-        return element
+        return element.send_keys(confirmation_password)
 
-    def register_phone_number_input(self):
+    def input_register_phone_number(self, phone_number):
         element: WebElement = self.driver.find_element(By.ID, "registerPhoneNumber")
-        return element
+        return element.send_keys(phone_number)
 
-    def register_street_address_input(self):
+    def input_register_street_address(self, street_address):
         element: WebElement = self.driver.find_element(By.ID, "registerStreetAddress")
-        return element
+        return element.send_keys(street_address)
 
-    def register_city_input(self):
+    def input_register_city(self, city):
         element: WebElement = self.driver.find_element(By.ID, "registerCity")
-        return element
+        return element.send_keys(city)
 
-    def register_state_input(self):
+    def input_register_state(self, state):
         element: WebElement = self.driver.find_element(By.ID, "registerState")
-        return element
+        return element.send_keys(state)
 
-    def register_zip_code_input(self):
+    def input_register_zip_code(self, zip_code):
         element: WebElement = self.driver.find_element(By.ID, "registerZipCode")
-        return element
+        return element.send_keys(zip_code)
 
     def register_button(self):
         element: WebElement = self.driver.find_element(By.ID, "registerButton")
-        return element
+        return element.click()
 
-    def login_email_input(self):
+    def input_login_email(self, email):
         element: WebElement = self.driver.find_element(By.ID, "loginEmail")
-        return element
+        return element.send_keys(email)
 
-    def login_password_input(self):
+    def input_login_password(self, password):
         element: WebElement = self.driver.find_element(By.ID, "loginPassword")
-        return element
+        return element.send_keys(password)
 
-    def login_button(self):
+    def click_login_button(self):
         element: WebElement = self.driver.find_element(By.ID, "loginButton")
-        return element
+        return element.click()
 
-    def update_first_name_input(self):
+    def input_update_first_name(self, first_name):
         element: WebElement = self.driver.find_element(By.ID, "updateFirstName")
-        return element
+        return element.send_keys(first_name)
 
-    def update_last_name_input(self):
+    def input_update_last_name(self, last_name):
         element: WebElement = self.driver.find_element(By.ID, "updateLastName")
-        return element
+        return element.send_keys(last_name)
 
-    def update_email_input(self):
+    def input_update_email(self, email):
         element: WebElement = self.driver.find_element(By.ID, "updateEmail")
-        return element
+        return element.send_keys(email)
 
-    def update_phone_number_input(self):
+    def input_update_phone_number(self, phone_number):
         element: WebElement = self.driver.find_element(By.ID, "updatePhoneNumber")
-        return element
+        return element.send_keys(phone_number)
 
-    def update_street_address_input(self):
+    def input_update_street_address(self, street_address):
         element: WebElement = self.driver.find_element(By.ID, "updateStreetAddress")
-        return element
+        return element.send_keys(street_address)
 
-    def update_city_input(self):
+    def input_update_city(self, city):
         element: WebElement = self.driver.find_element(By.ID, "updateCity")
-        return element
+        return element.send_keys(city)
 
-    def update_state_input(self):
+    def input_update_state(self, state):
         element: WebElement = self.driver.find_element(By.ID, "updateState")
-        return element
+        return element.send_keys(state)
 
-    def update_zip_code_input(self):
+    def input_update_zip_code(self, zip_code):
         element: WebElement = self.driver.find_element(By.ID, "updateZipCode")
-        return element
+        return element.send_keys(zip_code)
 
-    def update_button(self):
+    def click_update_button(self):
         element: WebElement = self.driver.find_element(By.ID, "updateInformationButton")
-        return element
+        return element.click()
 
-    def change_password_input(self):
+    def input_change_password(self, password):
         element: WebElement = self.driver.find_element(By.ID, "newPassword")
-        return element
+        return element.send_keys(password)
 
-    def change_confirmation_password_input(self):
+    def input_change_confirmation_password(self, confirmation_password):
         element: WebElement = self.driver.find_element(By.ID, "newConfirmationPassword")
-        return element
+        return element.send_keys(confirmation_password)
 
-    def change_password_button(self):
+    def click_change_password_button(self):
         element: WebElement = self.driver.find_element(By.ID, "changePasswordButton")
-        return element
+        return element.click()
 
-    def delete_profile_button(self):
+    def click_delete_profile_button(self):
         element: WebElement = self.driver.find_element(By.ID, "deleteProfileButton")
-        return element
-
-    def toast_notification(self):
-        element: WebElement = self.driver.find_element(By.CLASS_NAME, "Toastify")
-        return element
+        return element.click()
