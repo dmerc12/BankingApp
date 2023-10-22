@@ -15,6 +15,10 @@ A banking app written in python.
 - Psycopg2
 - Selenium
 - Behave
+- JS-Cookie
+- React-Router-DOM
+- React-Icons
+- React-Toastify
 - Git
 - GitHub
 - PyCharm
@@ -29,7 +33,6 @@ A banking app written in python.
 - Users can withdraw from accounts.
 - Users can transfer money between accounts
 - Users can view their accounts collectively.
-- Users can the transactions for their associated accounts
 - Users can update their current information.
 - Users can change their password.
 - Users can close their accounts.
