@@ -36,7 +36,7 @@ export const AccountList = () => {
         setLoading(true);
         setFailedToFetch(false);
         try {
-            const { responseStatus, data } = await fetchData('/get/accounts', 'PATCH', {sessionId: Number(sessionId)});
+            const { responseStatus, data } = await fetchData('/api/get/accounts', 'PATCH', {sessionId: Number(sessionId)});
 
             if (responseStatus === 200) {
                 setAccounts(data);

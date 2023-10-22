@@ -9,7 +9,7 @@ logout_route = Blueprint('logout_route', __name__)
 session_dao = SessionDALImplementation()
 session_sao = SessionSALImplementation(session_dao)
 
-@logout_route.route("/logout/<int:session_id>", methods=["DELETE"])
+@logout_route.route("/api/logout/<int:session_id>", methods=["DELETE"])
 def logout(session_id):
     try:
         current_app.logger.info("Beginning API function logout with data: " + str(session_id))

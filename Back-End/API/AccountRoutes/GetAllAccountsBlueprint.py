@@ -15,7 +15,7 @@ account_sao = BankAccountSALImplementation(account_dao)
 session_dao = SessionDALImplementation()
 session_sao = SessionSALImplementation(session_dao)
 
-@get_all_accounts_route.route("/get/accounts", methods=["PATCH"])
+@get_all_accounts_route.route("/api/get/accounts", methods=["PATCH"])
 def get_all_accounts_api():
     try:
         session_id = request.json.get("sessionId")

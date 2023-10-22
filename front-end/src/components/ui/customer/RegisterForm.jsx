@@ -100,7 +100,7 @@ export const RegisterForm = () => {
         setLoading(true);
         setFailedToFetch(false);
         try {
-            const { responseStatus, data } = await fetchData('/register/now', 'POST', registerForm);
+            const { responseStatus, data } = await fetchData('/api/register', 'POST', registerForm);
             
             if (responseStatus === 201) {
                 navigate('/login');

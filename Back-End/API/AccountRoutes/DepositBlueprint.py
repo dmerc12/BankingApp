@@ -14,7 +14,7 @@ account_sao = BankAccountSALImplementation(account_dao)
 session_dao = SessionDALImplementation()
 session_sao = SessionSALImplementation(session_dao)
 
-@deposit_route.route("/deposit", methods=["PUT"])
+@deposit_route.route("/api/deposit", methods=["PUT"])
 def deposit_api():
     try:
         current_app.logger.info("Beginning API function deposit with data: " + str(request.json))

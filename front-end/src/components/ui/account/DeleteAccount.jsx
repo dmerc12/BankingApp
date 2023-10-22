@@ -41,7 +41,7 @@ export const DeleteAccount = ({ account, fetchAccounts }) => {
         setLoading(true);
         setFailedToFetch(false);
         try {
-            const { responseStatus, data } = await fetchData('/delete/account', 'DELETE', deleteAccountForm);
+            const { responseStatus, data } = await fetchData('/api/delete/account', 'DELETE', deleteAccountForm);
 
             if (responseStatus === 200) {
                 fetchAccounts();

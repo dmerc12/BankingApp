@@ -14,7 +14,7 @@ customer_sao = CustomerSALImplementation(customer_dao)
 session_dao = SessionDALImplementation()
 session_sao = SessionSALImplementation(session_dao)
 
-@change_password_route.route("/change/password/now", methods=["PUT"])
+@change_password_route.route("/api/change/password", methods=["PUT"])
 def change_password_api():
     try:
         session_id = request.json.get("sessionId")

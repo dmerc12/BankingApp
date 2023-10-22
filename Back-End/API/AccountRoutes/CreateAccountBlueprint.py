@@ -15,7 +15,7 @@ session_sao = SessionSALImplementation(session_dao)
 account_dao = BankAccountDALImplementation()
 account_sao = BankAccountSALImplementation(account_dao)
 
-@create_account_route.route("/create/account/now", methods=["POST"])
+@create_account_route.route("/api/create/account", methods=["POST"])
 def create_account_api():
     try:
         current_app.logger.info("Beginning API function create new account with data: " + str(request.json))

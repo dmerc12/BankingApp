@@ -48,7 +48,7 @@ export const ChangePasswordForm = () => {
         setLoading(true);
         setFailedToFetch(false);
         try {
-            const { responseStatus, data } = await fetchData('/change/password/now', 'PUT', changePasswordForm);
+            const { responseStatus, data } = await fetchData('/api/change/password', 'PUT', changePasswordForm);
 
             if (responseStatus === 200) {
                 setChangePasswordForm({

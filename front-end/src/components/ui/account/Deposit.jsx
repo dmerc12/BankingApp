@@ -49,7 +49,7 @@ export const Deposit = ({ account, fetchAccounts}) => {
         setLoading(true);
         setFailedToFetch(false);
         try {
-            const { responseStatus, data } = await fetchData('/deposit', 'PUT', depositForm);
+            const { responseStatus, data } = await fetchData('/api/deposit', 'PUT', depositForm);
 
             if (responseStatus === 200) {
                 fetchAccounts();

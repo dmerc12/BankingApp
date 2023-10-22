@@ -15,7 +15,7 @@ customer_sao = CustomerSALImplementation(customer_dao)
 session_dao = SessionDALImplementation()
 session_sao = SessionSALImplementation(session_dao)
 
-@get_customer_route.route("/get/customer/now", methods=["PATCH"])
+@get_customer_route.route("/api/get/customer", methods=["PATCH"])
 def get_customer():
     try:
         session_id = request.json.get("sessionId")

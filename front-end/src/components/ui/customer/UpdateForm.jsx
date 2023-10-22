@@ -120,7 +120,7 @@ export const UpdateForm = () => {
         setLoading(true);
         setFailedToFetchData(false);
         try {
-            const { responseStatus, data } = await fetchData('/get/customer/now', 'PATCH', {'sessionId': Number(sessionId)});
+            const { responseStatus, data } = await fetchData('/api/get/customer', 'PATCH', {'sessionId': Number(sessionId)});
 
             if (responseStatus === 200) {
                 setUpdateForm((prevForm) => ({
@@ -170,7 +170,7 @@ export const UpdateForm = () => {
         setLoading(true);
         setFailedToFetchSubmission(false);
         try {
-            const { responseStatus, data } = await fetchData('/update/customer/now', 'PUT', updateForm);
+            const { responseStatus, data } = await fetchData('/api/update/customer', 'PUT', updateForm);
 
             if (responseStatus === 200) {
                 setVisible(false);
