@@ -2,7 +2,7 @@ Feature: A new customer needs to register a profile with the banking system.
 
   Scenario Outline: As a new customer, I input the needed information incorrectly to register a profile.
     Given I am on the login page
-    When  I click the register tab in the nav bar
+    When  I click the register button in the navigation bar
     When  I input <first_name> in the register first name input
     When  I input <last_name> in the register last name input
     When  I input <email> in the register email input
@@ -37,7 +37,7 @@ Feature: A new customer needs to register a profile with the banking system.
 
   Scenario Outline: As a new customer, I successfully input the needed information to register a profile.
     Given I am on the login page
-    When  I click the register tab in the nav bar
+    When  I click the register button in the navigation bar
     When  I input <first_name> in the register first name input
     When  I input <last_name> in the register last name input
     When  I input <email> in the register email input
