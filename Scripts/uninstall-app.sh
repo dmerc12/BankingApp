@@ -30,8 +30,8 @@ run_command sudo apt remove -y python3-pip
 run_command sudo apt remove -y nodejs npm
 
 # Clean up any additional files or configurations
-rm Back-End/Logs/*
-cd Back-End/Database
+rm ../Back-End/Logs/*
+cd ../Back-End/Database
 sed -i 's/user="$postgres_user",/user=os.environ.get("USER"),/' config.py
 sed -i 's/password="$postgres_password",/password=os.environ.get("PASSWORD"),/' config.py
 

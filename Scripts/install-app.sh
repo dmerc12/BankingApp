@@ -37,7 +37,7 @@ run_command sudo systemctl enable docker
 run_command docker run --name postgres -e POSTGRES_USER="$postgres_user" -e POSTGRES_PASSWORD="$postgres_password" -d -p 5432:5432 postgres:latest
 
 # Install back-end dependencies
-cd BankingApp/Back-End
+cd ../Back-End
 run_command pip3 install -r requirements.txt
 
 # Configure database config file and setup database
@@ -76,6 +76,11 @@ run_command behave Features
 # Reset database for production
 cd ../Database
 run_command python3 ResetDatabaseProduction.py
+
+# Stop the back-end, front-end, and database
+pm2 stop front-end
+pkill -f "python3 run.py"
+docker stop postgres
 
 # Tell user if install is successful or unsuccessful (if statements will probably need to be included)
 if [ $failures -gt 0 ]; then
