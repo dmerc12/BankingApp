@@ -19,6 +19,7 @@ A banking app written in python.
 - React-Router-DOM
 - React-Icons
 - React-Toastify
+- PM2
 - Git
 - GitHub
 - PyCharm
@@ -37,3 +38,10 @@ A banking app written in python.
 - Users can change their password.
 - Users can close their accounts.
 - Users can leave the bank.
+
+# How to use (Ubuntu specific):
+- clone the repository using "git clone https://github.com/dmerc12/BankingApp.git".
+- Before starting the app, run the install-app script in the scripts directory.
+- Use the start-app script in the scripts directory to start the app.
+- Use the stop-app script in the scripts directory to stop the app.
+- Use the uninstall-app script in the scripts directory to uninstall the app.
