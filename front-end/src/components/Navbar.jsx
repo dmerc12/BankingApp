@@ -1,11 +1,22 @@
 import { toast } from 'react-toastify';
 import { Link, useNavigate } from 'react-router-dom';
-import Cookies from 'js-cookie'
+import { useFetch } from '../hooks/useFetch';
+import { useState } from 'react';
+import Cookies from 'js-cookie';
 
 export const Navbar = () => {
+    const sessionId = Cookies.get('sessionId');
+
+    const [loading, setLoading] = useState(false);
+
+    const { fetchData } = useFetch();
+
     const navigate = useNavigate();
 
-    const handleLogout = () => {
+    const handleLogout = async () => {
+        setLoading(true);
+        setFailedToFetch(false);
+        await fetchData(`api/logout/${sessionId}`, "DELETE");
         Cookies.remove('sessionId');
         navigate('/login');
         toast.success("Goodbye!", {
