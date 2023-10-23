@@ -2,6 +2,7 @@
 
 # Initialize a variable to count failures
 failures=0
+
 # Function to run a command and check for errors
 run_command() {
   "$@"
@@ -45,7 +46,6 @@ sed -i "s/user=os.environ.get(\"USER\"),/user=\"$postgres_user\",/" config.py
 sed -i "s/password=os.environ.get(\"PASSWORD\"),/password=\"$postgres_password\",/" config.py
 run_command python3 DatabaseSetup.py
 
-
 # Run unit tests
 cd Tests/UnitTests/DALTests
 run_command python3 -m pytest SessionDALTests.py
@@ -82,17 +82,12 @@ if [ $failures -gt 0 ]; then
   echo "Installation encountered $failures failures."
   read -p "Do you want to try again (t) or uninstall (u)? " choice
   if [ "$choice" == "t" ]; then
-    # Add uninstall steps here
     echo "Uninstalling..."
-    # Run your uninstall script
-    # ...
-
-    # Restart the installation script
-    exec "$0"
+    ./uninstall.sh
+    ./install.sh
   elif [ "$choice" == "u" ]; then
-    # Run your uninstall script
     echo "Uninstalling..."
-    # ...
+    ./uninstall.sh
   else
     echo "Invalid choice. Exiting."
   fi
