@@ -49,7 +49,7 @@ export const Withdraw = ({ account, fetchAccounts}) => {
         setLoading(true);
         setFailedToFetch(false);
         try {
-            const { responseStatus, data } = await fetchData('/withdraw', 'PUT', withdrawForm);
+            const { responseStatus, data } = await fetchData('/api/withdraw', 'PUT', withdrawForm);
 
             if (responseStatus === 200) {
                 fetchAccounts();

@@ -16,7 +16,7 @@ customer_sao = CustomerSALImplementation(customer_dao)
 session_dao = SessionDALImplementation()
 session_sao = SessionSALImplementation(session_dao)
 
-@update_customer_route.route("/update/customer/now", methods=["PUT"])
+@update_customer_route.route("/api/update/customer", methods=["PUT"])
 def update_customer():
     try:
         updated_info = request.json

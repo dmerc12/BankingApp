@@ -48,7 +48,7 @@ export const CreateAccount = ({ fetchAccounts }) => {
         setLoading(true);
         setFailedToFetch(false);
         try {
-            const { responseStatus, data } = await fetchData('/create/account/now', 'POST', createAccountForm);
+            const { responseStatus, data } = await fetchData('/api/create/account', 'POST', createAccountForm);
 
             if (responseStatus === 201) {
                 setVisible(false);

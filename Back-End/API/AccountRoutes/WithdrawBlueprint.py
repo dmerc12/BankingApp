@@ -14,7 +14,7 @@ session_sao = SessionSALImplementation(session_dao)
 account_dao = BankAccountDALImplementation()
 account_sao = BankAccountSALImplementation(account_dao)
 
-@withdraw_route.route("/withdraw", methods=["PUT"])
+@withdraw_route.route("/api/withdraw", methods=["PUT"])
 def withdraw_api():
     try:
         current_app.logger.info("Beginning API function withdraw with session ID: " + str(request.json))

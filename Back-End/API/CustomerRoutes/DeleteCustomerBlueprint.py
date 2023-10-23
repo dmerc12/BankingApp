@@ -19,7 +19,7 @@ session_sao = SessionSALImplementation(session_dao)
 account_dao = BankAccountDALImplementation()
 account_sao = BankAccountSALImplementation(account_dao)
 
-@delete_customer_route.route("/delete/customer/now", methods=["DELETE"])
+@delete_customer_route.route("/api/delete/customer", methods=["DELETE"])
 def delete_customer_api():
     try:
         session_id = request.json.get("sessionId")

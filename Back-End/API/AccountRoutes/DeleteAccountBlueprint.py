@@ -15,7 +15,7 @@ session_sao = SessionSALImplementation(session_dao)
 account_dao = BankAccountDALImplementation()
 account_sao = BankAccountSALImplementation(account_dao)
 
-@delete_account_route.route("/delete/account", methods=["DELETE"])
+@delete_account_route.route("/api/delete/account", methods=["DELETE"])
 def delete_account_api():
     try:
         current_app.logger.info("Beginning API function delete account with data: " + str(request.json))

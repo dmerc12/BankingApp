@@ -9,74 +9,78 @@ class AccountPOMs:
     def __init__(self, driver: WebDriver):
         self.driver = driver
 
-    def manage_accounts_nav_button(self):
+    def click_manage_accounts_nav_button(self):
         element: WebElement = self.driver.find_element(By.ID, "manageAccountsNav")
-        return element
+        return element.click()
 
-    def manage_accounts_button(self):
+    def click_manage_accounts_button(self):
         element: WebElement = self.driver.find_element(By.ID, "manageAccountsButton")
-        return element
+        return element.click()
 
-    def create_account_modal(self):
+    def click_create_account_modal(self):
         element: WebElement = self.driver.find_element(By.ID, "createAccountModal")
-        return element
+        return element.click()
 
-    def deposit_modal(self, account_id: int):
+    def click_deposit_modal(self, account_id: int):
         element: WebElement = self.driver.find_element(By.ID, f"depositModal{account_id}")
-        return element
+        return element.click()
 
-    def withdraw_modal(self, account_id: int):
+    def click_withdraw_modal(self, account_id: int):
         element: WebElement = self.driver.find_element(By.ID, f"withdrawModal{account_id}")
-        return element
+        return element.click()
 
-    def delete_account_modal(self, account_id: int):
+    def click_delete_account_modal(self, account_id: int):
         element: WebElement = self.driver.find_element(By.ID, f"deleteAccountModal{account_id}")
-        return element
+        return element.click()
 
-    def transfer_modal(self):
+    def click_transfer_modal(self):
         element: WebElement = self.driver.find_element(By.ID, "transferModal")
-        return element
+        return element.click()
 
-    def create_account_starting_balance_input(self):
+    def input_create_account_starting_balance(self, starting_balance):
         element: WebElement = self.driver.find_element(By.ID, "startingBalance")
-        return element
+        return element.send_keys(starting_balance)
 
-    def create_account_button(self):
+    def click_create_account_button(self):
         element: WebElement = self.driver.find_element(By.ID, "createAccountButton")
-        return element
+        return element.click()
 
-    def deposit_amount_input(self):
+    def input_deposit_amount(self, deposit_amount):
         element: WebElement = self.driver.find_element(By.ID, "depositAmount")
-        return element
+        return element.send_keys(deposit_amount)
 
-    def deposit_button(self):
+    def click_deposit_button(self):
         element: WebElement = self.driver.find_element(By.ID, "depositButton")
-        return element
+        return element.click()
 
-    def withdraw_amount_input(self):
+    def input_withdraw_amount(self, withdraw_amount):
         element: WebElement = self.driver.find_element(By.ID, "withdrawAmount")
-        return element
+        return element.send_keys(withdraw_amount)
 
-    def withdraw_button(self):
+    def click_withdraw_button(self):
         element: WebElement = self.driver.find_element(By.ID, "withdrawButton")
-        return element
+        return element.click()
 
-    def delete_account_button(self):
+    def click_delete_account_button(self):
         element: WebElement = self.driver.find_element(By.ID, "deleteAccountButton")
-        return element
+        return element.click()
 
-    def transfer_withdraw_account_input(self):
+    def click_transfer_withdraw_account_input(self):
         element: WebElement = self.driver.find_element(By.ID, "transferWithdrawAccountId")
-        return element
+        return element.click()
 
-    def transfer_deposit_account_input(self):
+    def click_transfer_account(self, account_id):
+        element: WebElement = self.driver.find_element(By.ID, f"{account_id}")
+        return element.click()
+
+    def click_transfer_deposit_account_input(self):
         element: WebElement = self.driver.find_element(By.ID, "transferDepositAccountId")
-        return element
+        return element.click()
 
-    def transfer_amount_input(self):
+    def input_transfer_amount(self, transfer_amount):
         element: WebElement = self.driver.find_element(By.ID, "transferAmount")
-        return element
+        return element.send_keys(transfer_amount)
 
-    def transfer_button(self):
+    def click_transfer_button(self):
         element: WebElement = self.driver.find_element(By.ID, "transferButton")
-        return element
+        return element.click()

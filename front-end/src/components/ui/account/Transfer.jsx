@@ -84,7 +84,7 @@ export const Transfer = ({ accounts, fetchAccounts }) => {
         setLoading(true);
         setFailedToFetch(false);
         try {
-            const { responseStatus, data } = await fetchData('/transfer', 'PUT', transferForm);
+            const { responseStatus, data } = await fetchData('/api/transfer', 'PUT', transferForm);
 
             if (responseStatus === 200) {
                 fetchAccounts();

@@ -35,7 +35,7 @@ export const LoginForm = () => {
         setFailedToFetch(false);
         setLoading(true);
         try {
-            const { responseStatus, data } = await fetchData('/login/now', 'POST', loginForm);
+            const { responseStatus, data } = await fetchData('/api/login', 'POST', loginForm);
 
             if (responseStatus === 200) {
                 Cookies.set('sessionId', data.sessionId);
