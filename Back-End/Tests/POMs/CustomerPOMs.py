@@ -85,7 +85,7 @@ class CustomerPOMs:
         element: WebElement = self.driver.find_element(By.ID, "registerZipCode")
         return element.send_keys(zip_code)
 
-    def register_button(self):
+    def click_register_button(self):
         element: WebElement = self.driver.find_element(By.ID, "registerButton")
         return element.click()
 
