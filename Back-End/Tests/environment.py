@@ -1,6 +1,6 @@
 from behave.runner import Context
-from selenium.webdriver.safari.webdriver import WebDriver
-# from selenium.webdriver.edge.webdriver import WebDriver
+# from selenium.webdriver.safari.webdriver import WebDriver
+from selenium.webdriver.edge.webdriver import WebDriver
 from Tests.POMs.CustomerPOMs import CustomerPOMs
 from Tests.POMs.AccountPOMs import AccountPOMs
 from Tests.POMs.UniversalPOMs import UniversalPOMs

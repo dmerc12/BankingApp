@@ -1,9 +1,10 @@
-import { toast } from 'react-toastify';
+//import { toast } from 'react-toastify';
 import { FaSpinner, FaSync } from 'react-icons/fa';
 import { AiOutlineExclamationCircle } from 'react-icons/ai';
 import { useNavigate } from "react-router-dom";
 import {  useState } from "react";
 import { useFetch } from '../../../hooks/useFetch';
+import { useToast } from '../../../hooks/useToast';
 import Cookies from "js-cookie";
 
 export const LoginForm = () => {
@@ -15,6 +16,8 @@ export const LoginForm = () => {
     const [failedToFetch, setFailedToFetch] = useState(false);
 
     const { fetchData } = useFetch();
+
+    const toast = useToast();
 
     const navigate = useNavigate();
 
@@ -41,9 +44,7 @@ export const LoginForm = () => {
                 Cookies.set('sessionId', data.sessionId);
                 navigate('/home');
                 setLoading(false);
-                toast.success("Welcome!", {
-                    toastId: 'customId'
-                });
+                toast.success("Welcome!");
             } else if (responseStatus === 400) {
                 throw new Error(`${data.message}`);
             } else {
@@ -55,9 +56,9 @@ export const LoginForm = () => {
                 setLoading(false);
             } else {
                 setLoading(false);
-                toast.warn(error.message, {
+                //toast.warn(error.message, {
                     toastId: 'customId'
-                });
+                //});
             }
         }
     };

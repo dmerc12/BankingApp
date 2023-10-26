@@ -1,7 +1,7 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
-from selenium.webdriver.safari.webdriver import WebDriver
-# from selenium.webdriver.edge.webdriver import WebDriver
+# from selenium.webdriver.safari.webdriver import WebDriver
+from selenium.webdriver.edge.webdriver import WebDriver
 
 
 class CustomerPOMs:
@@ -85,7 +85,7 @@ class CustomerPOMs:
         element: WebElement = self.driver.find_element(By.ID, "registerZipCode")
         return element.send_keys(zip_code)
 
-    def register_button(self):
+    def click_register_button(self):
         element: WebElement = self.driver.find_element(By.ID, "registerButton")
         return element.click()
 
