@@ -17,7 +17,7 @@ export const LoginForm = () => {
 
     const { fetchData } = useFetch();
 
-    const toast = useToast();
+    const { addToast } =  useToast();
 
     const navigate = useNavigate();
 
@@ -44,7 +44,8 @@ export const LoginForm = () => {
                 Cookies.set('sessionId', data.sessionId);
                 navigate('/home');
                 setLoading(false);
-                toast.success("Welcome!");
+                addToast("Welcome!");
+                //toast.success("Welcome!");
             } else if (responseStatus === 400) {
                 throw new Error(`${data.message}`);
             } else {
@@ -56,8 +57,9 @@ export const LoginForm = () => {
                 setLoading(false);
             } else {
                 setLoading(false);
+                addToast(error.message);
                 //toast.warn(error.message, {
-                    toastId: 'customId'
+                //    toastId: 'customId'
                 //});
             }
         }

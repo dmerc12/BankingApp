@@ -1,6 +1,6 @@
 import './App.css';
 import 'react-toastify/dist/ReactToastify.css';
-import { ToastContainer } from 'react-toastify';
+// import { ToastContainer } from 'react-toastify';
 import { Navbar } from './components/Navbar';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Login } from './pages/Login';
@@ -8,8 +8,11 @@ import { Register } from './pages/Register';
 import { ManageInformation } from './pages/ManageInformation';
 import { ManageAccounts } from './pages/ManageAccounts';
 import { Home } from './pages/Home';
+import { ToastContainer } from './components/ui/toast/ToastContainer';
+import { useToast } from './hooks/useToast';
 
 function App() {
+  const { toasts } = useToast();
 
   return (
     <>
@@ -26,7 +29,8 @@ function App() {
         </Routes>
       </BrowserRouter>
 
-      <ToastContainer position='top-center' newestOnTop autoClose={3000} hideProgressBar theme='colored' limit={1} closeOnClick />
+      <ToastContainer toasts={toasts}/>
+      {/* <ToastContainer position='top-center' newestOnTop autoClose={3000} hideProgressBar theme='colored' limit={1} closeOnClick /> */}
     </>
   )
 }
