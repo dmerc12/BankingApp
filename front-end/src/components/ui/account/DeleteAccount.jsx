@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import { useState } from "react";
 import { useFetch } from "../../../hooks/useFetch";
 import { useNavigate } from "react-router-dom";
@@ -7,9 +6,15 @@ import { Modal } from "../../Modal";
 import { FiTrash2 } from "react-icons/fi";
 import { FaSpinner, FaSync } from "react-icons/fa";
 import { AiOutlineExclamationCircle } from "react-icons/ai";
+import PropTypes from "prop-types";
 import Cookies from "js-cookie";
 
 export const DeleteAccount = ({ account, fetchAccounts }) => {
+    DeleteAccount.propTypes = {
+        account: PropTypes.object,
+        fetchAccounts: PropTypes.func
+    };
+
     const sessionId = Cookies.get('sessionId');
     
     const [deleteAccountForm, setDeleteAccountForm] = useState({
