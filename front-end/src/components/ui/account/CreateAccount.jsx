@@ -5,10 +5,14 @@ import { useState } from "react";
 import { useFetch } from "../../../hooks/useFetch";
 import { FaSpinner, FaSync } from "react-icons/fa";
 import { AiOutlineExclamationCircle } from "react-icons/ai";
+import PropTypes from "prop-types";
 import Cookies from "js-cookie";
 
-// eslint-disable-next-line react/prop-types
 export const CreateAccount = ({ fetchAccounts }) => {
+    CreateAccount.propTypes = {
+        fetchAccounts: PropTypes.func
+    };
+
     const sessionId = Cookies.get('sessionId');
 
     const [createAccountForm, setCreateAccountForm] = useState({
