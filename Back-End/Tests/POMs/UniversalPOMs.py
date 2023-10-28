@@ -10,5 +10,5 @@ class UniversalPOMs:
         self.driver = driver
 
     def toast_notification(self):
-        element: WebElement = self.driver.find_element(By.CLASS_NAME, "Toastify")
+        element: WebElement = self.driver.find_element(By.ID, "customId")
         return element

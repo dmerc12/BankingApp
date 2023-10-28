@@ -1,28 +1,19 @@
-import './Toast.css';
-import { useState, useEffect } from 'react';
+import styles from './styles.module.css';
+import { useMemo } from 'react';
 import PropTypes from 'prop-types';
 
-export const Toast = ({ message, options, onClose }) => {
+export const Toast = ({ mode, onClose, message }) => {
     Toast.propTypes = {
-        message: PropTypes.string.isRequired,
-        options: PropTypes.object,
-        onClose: PropTypes.func
+        mode: PropTypes.string,
+        onClose: PropTypes.func,
+        message: PropTypes.string
     };
     
-    const [visible, setVisible] = useState(true);
-
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            setVisible(false);
-            onClose();
-        }, options.autoClose);
-
-        return () => clearTimeout(timer);
-    }, [options.autoClose, onClose]);
+    const classes = useMemo(() => [styles.toast, styles[mode]].join(' '), [mode]);
 
     return (
-        <div className={`toast ${options.position} ${visible ? 'show' : ''}`} onClick={() => setVisible(false)}>
-            {message}
+        <div onClick={onClose} className={classes}>
+            <div className={styles.message}>{message}</div>
         </div>
     )
 }

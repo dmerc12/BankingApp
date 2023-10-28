@@ -1,22 +1,19 @@
-import { useState, useCallback } from 'react';
+import { uuid } from '../../../lib/Helpers';
+import { useEffect, useState } from 'react';
 
-const DEFAULT_OPTIONS = {
-    autoClose: 3000,
-    position: 'top-center'
-};
+export const useToast = () => {
+    const [loaded, setLoaded] = useState(false);
+    const [toastId] = useState(`toast-portal-${uuid}`);
 
-export const useToast = (defaultOptions = {}) => {
-    const [toasts, setToasts] = useState([]);
+    useEffect(() => {
+        const div = document.createElement('div');
+        div.id = toastId;
+        div.style = 'position: fixed;  top: 10px; right: 10px;';
+        document.getElementsByTagName('body')[0].prepend(div);
+        setLoaded(true);
 
-    const addToast = useCallback((message, options = {}) => {
-        const id = new Date().getTime();
-        const mergedOptions = { ...DEFAULT_OPTIONS, ...defaultOptions, ...options };
-        setToasts((prevToasts) => [...prevToasts, { id, message, options: mergedOptions}]);
-    }, [defaultOptions]);
+        return () => document.getElementsByTagName('body')[0].removeChild()
+    }, [toastId]);
 
-    const removeToast = useCallback((id) => {
-        setToasts((prevToasts) => prevToasts.filter((toast) => toast.id !== id));
-    }, []);
-
-    return { toasts, addToast, removeToast };
-};
+    return { loaded, toastId }
+}

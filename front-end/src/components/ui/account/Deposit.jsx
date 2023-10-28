@@ -6,9 +6,15 @@ import { toast } from "react-toastify";
 import { useState } from "react";
 import { useFetch } from "../../../hooks/useFetch";
 import { useNavigate } from "react-router-dom";
+import PropTypes from "prop-types";
 import Cookies from "js-cookie";
 
 export const Deposit = ({ account, fetchAccounts}) => {
+    Deposit.propTypes = {
+        account: PropTypes.object,
+        fetchAccounts: PropTypes.func
+    };
+
     const sessionId = Cookies.get('sessionId');
 
     const [depositForm, setDepositForm] = useState({
