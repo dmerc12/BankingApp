@@ -1,24 +1,28 @@
-import PropTypes from 'prop-types';
+import styles from './styles.module.css';
+import ReactDOM from 'react-dom';
+
 import { useToast } from '../../../hooks/useToast';
+import { useState } from 'react';
 import { Toast } from './toast';
 
-const defaultOptions = {
-    autoClose: 3000,
-    position: 'top-center'
-};
+export const ToastContainer = () => {
+    const [ toasts, setToasts] = useState([])
+    const { loaded, toastId } = useToast();
 
-export const ToastContainer = ({ toasts }) => {
-    ToastContainer.propTypes = {
-        toasts: PropTypes.array
+    const removeToast = id => {
+        setToasts(toasts.filter(toast => toast.id !== id))
     };
-    
-    const { removeToast } = useToast(defaultOptions);
 
-    return (
-        <>
-            {toasts.map((toast) => (
-                <Toast key={toast.id} message={toast.message} options={toast.options} onClose={() => removeToast(toast.id)} />
+    return loaded ? ReactDOM.createPortal(
+        <div className={styles.toastContainer}>
+            {toasts.map(toast => (
+                <Toast key={toast.id} mode={toast.mode} onClose={() => removeToast(toast.id)}></Toast>
             ))}
+        </div>,
+        document.getElementById(toastId)
+    ) : (
+        <>
+        
         </>
     )
 };
