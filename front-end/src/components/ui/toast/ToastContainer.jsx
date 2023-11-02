@@ -1,28 +1,38 @@
 import styles from './styles.module.css';
 import ReactDOM from 'react-dom';
 
+import { uuid } from '../../../lib/Helpers';
 import { useToast } from '../../../hooks/useToast';
-import { useState } from 'react';
+import { useToastAutoClose } from '../../../hooks/useToastAutoClose';
+import { forwardRef, useImperativeHandle, useState } from 'react';
 import { Toast } from './toast';
 
-export const ToastContainer = () => {
-    const [ toasts, setToasts] = useState([])
-    const { loaded, toastId } = useToast();
+export const ToastContainer = forwardRef(
+    ({ autoClose = true, autoCloseTime = 5000 }, ref) => {
+        const [ toasts, setToasts] = useState([]);
+        const { loaded, toastId } = useToast();
 
-    const removeToast = id => {
-        setToasts(toasts.filter(toast => toast.id !== id))
-    };
+        useToastAutoClose({ toasts, setToasts, autoClose, autoCloseTime });
 
-    return loaded ? ReactDOM.createPortal(
-        <div className={styles.toastContainer}>
-            {toasts.map(toast => (
-                <Toast key={toast.id} mode={toast.mode} onClose={() => removeToast(toast.id)}></Toast>
-            ))}
-        </div>,
-        document.getElementById(toastId)
-    ) : (
-        <>
-        
-        </>
-    )
-};
+        const removeToast = id => {
+            setToasts(toasts.filter(toast => toast.id !== id))
+        };
+
+        useImperativeHandle(ref, () => ({
+            addToast(toast) {
+                setToasts([ ...toasts, { ...toast, id: uuid() }]);
+            }
+        }));
+
+        return loaded ? ReactDOM.createPortal(
+            <div className={styles.toastContainer}>
+                {toasts.map(toast => (
+                    <Toast key={toast.id} mode={toast.mode} message={toast.message} onClose={() => removeToast(toast.id)} />
+                ))}
+            </div>,
+            document.getElementById(toastId)
+        ) : (
+            <></>
+        )
+    }
+);
