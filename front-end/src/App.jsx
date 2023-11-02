@@ -8,11 +8,11 @@ import { Register } from './pages/Register';
 import { ManageInformation } from './pages/ManageInformation';
 import { ManageAccounts } from './pages/ManageAccounts';
 import { Home } from './pages/Home';
-import { ToastContainer } from './components/ui/toast/ToastContainer';
-import { useToast } from './hooks/useToast';
+// import { ToastContainer } from './components/ui/toast/ToastContainer';
+// import { useToast } from './hooks/useToast';
 
 function App() {
-  const { toasts } = useToast();
+  // const { toasts } = useToast();
 
   return (
     <>
@@ -29,7 +29,7 @@ function App() {
         </Routes>
       </BrowserRouter>
 
-      <ToastContainer toasts={toasts}/>
+      {/* <ToastContainer toasts={toasts}/> */}
       {/* <ToastContainer position='top-center' newestOnTop autoClose={3000} hideProgressBar theme='colored' limit={1} closeOnClick /> */}
     </>
   )
