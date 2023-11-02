@@ -1,9 +1,9 @@
-import { uuid } from '../../../lib/Helpers';
+import { uuid } from '../lib/Helpers';
 import { useEffect, useState } from 'react';
 
 export const useToast = () => {
     const [loaded, setLoaded] = useState(false);
-    const [toastId] = useState(`toast-portal-${uuid}`);
+    const [toastId] = useState(`toast-portal-${uuid()}`);
 
     useEffect(() => {
         const div = document.createElement('div');
