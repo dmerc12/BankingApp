@@ -1,13 +1,18 @@
 //import { toast } from 'react-toastify';
+
+import Cookies from "js-cookie";
+
 import { FaSpinner, FaSync } from 'react-icons/fa';
 import { AiOutlineExclamationCircle } from 'react-icons/ai';
 import { useNavigate } from "react-router-dom";
-import {  useState } from "react";
+import { useRef, useState } from "react";
 import { useFetch } from '../../../hooks/useFetch';
 import { useToast } from '../../../hooks/useToast';
-import Cookies from "js-cookie";
+import { ToastContainer } from "../toast/ToastContainer";
 
 export const LoginForm = () => {
+    const toastRef = useRef();
+
     const [loginForm, setLoginForm] = useState({
         email: '',
         password: ''
@@ -44,7 +49,7 @@ export const LoginForm = () => {
                 Cookies.set('sessionId', data.sessionId);
                 navigate('/home');
                 setLoading(false);
-                addToast("Welcome!");
+                toastRef.current.addToast({ mode: 'success', message: 'Welcome!'});
                 //toast.success("Welcome!");
             } else if (responseStatus === 400) {
                 throw new Error(`${data.message}`);
@@ -53,11 +58,12 @@ export const LoginForm = () => {
             }
         } catch (error) {
             if (error.message === "Failed to fetch") {
-                setFailedToFetch(true);
+                toastRef.current.addToast({ mode: 'info', message: 'Error connecting to back end!'});
+                //setFailedToFetch(true);
                 setLoading(false);
             } else {
                 setLoading(false);
-                addToast(error.message);
+                toastRef.current.addToast({ mode: 'error', message: error.message});
                 //toast.warn(error.message, {
                 //    toastId: 'customId'
                 //});
@@ -67,6 +73,8 @@ export const LoginForm = () => {
 
     return (
         <>
+            <ToastContainer ref={toastRef} />
+
             {loading ? (
                 <div className='loading-indicator'>
                     <FaSpinner className='spinner' />
