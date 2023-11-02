@@ -12,7 +12,7 @@ export const useToast = () => {
         document.getElementsByTagName('body')[0].prepend(div);
         setLoaded(true);
 
-        return () => document.getElementsByTagName('body')[0].removeChild()
+        return () => document.getElementsByTagName('body')[0].removeChild(div)
     }, [toastId]);
 
     return { loaded, toastId }

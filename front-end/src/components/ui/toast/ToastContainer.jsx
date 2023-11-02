@@ -20,7 +20,7 @@ export const ToastContainer = forwardRef(
 
         useImperativeHandle(ref, () => ({
             addToast(toast) {
-                setToasts([ ...toasts, { ...toast, id: uuid() }]);
+                setToasts([...toasts, { ...toast, id: uuid() }]);
             }
         }));
 

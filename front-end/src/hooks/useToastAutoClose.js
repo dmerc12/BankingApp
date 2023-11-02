@@ -5,7 +5,7 @@ export const useToastAutoClose = ({ toasts, setToasts, autoClose, autoCloseTime 
 
     useEffect(() => {
         if (removing) {
-            setToasts(toasts.filter(toast => toast.id !== id));
+            setToasts(toasts.filter(toast => toast.id !== removing));
         }
     }, [removing, setToasts]);
 
