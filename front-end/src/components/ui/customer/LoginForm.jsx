@@ -1,14 +1,11 @@
-//import { toast } from 'react-toastify';
-
 import Cookies from "js-cookie";
 
 import { FaSpinner, FaSync } from 'react-icons/fa';
 import { AiOutlineExclamationCircle } from 'react-icons/ai';
+import { ToastContainer } from "../toast/ToastContainer";
 import { useNavigate } from "react-router-dom";
 import { useRef, useState } from "react";
 import { useFetch } from '../../../hooks/useFetch';
-import { useToast } from '../../../hooks/useToast';
-import { ToastContainer } from "../toast/ToastContainer";
 
 export const LoginForm = () => {
     const toastRef = useRef();
@@ -21,8 +18,6 @@ export const LoginForm = () => {
     const [failedToFetch, setFailedToFetch] = useState(false);
 
     const { fetchData } = useFetch();
-
-    const { addToast } =  useToast();
 
     const navigate = useNavigate();
 
@@ -50,7 +45,6 @@ export const LoginForm = () => {
                 navigate('/home');
                 setLoading(false);
                 toastRef.current.addToast({ mode: 'success', message: 'Welcome!'});
-                //toast.success("Welcome!");
             } else if (responseStatus === 400) {
                 throw new Error(`${data.message}`);
             } else {
@@ -58,15 +52,11 @@ export const LoginForm = () => {
             }
         } catch (error) {
             if (error.message === "Failed to fetch") {
-                toastRef.current.addToast({ mode: 'info', message: 'Error connecting to back end!'});
-                //setFailedToFetch(true);
+                setFailedToFetch(true);
                 setLoading(false);
             } else {
                 setLoading(false);
                 toastRef.current.addToast({ mode: 'error', message: error.message});
-                //toast.warn(error.message, {
-                //    toastId: 'customId'
-                //});
             }
         }
     };
