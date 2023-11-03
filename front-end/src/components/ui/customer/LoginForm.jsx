@@ -1,13 +1,14 @@
-//import { toast } from 'react-toastify';
+import Cookies from "js-cookie";
+import PropTypes from 'prop-types';
+
 import { FaSpinner, FaSync } from 'react-icons/fa';
 import { AiOutlineExclamationCircle } from 'react-icons/ai';
 import { useNavigate } from "react-router-dom";
-import {  useState } from "react";
+import { useState } from "react";
 import { useFetch } from '../../../hooks/useFetch';
-import { useToast } from '../../../hooks/useToast';
-import Cookies from "js-cookie";
 
-export const LoginForm = () => {
+export const LoginForm = ({ toastRef }) => {
+    
     const [loginForm, setLoginForm] = useState({
         email: '',
         password: ''
@@ -16,8 +17,6 @@ export const LoginForm = () => {
     const [failedToFetch, setFailedToFetch] = useState(false);
 
     const { fetchData } = useFetch();
-
-    const { addToast } =  useToast();
 
     const navigate = useNavigate();
 
@@ -42,10 +41,10 @@ export const LoginForm = () => {
 
             if (responseStatus === 200) {
                 Cookies.set('sessionId', data.sessionId);
-                navigate('/home');
                 setLoading(false);
-                addToast("Welcome!");
-                //toast.success("Welcome!");
+                console.log(toastRef.current)
+                toastRef.current.addToast({ mode: 'success', message: 'Welcome!'});
+                navigate('/home');
             } else if (responseStatus === 400) {
                 throw new Error(`${data.message}`);
             } else {
@@ -57,10 +56,7 @@ export const LoginForm = () => {
                 setLoading(false);
             } else {
                 setLoading(false);
-                addToast(error.message);
-                //toast.warn(error.message, {
-                //    toastId: 'customId'
-                //});
+                toastRef.current.addToast({ mode: 'error', message: error.message});
             }
         }
     };
@@ -98,4 +94,8 @@ export const LoginForm = () => {
             )}
         </>
     )
-}
+};
+
+LoginForm.propTypes = {
+    toastRef: PropTypes.object
+};

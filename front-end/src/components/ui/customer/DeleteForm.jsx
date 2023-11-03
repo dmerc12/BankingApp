@@ -1,13 +1,14 @@
-import { toast } from "react-toastify";
+import Cookies from 'js-cookie';
+import PropTypes from 'prop-types';
+
 import { Modal } from "../../Modal";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useFetch } from "../../../hooks/useFetch";
 import { FaSpinner, FaSync } from "react-icons/fa";
 import { AiOutlineExclamationCircle } from "react-icons/ai";
-import Cookies from "js-cookie";
 
-export const DeleteForm = () => {
+export const DeleteForm = ({ toastRef }) => {
     const sessionId = Cookies.get('sessionId');
 
     const [loading, setLoading] = useState(false);
@@ -42,9 +43,7 @@ export const DeleteForm = () => {
                 navigate('/login');
                 setLoading(false);
                 setVisible(false);
-                toast.success("Profile successfully deleted, goodbye!", {
-                    toastId: 'customId'
-                });
+                toastRef.current.addToast({ mode: 'success', message: 'Profile successfully deleted, goodbye!'});
             } else if (responseStatus === 400) {
                 throw new Error(`${data.message}`);
             } else {
@@ -55,17 +54,13 @@ export const DeleteForm = () => {
                 Cookies.remove('sessionId');
                 navigate('/login');
                 setLoading(false);
-                toast.warn(error.message, {
-                    toastId: "customId"
-                });
+                toastRef.current.addToast({ mode: 'error', message: `${error.message}`});
             } else if (error.message === "Failed to fetch") {
                 setFailedToFetch(true);
                 setLoading(false);
             } else {
                 setLoading(false);
-                toast.warn(error.message, {
-                    toastId: "customId"
-                });
+                toastRef.current.addToast({ mode: 'error', message: `${error.message}`});
             }
         }
     };
@@ -102,4 +97,8 @@ export const DeleteForm = () => {
             </Modal>
         </>
     )
-}
+};
+
+DeleteForm.propTypes = {
+    toastRef: PropTypes.object
+};
