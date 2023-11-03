@@ -1,4 +1,5 @@
-import { toast } from 'react-toastify';
+import PropTypes from 'prop-types';
+
 import { FaSpinner, FaSync } from 'react-icons/fa';
 import { AiOutlineExclamationCircle } from 'react-icons/ai';
 import { states } from '../../../lib/States';
@@ -7,7 +8,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useFetch } from '../../../hooks/useFetch';
 
-export const RegisterForm = () => {
+export const RegisterForm = ({ toastRef }) => {
     const [registerForm, setRegisterForm] = useState({
         firstName: '',
         lastName: '',
@@ -105,9 +106,7 @@ export const RegisterForm = () => {
             if (responseStatus === 201) {
                 navigate('/login');
                 setLoading(false);
-                toast.success("Profile successfully created, please log in!", {
-                    toastId: 'customId'
-                });
+                toastRef.current.addToast({ mode: 'success', message: 'Profile successfully created, please log in!' });
             } else if (responseStatus === 400) {
                 throw new Error(`${data.message}`);
             } else {
@@ -119,9 +118,8 @@ export const RegisterForm = () => {
                 setLoading(false);
             } else {
                 setLoading(false);
-                toast.warn(error.message, {
-                    toastId: "customId"
-                });
+                toastRef.current.addToast({ mode: 'success', message: `${error.message}` });
+
             }
         }
     }
@@ -219,4 +217,8 @@ export const RegisterForm = () => {
             )}
         </>
     )
-}
+};
+
+RegisterForm.propTypes = {
+    toastRef: PropTypes.object
+};
