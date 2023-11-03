@@ -1,15 +1,14 @@
 import Cookies from "js-cookie";
+import PropTypes from 'prop-types';
 
 import { FaSpinner, FaSync } from 'react-icons/fa';
 import { AiOutlineExclamationCircle } from 'react-icons/ai';
-import { ToastContainer } from "../toast/ToastContainer";
 import { useNavigate } from "react-router-dom";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { useFetch } from '../../../hooks/useFetch';
 
-export const LoginForm = () => {
-    const toastRef = useRef();
-
+export const LoginForm = ({ toastRef }) => {
+    
     const [loginForm, setLoginForm] = useState({
         email: '',
         password: ''
@@ -42,9 +41,10 @@ export const LoginForm = () => {
 
             if (responseStatus === 200) {
                 Cookies.set('sessionId', data.sessionId);
-                navigate('/home');
                 setLoading(false);
+                console.log(toastRef.current)
                 toastRef.current.addToast({ mode: 'success', message: 'Welcome!'});
+                navigate('/home');
             } else if (responseStatus === 400) {
                 throw new Error(`${data.message}`);
             } else {
@@ -63,8 +63,6 @@ export const LoginForm = () => {
 
     return (
         <>
-            <ToastContainer ref={toastRef} />
-
             {loading ? (
                 <div className='loading-indicator'>
                     <FaSpinner className='spinner' />
@@ -96,4 +94,8 @@ export const LoginForm = () => {
             )}
         </>
     )
-}
+};
+
+LoginForm.propTypes = {
+    toastRef: PropTypes.object
+};
