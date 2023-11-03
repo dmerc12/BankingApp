@@ -8,7 +8,7 @@ export const Toast = ({ mode, onClose, message }) => {
 
     return (
         <div onClick={onClose} className={classes}>
-            <div className={styles.message}>{message}</div>
+            <div id='toast' className={styles.message}>{message}</div>
         </div>
     )
 };
