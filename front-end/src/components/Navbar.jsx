@@ -1,27 +1,27 @@
-import { toast } from 'react-toastify';
-import { Link, useNavigate } from 'react-router-dom';
-import { useFetch } from '../hooks/useFetch';
-import { useState } from 'react';
 import Cookies from 'js-cookie';
+import PropTypes from 'prop-types';
 
-export const Navbar = () => {
-    const sessionId = Cookies.get('sessionId');
+import { Link, useNavigate } from 'react-router-dom';
+//import { useFetch } from '../hooks/useFetch';
+//import { useState } from 'react';
 
-    const [loading, setLoading] = useState(false);
+export const Navbar = ({ toastRef }) => {
+    //const sessionId = Cookies.get('sessionId');
 
-    const { fetchData } = useFetch();
+    //const [loading, setLoading] = useState(false);
+    //const [failedToFetch, setFailedToFetch] = useState(false);
+
+    //const { fetchData } = useFetch();
 
     const navigate = useNavigate();
 
     const handleLogout = async () => {
-        setLoading(true);
-        setFailedToFetch(false);
-        await fetchData(`api/logout/${sessionId}`, "DELETE");
+        //setLoading(true);
+        //setFailedToFetch(false);
+        //await fetchData(`api/logout/${sessionId}`, "DELETE");
         Cookies.remove('sessionId');
         navigate('/login');
-        toast.success("Goodbye!", {
-            toastId: "customId"
-        });
+        toastRef.current.addToast({ mode: 'success', message: 'Goodbye!' });
     }
 
     const loggedIn = Cookies.get('sessionId');
@@ -49,4 +49,8 @@ export const Navbar = () => {
             </nav>        
         </>
     )
-}
+};
+
+Navbar.propTypes = {
+    toastRef: PropTypes.object
+};
