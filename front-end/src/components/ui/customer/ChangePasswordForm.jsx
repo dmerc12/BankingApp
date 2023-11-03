@@ -1,13 +1,14 @@
+import Cookies from 'js-cookie';
+import PropTypes from 'prop-types';
+
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useFetch } from "../../../hooks/useFetch";
-import { toast } from "react-toastify";
 import { Modal } from "../../Modal";
 import { FaSpinner, FaSync } from "react-icons/fa";
 import { AiOutlineExclamationCircle } from "react-icons/ai";
-import Cookies from "js-cookie";
 
-export const ChangePasswordForm = () => {
+export const ChangePasswordForm = ({ toastRef }) => {
     const sessionId = Cookies.get('sessionId');
 
     const [changePasswordForm, setChangePasswordForm] = useState({
@@ -58,9 +59,7 @@ export const ChangePasswordForm = () => {
                 });
                 setVisible(false);
                 setLoading(false);
-                toast.success("Password successfully changed!", {
-                    toastId: 'customId'
-                });
+                toastRef.current.addToast({ mode: 'success', message: 'Password successfully changed!'});
             } else if (responseStatus === 400) {
                 throw new Error(`${data.message}`);
             } else {
@@ -71,17 +70,13 @@ export const ChangePasswordForm = () => {
                 Cookies.remove('sessionId');
                 navigate('/login');
                 setLoading(false);
-                toast.warn(error.message, {
-                    toastId: "customId"
-                });
+                toastRef.current.addToast({ mode: 'error', message: `${error.message}`});
             } else if (error.message === "Failed to fetch") {
                 setFailedToFetch(true);
                 setLoading(false);
             } else {
                 setLoading(false);
-                toast.warn(error.message, {
-                    toastId: "customId"
-                });
+                toastRef.current.addToast({ mode: 'error', message: `${error.message}`});
             }
         }
     };
@@ -125,4 +120,8 @@ export const ChangePasswordForm = () => {
             </Modal>
         </>
     )
-}
+};
+
+ChangePasswordForm.propTypes = {
+    toastRef: PropTypes.object
+};
