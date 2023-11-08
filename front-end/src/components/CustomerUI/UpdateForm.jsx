@@ -1,14 +1,13 @@
 import Cookies from 'js-cookie';
 import PropTypes from 'prop-types';
 
-import { Modal } from '../Modal';
+import { Modal } from 'components';
 import { useState, useEffect } from 'react';
+import { useFetch } from 'hooks';
 import { useNavigate } from 'react-router-dom';
-import { useFetch } from '../../hooks/useFetch';
-import { states } from '../../lib/States';
-import { zipCodeData } from '../../lib/ZipCodes';
 import { FaSpinner, FaSync } from 'react-icons/fa';
 import { AiOutlineExclamationCircle } from 'react-icons/ai';
+import { states, zipCodeData } from 'lib';
 
 export const UpdateForm = ({ toastRef }) => {
     const sessionId = Cookies.get('sessionId');
@@ -151,7 +150,7 @@ export const UpdateForm = ({ toastRef }) => {
                 Cookies.remove('sessionId');
                 navigate('/login');
                 setLoading(false);
-                toastRef.current.addToast({ mode: 'error', message: `${error.message}`});
+                toastRef.current.addToast({ mode: 'warning', message: `${error.message}`});
             } else if (error.message === "Failed to fetch") {
                 setFailedToFetchData(true);
                 setLoading(false);
@@ -183,7 +182,7 @@ export const UpdateForm = ({ toastRef }) => {
                 Cookies.remove('sessionId');
                 navigate('/login');
                 setLoading(false);
-                toastRef.current.addToast({ mode: 'error', message: `${error.message}`});
+                toastRef.current.addToast({ mode: 'warning', message: `${error.message}`});
             } else if (error.message === "Failed to fetch") {
                 setFailedToFetchSubmission(true);
                 setLoading(false);
@@ -199,7 +198,7 @@ export const UpdateForm = ({ toastRef }) => {
             fetchCustomer();
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [customerPresent])
+    }, [customerPresent]);
 
     return (
         <>
@@ -295,5 +294,5 @@ export const UpdateForm = ({ toastRef }) => {
 };
 
 UpdateForm.propTypes = {
-    toastRef: PropTypes.object
+    toastRef: PropTypes.object.isRequired
 };

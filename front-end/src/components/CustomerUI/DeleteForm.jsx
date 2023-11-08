@@ -1,12 +1,12 @@
 import Cookies from 'js-cookie';
 import PropTypes from 'prop-types';
 
-import { Modal } from "../../Modal";
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
-import { useFetch } from "../../../hooks/useFetch";
-import { FaSpinner, FaSync } from "react-icons/fa";
-import { AiOutlineExclamationCircle } from "react-icons/ai";
+import { Modal } from 'components';
+import { useState } from 'react';
+import { useFetch } from 'hooks';
+import { useNavigate } from 'react-router-dom';
+import { FaSpinner, FaSync } from 'react-icons/fa';
+import { AiOutlineExclamationCircle } from 'react-icons/ai';
 
 export const DeleteForm = ({ toastRef }) => {
     const sessionId = Cookies.get('sessionId');
@@ -54,7 +54,7 @@ export const DeleteForm = ({ toastRef }) => {
                 Cookies.remove('sessionId');
                 navigate('/login');
                 setLoading(false);
-                toastRef.current.addToast({ mode: 'error', message: `${error.message}`});
+                toastRef.current.addToast({ mode: 'warning', message: `${error.message}`});
             } else if (error.message === "Failed to fetch") {
                 setFailedToFetch(true);
                 setLoading(false);
@@ -100,5 +100,5 @@ export const DeleteForm = ({ toastRef }) => {
 };
 
 DeleteForm.propTypes = {
-    toastRef: PropTypes.object
+    toastRef: PropTypes.object.isRequired
 };

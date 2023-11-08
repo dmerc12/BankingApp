@@ -1,12 +1,11 @@
 import PropTypes from 'prop-types';
 
+import { useState } from 'react';
+import { useFetch } from 'hooks';
+import { useNavigate } from 'react-router-dom';
 import { FaSpinner, FaSync } from 'react-icons/fa';
 import { AiOutlineExclamationCircle } from 'react-icons/ai';
-import { states } from '../../../lib/States';
-import { zipCodeData } from '../../../lib/ZipCodes';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useFetch } from '../../../hooks/useFetch';
+import { states, zipCodeData } from 'lib';
 
 export const RegisterForm = ({ toastRef }) => {
     const [registerForm, setRegisterForm] = useState({
@@ -110,7 +109,7 @@ export const RegisterForm = ({ toastRef }) => {
             } else if (responseStatus === 400) {
                 throw new Error(`${data.message}`);
             } else {
-                throw new Error("Something went horribly wrong!")
+                throw new Error("Something went horribly wrong!");
             }
         } catch (error) {
             if (error.message === "Failed to fetch") {
@@ -122,7 +121,7 @@ export const RegisterForm = ({ toastRef }) => {
 
             }
         }
-    }
+    };
 
     return (
         <>
@@ -220,5 +219,5 @@ export const RegisterForm = ({ toastRef }) => {
 };
 
 RegisterForm.propTypes = {
-    toastRef: PropTypes.object
+    toastRef: PropTypes.object.isRequired
 };
