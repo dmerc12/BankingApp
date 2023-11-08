@@ -1,11 +1,9 @@
-import Cookies from "js-cookie";
+import Cookies from 'js-cookie';
 import PropTypes from 'prop-types';
 
-import { UpdateForm } from "../components/ui/customer/UpdateForm";
-import { ChangePasswordForm } from "../components/ui/customer/ChangePasswordForm";
-import { DeleteForm } from "../components/ui/customer/DeleteForm";
 import { useEffect } from 'react';
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
+import { UpdateForm, ChangePasswordForm, DeleteForm } from '../components';
 
 export const ManageInformation = ({ toastRef }) => {
     const navigate = useNavigate();
@@ -31,5 +29,5 @@ export const ManageInformation = ({ toastRef }) => {
 };
 
 ManageInformation.propTypes = {
-    toastRef: PropTypes.object
+    toastRef: PropTypes.object.isRequired
 };

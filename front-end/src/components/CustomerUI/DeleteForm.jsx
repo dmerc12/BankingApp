@@ -1,24 +1,16 @@
-import { toast } from "react-toastify";
-import { Modal } from "../../Modal";
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
-import { useFetch } from "../../../hooks/useFetch";
-import { FaSpinner, FaSync } from "react-icons/fa";
-import { AiOutlineExclamationCircle } from "react-icons/ai";
-import PropTypes from "prop-types";
-import Cookies from "js-cookie";
+import Cookies from 'js-cookie';
+import PropTypes from 'prop-types';
 
-export const CreateAccount = ({ fetchAccounts }) => {
-    CreateAccount.propTypes = {
-        fetchAccounts: PropTypes.func
-    };
+import { Modal } from '../../components';
+import { useState } from 'react';
+import { useFetch } from '../../hooks';
+import { useNavigate } from 'react-router-dom';
+import { FaSpinner, FaSync } from 'react-icons/fa';
+import { AiOutlineExclamationCircle } from 'react-icons/ai';
 
+export const DeleteForm = ({ toastRef }) => {
     const sessionId = Cookies.get('sessionId');
 
-    const [createAccountForm, setCreateAccountForm] = useState({
-        sessionId: Number(sessionId),
-        startingBalance: parseFloat(0).toFixed(2)
-    });
     const [loading, setLoading] = useState(false);
     const [failedToFetch, setFailedToFetch] = useState(false);
     const [visible, setVisible] = useState(false);
@@ -26,14 +18,6 @@ export const CreateAccount = ({ fetchAccounts }) => {
     const { fetchData } = useFetch();
 
     const navigate = useNavigate();
-
-    const onChange = (event) => {
-        const { name, value } = event.target;
-        setCreateAccountForm((prevForm) => ({
-            ...prevForm,
-            [name]: parseFloat(value)
-        }));
-    };
 
     const showModal = () => {
         setVisible(true);
@@ -52,19 +36,14 @@ export const CreateAccount = ({ fetchAccounts }) => {
         setLoading(true);
         setFailedToFetch(false);
         try {
-            const { responseStatus, data } = await fetchData('/api/create/account', 'POST', createAccountForm);
+            const { responseStatus, data } = await fetchData('/api/delete/customer', 'DELETE', {sessionId: Number(sessionId)});
 
-            if (responseStatus === 201) {
-                setVisible(false);
+            if (responseStatus === 200) {
+                Cookies.remove('sessionId');
+                navigate('/login');
                 setLoading(false);
-                setCreateAccountForm({
-                    sessionId: Number(sessionId),
-                    startingBalance: parseFloat(0).toFixed(2)
-                });
-                fetchAccounts();
-                toast.success("Account successfully created!", {
-                    toastId: 'customId'
-                });
+                setVisible(false);
+                toastRef.current.addToast({ mode: 'success', message: 'Profile successfully deleted, goodbye!'});
             } else if (responseStatus === 400) {
                 throw new Error(`${data.message}`);
             } else {
@@ -75,17 +54,13 @@ export const CreateAccount = ({ fetchAccounts }) => {
                 Cookies.remove('sessionId');
                 navigate('/login');
                 setLoading(false);
-                toast.warn(error.message, {
-                    toastId: "customId"
-                });
+                toastRef.current.addToast({ mode: 'warning', message: `${error.message}`});
             } else if (error.message === "Failed to fetch") {
                 setFailedToFetch(true);
                 setLoading(false);
             } else {
                 setLoading(false);
-                toast.warn(error.message, {
-                    toastId: "customId"
-                });
+                toastRef.current.addToast({ mode: 'error', message: `${error.message}`});
             }
         }
     };
@@ -93,7 +68,7 @@ export const CreateAccount = ({ fetchAccounts }) => {
     return (
         <>
             <div className="component">
-                <button onClick={showModal} className="action-btn" id="createAccountModal">Add New Account</button>
+                <button onClick={showModal} className="action-btn" id="deleteProfileModal">Delete Profile</button>
             </div>
 
             <Modal visible={visible} onClose={closeModal}>
@@ -113,15 +88,17 @@ export const CreateAccount = ({ fetchAccounts }) => {
                     </div>
                 ) : (
                     <form className="form" onSubmit={onSubmit}>
-                        <div className="form-field">
-                            <label className="form-label" htmlFor="startingBalance">Starting Balance: </label>
-                            <input className="form-input" type="number" id="startingBalance" name="startingBalance" value={createAccountForm.startingBalance} onChange={onChange}/>
-                        </div>
+                        <h1>Confirm Profile Deletion Below</h1>
+                        <p>Any accounts and associated information will also be deleted. Are you sure?</p>
 
-                        <button className="form-btn-1" type="submit" id="createAccountButton">Create Account</button>
+                        <button className="form-btn-1" type="submit" id="deleteProfileButton">Delete Profile</button>
                     </form>
                 )}
             </Modal>
         </>
     )
-}
+};
+
+DeleteForm.propTypes = {
+    toastRef: PropTypes.object.isRequired
+};

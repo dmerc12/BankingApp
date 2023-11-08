@@ -1,26 +1,19 @@
-/* eslint-disable react/prop-types */
-import { FaPlus, FaSpinner, FaSync } from "react-icons/fa";
-import { AiOutlineExclamationCircle } from "react-icons/ai";
-import { Modal } from "../../Modal";
-import { toast } from "react-toastify";
-import { useState } from "react";
-import { useFetch } from "../../../hooks/useFetch";
-import { useNavigate } from "react-router-dom";
-import PropTypes from "prop-types";
-import Cookies from "js-cookie";
+import Cookies from 'js-cookie';
+import PropTypes from 'prop-types';
 
-export const Deposit = ({ account, fetchAccounts}) => {
-    Deposit.propTypes = {
-        account: PropTypes.object,
-        fetchAccounts: PropTypes.func
-    };
+import { Modal } from '../../components';
+import { useState } from 'react';
+import { useFetch } from '../../hooks';
+import { useNavigate } from 'react-router-dom';
+import { FaSpinner, FaSync } from 'react-icons/fa';
+import { AiOutlineExclamationCircle } from 'react-icons/ai';
 
+export const CreateAccount = ({ toastRef, fetchAccounts }) => {
     const sessionId = Cookies.get('sessionId');
 
-    const [depositForm, setDepositForm] = useState({
+    const [createAccountForm, setCreateAccountForm] = useState({
         sessionId: Number(sessionId),
-        accountId: Number(account.accountId),
-        depositAmount: parseFloat(0).toFixed(2)
+        startingBalance: parseFloat(0).toFixed(2)
     });
     const [loading, setLoading] = useState(false);
     const [failedToFetch, setFailedToFetch] = useState(false);
@@ -32,7 +25,7 @@ export const Deposit = ({ account, fetchAccounts}) => {
 
     const onChange = (event) => {
         const { name, value } = event.target;
-        setDepositForm((prevForm) => ({
+        setCreateAccountForm((prevForm) => ({
             ...prevForm,
             [name]: parseFloat(value)
         }));
@@ -55,20 +48,17 @@ export const Deposit = ({ account, fetchAccounts}) => {
         setLoading(true);
         setFailedToFetch(false);
         try {
-            const { responseStatus, data } = await fetchData('/api/deposit', 'PUT', depositForm);
+            const { responseStatus, data } = await fetchData('/api/create/account', 'POST', createAccountForm);
 
-            if (responseStatus === 200) {
-                fetchAccounts();
+            if (responseStatus === 201) {
                 setVisible(false);
                 setLoading(false);
-                setDepositForm({
+                setCreateAccountForm({
                     sessionId: Number(sessionId),
-                    accountId: Number(account.accountId),
-                    depositAmount: parseFloat(0).toFixed(2)
+                    startingBalance: parseFloat(0).toFixed(2)
                 });
-                toast.success("Deposit Successful!", {
-                    toastId: 'customId'
-                });
+                fetchAccounts();
+                toastRef.current.addToast({ mode: 'success', message: 'Account successfully created!' });
             } else if (responseStatus === 400) {
                 throw new Error(`${data.message}`);
             } else {
@@ -79,24 +69,23 @@ export const Deposit = ({ account, fetchAccounts}) => {
                 Cookies.remove('sessionId');
                 navigate('/login');
                 setLoading(false);
-                toast.warn(error.message, {
-                    toastId: "customId"
-                });
+                toastRef.current.addToast({ mode: 'warning', message: error.message });
             } else if (error.message === "Failed to fetch") {
                 setFailedToFetch(true);
                 setLoading(false);
             } else {
                 setLoading(false);
-                toast.warn(error.message, {
-                    toastId: "customId"
-                });
+                toastRef.current.addToast({ mode: 'error', message: error.message });
             }
         }
     };
 
     return (
         <>
-            <FaPlus onClick={showModal} cursor={'pointer'} size={15} id={`depositModal${account.accountId}`}/>
+            <div className="component">
+                <button onClick={showModal} className="action-btn" id="createAccountModal">Add New Account</button>
+            </div>
+
             <Modal visible={visible} onClose={closeModal}>
                 {loading ? (
                     <div className='loading-indicator'>
@@ -115,19 +104,19 @@ export const Deposit = ({ account, fetchAccounts}) => {
                 ) : (
                     <form className="form" onSubmit={onSubmit}>
                         <div className="form-field">
-                            <label className="form-label" htmlFor="accountId">Account ID: </label>
-                            <input className="form-input" type="number" disabled id="depositAccountId" name="accountId" value={depositForm.accountId}/>
+                            <label className="form-label" htmlFor="startingBalance">Starting Balance: </label>
+                            <input className="form-input" type="number" id="startingBalance" name="startingBalance" value={createAccountForm.startingBalance} onChange={onChange}/>
                         </div>
 
-                        <div className="form-field">
-                            <label className="form-label" htmlFor="depositAmount">Deposit Amount: </label>
-                            <input className="form-input" type="number" id="depositAmount" name="depositAmount" value={depositForm.depositAmount} onChange={onChange}/>
-                        </div>
-
-                        <button className="form-btn-1" type="submit" id="depositButton">Deposit</button>
+                        <button className="form-btn-1" type="submit" id="createAccountButton">Create Account</button>
                     </form>
                 )}
             </Modal>
         </>
     )
-}
+};
+
+CreateAccount.propTypes = {
+    toastRef: PropTypes.object.isRequired,
+    fetchAccounts: PropTypes.func.isRequired
+};

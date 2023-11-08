@@ -1,11 +1,11 @@
-import Cookies from "js-cookie";
+import Cookies from 'js-cookie';
 import PropTypes from 'prop-types';
 
+import { useState } from 'react';
+import { useFetch } from '../../hooks';
+import { useNavigate } from 'react-router-dom';
 import { FaSpinner, FaSync } from 'react-icons/fa';
 import { AiOutlineExclamationCircle } from 'react-icons/ai';
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
-import { useFetch } from '../../../hooks/useFetch';
 
 export const LoginForm = ({ toastRef }) => {
     
@@ -42,13 +42,12 @@ export const LoginForm = ({ toastRef }) => {
             if (responseStatus === 200) {
                 Cookies.set('sessionId', data.sessionId);
                 setLoading(false);
-                console.log(toastRef.current)
                 toastRef.current.addToast({ mode: 'success', message: 'Welcome!'});
                 navigate('/home');
             } else if (responseStatus === 400) {
                 throw new Error(`${data.message}`);
             } else {
-                throw new Error("Something went horribly wrong!")
+                throw new Error("Something went horribly wrong!");
             }
         } catch (error) {
             if (error.message === "Failed to fetch") {
@@ -97,5 +96,5 @@ export const LoginForm = ({ toastRef }) => {
 };
 
 LoginForm.propTypes = {
-    toastRef: PropTypes.object
+    toastRef: PropTypes.object.isRequired
 };

@@ -1,25 +1,25 @@
 import Cookies from 'js-cookie';
 import PropTypes from 'prop-types';
 
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useFetch } from "../../../hooks/useFetch";
-import { Modal } from "../../Modal";
-import { FaSpinner, FaSync } from "react-icons/fa";
-import { AiOutlineExclamationCircle } from "react-icons/ai";
+import { Modal } from '../../components';
+import { useState } from 'react';
+import { useFetch } from '../../hooks';
+import { useNavigate } from 'react-router-dom';
+import { FiTrash2 } from 'react-icons/fi';
+import { FaSpinner, FaSync } from 'react-icons/fa';
+import { AiOutlineExclamationCircle } from 'react-icons/ai';
 
-export const ChangePasswordForm = ({ toastRef }) => {
+export const DeleteAccount = ({ toastRef, account, fetchAccounts }) => {
     const sessionId = Cookies.get('sessionId');
-
-    const [changePasswordForm, setChangePasswordForm] = useState({
+    
+    const [deleteAccountForm, setDeleteAccountForm] = useState({
         sessionId: Number(sessionId),
-        password: '',
-        confirmationPassword: ''
+        accountId: Number(account.accountId)
     });
-    const [visible, setVisible] = useState(false);
     const [loading, setLoading] = useState(false);
     const [failedToFetch, setFailedToFetch] = useState(false);
-    
+    const [visible, setVisible] = useState(false);
+
     const { fetchData } = useFetch();
 
     const navigate = useNavigate();
@@ -27,7 +27,7 @@ export const ChangePasswordForm = ({ toastRef }) => {
     const showModal = () => {
         setVisible(true);
     };
-    
+
     const closeModal = () => {
         setVisible(false);
     };
@@ -36,30 +36,22 @@ export const ChangePasswordForm = ({ toastRef }) => {
         setFailedToFetch(false);
     };
 
-    const onChange = (event) => {
-        const { name, value } = event.target;
-        setChangePasswordForm((prevForm) => ({
-            ...prevForm,
-            [name]: value
-        }));
-    };
-
     const onSubmit = async (event) => {
         event.preventDefault();
         setLoading(true);
         setFailedToFetch(false);
         try {
-            const { responseStatus, data } = await fetchData('/api/change/password', 'PUT', changePasswordForm);
+            const { responseStatus, data } = await fetchData('/api/delete/account', 'DELETE', deleteAccountForm);
 
             if (responseStatus === 200) {
-                setChangePasswordForm({
-                    sessionId: sessionId,
-                    password: '',
-                    confirmationPassword: ''
-                });
+                fetchAccounts();
                 setVisible(false);
                 setLoading(false);
-                toastRef.current.addToast({ mode: 'success', message: 'Password successfully changed!'});
+                setDeleteAccountForm({
+                    sessionId: Number(sessionId),
+                    accountId: Number(account.accountId)
+                });
+                toastRef.current.addToast({ mode: 'success', message: 'Account Successfully Deleted!' });
             } else if (responseStatus === 400) {
                 throw new Error(`${data.message}`);
             } else {
@@ -70,23 +62,20 @@ export const ChangePasswordForm = ({ toastRef }) => {
                 Cookies.remove('sessionId');
                 navigate('/login');
                 setLoading(false);
-                toastRef.current.addToast({ mode: 'error', message: `${error.message}`});
+                toastRef.current.addToast({ mode: 'warning', message: error.message });
             } else if (error.message === "Failed to fetch") {
                 setFailedToFetch(true);
                 setLoading(false);
             } else {
                 setLoading(false);
-                toastRef.current.addToast({ mode: 'error', message: `${error.message}`});
+                toastRef.current.addToast({ mode: 'error', message: error.message });
             }
         }
     };
 
     return (
         <>
-            <div className="component">
-                <button onClick={showModal} className="action-btn" id="changePasswordModal">Change Password</button>
-            </div>
-
+            <FiTrash2 onClick={showModal} cursor='pointer' size={15} id={`deleteAccountModal${account.accountId}`}/>
             <Modal visible={visible} onClose={closeModal}>
                 {loading ? (
                     <div className='loading-indicator'>
@@ -105,16 +94,10 @@ export const ChangePasswordForm = ({ toastRef }) => {
                 ) : (
                     <form className="form" onSubmit={onSubmit}>
                         <div className="form-field">
-                            <label className="form-label" htmlFor="password">New Password: </label>
-                            <input className="form-input" type="password" id="newPassword" name="password" value={changePasswordForm.password} onChange={onChange}/>
+                            <label className="form-label">Are you sure?</label>
                         </div>
 
-                        <div className="form-field">
-                            <label className="form-label" htmlFor="confirmationPassword">Confirm Password: </label>
-                            <input className="form-input" type="password" id="newConfirmationPassword" name="confirmationPassword" value={changePasswordForm.confirmationPassword} onChange={onChange}/>
-                        </div>
-
-                        <button id="changePasswordButton" className="form-btn-1" type="submit">Change Password</button>
+                        <button className="form-btn-1" type="submit" id="deleteAccountButton">Delete Account</button>
                     </form>
                 )}
             </Modal>
@@ -122,6 +105,8 @@ export const ChangePasswordForm = ({ toastRef }) => {
     )
 };
 
-ChangePasswordForm.propTypes = {
-    toastRef: PropTypes.object
+DeleteAccount.propTypes = {
+    toastRef: PropTypes.object.isRequired,
+    account: PropTypes.object.isRequired,
+    fetchAccounts: PropTypes.object.isRequired
 };

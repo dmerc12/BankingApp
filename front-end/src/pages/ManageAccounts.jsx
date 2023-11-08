@@ -1,10 +1,9 @@
 import Cookies from "js-cookie";
 import PropTypes from 'prop-types';
 
-import { AccountList } from "../components/ui/account/AccountList";
 import { useEffect } from 'react';
-import { useNavigate } from "react-router-dom";
-import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
+import { AccountList } from '../components';
 
 export const ManageAccounts = ({ toastRef }) => {
     const navigate = useNavigate();
@@ -13,9 +12,6 @@ export const ManageAccounts = ({ toastRef }) => {
     useEffect(() => {
         if (!sessionId) {
             navigate('/login');
-            toast.info("Please login or register to gain access!", {
-                toastId: 'customId'
-            });
             toastRef.current.addToast({ mode: 'info', message: 'Please login or register to gain access!' });
         }
     }, [toastRef, navigate, sessionId]);
@@ -29,5 +25,5 @@ export const ManageAccounts = ({ toastRef }) => {
 };
 
 ManageAccounts.propTypes = {
-    toastRef: PropTypes.object
+    toastRef: PropTypes.object.isRequired
 };

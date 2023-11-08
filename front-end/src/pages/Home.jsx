@@ -1,8 +1,8 @@
-import Cookies from "js-cookie";
+import Cookies from 'js-cookie';
 import PropTypes from 'prop-types';
 
-import { useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useEffect } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 
 export const Home = ({ toastRef }) => {
     const navigate = useNavigate();
@@ -13,7 +13,7 @@ export const Home = ({ toastRef }) => {
             navigate('/login');
             toastRef.current.addToast({ mode: 'info', message: 'Please login or register to gain access!' });
         }
-    }, [toastRef,navigate, sessionId])
+    }, [toastRef,navigate, sessionId]);
 
     return (
         <>
@@ -27,5 +27,5 @@ export const Home = ({ toastRef }) => {
 };
 
 Home.propTypes = {
-    toastRef: PropTypes.object
+    toastRef: PropTypes.object.isRequired
 };

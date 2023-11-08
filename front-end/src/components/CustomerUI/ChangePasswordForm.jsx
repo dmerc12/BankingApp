@@ -1,30 +1,25 @@
-import { useState } from "react";
-import { useFetch } from "../../../hooks/useFetch";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import { Modal } from "../../Modal";
-import { FiTrash2 } from "react-icons/fi";
-import { FaSpinner, FaSync } from "react-icons/fa";
-import { AiOutlineExclamationCircle } from "react-icons/ai";
-import PropTypes from "prop-types";
-import Cookies from "js-cookie";
+import Cookies from 'js-cookie';
+import PropTypes from 'prop-types';
 
-export const DeleteAccount = ({ account, fetchAccounts }) => {
-    DeleteAccount.propTypes = {
-        account: PropTypes.object,
-        fetchAccounts: PropTypes.func
-    };
+import { Modal } from '../../components';
+import { useState } from 'react';
+import { useFetch } from '../../hooks';
+import { useNavigate } from 'react-router-dom';
+import { FaSpinner, FaSync } from 'react-icons/fa';
+import { AiOutlineExclamationCircle } from 'react-icons/ai';
 
+export const ChangePasswordForm = ({ toastRef }) => {
     const sessionId = Cookies.get('sessionId');
-    
-    const [deleteAccountForm, setDeleteAccountForm] = useState({
+
+    const [changePasswordForm, setChangePasswordForm] = useState({
         sessionId: Number(sessionId),
-        accountId: Number(account.accountId)
+        password: '',
+        confirmationPassword: ''
     });
+    const [visible, setVisible] = useState(false);
     const [loading, setLoading] = useState(false);
     const [failedToFetch, setFailedToFetch] = useState(false);
-    const [visible, setVisible] = useState(false);
-
+    
     const { fetchData } = useFetch();
 
     const navigate = useNavigate();
@@ -32,7 +27,7 @@ export const DeleteAccount = ({ account, fetchAccounts }) => {
     const showModal = () => {
         setVisible(true);
     };
-
+    
     const closeModal = () => {
         setVisible(false);
     };
@@ -41,24 +36,30 @@ export const DeleteAccount = ({ account, fetchAccounts }) => {
         setFailedToFetch(false);
     };
 
+    const onChange = (event) => {
+        const { name, value } = event.target;
+        setChangePasswordForm((prevForm) => ({
+            ...prevForm,
+            [name]: value
+        }));
+    };
+
     const onSubmit = async (event) => {
         event.preventDefault();
         setLoading(true);
         setFailedToFetch(false);
         try {
-            const { responseStatus, data } = await fetchData('/api/delete/account', 'DELETE', deleteAccountForm);
+            const { responseStatus, data } = await fetchData('/api/change/password', 'PUT', changePasswordForm);
 
             if (responseStatus === 200) {
-                fetchAccounts();
+                setChangePasswordForm({
+                    sessionId: sessionId,
+                    password: '',
+                    confirmationPassword: ''
+                });
                 setVisible(false);
                 setLoading(false);
-                setDeleteAccountForm({
-                    sessionId: Number(sessionId),
-                    accountId: Number(account.accountId)
-                });
-                toast.success("Account Successfully Deleted!", {
-                    toastId: 'customId'
-                });
+                toastRef.current.addToast({ mode: 'success', message: 'Password successfully changed!'});
             } else if (responseStatus === 400) {
                 throw new Error(`${data.message}`);
             } else {
@@ -69,24 +70,23 @@ export const DeleteAccount = ({ account, fetchAccounts }) => {
                 Cookies.remove('sessionId');
                 navigate('/login');
                 setLoading(false);
-                toast.warn(error.message, {
-                    toastId: "customId"
-                });
+                toastRef.current.addToast({ mode: 'warning', message: `${error.message}`});
             } else if (error.message === "Failed to fetch") {
                 setFailedToFetch(true);
                 setLoading(false);
             } else {
                 setLoading(false);
-                toast.warn(error.message, {
-                    toastId: "customId"
-                });
+                toastRef.current.addToast({ mode: 'error', message: `${error.message}`});
             }
         }
     };
 
     return (
         <>
-            <FiTrash2 onClick={showModal} cursor='pointer' size={15} id={`deleteAccountModal${account.accountId}`}/>
+            <div className="component">
+                <button onClick={showModal} className="action-btn" id="changePasswordModal">Change Password</button>
+            </div>
+
             <Modal visible={visible} onClose={closeModal}>
                 {loading ? (
                     <div className='loading-indicator'>
@@ -105,13 +105,23 @@ export const DeleteAccount = ({ account, fetchAccounts }) => {
                 ) : (
                     <form className="form" onSubmit={onSubmit}>
                         <div className="form-field">
-                            <label className="form-label">Are you sure?</label>
+                            <label className="form-label" htmlFor="password">New Password: </label>
+                            <input className="form-input" type="password" id="newPassword" name="password" value={changePasswordForm.password} onChange={onChange}/>
                         </div>
 
-                        <button className="form-btn-1" type="submit" id="deleteAccountButton">Delete Account</button>
+                        <div className="form-field">
+                            <label className="form-label" htmlFor="confirmationPassword">Confirm Password: </label>
+                            <input className="form-input" type="password" id="newConfirmationPassword" name="confirmationPassword" value={changePasswordForm.confirmationPassword} onChange={onChange}/>
+                        </div>
+
+                        <button id="changePasswordButton" className="form-btn-1" type="submit">Change Password</button>
                     </form>
                 )}
             </Modal>
         </>
     )
-}
+};
+
+ChangePasswordForm.propTypes = {
+    toastRef: PropTypes.object.isRequired
+};

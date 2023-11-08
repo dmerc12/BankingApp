@@ -1,16 +1,21 @@
 import Cookies from 'js-cookie';
 import PropTypes from 'prop-types';
 
-import { Modal } from "../../Modal";
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
-import { useFetch } from "../../../hooks/useFetch";
-import { FaSpinner, FaSync } from "react-icons/fa";
-import { AiOutlineExclamationCircle } from "react-icons/ai";
+import { Modal } from '../../components';
+import { useState } from 'react';
+import { useFetch } from '../../hooks';
+import { useNavigate } from 'react-router-dom';
+import { FaPlus, FaSpinner, FaSync } from 'react-icons/fa';
+import { AiOutlineExclamationCircle } from 'react-icons/ai';
 
-export const DeleteForm = ({ toastRef }) => {
+export const Deposit = ({ toastRef, account, fetchAccounts}) => {
     const sessionId = Cookies.get('sessionId');
 
+    const [depositForm, setDepositForm] = useState({
+        sessionId: Number(sessionId),
+        accountId: Number(account.accountId),
+        depositAmount: parseFloat(0).toFixed(2)
+    });
     const [loading, setLoading] = useState(false);
     const [failedToFetch, setFailedToFetch] = useState(false);
     const [visible, setVisible] = useState(false);
@@ -18,6 +23,14 @@ export const DeleteForm = ({ toastRef }) => {
     const { fetchData } = useFetch();
 
     const navigate = useNavigate();
+
+    const onChange = (event) => {
+        const { name, value } = event.target;
+        setDepositForm((prevForm) => ({
+            ...prevForm,
+            [name]: parseFloat(value)
+        }));
+    };
 
     const showModal = () => {
         setVisible(true);
@@ -36,14 +49,18 @@ export const DeleteForm = ({ toastRef }) => {
         setLoading(true);
         setFailedToFetch(false);
         try {
-            const { responseStatus, data } = await fetchData('/api/delete/customer', 'DELETE', {sessionId: Number(sessionId)});
+            const { responseStatus, data } = await fetchData('/api/deposit', 'PUT', depositForm);
 
             if (responseStatus === 200) {
-                Cookies.remove('sessionId');
-                navigate('/login');
-                setLoading(false);
+                fetchAccounts();
                 setVisible(false);
-                toastRef.current.addToast({ mode: 'success', message: 'Profile successfully deleted, goodbye!'});
+                setLoading(false);
+                setDepositForm({
+                    sessionId: Number(sessionId),
+                    accountId: Number(account.accountId),
+                    depositAmount: parseFloat(0).toFixed(2)
+                });
+                toastRef.current.addToast({ mode: 'success', message: 'Deposit Successful!' });
             } else if (responseStatus === 400) {
                 throw new Error(`${data.message}`);
             } else {
@@ -54,23 +71,20 @@ export const DeleteForm = ({ toastRef }) => {
                 Cookies.remove('sessionId');
                 navigate('/login');
                 setLoading(false);
-                toastRef.current.addToast({ mode: 'error', message: `${error.message}`});
+                toastRef.current.addToast({ mode: 'warning', message: error.message });
             } else if (error.message === "Failed to fetch") {
                 setFailedToFetch(true);
                 setLoading(false);
             } else {
                 setLoading(false);
-                toastRef.current.addToast({ mode: 'error', message: `${error.message}`});
+                toastRef.current.addToast({ mode: 'error', message: error.message });
             }
         }
     };
 
     return (
         <>
-            <div className="component">
-                <button onClick={showModal} className="action-btn" id="deleteProfileModal">Delete Profile</button>
-            </div>
-
+            <FaPlus onClick={showModal} cursor={'pointer'} size={15} id={`depositModal${account.accountId}`}/>
             <Modal visible={visible} onClose={closeModal}>
                 {loading ? (
                     <div className='loading-indicator'>
@@ -88,10 +102,17 @@ export const DeleteForm = ({ toastRef }) => {
                     </div>
                 ) : (
                     <form className="form" onSubmit={onSubmit}>
-                        <h1>Confirm Profile Deletion Below</h1>
-                        <p>Any accounts and associated information will also be deleted. Are you sure?</p>
+                        <div className="form-field">
+                            <label className="form-label" htmlFor="accountId">Account ID: </label>
+                            <input className="form-input" type="number" disabled id="depositAccountId" name="accountId" value={depositForm.accountId}/>
+                        </div>
 
-                        <button className="form-btn-1" type="submit" id="deleteProfileButton">Delete Profile</button>
+                        <div className="form-field">
+                            <label className="form-label" htmlFor="depositAmount">Deposit Amount: </label>
+                            <input className="form-input" type="number" id="depositAmount" name="depositAmount" value={depositForm.depositAmount} onChange={onChange}/>
+                        </div>
+
+                        <button className="form-btn-1" type="submit" id="depositButton">Deposit</button>
                     </form>
                 )}
             </Modal>
@@ -99,6 +120,8 @@ export const DeleteForm = ({ toastRef }) => {
     )
 };
 
-DeleteForm.propTypes = {
-    toastRef: PropTypes.object
+Deposit.propTypes = {
+    toastRef: PropTypes.object.isRequired,
+    account:  PropTypes.object.isRequired,
+    fetchAccounts: PropTypes.func.isRequired
 };

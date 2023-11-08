@@ -1,17 +1,14 @@
-import { Deposit } from './Deposit';
-import { Withdraw } from './Withdraw';
-import { Transfer } from './Transfer';
-import { DeleteAccount } from './DeleteAccount';
-import { CreateAccount } from './CreateAccount';
-import { useNavigate } from 'react-router-dom';
-import { useFetch } from '../../../hooks/useFetch';
+import Cookies from 'js-cookie';
+import PropTypes from 'prop-types';
+
 import { useState, useEffect } from 'react';
-import { toast } from 'react-toastify';
+import { useFetch } from '../../hooks';
+import { useNavigate } from 'react-router-dom';
 import { FaSpinner, FaSync } from 'react-icons/fa';
 import { AiOutlineExclamationCircle } from 'react-icons/ai';
-import Cookies from 'js-cookie';
+import { CreateAccount, Deposit, Withdraw, Transfer, DeleteAccount } from '../../components';
 
-export const AccountList = () => {
+export const AccountList = ({ toastRef }) => {
     const sessionId = Cookies.get('sessionId');
     
     const [accounts, setAccounts] = useState([]);
@@ -25,7 +22,7 @@ export const AccountList = () => {
     useEffect(() => {
         fetchAccounts();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    }, []);
     
     const goBack = () => {
         navigate('/home');
@@ -51,17 +48,13 @@ export const AccountList = () => {
                 Cookies.remove('sessionId');
                 navigate('/login');
                 setLoading(false);
-                toast.warn(error.message, {
-                    toastId: "customId"
-                });
+                toastRef.current.addToast({ mode: 'warning', message: error.message });
             } else if (error.message === "Failed to fetch") {
                 setFailedToFetch(true);
                 setLoading(false);
             } else {
                 setLoading(false);
-                toast.warn(error.message, {
-                    toastId: "customId"
-                });
+                toastRef.current.addToast({ mode: 'error', message: error.message });
             }
         }
     };
@@ -115,4 +108,8 @@ export const AccountList = () => {
             )}
         </>
     )
-}
+};
+
+AccountList.propTypes = {
+    toastRef: PropTypes.object.isRequired
+};
