@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-import { RegisterForm } from "../components/ui/customer/RegisterForm";
+import { RegisterForm } from 'components';
 
 export const Register = ({ toastRef }) => {
     return (
@@ -11,5 +11,5 @@ export const Register = ({ toastRef }) => {
 };
 
 Register.propTypes = {
-    toastRef: PropTypes.object
+    toastRef: PropTypes.object.isRequired
 };
