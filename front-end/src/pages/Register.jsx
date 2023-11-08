@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-import { RegisterForm } from 'components';
+import { RegisterForm } from '../components';
 
 export const Register = ({ toastRef }) => {
     return (

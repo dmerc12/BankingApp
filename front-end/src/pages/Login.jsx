@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-import { LoginForm } from 'components';
+import { LoginForm } from '../components';
 
 export const Login = ({ toastRef }) => {
     return (

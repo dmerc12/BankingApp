@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { UpdateForm, ChangePasswordForm, DeleteForm } from 'components';
+import { UpdateForm, ChangePasswordForm, DeleteForm } from '../components';
 
 export const ManageInformation = ({ toastRef }) => {
     const navigate = useNavigate();

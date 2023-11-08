@@ -2,7 +2,7 @@ import Cookies from 'js-cookie';
 import PropTypes from 'prop-types';
 
 import { Link, useNavigate } from 'react-router-dom';
-//import { useFetch } from 'hooks';
+//import { useFetch } from './hooks';
 //import { useState } from 'react';
 
 export const Navbar = ({ toastRef }) => {

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AccountList } from 'components';
+import { AccountList } from '../components';
 
 export const ManageAccounts = ({ toastRef }) => {
     const navigate = useNavigate();

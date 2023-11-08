@@ -1,13 +1,13 @@
 import Cookies from 'js-cookie';
 import PropTypes from 'prop-types';
 
-import { Modal } from 'components';
+import { Modal } from '../../components';
 import { useState, useEffect } from 'react';
-import { useFetch } from 'hooks';
+import { useFetch } from '../../hooks';
 import { useNavigate } from 'react-router-dom';
 import { FaSpinner, FaSync } from 'react-icons/fa';
 import { AiOutlineExclamationCircle } from 'react-icons/ai';
-import { states, zipCodeData } from 'lib';
+import { states, zipCodeData } from '../../lib';
 
 export const UpdateForm = ({ toastRef }) => {
     const sessionId = Cookies.get('sessionId');
