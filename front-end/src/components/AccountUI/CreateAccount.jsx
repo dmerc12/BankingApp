@@ -1,18 +1,14 @@
-import { toast } from "react-toastify";
-import { Modal } from "../../Modal";
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
-import { useFetch } from "../../../hooks/useFetch";
-import { FaSpinner, FaSync } from "react-icons/fa";
-import { AiOutlineExclamationCircle } from "react-icons/ai";
-import PropTypes from "prop-types";
-import Cookies from "js-cookie";
+import Cookies from 'js-cookie';
+import PropTypes from 'prop-types';
 
-export const CreateAccount = ({ fetchAccounts }) => {
-    CreateAccount.propTypes = {
-        fetchAccounts: PropTypes.func
-    };
+import { Modal } from 'components';
+import { useState } from 'react';
+import { useFetch } from 'hooks';
+import { useNavigate } from 'react-router-dom';
+import { FaSpinner, FaSync } from 'react-icons/fa';
+import { AiOutlineExclamationCircle } from 'react-icons/ai';
 
+export const CreateAccount = ({ toastRef, fetchAccounts }) => {
     const sessionId = Cookies.get('sessionId');
 
     const [createAccountForm, setCreateAccountForm] = useState({
@@ -62,9 +58,7 @@ export const CreateAccount = ({ fetchAccounts }) => {
                     startingBalance: parseFloat(0).toFixed(2)
                 });
                 fetchAccounts();
-                toast.success("Account successfully created!", {
-                    toastId: 'customId'
-                });
+                toastRef.current.addToast({ mode: 'success', message: 'Account successfully created!' });
             } else if (responseStatus === 400) {
                 throw new Error(`${data.message}`);
             } else {
@@ -75,17 +69,13 @@ export const CreateAccount = ({ fetchAccounts }) => {
                 Cookies.remove('sessionId');
                 navigate('/login');
                 setLoading(false);
-                toast.warn(error.message, {
-                    toastId: "customId"
-                });
+                toastRef.current.addToast({ mode: 'warning', message: error.message });
             } else if (error.message === "Failed to fetch") {
                 setFailedToFetch(true);
                 setLoading(false);
             } else {
                 setLoading(false);
-                toast.warn(error.message, {
-                    toastId: "customId"
-                });
+                toastRef.current.addToast({ mode: 'error', message: error.message });
             }
         }
     };
@@ -124,4 +114,9 @@ export const CreateAccount = ({ fetchAccounts }) => {
             </Modal>
         </>
     )
-}
+};
+
+CreateAccount.propTypes = {
+    toastRef: PropTypes.object.isRequired,
+    fetchAccounts: PropTypes.func.isRequired
+};

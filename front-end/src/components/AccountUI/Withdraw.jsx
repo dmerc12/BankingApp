@@ -1,20 +1,14 @@
-/* eslint-disable react/prop-types */
-import { FaMinus, FaSpinner, FaSync } from "react-icons/fa";
-import { AiOutlineExclamationCircle } from "react-icons/ai";
-import { Modal } from "../Modal";
-import { toast } from "react-toastify";
-import { useState } from "react";
-import { useFetch } from "../../hooks/useFetch";
-import { useNavigate } from "react-router-dom";
-import PropTypes from "prop-types";
-import Cookies from "js-cookie";
+import Cookies from 'js-cookie';
+import PropTypes from 'prop-types';
 
-export const Withdraw = ({ account, fetchAccounts}) => {
-    Withdraw.propTypes = {
-        account: PropTypes.object,
-        fetchAccounts: PropTypes.func
-    };
+import { Modal } from 'components';
+import { useState } from 'react';
+import { useFetch } from 'hooks';
+import { useNavigate } from 'react-router-dom';
+import { FaMinus, FaSpinner, FaSync } from 'react-icons/fa';
+import { AiOutlineExclamationCircle } from 'react-icons/ai';
 
+export const Withdraw = ({ toastRef, account, fetchAccounts}) => {
     const sessionId = Cookies.get('sessionId');
 
     const [withdrawForm, setWithdrawForm] = useState({
@@ -66,9 +60,7 @@ export const Withdraw = ({ account, fetchAccounts}) => {
                     accountId: Number(account.accountId),
                     withdrawAmount: parseFloat(0).toFixed(2)
                 });
-                toast.success("Withdraw Successful!", {
-                    toastId: 'customId'
-                });
+                toastRef.current.addToast({ mode: 'success', message: 'Withdraw Successful!' });
             } else if (responseStatus === 400) {
                 throw new Error(`${data.message}`);
             } else {
@@ -79,17 +71,13 @@ export const Withdraw = ({ account, fetchAccounts}) => {
                 Cookies.remove('sessionId');
                 navigate('/login');
                 setLoading(false);
-                toast.warn(error.message, {
-                    toastId: "customId"
-                });
+                toastRef.current.addToast({ mode: 'warning', message: error.message });
             } else if (error.message === "Failed to fetch") {
                 setFailedToFetch(true);
                 setLoading(false);
             } else {
                 setLoading(false);
-                toast.warn(error.message, {
-                    toastId: "customId"
-                });
+                toastRef.current.addToast({ mode: 'error', message: error.message });
             }
         }
     };
@@ -130,4 +118,10 @@ export const Withdraw = ({ account, fetchAccounts}) => {
             </Modal>
         </>
     )
-}
+};
+
+Withdraw.propTypes = {
+    toastRef: PropTypes.object.isRequired,
+    account: PropTypes.object.isRequired,
+    fetchAccounts: PropTypes.func.isRequired
+};

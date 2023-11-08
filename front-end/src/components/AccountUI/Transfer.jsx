@@ -1,20 +1,14 @@
-/* eslint-disable react/prop-types */
-import { FaExchangeAlt, FaSpinner, FaSync } from "react-icons/fa";
-import { AiOutlineExclamationCircle } from "react-icons/ai";
-import { Modal } from "../../Modal";
-import { toast } from "react-toastify";
-import { useState } from "react";
-import { useFetch } from "../../../hooks/useFetch";
-import { useNavigate } from "react-router-dom";
-import PropTypes from "prop-types";
-import Cookies from "js-cookie";
+import Cookies from 'js-cookie';
+import PropTypes from 'prop-types';
 
-export const Transfer = ({ accounts, fetchAccounts }) => {
-    Transfer.propTypes = {
-        account: PropTypes.object,
-        fetchAccounts: PropTypes.func
-    };
+import { Modal } from 'components';
+import { useState } from 'react';
+import { useFetch } from 'hooks';
+import { useNavigate } from 'react-router-dom';
+import { FaExchangeAlt, FaSpinner, FaSync } from 'react-icons/fa';
+import { AiOutlineExclamationCircle } from 'react-icons/ai';
 
+export const Transfer = ({ toastRef, accounts, fetchAccounts }) => {
     const sessionId = Cookies.get('sessionId');
 
     const [transferForm, setTransferForm] = useState({
@@ -102,30 +96,24 @@ export const Transfer = ({ accounts, fetchAccounts }) => {
                     depositAccountId: 0,
                     transferAmount: parseFloat(0).toFixed(2)
                 });
-                toast.success("Transfer Successful!", {
-                    toastId: 'customId'
-                });
+                toastRef.current.addToast({ mode: 'success', message: 'Transfer Successful!' });
             } else if (responseStatus === 400) {
                 throw new Error(`${data.message}`);
             } else {
-                throw new Error("Something went horribly wrong!")
+                throw new Error("Something went horribly wrong!");
             }
         } catch (error) {
             if (error.message === "No session found, please try again!" || error.message === "Session has expired, please log in!") {
                 Cookies.remove('sessionId');
                 navigate('/login');
                 setLoading(false);
-                toast.warn(error.message, {
-                    toastId: "customId"
-                });
+                toastRef.current.addToast({ mode: 'warning', message: error.message });
             } else if (error.message === "Failed to fetch") {
                 setFailedToFetch(true);
                 setLoading(false);
             } else {
                 setLoading(false);
-                toast.warn(error.message, {
-                    toastId: "customId"
-                });
+                toastRef.current.addToast({ mode: 'error', message: error.message });
             }
         }
     };
@@ -198,4 +186,10 @@ export const Transfer = ({ accounts, fetchAccounts }) => {
             )}
         </>
     )
-}
+};
+
+Transfer.propTypes = {
+    toastRef: PropTypes.object.isRequired,
+    accounts: PropTypes.array.isRequired,
+    fetchAccounts: PropTypes.func.isRequired
+};

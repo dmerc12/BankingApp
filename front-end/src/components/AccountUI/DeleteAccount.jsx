@@ -1,20 +1,15 @@
-import { useState } from "react";
-import { useFetch } from "../../../hooks/useFetch";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import { Modal } from "../../Modal";
-import { FiTrash2 } from "react-icons/fi";
-import { FaSpinner, FaSync } from "react-icons/fa";
-import { AiOutlineExclamationCircle } from "react-icons/ai";
-import PropTypes from "prop-types";
-import Cookies from "js-cookie";
+import Cookies from 'js-cookie';
+import PropTypes from 'prop-types';
 
-export const DeleteAccount = ({ account, fetchAccounts }) => {
-    DeleteAccount.propTypes = {
-        account: PropTypes.object,
-        fetchAccounts: PropTypes.func
-    };
+import { Modal } from 'components';
+import { useState } from 'react';
+import { useFetch } from 'hooks';
+import { useNavigate } from 'react-router-dom';
+import { FiTrash2 } from 'react-icons/fi';
+import { FaSpinner, FaSync } from 'react-icons/fa';
+import { AiOutlineExclamationCircle } from 'react-icons/ai';
 
+export const DeleteAccount = ({ toastRef, account, fetchAccounts }) => {
     const sessionId = Cookies.get('sessionId');
     
     const [deleteAccountForm, setDeleteAccountForm] = useState({
@@ -56,9 +51,7 @@ export const DeleteAccount = ({ account, fetchAccounts }) => {
                     sessionId: Number(sessionId),
                     accountId: Number(account.accountId)
                 });
-                toast.success("Account Successfully Deleted!", {
-                    toastId: 'customId'
-                });
+                toastRef.current.addToast({ mode: 'success', message: 'Account Successfully Deleted!' });
             } else if (responseStatus === 400) {
                 throw new Error(`${data.message}`);
             } else {
@@ -69,17 +62,13 @@ export const DeleteAccount = ({ account, fetchAccounts }) => {
                 Cookies.remove('sessionId');
                 navigate('/login');
                 setLoading(false);
-                toast.warn(error.message, {
-                    toastId: "customId"
-                });
+                toastRef.current.addToast({ mode: 'warning', message: error.message });
             } else if (error.message === "Failed to fetch") {
                 setFailedToFetch(true);
                 setLoading(false);
             } else {
                 setLoading(false);
-                toast.warn(error.message, {
-                    toastId: "customId"
-                });
+                toastRef.current.addToast({ mode: 'error', message: error.message });
             }
         }
     };
@@ -114,4 +103,10 @@ export const DeleteAccount = ({ account, fetchAccounts }) => {
             </Modal>
         </>
     )
-}
+};
+
+DeleteAccount.propTypes = {
+    toastRef: PropTypes.object.isRequired,
+    account: PropTypes.object.isRequired,
+    fetchAccounts: PropTypes.object.isRequired
+};
