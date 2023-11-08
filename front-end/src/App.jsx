@@ -1,14 +1,9 @@
 import './App.css';
 import 'react-toastify/dist/ReactToastify.css';
 
-import { Navbar } from './components/Navbar';
+import { Navbar, ToastContainer } from './components';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { Login } from './pages/Login';
-import { Register } from './pages/Register';
-import { ManageInformation } from './pages/ManageInformation';
-import { ManageAccounts } from './pages/ManageAccounts';
-import { Home } from './pages/Home';
-import { ToastContainer } from './components/ui/toast/ToastContainer';
+import { Login, Register, ManageInformation, ManageAccounts, Home } from './pages';
 import { useRef } from 'react';
 
 function App() {
