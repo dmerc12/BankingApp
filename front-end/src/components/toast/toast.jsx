@@ -1,4 +1,4 @@
-import styles from './styles.module.css';
+import styles from './styles.css';
 import PropTypes from 'prop-types';
 
 import { useMemo } from 'react';
