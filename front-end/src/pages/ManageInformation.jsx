@@ -6,6 +6,8 @@ import { useNavigate } from 'react-router-dom';
 import { UpdateForm, ChangePasswordForm, DeleteForm } from '../components';
 
 export const ManageInformation = ({ toastRef }) => {
+    document.title = "Manage Information";
+
     const navigate = useNavigate();
     const sessionId = Cookies.get('sessionId');
 
