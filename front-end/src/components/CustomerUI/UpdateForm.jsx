@@ -150,12 +150,15 @@ export const UpdateForm = ({ toastRef }) => {
                 Cookies.remove('sessionId');
                 navigate('/login');
                 setLoading(false);
+                closeModal();
                 toastRef.current.addToast({ mode: 'warning', message: `${error.message}`});
             } else if (error.message === "Failed to fetch") {
                 setFailedToFetchData(true);
                 setLoading(false);
+                closeModal();
             } else {
                 setLoading(false);
+                closeModal();
                 toastRef.current.addToast({ mode: 'error', message: `${error.message}`});
             }
         } 
@@ -169,7 +172,7 @@ export const UpdateForm = ({ toastRef }) => {
             const { responseStatus, data } = await fetchData('/api/update/customer', 'PUT', updateForm);
 
             if (responseStatus === 200) {
-                setVisible(false);
+                closeModal();
                 setLoading(false);
                 toastRef.current.addToast({ mode: 'success', message: 'Information successfully updated!'});
             } else if (responseStatus === 400) {
@@ -182,12 +185,15 @@ export const UpdateForm = ({ toastRef }) => {
                 Cookies.remove('sessionId');
                 navigate('/login');
                 setLoading(false);
+                closeModal();
                 toastRef.current.addToast({ mode: 'warning', message: `${error.message}`});
             } else if (error.message === "Failed to fetch") {
                 setFailedToFetchSubmission(true);
                 setLoading(false);
+                closeModal();
             } else {
                 setLoading(false);
+                closeModal();
                 toastRef.current.addToast({ mode: 'error', message: `${error.message}`});
             }
         }

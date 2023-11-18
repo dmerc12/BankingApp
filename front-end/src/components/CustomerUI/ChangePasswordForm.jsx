@@ -57,7 +57,7 @@ export const ChangePasswordForm = ({ toastRef }) => {
                     password: '',
                     confirmationPassword: ''
                 });
-                setVisible(false);
+                closeModal();
                 setLoading(false);
                 toastRef.current.addToast({ mode: 'success', message: 'Password successfully changed!'});
             } else if (responseStatus === 400) {
@@ -70,12 +70,15 @@ export const ChangePasswordForm = ({ toastRef }) => {
                 Cookies.remove('sessionId');
                 navigate('/login');
                 setLoading(false);
+                closeModal();
                 toastRef.current.addToast({ mode: 'warning', message: `${error.message}`});
             } else if (error.message === "Failed to fetch") {
                 setFailedToFetch(true);
                 setLoading(false);
+                closeModal();
             } else {
                 setLoading(false);
+                closeModal();
                 toastRef.current.addToast({ mode: 'error', message: `${error.message}`});
             }
         }

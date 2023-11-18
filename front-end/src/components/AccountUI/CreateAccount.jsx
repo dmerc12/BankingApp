@@ -51,7 +51,7 @@ export const CreateAccount = ({ toastRef, fetchAccounts }) => {
             const { responseStatus, data } = await fetchData('/api/create/account', 'POST', createAccountForm);
 
             if (responseStatus === 201) {
-                setVisible(false);
+                closeModal();
                 setLoading(false);
                 setCreateAccountForm({
                     sessionId: Number(sessionId),
@@ -69,12 +69,15 @@ export const CreateAccount = ({ toastRef, fetchAccounts }) => {
                 Cookies.remove('sessionId');
                 navigate('/login');
                 setLoading(false);
+                closeModal();
                 toastRef.current.addToast({ mode: 'warning', message: error.message });
             } else if (error.message === "Failed to fetch") {
                 setFailedToFetch(true);
                 setLoading(false);
+                closeModal();
             } else {
                 setLoading(false);
+                closeModal();
                 toastRef.current.addToast({ mode: 'error', message: error.message });
             }
         }
