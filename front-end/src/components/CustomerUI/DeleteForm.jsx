@@ -42,7 +42,7 @@ export const DeleteForm = ({ toastRef }) => {
                 Cookies.remove('sessionId');
                 navigate('/login');
                 setLoading(false);
-                setVisible(false);
+                closeModal();
                 toastRef.current.addToast({ mode: 'success', message: 'Profile successfully deleted, goodbye!'});
             } else if (responseStatus === 400) {
                 throw new Error(`${data.message}`);
@@ -54,12 +54,15 @@ export const DeleteForm = ({ toastRef }) => {
                 Cookies.remove('sessionId');
                 navigate('/login');
                 setLoading(false);
+                closeModal();
                 toastRef.current.addToast({ mode: 'warning', message: `${error.message}`});
             } else if (error.message === "Failed to fetch") {
                 setFailedToFetch(true);
                 setLoading(false);
+                closeModal();
             } else {
                 setLoading(false);
+                closeModal();
                 toastRef.current.addToast({ mode: 'error', message: `${error.message}`});
             }
         }

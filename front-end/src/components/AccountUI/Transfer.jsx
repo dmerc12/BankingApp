@@ -88,7 +88,7 @@ export const Transfer = ({ toastRef, accounts, fetchAccounts }) => {
 
             if (responseStatus === 200) {
                 fetchAccounts();
-                setVisibleForm(false);
+                closeFormModal();
                 setLoading(false);
                 setTransferForm({
                     sessionId: Number(sessionId),
@@ -107,12 +107,15 @@ export const Transfer = ({ toastRef, accounts, fetchAccounts }) => {
                 Cookies.remove('sessionId');
                 navigate('/login');
                 setLoading(false);
+                closeFormModal();
                 toastRef.current.addToast({ mode: 'warning', message: error.message });
             } else if (error.message === "Failed to fetch") {
                 setFailedToFetch(true);
                 setLoading(false);
+                closeFormModal();
             } else {
                 setLoading(false);
+                closeFormModal();
                 toastRef.current.addToast({ mode: 'error', message: error.message });
             }
         }

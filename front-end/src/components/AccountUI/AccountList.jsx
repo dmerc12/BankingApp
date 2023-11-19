@@ -61,8 +61,8 @@ export const AccountList = ({ toastRef }) => {
 
     return (
         <>
-            <CreateAccount fetchAccounts={fetchAccounts}/>
-            {accounts.length > 1 && <Transfer accounts={accounts} fetchAccounts={fetchAccounts}/>}
+            <CreateAccount fetchAccounts={fetchAccounts} toastRef={toastRef} />
+            {accounts.length > 1 && <Transfer accounts={accounts} fetchAccounts={fetchAccounts} toastRef={toastRef} />}
             {loading ? (
                <div className='loading-indicator'>
                     <FaSpinner className='spinner' />
@@ -95,9 +95,9 @@ export const AccountList = ({ toastRef }) => {
                                         <td className='table-data'>{account.accountId}</td>
                                         <td className='table-data'>{account.balance}</td>
                                         <td className='table-data crud-icons'>
-                                            <Deposit account={account} fetchAccounts={fetchAccounts}/>
-                                            <Withdraw account={account} fetchAccounts={fetchAccounts}/>
-                                            <DeleteAccount account={account} fetchAccounts={fetchAccounts}/>
+                                            <Deposit account={account} fetchAccounts={fetchAccounts} toastRef={toastRef}/>
+                                            <Withdraw account={account} fetchAccounts={fetchAccounts} toastRef={toastRef}/>
+                                            <DeleteAccount account={account} fetchAccounts={fetchAccounts} toastRef={toastRef}/>
                                         </td>
                                     </tr>
                                 ))

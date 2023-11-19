@@ -6,6 +6,8 @@ import { useNavigate } from 'react-router-dom';
 import { AccountList } from '../components';
 
 export const ManageAccounts = ({ toastRef }) => {
+    document.title = "Manage Accounts";
+    
     const navigate = useNavigate();
     const sessionId = Cookies.get('sessionId');
 

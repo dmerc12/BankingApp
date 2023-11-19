@@ -30,6 +30,7 @@ export const Navbar = ({ toastRef }) => {
         <>
             <nav className='nav-bar'>
                 <div className='nav-left'>
+                    <img src='favicon.ico' alt='Money Icon' className='favicon'/>
                     <Link id='homeNav' className='nav-item' to='/home'>Home</Link>
                     <Link id='manageInformationNav' className='nav-item' to='/manage/information'>Manage Information</Link>
                     <Link id='manageAccountsNav' className='nav-item' to='/manage/accounts'>Manage Accounts</Link>

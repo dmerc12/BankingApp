@@ -5,6 +5,8 @@ import { useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 
 export const Home = ({ toastRef }) => {
+    document.title = "Home";
+    
     const navigate = useNavigate();
     const sessionId = Cookies.get('sessionId');
 

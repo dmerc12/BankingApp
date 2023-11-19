@@ -140,79 +140,82 @@ export const RegisterForm = ({ toastRef }) => {
                     <button className='back-button' onClick={goBack}>Go Back</button>
                 </div>
             ) : (
-                <form className="form" onSubmit={onSubmit}>
-                    <div className="form-field">
-                        <label className="form-label" htmlFor="firstName">First Name: </label>
-                        <input className="form-input" type="text"  id="registerFirstName" name="firstName" value={registerForm.firstName} onChange={onChange}/>
-                        <br />
-                    </div>
+                <>
+                    <h1>Please Register Below</h1>
+                    <form className="form" onSubmit={onSubmit}>
+                        <div className="form-field">
+                            <label className="form-label" htmlFor="firstName">First Name: </label>
+                            <input className="form-input" type="text"  id="registerFirstName" name="firstName" value={registerForm.firstName} onChange={onChange}/>
+                            <br />
+                        </div>
 
-                    <div className="form-field">
-                        <label className="form-label" htmlFor="lastName">Last Name: </label>
-                        <input className="form-input" type="text"  id="registerLastName" name="lastName" value={registerForm.lastName} onChange={onChange}/>
-                        <br />
-                    </div>
+                        <div className="form-field">
+                            <label className="form-label" htmlFor="lastName">Last Name: </label>
+                            <input className="form-input" type="text"  id="registerLastName" name="lastName" value={registerForm.lastName} onChange={onChange}/>
+                            <br />
+                        </div>
 
-                    <div className="form-field">
-                        <label className="form-label" htmlFor="email">Email: </label>
-                        <input className="form-input" type="email"  id="registerEmail" name="email" value={registerForm.email} onChange={onChange}/>
-                        <br />
-                    </div>
+                        <div className="form-field">
+                            <label className="form-label" htmlFor="email">Email: </label>
+                            <input className="form-input" type="email"  id="registerEmail" name="email" value={registerForm.email} onChange={onChange}/>
+                            <br />
+                        </div>
 
-                    <div className="form-field">
-                        <label className="form-label" htmlFor="password">Password: </label>
-                        <input className="form-input" type="password"  id="registerPassword" name="password" value={registerForm.password} onChange={onChange}/>
-                        <br />
-                    </div>
+                        <div className="form-field">
+                            <label className="form-label" htmlFor="password">Password: </label>
+                            <input className="form-input" type="password"  id="registerPassword" name="password" value={registerForm.password} onChange={onChange}/>
+                            <br />
+                        </div>
 
-                    <div className="form-field">
-                        <label className="form-label" htmlFor="passwordConfirmation">Confirm Password: </label>
-                        <input className="form-input" type="password"  id="registerConfirmationPassword" name="passwordConfirmation" value={registerForm.confirmationPassword} onChange={onChange}/>
-                        <br />
-                    </div>
+                        <div className="form-field">
+                            <label className="form-label" htmlFor="passwordConfirmation">Confirm Password: </label>
+                            <input className="form-input" type="password"  id="registerConfirmationPassword" name="passwordConfirmation" value={registerForm.confirmationPassword} onChange={onChange}/>
+                            <br />
+                        </div>
 
-                    <div className="form-field">
-                        <label className="form-label" htmlFor="phoneNumber">Phone Number: </label>
-                        <input className="form-input" type="text"  id="registerPhoneNumber" name="phoneNumber" value={registerForm.phoneNumber} onChange={onChange}/>
-                        <br />
-                    </div>
+                        <div className="form-field">
+                            <label className="form-label" htmlFor="phoneNumber">Phone Number: </label>
+                            <input className="form-input" type="text"  id="registerPhoneNumber" name="phoneNumber" value={registerForm.phoneNumber} onChange={onChange}/>
+                            <br />
+                        </div>
 
-                    <div className="form-field">
-                        <label className="form-label" htmlFor="streetAddress">Street Address: </label>
-                        <input className="form-input" type="text"  id="registerStreetAddress" name="streetAddress" value={address.streetAddress} onChange={onChange}/>
-                        <br />
-                    </div>
+                        <div className="form-field">
+                            <label className="form-label" htmlFor="streetAddress">Street Address: </label>
+                            <input className="form-input" type="text"  id="registerStreetAddress" name="streetAddress" value={address.streetAddress} onChange={onChange}/>
+                            <br />
+                        </div>
 
-                    <div className="form-field">
-                        <label className="form-label" htmlFor="city">City: </label>
-                        <input className="form-input" type="text"  id="registerCity" name="city" value={address.city} onChange={onChange}/>
-                        <br />
-                    </div>
+                        <div className="form-field">
+                            <label className="form-label" htmlFor="city">City: </label>
+                            <input className="form-input" type="text"  id="registerCity" name="city" value={address.city} onChange={onChange}/>
+                            <br />
+                        </div>
 
-                    <div className="form-field">
-                        <label className="form-label" htmlFor="state">State: </label>
-                        <select className="form-input" name="state" id="registerState" value={address.state} onChange={onChange}>
-                            {states.length > 0 && (
-                                states.map(state => (
-                                    <option key={state.code} value={state.code}>{state.name}</option>
-                                ))
-                            )}
-                        </select>
-                    </div>
+                        <div className="form-field">
+                            <label className="form-label" htmlFor="state">State: </label>
+                            <select className="form-input" name="state" id="registerState" value={address.state} onChange={onChange}>
+                                {states.length > 0 && (
+                                    states.map(state => (
+                                        <option key={state.code} value={state.code}>{state.name}</option>
+                                    ))
+                                )}
+                            </select>
+                        </div>
 
-                    <div className="form-field">
-                        <label className="form-label" htmlFor="zipCode">Zip Code: </label>
-                        <select className="form-input" name="zipCode" id="registerZipCode" value={address.zipCode} onChange={onChange}>
-                            {zipCodes.length > 0 && (
-                                zipCodes.map((zipCode, index) => (
-                                    <option key={index} value={zipCode}>{zipCode}</option>
-                                ))
-                            )}
-                        </select>
-                    </div>
+                        <div className="form-field">
+                            <label className="form-label" htmlFor="zipCode">Zip Code: </label>
+                            <select className="form-input" name="zipCode" id="registerZipCode" value={address.zipCode} onChange={onChange}>
+                                {zipCodes.length > 0 && (
+                                    zipCodes.map((zipCode, index) => (
+                                        <option key={index} value={zipCode}>{zipCode}</option>
+                                    ))
+                                )}
+                            </select>
+                        </div>
 
-                    <button className="form-btn-1" type="submit" id="registerButton">Register</button>
-                </form>
+                        <button className="form-btn-1" type="submit" id="registerButton">Register</button>
+                    </form>
+                </>
             )}
         </>
     )

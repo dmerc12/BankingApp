@@ -53,7 +53,7 @@ export const Withdraw = ({ toastRef, account, fetchAccounts}) => {
 
             if (responseStatus === 200) {
                 fetchAccounts();
-                setVisible(false);
+                closeModal();
                 setLoading(false);
                 setWithdrawForm({
                     sessionId: Number(sessionId),
@@ -71,12 +71,15 @@ export const Withdraw = ({ toastRef, account, fetchAccounts}) => {
                 Cookies.remove('sessionId');
                 navigate('/login');
                 setLoading(false);
+                closeModal();
                 toastRef.current.addToast({ mode: 'warning', message: error.message });
             } else if (error.message === "Failed to fetch") {
                 setFailedToFetch(true);
                 setLoading(false);
+                closeModal();
             } else {
                 setLoading(false);
+                closeModal();
                 toastRef.current.addToast({ mode: 'error', message: error.message });
             }
         }

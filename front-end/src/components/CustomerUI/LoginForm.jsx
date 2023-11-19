@@ -77,19 +77,22 @@ export const LoginForm = ({ toastRef }) => {
                     <button className='back-button' onClick={goBack}>Go Back</button>
                 </div>
             ) : (
-                <form className='form' onSubmit={onSubmit}>
-                    <div className='form-field'>
-                        <label className='form-label' htmlFor="loginEmail">Email: </label>
-                        <input className='form-input' type="email" id='loginEmail' name='email' value={loginForm.email} onChange={onChange} />
-                    </div>
+                <>
+                    <h1>Please Login below</h1>
+                    <form className='form' onSubmit={onSubmit}>
+                        <div className='form-field'>
+                            <label className='form-label' htmlFor="loginEmail">Email: </label>
+                            <input className='form-input' type="email" id='loginEmail' name='email' value={loginForm.email} onChange={onChange} />
+                        </div>
 
-                    <div className='form-field'>
-                        <label className='form-label' htmlFor="loginPassword">Password: </label>
-                        <input className='form-input' type="password" id='loginPassword' name='password' value={loginForm.password} onChange={onChange} />
-                    </div>
+                        <div className='form-field'>
+                            <label className='form-label' htmlFor="loginPassword">Password: </label>
+                            <input className='form-input' type="password" id='loginPassword' name='password' value={loginForm.password} onChange={onChange} />
+                        </div>
 
-                    <button className='form-btn-1' type='submit' id='loginButton'>Login</button>
-                </form>
+                        <button className='form-btn-1' type='submit' id='loginButton'>Login</button>
+                    </form>
+                </>
             )}
         </>
     )
