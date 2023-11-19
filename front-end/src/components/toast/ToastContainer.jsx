@@ -1,4 +1,3 @@
-import styles from './styles.css';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 
@@ -25,7 +24,7 @@ export const ToastContainer = forwardRef(function ToastContainer
         }));
 
         return loaded ? ReactDOM.createPortal(
-            <div className={styles.toastContainer}>
+            <div className="toast-container">
                 {toasts.map(toast => (
                     <Toast key={toast.id} mode={toast.mode} message={toast.message} onClose={() => removeToast(toast.id)} />
                 ))}
