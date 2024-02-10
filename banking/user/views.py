@@ -1,6 +1,7 @@
-from .forms import RegisterForm, LoginForm
+from .forms import RegisterForm, LoginForm, UpdateUserForm
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
+from django.contrib.auth.models import User
 from django.contrib import messages
 from .models import CustomUser
 
@@ -34,7 +35,7 @@ def login_user(request):
 def logout_user(request):
     logout(request)
     messages.success(request, 'Goodbye!')
-    return redirect('home')
+    return redirect('login')
 
 # Register view for users
 def register(request):
@@ -53,3 +54,24 @@ def register(request):
     else:
         form = RegisterForm()
     return render(request, 'user/register.html', {'form': form})
+
+# Update user view
+def update_user(request):
+    if request.user.is_authenticated:
+        user = User.objects.get(id=request.user.id)
+        current_user = CustomUser.objects.get(user=user.id)
+        form = UpdateUserForm(request.POST or None, instance=user)
+        if form.is_valid():
+            form.save()
+            current_user.phone_number = form.cleaned_data['phone_number']
+            current_user.save()
+            login(request, user)
+            messages.success(request, 'Your profile has been successfully updated!')
+            return redirect('home')
+        else:
+            form.initial['phone_number'] = current_user.phone_number
+            return render(request, 'user/update.html', {'form': form})
+    else:
+        messages.error(request, 'You must be logged in to access this page. Please log in then try again!')
+        return redirect('login')
+    

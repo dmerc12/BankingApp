@@ -50,3 +50,25 @@ class RegisterForm(UserCreationForm):
 		self.fields['password2'].label = ''
 		self.fields['password2'].help_text = '<span class="form-text text-muted"><small>Enter the same password as before, for verification.</small></span>'
 		
+# Update form for users
+class UpdateUserForm(UserChangeForm):
+	# Hide password field
+	password = None
+	
+    # Get other fields
+	phone_number = forms.CharField(label="", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Phone Number'}))
+	email = forms.EmailField(label="", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Email Address'}))
+	first_name = forms.CharField(label="", max_length=200, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'First Name'}))
+	last_name = forms.CharField(label="", max_length=200, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Last Name'}))
+
+	class Meta:
+		model = User
+		fields = ('username', 'first_name', 'last_name', 'email', 'phone_number')
+
+	def __init__(self, *args, **kwargs):
+		super(UpdateUserForm, self).__init__(*args, **kwargs)
+
+		self.fields['username'].widget.attrs['class'] = 'form-control'
+		self.fields['username'].widget.attrs['placeholder'] = 'Username'
+		self.fields['username'].label = ''
+		self.fields['username'].help_text = '<span class="form-text text-muted"><small>Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.</small></span>'
