@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User, Group
 from django.contrib import admin
-from .models import User as CustomUser
+from .models import CustomUser
 
 # Unregisters default group and user models from admin site
 admin.site.unregister(Group)

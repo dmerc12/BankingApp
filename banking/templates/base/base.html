@@ -24,6 +24,14 @@
             <!-- Side Navbar -->
             {% include 'base/sidenavbar.html' %}
             <div id="layoutSidenav_content">
+                <!-- Display error messages -->
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
                 <!-- Page Content -->
                 {% block content %}{% endblock content %}
                 <!-- Footer -->
