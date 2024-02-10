@@ -1,4 +1,4 @@
-from .forms import RegisterForm, LoginForm, UpdateUserForm
+from .forms import RegisterForm, LoginForm, UpdateUserForm, ChangePasswordForm
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
@@ -75,3 +75,24 @@ def update_user(request):
         messages.error(request, 'You must be logged in to access this page. Please log in then try again!')
         return redirect('login')
     
+# Change password view
+def change_password(request):
+    if request.user.is_authenticated:
+        current_user = request.user
+        if request.method == 'POST':
+            form = ChangePasswordForm(current_user, request.POST)
+            if form.is_valid():
+                form.save()
+                login(request, current_user)
+                messages.success(request, 'Your password has been changed!')
+                return redirect('home')
+            else:
+                for error in list(form.errors.values()):
+                    messages.error(request, error)
+                return redirect('change-password')
+        else:
+            form = ChangePasswordForm(current_user)
+            return render(request, 'user/change_password.html', {'form': form})
+    else:
+        messages.error(request, 'You must be logged in to access this page. Please log in then try again!')
+        return redirect('login')

@@ -12,8 +12,11 @@
                                 {% csrf_token %}
                                 <!-- Form -->
                                 {{ form.as_p }}
-                                <!-- Submit Button -->
-                                <div class="d-grid"><button class="btn btn-primary" id="submitButton" type="submit">Register</button></div>
+                                <!-- Buttons Wrapper -->
+                                <div class="d-flex justify-content-center">
+                                    <!-- Submit Button -->
+                                    <button class="btn btn-primary w-50" id="submitButton" type="submit">Change Password</button>
+                                </div>
                             </form>
                         </div>
                         <div class="card-footer text-center py-3">
@@ -26,6 +29,7 @@
     </main>
 </div>
 <script>
+    // Auto formatting for phone numbers
     document.addEventListener('DOMContentLoaded', function() {
         const phoneNumberInput = document.getElementById('id_phone_number');
 
