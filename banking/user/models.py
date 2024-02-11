@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.db import models
 
 # Users
-class User(models.Model):
+class CustomUser(models.Model):
     phone_number = models.CharField(max_length=20, help_text='Please enter a valid phone number.')
     user = models.OneToOneField(User, null=True, blank=True, on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
@@ -27,13 +27,3 @@ class User(models.Model):
     
     def username(self):
         return self.user.username
-
-# Auto create user when signing up with site
-def create_user(sender, instance, created, **kwargs):
-    if created:
-        user = instance
-        user = User(user=user)
-        user.save()
-
-# Automate user creation when registering with website
-post_save.connect(create_user, sender=User)  
