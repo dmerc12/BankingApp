@@ -1,8 +1,19 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.db import transaction
 from .models import *
 from .forms import *
+
+# Account list view
+@login_required
+def account_list(request):
+    accounts = Account.objects.filter(user=request.user)
+    context = {
+        'accounts': accounts,
+        'user': request.user
+    }
+    return render(request, 'account/list.html', context)
 
 # Create account view
 def create_account(request):
@@ -24,7 +35,7 @@ def create_account(request):
                 transaction_account = TransactionAccount(account=account, transaction=initial_transaction)
                 transaction_account.save()
             messages.success(request, 'Account successfully created!')
-            return redirect('home')
+            return redirect('account-list')
     else:
         form = AccountForm()
     return render(request, 'account/create.html', {'form': form})

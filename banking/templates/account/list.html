@@ -1,0 +1,58 @@
+{% extends 'base/base.html' %}
+{% block title %}
+    <title>Manage Accounts</title>
+{% endblock title %}
+{% block content%}
+<div id="layoutAuthentication_content">
+    <main>
+        <div class="container-fluid px-4">
+            <h1 class="mt-4">Tables</h1>
+            <ol class="breadcrumb mb-4">
+                <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                <li class="breadcrumb-item active">Accounts</li>
+            </ol>
+            <div class="card mb-4">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <div>
+                        <i class="fas fa-table me-1"></i>
+                        Accounts
+                    </div>
+                    <div>
+                        <a class="btn btn-success" href="{% url 'create-account' %}">Create Account</a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <table id="datatablesSimple">
+                        <thead>
+                            <tr>
+                                <th>Account Number</th>
+                                <th>Balance</th>
+                                <th>Last Interaction</th>
+                                <th>Created</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th>Account Number</th>
+                                <th>Balance</th>
+                                <th>Last Interaction</th>
+                                <th>Created</th>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            {% for account in accounts %}
+                                <tr>
+                                    <td>{{ account.account_number }}</td>
+                                    <td>{{ account.balance }}</td>
+                                    <td>{{ account.last_modified }}</td>
+                                    <td>{{ account.created }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+{% endblock content %}
