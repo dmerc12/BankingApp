@@ -39,3 +39,12 @@ def create_account(request):
     else:
         form = AccountForm()
     return render(request, 'account/create.html', {'form': form})
+
+# Delete account view
+def delete_account(request, account_id):
+    account = Account.objects.get(pk=account_id)
+    if request.method == 'POST':
+        account.delete()
+        messages.success(request, f'Account {account.account_number} deleted!')
+        return redirect('account-list')
+    return  render(request, 'account/delete.html', {'account': account})
