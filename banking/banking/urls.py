@@ -1,9 +1,10 @@
 from django.urls import path, include
 from django.contrib import admin
-from user.views import index
+from account.views import index
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('account/', include('account.urls')),
-    path('', include('user.urls')),
+    path('', index, name='home'),
+    path('user', include('user.urls')),
 ]

@@ -13,25 +13,23 @@ class AccountForm(forms.ModelForm):
 # Deposit form
 class DepositForm(forms.Form):
     account = forms.CharField(label='Account Number', widget=forms.TextInput(attrs={'class': 'form-control', 'readonly': True}))
-    amount = forms.DecimalField(label='', widget=forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01', 'placeholder': 'Amount'}))
-    notes = forms.CharField(label="", max_length=200, widget=forms.TextInput(attrs={'class':'form-control', 'rows': 3, 'placeholder':'Notes'}), required=False)
+    current_balance = forms.CharField(label='Current Balance', widget=forms.TextInput(attrs={'class': 'form-control', 'readonly': True}))
+    amount = forms.DecimalField(label='Deposit Amount', widget=forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01', 'placeholder': 'Amount'}))
+    notes = forms.CharField(label='Deposit Notes', max_length=200, widget=forms.TextInput(attrs={'class':'form-control', 'rows': 3, 'placeholder':'Notes'}), required=False)
 
     def __init__(self, *args, **kwargs):
             super().__init__(*args, **kwargs)
             self.fields['account'].initial = self.initial.get('account_number')
-
-    class Meta:
-        fields = ['account', 'amount']
+            self.fields['current_balance'].initial = self.initial.get('current_balance')
 
 # Withdrawl form
 class WithdrawForm(forms.Form):
     account = forms.CharField(label='Account Number', widget=forms.TextInput(attrs={'class': 'form-control', 'readonly': True}))
-    amount = forms.DecimalField(label='', widget=forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01', 'placeholder': 'Amount'}))
-    notes = forms.CharField(label="", max_length=200, widget=forms.TextInput(attrs={'class':'form-control', 'rows': 3, 'placeholder':'Notes'}), required=False)
+    current_balance = forms.CharField(label='Current Balance', widget=forms.TextInput(attrs={'class': 'form-control', 'readonly': True}))
+    amount = forms.DecimalField(label='Withdraw Amount', widget=forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01', 'placeholder': 'Amount'}))
+    notes = forms.CharField(label='Withdraw Notes', max_length=200, widget=forms.TextInput(attrs={'class':'form-control', 'rows': 3, 'placeholder':'Notes'}), required=False)
 
     def __init__(self, *args, **kwargs):
             super().__init__(*args, **kwargs)
             self.fields['account'].initial = self.initial.get('account_number')
-
-    class Meta:
-        fields = ['account', 'amount']
+            self.fields['current_balance'].initial = self.initial.get('current_balance')

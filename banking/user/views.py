@@ -5,10 +5,6 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from .models import CustomUser
 
-# Index view
-def index(request):
-    return render(request, 'index.html')
-
 # Login view 
 def login_user(request):
     if request.method == 'POST':
@@ -72,7 +68,7 @@ def update_user(request):
             form.initial['phone_number'] = current_user.phone_number
             return render(request, 'user/update.html', {'form': form})
     else:
-        messages.error(request, 'You must be logged in to access this page. Please log in then try again!')
+        messages.error(request, 'You must be logged in to access this page. Please login then try again!')
         return redirect('login')
     
 # Change password view
@@ -94,5 +90,18 @@ def change_password(request):
             form = ChangePasswordForm(current_user)
             return render(request, 'user/change_password.html', {'form': form})
     else:
-        messages.error(request, 'You must be logged in to access this page. Please log in then try again!')
+        messages.error(request, 'You must be logged in to access this page. Please login then try again!')
         return redirect('login')
+
+def delete_user(request):
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            request.user.delete()
+            logout(request)
+            messages.success(request, 'Your profile has been successfully deleted, goodbye!')
+            return redirect('login')
+        return render(request, 'user/delete.html')
+    else:
+        messages.error(request, 'You must be logged in to access this page. Please login then try again!')
+        return redirect('login')
+    

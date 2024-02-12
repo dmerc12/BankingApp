@@ -1,4 +1,7 @@
 {% extends 'base/base.html' %}
+{% block title %}
+<title>Update Profile</title>
+{% endblock title %}
 {% block content%}
 <div id="layoutAuthentication_content">
     <main>
@@ -12,10 +15,12 @@
                                 {% csrf_token %}
                                 <!-- Form -->
                                 {{ form.as_p }}
-                                <!-- Buttons Wrapper -->
+                                <!-- Buttons wrapper -->
                                 <div class="d-flex justify-content-center">
                                     <!-- Submit Button -->
                                     <button class="btn btn-primary w-50" id="submitButton" type="submit">Update Profile</button>
+                                    <!-- Delete profile button-->
+                                    <a class="btn btn-danger w-50 ml-2" href="{% url 'delete-user' %}">Delete Profile</a>
                                 </div>
                             </form>
                         </div>

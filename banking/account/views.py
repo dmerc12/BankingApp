@@ -5,15 +5,18 @@ from django.db import transaction
 from .models import *
 from .forms import *
 
-# Account list view
-@login_required
-def account_list(request):
-    accounts = Account.objects.filter(user=request.user)
-    context = {
-        'accounts': accounts,
-        'user': request.user
-    }
-    return render(request, 'account/list.html', context)
+# Index view
+def index(request):
+    if request.user.is_authenticated:
+        accounts = Account.objects.filter(user=request.user)
+        context = {
+            'accounts': accounts,
+            'user': request.user
+        }
+        return render(request, 'index.html', context)
+    else:
+        messages.error(request, 'You must be logged in to access this page, please register or login then try again!')
+        return redirect('login')
 
 # Create account view
 def create_account(request):
@@ -30,10 +33,10 @@ def create_account(request):
             with transaction.atomic():
                 account = Account(user=request.user, balance=opening_balance)
                 account.save()
-                initial_transaction = Transaction.objects.create(amount=opening_balance, notes=opening_notes, type=DEPOSIT)
+                initial_transaction = Transaction.objects.create(user=request.user, amount=opening_balance, notes=opening_notes, type=DEPOSIT)
                 TransactionAccount.objects.create(account=account, transaction=initial_transaction)
             messages.success(request, 'Account successfully created!')
-            return redirect('account-list')
+            return redirect('home')
     else:
         form = AccountForm()
     return render(request, 'account/create.html', {'form': form})
@@ -48,7 +51,7 @@ def delete_account(request, account_id):
             account_transaction.delete()
         account.delete()
         messages.success(request, f'Account {account.account_number} deleted!')
-        return redirect('account-list')
+        return redirect('home')
     return  render(request, 'account/delete.html', {'account': account})
 
 # Deposit view
@@ -62,12 +65,12 @@ def deposit(request, account_id):
             with transaction.atomic():
                 account.balance += amount
                 account.save()
-                deposit_transaction = Transaction.objects.create(amount=amount, type=DEPOSIT, notes=notes)
+                deposit_transaction = Transaction.objects.create(user=request.user, amount=amount, type=DEPOSIT, notes=notes)
                 TransactionAccount.objects.create(account=account, transaction=deposit_transaction)
             messages.success(request, 'Deposit successful!')
-            return redirect('account-list')
+            return redirect('home')
     else:
-        form = DepositForm(initial={'account_number': account.account_number})
+        form = DepositForm(initial={'account_number': account.account_number, 'current_balance': account.balance})
     context = {
         'form': form,
         'account': account
@@ -85,12 +88,12 @@ def withdraw(request, account_id):
             with transaction.atomic():
                 account.balance -= amount
                 account.save()
-                withdraw_transaction = Transaction.objects.create(amount=amount, type=WITHDRAW, notes=notes)
+                withdraw_transaction = Transaction.objects.create(user=request.user, amount=amount, type=WITHDRAW, notes=notes)
                 TransactionAccount.objects.create(account=account, transaction=withdraw_transaction)
             messages.success(request, 'Withdraw successful!')
-            return redirect('account-list')
+            return redirect('home')
     else:
-        form = WithdrawForm(initial={'account_number': account.account_number})
+        form = WithdrawForm(initial={'account_number': account.account_number, 'current_balance': account.balance})
     context = {
         'form': form,
         'account': account

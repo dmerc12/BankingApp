@@ -37,6 +37,7 @@ TRANSACTION_TYPES = [
 
 # Transactions for deposits, expenses, and transfers
 class Transaction(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     accounts = models.ManyToManyField(Account, through='TransactionAccount')
     amount = models.DecimalField(max_digits=11, decimal_places=2)
     type = models.CharField(max_length=8, choices=TRANSACTION_TYPES)
