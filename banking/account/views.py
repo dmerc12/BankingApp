@@ -74,3 +74,26 @@ def deposit(request, account_id):
     }
     return render(request, 'account/deposit.html', context)
     
+# Withdraw view
+def withdraw(request, account_id):
+    account = get_object_or_404(Account, pk=account_id)
+    if request.method == 'POST':
+        form = WithdrawForm(request.POST)
+        if form.is_valid():
+            amount = form.cleaned_data['amount']
+            notes = form.cleaned_data['notes']
+            with transaction.atomic():
+                account.balance -= amount
+                account.save()
+                withdraw_transaction = Transaction.objects.create(amount=amount, type=WITHDRAW, notes=notes)
+                TransactionAccount.objects.create(account=account, transaction=withdraw_transaction)
+            messages.success(request, 'Withdraw successful!')
+            return redirect('account-list')
+    else:
+        form = WithdrawForm(initial={'account_number': account.account_number})
+    context = {
+        'form': form,
+        'account': account
+    }
+    return render(request, 'account/withdraw.html', context)
+    

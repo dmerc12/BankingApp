@@ -25,13 +25,13 @@ class Account(models.Model):
 
 # Transaction types
 DEPOSIT = 'DEPOSIT'
-EXPENSE = 'EXPENSE'
+WITHDRAW = 'WITHDRAW'
 TRANSFER = 'TRANSFER'
 
 # Choices for transaction types
 TRANSACTION_TYPES = [
     (DEPOSIT, 'Deposit'),
-    (EXPENSE, 'Expense'),
+    (WITHDRAW, 'Withdraw'),
     (TRANSFER, 'Transfer'),
 ]
 

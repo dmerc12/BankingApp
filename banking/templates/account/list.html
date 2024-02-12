@@ -6,7 +6,7 @@
 <div id="layoutAuthentication_content">
     <main>
         <div class="container-fluid px-4">
-            <h1 class="mt-4">Tables</h1>
+            <h1 class="mt-4">Accounts</h1>
             <ol class="breadcrumb mb-4">
                 <li class="breadcrumb-item"><a href="{% url 'home' %}">Dashboard</a></li>
                 <li class="breadcrumb-item active">Accounts</li>
@@ -29,8 +29,10 @@
                                 <th>Balance</th>
                                 <th>Last Interaction</th>
                                 <th>Created</th>
-                                <th>Make Deposit</th>
-                                <th>Delete Account</th>
+                                <th>Deposit</th>
+                                <th>Withdraw</th>
+                                <th>Transfer</th>
+                                <th>Delete</th>
                             </tr>
                         </thead>
                         <tfoot>
@@ -39,8 +41,10 @@
                                 <th>Balance</th>
                                 <th>Last Interaction</th>
                                 <th>Created</th>
-                                <th>Make Deposit</th>
-                                <th>Delete Account</th>
+                                <th>Deposit</th>
+                                <th>Withdraw</th>
+                                <th>Transfer</th>
+                                <th>Delete</th>
                             </tr>
                         </tfoot>
                         <tbody>
@@ -51,6 +55,8 @@
                                     <td>{{ account.last_modified }}</td>
                                     <td>{{ account.created }}</td>
                                     <td><a class="btn btn-success" href="{% url 'deposit' account.pk %}">Deposit</a></td>
+                                    <td><a class="btn btn-danger" href="{% url 'withdraw' account.pk %}">Withdraw</a></td>
+                                    <td><a class="btn btn-secondary" href="#">Transfer</a></td>
                                     <td><a class="btn btn-danger" href="{% url 'delete-account' account.pk %}">Delete Account</a></td>
                                 </tr>
                             {% endfor %}
