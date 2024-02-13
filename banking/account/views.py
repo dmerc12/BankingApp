@@ -1,17 +1,31 @@
-from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.db import transaction
+from plotly import express as px
 from .models import *
 from .forms import *
+import pandas as pd
 
 # Index view
 def index(request):
     if request.user.is_authenticated:
         accounts = Account.objects.filter(user=request.user)
+        account_numbers = [account.account_number for account in accounts]
+        balances = [account.balance for account in accounts]
+        chart_data = {
+            'Account Number': account_numbers,
+            'Balance': balances
+        }
+        chart_df = pd.DataFrame(chart_data)
+        # Bar chart
+        bar_chart = px.bar(chart_df, x='Account Number', y='Balance').to_html(full_html=False)
+        # Pie chart
+        pie_chart = px.pie(chart_df, names='Account Number', values='Balance').to_html(full_html=False)
         context = {
             'accounts': accounts,
-            'user': request.user
+            'user': request.user,
+            'bar_chart': bar_chart,
+            'pie_chart': pie_chart
         }
         return render(request, 'index.html', context)
     else:
@@ -25,7 +39,6 @@ def create_account(request):
         if form.is_valid():
             opening_balance = form.cleaned_data['opening_balance']
             opening_notes = form.cleaned_data['opening_notes']
-
             # Ensuring balance is positive and non-zero
             if opening_balance <= 0:
                 messages.error(request, 'Opening balance must be positive and non-zero, please try again!')
