@@ -164,3 +164,12 @@ def transfer(request, account_id):
         'account': withdraw_account
     }
     return render(request, 'banking/transfer.html', context)
+
+# View account transactions view
+def transactions(request, account_id):
+    account = get_object_or_404(Account, pk=account_id)
+    transactions = Transaction.objects.filter(user=request.user, accounts=account)
+    context = {
+        'transactions': transactions,
+    }
+    return render(request, 'banking/transaction_list.html', context)
