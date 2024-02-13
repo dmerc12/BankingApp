@@ -1,0 +1,90 @@
+{% extends 'base/base.html' %}
+{% block title %}
+<title>Dashboard</title>
+{% endblock title %}
+{% block content %}
+<main>
+    <div class="container-fluid px-4">
+        <h1 class="mt-4">Dashboard</h1>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item active">Dashboard</li>
+        </ol>
+        <div class="row">
+            <div class="col-xl-6">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-chart-bar me-1"></i>
+                        Account Balances
+                    </div>
+                    <div class="card-body"><div id="barChart" class='plotly-graph-div'>{{ bar_chart|safe }}</div></div>
+                </div>
+            </div>
+            <div class="col-xl-6">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-chart-pie me-1"></i>
+                        Total Account Balances Distribution
+                    </div>
+                    <div class="card-body"><div id="pieChart" class='plotly-graph-div'>{{ pie_chart|safe }}</div></div>
+                </div>
+            </div>
+        </div>
+        <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <div>
+                    <i class="fas fa-table me-1"></i>
+                    Accounts
+                </div>
+                <div>
+                    <a class="btn btn-success" href="{% url 'create-account' %}">Create Account</a>
+                </div>
+            </div>
+            <div class="card-body">
+                <table id="datatablesSimple">
+                    <thead>
+                        <tr>
+                            <th>Account Number</th>
+                            <th>Balance</th>
+                            <th>Last Interaction</th>
+                            <th>Created</th>
+                            <th>Deposit</th>
+                            <th>Withdraw</th>
+                            <th>Transfer</th>
+                            <th>Transactions</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>Account Number</th>
+                            <th>Balance</th>
+                            <th>Last Interaction</th>
+                            <th>Created</th>
+                            <th>Deposit</th>
+                            <th>Withdraw</th>
+                            <th>Transfer</th>
+                            <th>Transactions</th>
+                            <th>Delete</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        {% for account in accounts %}
+                            <tr>
+                                <td><a href="{% url 'update-account' account.pk %}">{{ account.account_number }}</a></td>
+                                <td>{{ account.balance }}</td>
+                                <td>{{ account.last_modified }}</td>
+                                <td>{{ account.created }}</td>
+                                <td><a class="btn btn-success" href="{% url 'deposit' account.pk %}">Deposit</a></td>
+                                <td><a class="btn btn-danger" href="{% url 'withdraw' account.pk %}">Withdraw</a></td>
+                                <td><a class="btn btn-secondary" href="{% url 'transfer' account.id %}">Transfer</a></td>
+                                <td><a class="btn btn-secondary" href="#">Transactions</a></td>
+                                <td><a class="btn btn-danger" href="{% url 'delete-account' account.pk %}">Delete</a></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock content %}

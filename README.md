@@ -8,6 +8,8 @@ A banking app written in python.
 - sqlite
 - Django
 - Django Bootstrap 5
+- Plotly
+- Pandas
 - Selenium
 - Behave
 - Git
