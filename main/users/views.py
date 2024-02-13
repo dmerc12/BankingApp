@@ -25,7 +25,7 @@ def login_user(request):
             return redirect('login')
     else:
         form = LoginForm()
-        return render(request, 'user/login.html', {'form': form})
+        return render(request, 'users/login.html', {'form': form})
     
 # Logout view
 def logout_user(request):
@@ -49,7 +49,7 @@ def register(request):
             return redirect('home')
     else:
         form = RegisterForm()
-    return render(request, 'user/register.html', {'form': form})
+    return render(request, 'users/register.html', {'form': form})
 
 # Update user view
 def update_user(request):
@@ -66,7 +66,7 @@ def update_user(request):
             return redirect('home')
         else:
             form.initial['phone_number'] = current_user.phone_number
-            return render(request, 'user/update.html', {'form': form})
+            return render(request, 'users/update.html', {'form': form})
     else:
         messages.error(request, 'You must be logged in to access this page. Please login then try again!')
         return redirect('login')
@@ -88,7 +88,7 @@ def change_password(request):
                 return redirect('change-password')
         else:
             form = ChangePasswordForm(current_user)
-            return render(request, 'user/change_password.html', {'form': form})
+            return render(request, 'users/change_password.html', {'form': form})
     else:
         messages.error(request, 'You must be logged in to access this page. Please login then try again!')
         return redirect('login')
@@ -100,7 +100,7 @@ def delete_user(request):
             logout(request)
             messages.success(request, 'Your profile has been successfully deleted, goodbye!')
             return redirect('login')
-        return render(request, 'user/delete.html')
+        return render(request, 'users/delete.html')
     else:
         messages.error(request, 'You must be logged in to access this page. Please login then try again!')
         return redirect('login')

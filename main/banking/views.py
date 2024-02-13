@@ -52,7 +52,7 @@ def create_account(request):
             return redirect('home')
     else:
         form = AccountForm()
-    return render(request, 'account/create.html', {'form': form})
+    return render(request, 'banking/create.html', {'form': form})
 
 # Delete account view
 def delete_account(request, account_id):
@@ -65,7 +65,7 @@ def delete_account(request, account_id):
         account.delete()
         messages.success(request, f'Account {account.account_number} deleted!')
         return redirect('home')
-    return  render(request, 'account/delete.html', {'account': account})
+    return  render(request, 'banking/delete.html', {'account': account})
 
 # Deposit view
 def deposit(request, account_id):
@@ -88,7 +88,7 @@ def deposit(request, account_id):
         'form': form,
         'account': account
     }
-    return render(request, 'account/deposit.html', context)
+    return render(request, 'banking/deposit.html', context)
     
 # Withdraw view
 def withdraw(request, account_id):
@@ -111,5 +111,5 @@ def withdraw(request, account_id):
         'form': form,
         'account': account
     }
-    return render(request, 'account/withdraw.html', context)
+    return render(request, 'banking/withdraw.html', context)
     
