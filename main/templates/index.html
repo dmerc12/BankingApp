@@ -76,7 +76,7 @@
                                 <td>{{ account.created }}</td>
                                 <td><a class="btn btn-success" href="{% url 'deposit' account.pk %}">Deposit</a></td>
                                 <td><a class="btn btn-danger" href="{% url 'withdraw' account.pk %}">Withdraw</a></td>
-                                <td><a class="btn btn-secondary" href="#">Transfer</a></td>
+                                <td><a class="btn btn-secondary" href="{% url 'transfer' account.id %}">Transfer</a></td>
                                 <td><a class="btn btn-secondary" href="#">Transactions</a></td>
                                 <td><a class="btn btn-danger" href="{% url 'delete-account' account.pk %}">Delete</a></td>
                             </tr>

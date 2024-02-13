@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.db import transaction as database
 from django.contrib import messages
-from django.db import transaction
 from plotly import express as px
 from .models import *
 from .forms import *
@@ -47,10 +47,10 @@ def create_account(request):
             if opening_balance <= 0:
                 messages.error(request, 'Opening balance must be positive and non-zero, please try again!')
                 return redirect('create-account')
-            with transaction.atomic():
+            with database.atomic():
                 account = Account.objects.create(user=request.user, account_number=account_number, bank_name=bank_name, location=location, balance=opening_balance, notes=notes)
-                initial_transaction = Transaction.objects.create(user=request.user, amount=opening_balance, notes=notes, type=DEPOSIT)
-                TransactionAccount.objects.create(account=account, transaction=initial_transaction)
+                transaction = Transaction.objects.create(user=request.user, amount=opening_balance, notes=notes, type=DEPOSIT)
+                TransactionAccount.objects.create(account=account, transaction=transaction)
             messages.success(request, 'Account successfully created!')
             return redirect('home')
     else:
@@ -99,11 +99,11 @@ def deposit(request, account_id):
         if form.is_valid():
             amount = form.cleaned_data['amount']
             notes = form.cleaned_data['notes']
-            with transaction.atomic():
+            with database.atomic():
                 account.balance += amount
                 account.save()
-                deposit_transaction = Transaction.objects.create(user=request.user, amount=amount, type=DEPOSIT, notes=notes)
-                TransactionAccount.objects.create(account=account, transaction=deposit_transaction)
+                transaction = Transaction.objects.create(user=request.user, amount=amount, type=DEPOSIT, notes=notes)
+                TransactionAccount.objects.create(account=account, transaction=transaction)
             messages.success(request, 'Deposit successful!')
             return redirect('home')
     else:
@@ -122,11 +122,11 @@ def withdraw(request, account_id):
         if form.is_valid():
             amount = form.cleaned_data['amount']
             notes = form.cleaned_data['notes']
-            with transaction.atomic():
+            with database.atomic():
                 account.balance -= amount
                 account.save()
-                withdraw_transaction = Transaction.objects.create(user=request.user, amount=amount, type=WITHDRAW, notes=notes)
-                TransactionAccount.objects.create(account=account, transaction=withdraw_transaction)
+                transaction = Transaction.objects.create(user=request.user, amount=amount, type=WITHDRAW, notes=notes)
+                TransactionAccount.objects.create(account=account, transaction=transaction)
             messages.success(request, 'Withdraw successful!')
             return redirect('home')
     else:
@@ -137,3 +137,30 @@ def withdraw(request, account_id):
     }
     return render(request, 'banking/withdraw.html', context)
     
+# Transfer view
+def transfer(request, account_id):
+    withdraw_account = get_object_or_404(Account, pk=account_id)
+    if request.method == 'POST':
+        form = TransferForm(request.user, withdraw_account.id, request.POST)
+        if form.is_valid():
+            deposit_account_id = form.cleaned_data['deposit']
+            amount = form.cleaned_data['amount']
+            notes = form.cleaned_data['notes']
+            deposit_account = Account.objects.get(pk=deposit_account_id)
+            with database.atomic():
+                withdraw_account.balance -= amount
+                withdraw_account.save()
+                deposit_account.balance += amount
+                deposit_account.save()
+                transaction = Transaction.objects.create(user=request.user, amount=amount, type=TRANSFER, notes=notes)
+                TransactionAccount.objects.create(account=withdraw_account, transaction=transaction)
+                TransactionAccount.objects.create(account=deposit_account, transaction=transaction)
+            messages.success(request, 'Transfer successful!')
+            return redirect('home')
+    else:
+        form = TransferForm(request.user, withdraw_account.id, initial={'withdraw': f'{withdraw_account.account_number} - {withdraw_account.balance}'})
+    context = {
+        'form': form,
+        'account': withdraw_account
+    }
+    return render(request, 'banking/transfer.html', context)
