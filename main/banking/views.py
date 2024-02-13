@@ -10,7 +10,7 @@ import pandas as pd
 def index(request):
     if request.user.is_authenticated:
         accounts = Account.objects.filter(user=request.user)
-        account_numbers = [account.account_number for account in accounts]
+        account_numbers = [str(account.account_number) for account in accounts]
         balances = [account.balance for account in accounts]
         chart_data = {
             'Account Number': account_numbers,
@@ -18,7 +18,7 @@ def index(request):
         }
         chart_df = pd.DataFrame(chart_data)
         # Bar chart
-        bar_chart = px.bar(chart_df, x='Account Number', y='Balance').to_html(full_html=False)
+        bar_chart = px.bar(chart_df, x='Account Number', y='Balance', orientation='v', category_orders={'Account Number': account_numbers}).to_html(full_html=False)
         # Pie chart
         pie_chart = px.pie(chart_df, names='Account Number', values='Balance').to_html(full_html=False)
         context = {
@@ -35,24 +35,48 @@ def index(request):
 # Create account view
 def create_account(request):
     if request.method == 'POST':
-        form = AccountForm(request.POST)
+        form = CreateAccountForm(request.POST)
         if form.is_valid():
             opening_balance = form.cleaned_data['opening_balance']
-            opening_notes = form.cleaned_data['opening_notes']
+            notes = form.cleaned_data['opening_notes']
+            account_number = form.cleaned_data['account_number']
+            bank_name = form.cleaned_data['bank_name']
+            location = form.cleaned_data['location']
+            notes = form.cleaned_data['opening_notes']
             # Ensuring balance is positive and non-zero
             if opening_balance <= 0:
                 messages.error(request, 'Opening balance must be positive and non-zero, please try again!')
                 return redirect('create-account')
             with transaction.atomic():
-                account = Account(user=request.user, balance=opening_balance)
-                account.save()
-                initial_transaction = Transaction.objects.create(user=request.user, amount=opening_balance, notes=opening_notes, type=DEPOSIT)
+                account = Account.objects.create(user=request.user, account_number=account_number, bank_name=bank_name, location=location, balance=opening_balance, notes=notes)
+                initial_transaction = Transaction.objects.create(user=request.user, amount=opening_balance, notes=notes, type=DEPOSIT)
                 TransactionAccount.objects.create(account=account, transaction=initial_transaction)
             messages.success(request, 'Account successfully created!')
             return redirect('home')
     else:
-        form = AccountForm()
-    return render(request, 'banking/create.html', {'form': form})
+        form = CreateAccountForm()
+    return render(request, 'banking/create_account.html', {'form': form})
+
+# Update account view
+def update_account(request, account_id):
+    account = get_object_or_404(Account, pk=account_id)
+    if request.method == 'POST':
+        form = UpdateAccountForm(request.POST, instance=account)
+        if form.is_valid():
+            account.account_number = form.cleaned_data['account_number']
+            account.bank_name = form.cleaned_data['bank_name']
+            account.location = form.cleaned_data['location']
+            account.notes = form.cleaned_data['notes']
+            account.save()
+            messages.success(request, 'Account successfully updated!')
+            return redirect('home')
+    else:
+        form = UpdateAccountForm(instance=account)
+    context = {
+        'form': form,
+        'account': account
+    }
+    return render(request, 'banking/update_account.html', context)
 
 # Delete account view
 def delete_account(request, account_id):
@@ -65,7 +89,7 @@ def delete_account(request, account_id):
         account.delete()
         messages.success(request, f'Account {account.account_number} deleted!')
         return redirect('home')
-    return  render(request, 'banking/delete.html', {'account': account})
+    return  render(request, 'banking/delete_account.html', {'account': account})
 
 # Deposit view
 def deposit(request, account_id):

@@ -1,14 +1,29 @@
 from django import forms
 from .models import *
 
-# Account form
-class AccountForm(forms.ModelForm):
-    opening_balance = forms.DecimalField(label='', widget=forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01', 'placeholder': 'Opening Balance'}))
-    opening_notes = forms.CharField(label="", max_length=200, widget=forms.TextInput(attrs={'class':'form-control', 'rows': 3, 'placeholder':'Opening Notes'}), required=False)
+# Createccount form
+class CreateAccountForm(forms.ModelForm):
+    account_number = forms.IntegerField(label='Account Number', widget=forms.NumberInput(attrs={'class':'form-control', 'placeholder':'Account Number'}))
+    bank_name = forms.CharField(label='Bank Name', max_length=150, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Bank Name'}))
+    location = forms.CharField(label='Bank Location', max_length=250, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Bank Location'}))
+    opening_balance = forms.DecimalField(label='Opening Balance', widget=forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01', 'placeholder': 'Opening Balance'}))
+    opening_notes = forms.CharField(label='Notes', max_length=300, widget=forms.TextInput(attrs={'class':'form-control', 'row': 3, 'placeholder':'Opening Notes'}), required=False)
 
     class Meta:
         model = Account
-        fields = ['opening_balance', 'opening_notes']
+        fields = ['account_number', 'bank_name', 'location', 'opening_balance', 'opening_notes']
+
+# Update account form
+class UpdateAccountForm(forms.ModelForm):
+    account_number = forms.IntegerField(label='Account Number', widget=forms.NumberInput(attrs={'class':'form-control', 'placeholder':'Account Number'}))
+    bank_name = forms.CharField(label='Bank Name', max_length=150, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Bank Name'}))
+    location = forms.CharField(label='Bank Location', max_length=250, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Bank Location'}))
+    balance = forms.DecimalField(label='Opening Balance', widget=forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Opening Balance', 'readonly': True}))
+    notes = forms.CharField(label='Notes', max_length=300, widget=forms.TextInput(attrs={'class':'form-control', 'row': 3, 'placeholder':'Opening Notes'}), required=False)
+
+    class Meta:
+        model = Account
+        fields = ['account_number', 'bank_name', 'location', 'balance', 'notes']
 
 # Deposit form
 class DepositForm(forms.Form):
