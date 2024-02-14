@@ -62,3 +62,20 @@ class TransferForm(forms.Form):
         deposit_accounts = Account.objects.filter(user=user).exclude(id=withdraw_account_id)
         deposit_choices = [(account.id, f"{account.account_number} - {account.balance}") for account in deposit_accounts]
         self.fields['deposit'] = forms.ChoiceField(choices=deposit_choices, label='Deposit Account', widget=forms.Select(attrs={'class': 'form-control'}))
+
+class TransactionForm(forms.ModelForm):
+    id = forms.CharField(label='Transaction ID', widget=forms.TextInput(attrs={'class': 'form-control', 'readonly': True}))
+    type = forms.CharField(label='Transaction Type', widget=forms.TextInput(attrs={'class': 'form-control', 'readonly': True}))
+    amount = forms.DecimalField(label='Transaction Amount', widget=forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01', 'placeholder': 'Amount'}))
+    notes = forms.CharField(label='Transaction Notes', max_length=200, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Notes'}), required=False)
+
+    class Meta:
+        model = Transaction
+        fields = ['id', 'type', 'amount', 'notes']
+
+    def __init__(self, *args, **kwargs):
+        super(TransactionForm, self).__init__(*args, **kwargs)
+        if 'instance' in kwargs:  # Check if instance is passed
+            instance = kwargs['instance']
+            self.fields['timestamp'] = forms.DateTimeField(label='Transaction Timestamp', initial=instance.timestamp, widget=forms.DateTimeInput(attrs={'class': 'form-control', 'readonly': True}))
+            

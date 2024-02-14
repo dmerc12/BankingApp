@@ -152,9 +152,10 @@ def transfer(request, account_id):
                 withdraw_account.save()
                 deposit_account.balance += amount
                 deposit_account.save()
-                transaction = Transaction.objects.create(user=request.user, amount=amount, type=TRANSFER, notes=notes)
-                TransactionAccount.objects.create(account=withdraw_account, transaction=transaction)
-                TransactionAccount.objects.create(account=deposit_account, transaction=transaction)
+                withdraw_transaction = Transaction.objects.create(user=request.user, amount=amount, type=WITHDRAW, notes=notes)
+                deposit_transaction = Transaction.objects.create(user=request.user, amount=amount, type=DEPOSIT, notes=notes)
+                TransactionAccount.objects.create(account=withdraw_account, transaction=withdraw_transaction)
+                TransactionAccount.objects.create(account=deposit_account, transaction=deposit_transaction)
             messages.success(request, 'Transfer successful!')
             return redirect('home')
     else:
@@ -170,6 +171,7 @@ def transactions(request, account_id):
     account = get_object_or_404(Account, pk=account_id)
     transactions = Transaction.objects.filter(user=request.user, accounts=account)
     context = {
+        'account': account,
         'transactions': transactions,
     }
     return render(request, 'banking/transaction_list.html', context)
@@ -202,3 +204,37 @@ def delete_transaction(request, transaction_id):
         messages.success(request, 'Transaction successfully deleted!')
         return redirect('home')
     return render(request, 'banking/delete_transaction.html', {'transaction': transaction})
+
+# Update transaction view
+def update_transaction(request, transaction_id):
+    transaction = get_object_or_404(Transaction, pk=transaction_id)
+    if request.method == 'POST':
+        form = TransactionForm(request.POST, instance=transaction)
+        if form.is_valid():
+            updated_transaction = form.save(commit=False)
+            if updated_transaction.amount != transaction.amount or updated_transaction.type != transaction.type:
+                account = transaction.accounts.first()
+                with database.atomic():
+                    if transaction.type == 'DEPOSIT':
+                        account.balance -= transaction.amount
+                    elif transaction.type == 'WITHDRAW':
+                        account.balance += transaction.amount
+                    if updated_transaction.type == 'DEPOSIT':
+                        account.balance += updated_transaction.amount
+                    elif updated_transaction.type == 'WITHDRAW':
+                        account.balance -= updated_transaction.amount
+                    account.save()
+                    updated_transaction.save()
+                    messages.success(request, 'Transaction successfully updated!')
+                    return redirect('home')
+            else:
+                updated_transaction.save()
+                messages.success(request, 'Transaction successfully updated!')
+                return redirect('home')
+    else:
+        form = TransactionForm(instance=transaction)
+    context = {
+        'form': form,
+        'transaction': transaction
+    }
+    return render(request, 'banking/update_transaction.html', context)

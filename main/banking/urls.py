@@ -9,5 +9,6 @@ urlpatterns = [
     path('transfer/<int:account_id>/', transfer, name='transfer'),
     path('transactions/<int:account_id>/', transactions, name='transactions'),
     path('delete/<int:account_id>/', delete_account, name='delete-account'),
+    path('transaction/<int:transaction_id>/', update_transaction, name='update-transaction'),
     path('transaction/<int:transaction_id>/delete/', delete_transaction, name='delete-transaction'),
 ]
