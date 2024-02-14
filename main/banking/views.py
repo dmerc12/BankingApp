@@ -164,3 +164,41 @@ def transfer(request, account_id):
         'account': withdraw_account
     }
     return render(request, 'banking/transfer.html', context)
+
+# View account transactions view
+def transactions(request, account_id):
+    account = get_object_or_404(Account, pk=account_id)
+    transactions = Transaction.objects.filter(user=request.user, accounts=account)
+    context = {
+        'transactions': transactions,
+    }
+    return render(request, 'banking/transaction_list.html', context)
+
+# Delete transaction view
+def delete_transaction(request, transaction_id):
+    transaction = get_object_or_404(Transaction, pk=transaction_id)
+    if request.method == 'POST':
+        transaction_accounts = TransactionAccount.objects.filter(transaction=transaction)
+        with database.atomic():
+            for transaction_account in transaction_accounts:
+                account = Account.objects.get(pk=transaction_account.account.id)
+                if transaction.type == 'DEPOSIT':
+                    account.balance -= transaction.amount
+                elif transaction.type == 'WITHDRAW':
+                    account.balance += transaction.amount
+                account.save()
+                if TransactionAccount.objects.filter(account=account).count() > 1:
+                    transaction_accounts.delete()
+                    transaction.delete()
+                    messages.success(request, 'Transaction successfully deleted!')
+                    return redirect('home')
+                else:
+                    messages.error(request, 'If you wish to delete this transaction, please close the account!')
+                    return redirect('home')
+            else:
+                messages.error(request, 'Cannot delete the last transaction of the account if it would result in a zero balance.')
+            transaction_accounts.delete()
+            transaction.delete()
+        messages.success(request, 'Transaction successfully deleted!')
+        return redirect('home')
+    return render(request, 'banking/delete_transaction.html', {'transaction': transaction})
