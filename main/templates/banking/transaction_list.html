@@ -26,7 +26,8 @@
                                 <th>Timestamp</th>
                                 <th>Type</th>
                                 <th>Notes</th>
-                                <th>amount</th>
+                                <th>Amount</th>
+                                <th>Delete</th>
                             </tr>
                         </thead>
                         <tfoot>
@@ -35,7 +36,8 @@
                                 <th>Timestamp</th>
                                 <th>Type</th>
                                 <th>Notes</th>
-                                <th>amount</th>
+                                <th>Amount</th>
+                                <th>Delete</th>
                             </tr>
                         </tfoot>
                         <tbody>
@@ -46,10 +48,7 @@
                                     <td>{{ transaction.type }}</td>
                                     <td>{{ transaction.notes }}</td>
                                     <td>{{ transaction.amount }}</td>
-                                    {% comment %} <td><a class="btn btn-success" href="{% url 'deposit' account.pk %}">Deposit</a></td>
-                                    <td><a class="btn btn-danger" href="{% url 'withdraw' account.pk %}">Withdraw</a></td>
-                                    <td><a class="btn btn-secondary" href="#">Transfer</a></td>
-                                    <td><a class="btn btn-danger" href="{% url 'delete-account' account.pk %}">Delete Account</a></td> {% endcomment %}
+                                    <td><a class="btn btn-danger" href="{% url 'delete-transaction' transaction.pk %}">Delete</a></td>
                                 </tr>
                             {% endfor %}
                         </tbody>
