@@ -15,7 +15,7 @@
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <div>
                         <i class="fas fa-table me-1"></i>
-                        Transactions
+                        Transactions - {{ account.account_number }}
                     </div>
                 </div>
                 <div class="card-body">
@@ -27,6 +27,7 @@
                                 <th>Type</th>
                                 <th>Notes</th>
                                 <th>Amount</th>
+                                <th>Update</th>
                                 <th>Delete</th>
                             </tr>
                         </thead>
@@ -37,6 +38,7 @@
                                 <th>Type</th>
                                 <th>Notes</th>
                                 <th>Amount</th>
+                                <th>Update</th>
                                 <th>Delete</th>
                             </tr>
                         </tfoot>
@@ -48,6 +50,7 @@
                                     <td>{{ transaction.type }}</td>
                                     <td>{{ transaction.notes }}</td>
                                     <td>{{ transaction.amount }}</td>
+                                    <td><a class="btn btn-secondary" href="{% url 'update-transaction' transaction.pk %}">Update</a></td>
                                     <td><a class="btn btn-danger" href="{% url 'delete-transaction' transaction.pk %}">Delete</a></td>
                                 </tr>
                             {% endfor %}

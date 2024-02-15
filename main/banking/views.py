@@ -38,18 +38,18 @@ def create_account(request):
         form = CreateAccountForm(request.POST)
         if form.is_valid():
             opening_balance = form.cleaned_data['opening_balance']
+            timestamp = form.cleaned_data['timestamp']
             notes = form.cleaned_data['opening_notes']
             account_number = form.cleaned_data['account_number']
             bank_name = form.cleaned_data['bank_name']
             location = form.cleaned_data['location']
             notes = form.cleaned_data['opening_notes']
-            # Ensuring balance is positive and non-zero
             if opening_balance <= 0:
                 messages.error(request, 'Opening balance must be positive and non-zero, please try again!')
                 return redirect('create-account')
             with database.atomic():
                 account = Account.objects.create(user=request.user, account_number=account_number, bank_name=bank_name, location=location, balance=opening_balance, notes=notes)
-                transaction = Transaction.objects.create(user=request.user, amount=opening_balance, notes=notes, type=DEPOSIT)
+                transaction = Transaction.objects.create(user=request.user, amount=opening_balance, notes=notes, timestamp=timestamp, type=DEPOSIT)
                 TransactionAccount.objects.create(account=account, transaction=transaction)
             messages.success(request, 'Account successfully created!')
             return redirect('home')
@@ -98,11 +98,12 @@ def deposit(request, account_id):
         form = DepositForm(request.POST)
         if form.is_valid():
             amount = form.cleaned_data['amount']
+            timestamp = form.cleaned_data['timestamp']
             notes = form.cleaned_data['notes']
             with database.atomic():
                 account.balance += amount
                 account.save()
-                transaction = Transaction.objects.create(user=request.user, amount=amount, type=DEPOSIT, notes=notes)
+                transaction = Transaction.objects.create(user=request.user, amount=amount, timestamp=timestamp, type=DEPOSIT, notes=notes)
                 TransactionAccount.objects.create(account=account, transaction=transaction)
             messages.success(request, 'Deposit successful!')
             return redirect('home')
@@ -121,11 +122,12 @@ def withdraw(request, account_id):
         form = WithdrawForm(request.POST)
         if form.is_valid():
             amount = form.cleaned_data['amount']
+            timestamp = form.cleaned_data['timestamp']
             notes = form.cleaned_data['notes']
             with database.atomic():
                 account.balance -= amount
                 account.save()
-                transaction = Transaction.objects.create(user=request.user, amount=amount, type=WITHDRAW, notes=notes)
+                transaction = Transaction.objects.create(user=request.user, amount=amount, timestamp=timestamp, type=WITHDRAW, notes=notes)
                 TransactionAccount.objects.create(account=account, transaction=transaction)
             messages.success(request, 'Withdraw successful!')
             return redirect('home')
@@ -145,6 +147,7 @@ def transfer(request, account_id):
         if form.is_valid():
             deposit_account_id = form.cleaned_data['deposit']
             amount = form.cleaned_data['amount']
+            timestamp = form.cleaned_data['timestamp']
             notes = form.cleaned_data['notes']
             deposit_account = Account.objects.get(pk=deposit_account_id)
             with database.atomic():
@@ -152,9 +155,10 @@ def transfer(request, account_id):
                 withdraw_account.save()
                 deposit_account.balance += amount
                 deposit_account.save()
-                transaction = Transaction.objects.create(user=request.user, amount=amount, type=TRANSFER, notes=notes)
-                TransactionAccount.objects.create(account=withdraw_account, transaction=transaction)
-                TransactionAccount.objects.create(account=deposit_account, transaction=transaction)
+                withdraw_transaction = Transaction.objects.create(user=request.user, timestamp=timestamp, amount=amount, type=WITHDRAW, notes=notes)
+                deposit_transaction = Transaction.objects.create(user=request.user, timestamp=timestamp, amount=amount, type=DEPOSIT, notes=notes)
+                TransactionAccount.objects.create(account=withdraw_account, transaction=withdraw_transaction)
+                TransactionAccount.objects.create(account=deposit_account, transaction=deposit_transaction)
             messages.success(request, 'Transfer successful!')
             return redirect('home')
     else:
@@ -170,6 +174,7 @@ def transactions(request, account_id):
     account = get_object_or_404(Account, pk=account_id)
     transactions = Transaction.objects.filter(user=request.user, accounts=account)
     context = {
+        'account': account,
         'transactions': transactions,
     }
     return render(request, 'banking/transaction_list.html', context)
@@ -202,3 +207,37 @@ def delete_transaction(request, transaction_id):
         messages.success(request, 'Transaction successfully deleted!')
         return redirect('home')
     return render(request, 'banking/delete_transaction.html', {'transaction': transaction})
+
+# Update transaction view
+def update_transaction(request, transaction_id):
+    transaction = get_object_or_404(Transaction, pk=transaction_id)
+    if request.method == 'POST':
+        form = TransactionForm(request.POST, instance=transaction)
+        if form.is_valid():
+            updated_transaction = form.save(commit=False)
+            if updated_transaction.amount != transaction.amount or updated_transaction.type != transaction.type:
+                account = transaction.accounts.first()
+                with database.atomic():
+                    if transaction.type == 'DEPOSIT':
+                        account.balance -= transaction.amount
+                    elif transaction.type == 'WITHDRAW':
+                        account.balance += transaction.amount
+                    if updated_transaction.type == 'DEPOSIT':
+                        account.balance += updated_transaction.amount
+                    elif updated_transaction.type == 'WITHDRAW':
+                        account.balance -= updated_transaction.amount
+                    account.save()
+                    updated_transaction.save()
+                    messages.success(request, 'Transaction successfully updated!')
+                    return redirect('home')
+            else:
+                updated_transaction.save()
+                messages.success(request, 'Transaction successfully updated!')
+                return redirect('home')
+    else:
+        form = TransactionForm(instance=transaction)
+    context = {
+        'form': form,
+        'transaction': transaction
+    }
+    return render(request, 'banking/update_transaction.html', context)
