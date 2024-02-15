@@ -130,11 +130,11 @@ JAZZMIN_SETTINGS = {
     'show_ui_builder': True,
     'related_modal_active': True,
     'icons': {
-        'users.user': 'fas fa-user',
+        'users.customuser': 'fa fa-users',
 
-        'banking.account': 'fas fa-warehouse',
-        'banking.transaction': 'fas fa-drafting-compass',
-        'banking.transactionaccount': 'fas fa-file-invoice',
+        'banking.account': 'fa fa-university',
+        'banking.transaction': 'fa fa-list',
+        'banking.transactionaccount': 'fa fa-university',
 
     }
 }
