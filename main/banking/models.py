@@ -13,7 +13,7 @@ class Account(models.Model):
     last_modified = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.account_number
+        return f'{self.account_number} - {self.balance}'
 
 # Transaction types
 DEPOSIT = 'DEPOSIT'
@@ -28,7 +28,7 @@ TRANSACTION_TYPES = [
 # Transactions for deposits, expenses, and transfers
 class Transaction(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    accounts = models.ManyToManyField(Account, through='TransactionAccount')
+    account = models.ForeignKey(Account, on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=11, decimal_places=2)
     type = models.CharField(max_length=8, choices=TRANSACTION_TYPES)
     notes = models.TextField(max_length=250, blank=True, null=True)
@@ -36,11 +36,3 @@ class Transaction(models.Model):
 
     def __str__(self):
         return str(self.id)
-
-# Accounts involved in transactions incase more than one
-class TransactionAccount(models.Model):
-    transaction = models.ForeignKey(Transaction, on_delete=models.CASCADE)
-    account = models.ForeignKey(Account, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return f'Transaction: {self.transaction}, Account: {self.account.account_number}'

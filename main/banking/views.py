@@ -49,8 +49,7 @@ def create_account(request):
                 return redirect('create-account')
             with database.atomic():
                 account = Account.objects.create(user=request.user, account_number=account_number, bank_name=bank_name, location=location, balance=opening_balance, notes=notes)
-                transaction = Transaction.objects.create(user=request.user, amount=opening_balance, notes=notes, timestamp=timestamp, type=DEPOSIT)
-                TransactionAccount.objects.create(account=account, transaction=transaction)
+                Transaction.objects.create(user=request.user, account=account, amount=opening_balance, notes=notes, timestamp=timestamp, type=DEPOSIT)
             messages.success(request, 'Account successfully created!')
             return redirect('home')
     else:
@@ -82,10 +81,6 @@ def update_account(request, account_id):
 def delete_account(request, account_id):
     account = get_object_or_404(Account, pk=account_id)
     if request.method == 'POST':
-        transaction_accounts = TransactionAccount.objects.filter(account=account)
-        for transaction_account in transaction_accounts:
-            account_transaction = transaction_account.transaction
-            account_transaction.delete()
         account.delete()
         messages.success(request, f'Account {account.account_number} deleted!')
         return redirect('home')
@@ -103,8 +98,7 @@ def deposit(request, account_id):
             with database.atomic():
                 account.balance += amount
                 account.save()
-                transaction = Transaction.objects.create(user=request.user, amount=amount, timestamp=timestamp, type=DEPOSIT, notes=notes)
-                TransactionAccount.objects.create(account=account, transaction=transaction)
+                Transaction.objects.create(user=request.user, account=account, amount=amount, timestamp=timestamp, type=DEPOSIT, notes=notes)
             messages.success(request, 'Deposit successful!')
             return redirect('home')
     else:
@@ -127,8 +121,7 @@ def withdraw(request, account_id):
             with database.atomic():
                 account.balance -= amount
                 account.save()
-                transaction = Transaction.objects.create(user=request.user, amount=amount, timestamp=timestamp, type=WITHDRAW, notes=notes)
-                TransactionAccount.objects.create(account=account, transaction=transaction)
+                Transaction.objects.create(user=request.user, account=account, amount=amount, timestamp=timestamp, type=WITHDRAW, notes=notes)
             messages.success(request, 'Withdraw successful!')
             return redirect('home')
     else:
@@ -155,10 +148,8 @@ def transfer(request, account_id):
                 withdraw_account.save()
                 deposit_account.balance += amount
                 deposit_account.save()
-                withdraw_transaction = Transaction.objects.create(user=request.user, timestamp=timestamp, amount=amount, type=WITHDRAW, notes=notes)
-                deposit_transaction = Transaction.objects.create(user=request.user, timestamp=timestamp, amount=amount, type=DEPOSIT, notes=notes)
-                TransactionAccount.objects.create(account=withdraw_account, transaction=withdraw_transaction)
-                TransactionAccount.objects.create(account=deposit_account, transaction=deposit_transaction)
+                Transaction.objects.create(user=request.user, account=withdraw_account, timestamp=timestamp, amount=amount, type=WITHDRAW, notes=notes)
+                Transaction.objects.create(user=request.user, account=deposit_account, timestamp=timestamp, amount=amount, type=DEPOSIT, notes=notes)
             messages.success(request, 'Transfer successful!')
             return redirect('home')
     else:
@@ -172,7 +163,7 @@ def transfer(request, account_id):
 # View account transactions view
 def transactions(request, account_id):
     account = get_object_or_404(Account, pk=account_id)
-    transactions = Transaction.objects.filter(user=request.user, accounts=account)
+    transactions = Transaction.objects.filter(user=request.user, account=account)
     context = {
         'account': account,
         'transactions': transactions,
@@ -183,55 +174,46 @@ def transactions(request, account_id):
 def delete_transaction(request, transaction_id):
     transaction = get_object_or_404(Transaction, pk=transaction_id)
     if request.method == 'POST':
-        transaction_accounts = TransactionAccount.objects.filter(transaction=transaction)
         with database.atomic():
-            for transaction_account in transaction_accounts:
-                account = Account.objects.get(pk=transaction_account.account.id)
-                if transaction.type == 'DEPOSIT':
-                    account.balance -= transaction.amount
-                elif transaction.type == 'WITHDRAW':
-                    account.balance += transaction.amount
-                account.save()
-                if TransactionAccount.objects.filter(account=account).count() > 1:
-                    transaction_accounts.delete()
-                    transaction.delete()
-                    messages.success(request, 'Transaction successfully deleted!')
-                    return redirect('home')
-                else:
-                    messages.error(request, 'If you wish to delete this transaction, please close the account!')
-                    return redirect('home')
+            if transaction.type == 'DEPOSIT':
+                transaction.account.balance -= transaction.amount
+            elif transaction.type == 'WITHDRAW':
+                transaction.account.balance += transaction.amount
+            if Transaction.objects.filter(account=transaction.account).count() > 1:
+                transaction.account.save()
+                transaction.delete()
+                messages.success(request, 'Transaction successfully deleted!')
+                return redirect('home')
             else:
-                messages.error(request, 'Cannot delete the last transaction of the account if it would result in a zero balance.')
-            transaction_accounts.delete()
-            transaction.delete()
-        messages.success(request, 'Transaction successfully deleted!')
-        return redirect('home')
+                messages.error(request, 'If you wish to delete this transaction, please close the account!')
+                return redirect('home')
     return render(request, 'banking/delete_transaction.html', {'transaction': transaction})
 
 # Update transaction view
 def update_transaction(request, transaction_id):
     transaction = get_object_or_404(Transaction, pk=transaction_id)
     if request.method == 'POST':
-        form = TransactionForm(request.POST, instance=transaction)
+        form = TransactionForm(request.POST)
         if form.is_valid():
-            updated_transaction = form.save(commit=False)
-            if updated_transaction.amount != transaction.amount or updated_transaction.type != transaction.type:
-                account = transaction.accounts.first()
+            new_info = form.save(commit=False)
+            # //fixme neither is returning old transaction amount but rather both the new amount, thus not triggering branch
+            if new_info.amount != transaction.amount:
                 with database.atomic():
+                    account = Account.objects.get(pk=transaction.account.id)
                     if transaction.type == 'DEPOSIT':
                         account.balance -= transaction.amount
                     elif transaction.type == 'WITHDRAW':
                         account.balance += transaction.amount
-                    if updated_transaction.type == 'DEPOSIT':
-                        account.balance += updated_transaction.amount
-                    elif updated_transaction.type == 'WITHDRAW':
-                        account.balance -= updated_transaction.amount
+                    if type == 'DEPOSIT':
+                        account.balance += new_info.amount
+                    elif type == 'WITHDRAW':
+                        account.balance -= new_info.amount
                     account.save()
-                    updated_transaction.save()
+                    transaction.save()
                     messages.success(request, 'Transaction successfully updated!')
                     return redirect('home')
             else:
-                updated_transaction.save()
+                transaction.save()
                 messages.success(request, 'Transaction successfully updated!')
                 return redirect('home')
     else:
