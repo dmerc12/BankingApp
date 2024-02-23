@@ -23,15 +23,41 @@ class TestBankForms(TestCase):
         self.assertIn('notes', form.fields.keys())
 
         ## Test form validation
-        # Test empty fields
-
-        # Test fields too long
-
         # Test amount negative
+        data = {
+            'account': self.account.id,
+            'current_balance': self.account.balance,
+            'timestamp': datetime.now().date(),
+            'amount': -52.45,
+            'notes': 'test'
+        }
+        form = DepositForm(data=data)
+        self.assertFalse(form.is_valid())
+        self.assertIn('amount', form.errors)
 
         # Test amount 0
+        data = {
+            'account': self.account.id,
+            'current_balance': self.account.balance,
+            'timestamp': datetime.now().date(),
+            'amount': 0,
+            'notes': 'test'
+        }
+        form = DepositForm(data=data)
+        self.assertFalse(form.is_valid())
+        self.assertIn('amount', form.errors)
 
         # Test timestamp not date
+        data = {
+            'account': self.account.id,
+            'current_balance': self.account.balance,
+            'timestamp': '1245392034',
+            'amount': 0,
+            'notes': 'test'
+        }
+        form = DepositForm(data=data)
+        self.assertFalse(form.is_valid())
+        self.assertIn('timestamp', form.errors)
 
         # Test success
         data = {
@@ -55,15 +81,41 @@ class TestBankForms(TestCase):
         self.assertIn('notes', form.fields.keys())
 
         ## Test form validation
-        # Test empty fields
-
-        # Test fields too long
-
         # Test amount negative
+        data = {
+            'account': self.account.id,
+            'current_balance': self.account.balance,
+            'timestamp': datetime.now().date(),
+            'amount': -52.45,
+            'notes': 'test'
+        }
+        form = WithdrawForm(data=data)
+        self.assertFalse(form.is_valid())
+        self.assertIn('amount', form.errors)
 
         # Test amount 0
+        data = {
+            'account': self.account.id,
+            'current_balance': self.account.balance,
+            'timestamp': datetime.now().date(),
+            'amount': 0,
+            'notes': 'test'
+        }
+        form = WithdrawForm(data=data)
+        self.assertFalse(form.is_valid())
+        self.assertIn('amount', form.errors)
 
         # Test timestamp not date
+        data = {
+            'account': self.account.id,
+            'current_balance': self.account.balance,
+            'timestamp': '1245392034',
+            'amount': 0,
+            'notes': 'test'
+        }
+        form = WithdrawForm(data=data)
+        self.assertFalse(form.is_valid())
+        self.assertIn('timestamp', form.errors)
 
         # Test success
         data = {
