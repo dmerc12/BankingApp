@@ -79,6 +79,12 @@ class TransferForm(forms.Form):
         deposit_choices = [(account.id, f"{account.account_number} - {account.balance}") for account in deposit_accounts]
         self.fields['deposit'] = forms.ChoiceField(choices=deposit_choices, label='Deposit Account', widget=forms.Select(attrs={'class': 'form-control'}))
 
+    def clean_amount(self):
+        amount = self.cleaned_data.get('amount')
+        if amount <= 0:
+            raise forms.ValidationError("Amount must be greater than zero.")
+        return amount
+
 class TransactionForm(forms.ModelForm):
     id = forms.CharField(label='Transaction ID', widget=forms.TextInput(attrs={'class': 'form-control', 'readonly': True}))
     type = forms.CharField(label='Transaction Type', widget=forms.TextInput(attrs={'class': 'form-control', 'readonly': True}))
