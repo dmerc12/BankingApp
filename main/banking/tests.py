@@ -138,67 +138,6 @@ class TestBankForms(TestCase):
         form = WithdrawForm(data=data)
         self.assertTrue(form.is_valid())
 
-    # Tests for transfer form
-    # Test for transfer form initialization
-    def test_transfer_form_initialization(self):
-        form = TransferForm(user=self.user, withdraw_account_id=self.account2.id)
-        self.assertIn('withdraw', form.fields.keys())
-        self.assertIn('deposit', form.fields.keys())
-        self.assertIn('timestamp', form.fields.keys())
-        self.assertIn('amount', form.fields.keys())
-        self.assertIn('notes', form.fields.keys())
-
-    # Test for transfer form validation amount negative
-    def test_transfer_form_validation_amount_negative(self):
-        data = {
-            'withdraw': self.account2.id,
-            'deposit': self.account1.id,
-            'timestamp': datetime.now().date(),
-            'amount': -52.45,
-            'notes': 'test'
-        }
-        form = TransferForm(user=self.user, withdraw_account_id=self.account2.id, data=data)
-        self.assertFalse(form.is_valid())
-        self.assertIn('amount', form.errors)
-
-    # Test for transfer form validation amount 0
-    def test_transfer_form_validation_amount_0(self):
-        data = {
-            'withdraw': self.account1.id,
-            'deposit': self.account2.id,
-            'timestamp': datetime.now().date(),
-            'amount': 0,
-            'notes': 'test'
-        }
-        form = TransferForm(user=self.user, withdraw_account_id=self.account2.id, data=data)
-        self.assertFalse(form.is_valid())
-        self.assertIn('amount', form.errors)
-
-    # Test for transfer form validation timestamp not date
-    def test_transfer_form_validation_timestamp_not_date(self):
-        data = {
-            'withdraw': self.account1.id,
-            'deposit': self.account2.id,
-            'timestamp': '1245392034',
-            'amount': 0,
-            'notes': 'test'
-        }
-        form = TransferForm(user=self.user, withdraw_account_id=self.account2.id, data=data)
-        self.assertFalse(form.is_valid())
-        self.assertIn('timestamp', form.errors)
-
-    # Test for transfer form validation success
-    def test_transfer_form_validation_success(self):
-        data = {
-            'withdraw': self.account2.id,
-            'deposit': self.account1.id,
-            'timestamp': datetime.now().date(),
-            'amount': 2.45,
-            'notes': 'test'
-        }
-        form = TransferForm(user=self.user, withdraw_account_id=self.account2.id, data=data)
-        self.assertTrue(form.is_valid())
-
 # Tests for bank models
 class TestBankModels(TestCase):
 
@@ -231,18 +170,10 @@ class TestBankViews(TestCase):
         self.user = User.objects.create(username='testuser', password='testpassword')
         self.account1 = Account.objects.create(user=self.user, account_number=1234567890, bank_name='test_bank', location='test_location', balance=343484.57, notes='notes')
         self.account2 = Account.objects.create(user=self.user, account_number=1234567890, bank_name='test_bank', location='test_location', balance=332334.57, notes='notes')
-        self.account3 = Account.objects.create(user=self.user, account_number=1234567890, bank_name='test_bank', location='test_location', balance=332524.57, notes='notes')
-        self.account4 = Account.objects.create(user=self.user, account_number=1234567890, bank_name='test_bank', location='test_location', balance=332524.57, notes='notes')
-        self.account5 = Account.objects.create(user=self.user, account_number=1234567890, bank_name='test_bank', location='test_location', balance=332524.57, notes='notes')
-        self.transaction1 = Transaction.objects.create(account=self.account1, user=self.user, amount=59.38, type='DEPOSIT', notes='test notes', timestamp=datetime.now().date())
-        self.transaction2 = Transaction.objects.create(account=self.account1, user=self.user, amount=59.38, type='WITHDRAW', notes='test notes', timestamp=datetime.now().date())
-        self.transaction3 = Transaction.objects.create(account=self.account2, user=self.user, amount=59.38, type='DEPOSIT', notes='test notes', timestamp=datetime.now().date())
-        self.transaction4 = Transaction.objects.create(account=self.account1, user=self.user, amount=59.38, type='WITHDRAW', notes='test notes', timestamp=datetime.now().date(), associated_transaction=self.transaction3)
-        self.transaction3.associated_transaction = self.transaction4
-        self.transaction5 = Transaction.objects.create(account=self.account5, user=self.user, amount=9.38, type='DEPOSIT', notes='test notes', timestamp=datetime.now().date())
-        self.transaction6 = Transaction.objects.create(account=self.account1, user=self.user, amount=9.38, type='WITHDRAW', notes='test notes', timestamp=datetime.now().date(), associated_transaction=self.transaction5)
-        self.transaction5.associated_transaction = self.transaction4
-        self.transaction7 = Transaction.objects.create(account=self.account4, user=self.user, amount=59.38, type='DEPOSIT', notes='test notes', timestamp=datetime.now().date())
+        self.account3 = Account.objects.create(user=self.user, account_number=1234567890, bank_name='test_bank', location='test_location', balance=332334.57, notes='notes')
+        self.transaction1 = Transaction.objects.create(account=self.account1, user=self.user, amount=9.38, type='DEPOSIT', notes='test notes', timestamp=datetime.now().date())
+        self.transaction2 = Transaction.objects.create(account=self.account1, user=self.user, amount=9.38, type='WITHDRAW', notes='test notes', timestamp=datetime.now().date())
+        self.transaction3 = Transaction.objects.create(account=self.account2, user=self.user, amount=9.38, type='DEPOSIT', notes='test notes', timestamp=datetime.now().date())
 
     # Tests for index view
     # Test for index view if not logged in
@@ -261,7 +192,7 @@ class TestBankViews(TestCase):
         self.assertIn('user', response.context)
         self.assertIn('bar_chart', response.context)
         self.assertIn('pie_chart', response.context)
-        self.assertEqual(len(response.context['accounts']), 5)
+        self.assertEqual(len(response.context['accounts']), 3)
         self.assertEqual(response.context['user'], self.user)
 
     # Tests for create account view
@@ -429,39 +360,6 @@ class TestBankViews(TestCase):
         self.assertAlmostEqual(float(Account.objects.get(pk=self.account1.pk).balance), (float(self.account1.balance) - 5.34), places=2)
         self.assertTrue(Transaction.objects.filter(account=self.account1, amount=data['amount'], type='WITHDRAW', timestamp=data['timestamp'], notes=data['notes']).exists())
 
-    # Tests for transfer view
-    # Test for transfer view if not logged in
-    def test_transfer_view_not_logged_in(self):
-        self.client.logout()
-        response = self.client.get(reverse('transfer', args=[self.account1.pk]))
-        self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, reverse('login'))  
-
-    # Test for transfer view rendering success
-    def test_transfer_view_rendering_success(self):
-        self.client.force_login(self.user)
-        response = self.client.get(reverse('transfer', args=[self.account1.pk]))
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'banking/transfer.html')
-
-    # Test for transfer view success
-    def test_transfer_view_success(self):
-        self.client.force_login(self.user)
-        data = {
-            'withdraw': self.account2.account_number,
-            'deposit': self.account1.pk,
-            'timestamp': datetime.now().date(),
-            'amount': 5.34,
-            'notes': 'test notes'
-        }
-        response = self.client.post(reverse('transfer', args=[self.account2.pk]), data=data)
-        self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, reverse('home'))
-        self.assertAlmostEqual(float(Account.objects.get(pk=self.account2.pk).balance), (float(self.account2.balance) - 5.34), places=2)
-        self.assertTrue(Transaction.objects.filter(account=self.account2, amount=data['amount'], type='WITHDRAW', timestamp=data['timestamp'], notes=data['notes']).exists())
-        self.assertAlmostEqual(float(Account.objects.get(pk=self.account1.pk).balance), (float(self.account1.balance) + 5.34), places=2)
-        self.assertTrue(Transaction.objects.filter(account=self.account1, amount=data['amount'], type='DEPOSIT', timestamp=data['timestamp'], notes=data['notes']).exists())
-
     # Tests for view account transactions view
     # Test for view account transactions view if not logged in
     def test_view_account_transactions_view_not_logged_in(self):
@@ -510,32 +408,10 @@ class TestBankViews(TestCase):
         self.assertRedirects(response, reverse('home'))
         self.assertAlmostEqual(float(Account.objects.get(pk=self.account1.pk).balance), initial_balance + self.transaction2.amount, places=2)
 
-    # Test for delete transaction view success for transfer withdraw transaction
-    def test_delete_transaction_view_success_transfer_withdraw(self):
-        self.client.force_login(self.user)
-        initial_withdraw_balance = self.transaction4.account.balance
-        initial_deposit_balance = self.transaction3.account.balance
-        response = self.client.post(reverse('delete-transaction', args=[self.transaction4.pk]))
-        self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, reverse('home'))
-        self.assertAlmostEqual(float(Account.objects.get(pk=self.account1.pk).balance), (float(initial_withdraw_balance + self.transaction4.amount)), places=2)
-        self.assertAlmostEqual(float(Account.objects.get(pk=self.account2.pk).balance), (float(initial_deposit_balance - self.transaction3.amount)), places=2)
-
-    # Test for delete transaction view success for transfer deposit transaction
-    def test_delete_transaction_view_success_transfer_deposit(self):
-        self.client.force_login(self.user)
-        response = self.client.post(reverse('delete-transaction', args=[self.transaction5.pk]))
-        self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, reverse('home'))
-        initial_deposit_balance = self.transaction5.account.balance + self.transaction5.amount
-        initial_withdraw_balance = self.transaction6.account.balance - self.transaction6.amount
-        self.assertAlmostEqual(float(Account.objects.get(pk=self.account5.pk).balance), (float(initial_deposit_balance - self.transaction5.amount)), places=2)
-        self.assertAlmostEqual(float(Account.objects.get(pk=self.account1.pk).balance), (float(initial_withdraw_balance + self.transaction6.amount)), places=2)
-
     # Test for delete transaction view when it's the only transaction associated with the account
     def test_delete_transaction_view_only_transaction(self):
         self.client.force_login(self.user)
-        response = self.client.post(reverse('delete-transaction', args=[self.transaction7.pk]))
+        response = self.client.post(reverse('delete-transaction', args=[self.transaction3.pk]))
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse('home'))
         messages = [m.message for m in get_messages(response.wsgi_request)]

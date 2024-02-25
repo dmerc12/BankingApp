@@ -64,27 +64,6 @@ class WithdrawForm(forms.Form):
             raise forms.ValidationError("Amount must be greater than zero.")
         return amount
 
-# Transfer form
-class TransferForm(forms.Form):
-    withdraw = forms.CharField(label='Withdraw Account', widget=forms.TextInput(attrs={'class': 'form-control', 'readonly': True}))
-    deposit = forms.ChoiceField(label='Deposit Account', choices=[], widget=forms.Select(attrs={'class': 'form-control'}))
-    timestamp = forms.DateTimeField(label='Transfer Date', widget=forms.DateTimeInput(attrs={'class':'form-control', 'type':'date'})) 
-    amount = forms.DecimalField(label='Transfer Amount', widget=forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01', 'placeholder': 'Amount'}))
-    notes = forms.CharField(label='Transfer Notes', max_length=200, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Notes'}), required=False)
-
-    def __init__(self, user, withdraw_account_id, *args, **kwargs):
-        super(TransferForm, self).__init__(*args, **kwargs)
-        self.fields['withdraw'].initial = self.initial.get('withdraw')
-        deposit_accounts = Account.objects.filter(user=user).exclude(id=withdraw_account_id)
-        deposit_choices = [(account.id, f"{account.account_number} - {account.balance}") for account in deposit_accounts]
-        self.fields['deposit'] = forms.ChoiceField(choices=deposit_choices, label='Deposit Account', widget=forms.Select(attrs={'class': 'form-control'}))
-
-    def clean_amount(self):
-        amount = self.cleaned_data.get('amount')
-        if amount <= 0:
-            raise forms.ValidationError("Amount must be greater than zero.")
-        return amount
-
 class TransactionForm(forms.ModelForm):
     id = forms.CharField(label='Transaction ID', widget=forms.TextInput(attrs={'class': 'form-control', 'readonly': True}))
     type = forms.CharField(label='Transaction Type', widget=forms.TextInput(attrs={'class': 'form-control', 'readonly': True}))
