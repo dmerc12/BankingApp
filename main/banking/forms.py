@@ -35,9 +35,15 @@ class DepositForm(forms.Form):
     notes = forms.CharField(label='Deposit Notes', max_length=200, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Notes'}), required=False)
 
     def __init__(self, *args, **kwargs):
-            super().__init__(*args, **kwargs)
-            self.fields['account'].initial = self.initial.get('account_number')
-            self.fields['current_balance'].initial = self.initial.get('current_balance')
+        super().__init__(*args, **kwargs)
+        self.fields['account'].initial = self.initial.get('account_number')
+        self.fields['current_balance'].initial = self.initial.get('current_balance')
+
+    def clean_amount(self):
+        amount = self.cleaned_data.get('amount')
+        if amount <= 0:
+            raise forms.ValidationError("Amount must be greater than zero.")
+        return amount
 
 # Withdrawl form
 class WithdrawForm(forms.Form):
@@ -48,9 +54,15 @@ class WithdrawForm(forms.Form):
     notes = forms.CharField(label='Withdraw Notes', max_length=200, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Notes'}), required=False)
 
     def __init__(self, *args, **kwargs):
-            super().__init__(*args, **kwargs)
-            self.fields['account'].initial = self.initial.get('account_number')
-            self.fields['current_balance'].initial = self.initial.get('current_balance')
+        super().__init__(*args, **kwargs)
+        self.fields['account'].initial = self.initial.get('account_number')
+        self.fields['current_balance'].initial = self.initial.get('current_balance')
+
+    def clean_amount(self):
+        amount = self.cleaned_data.get('amount')
+        if amount <= 0:
+            raise forms.ValidationError("Amount must be greater than zero.")
+        return amount
 
 # Transfer form
 class TransferForm(forms.Form):
@@ -66,6 +78,12 @@ class TransferForm(forms.Form):
         deposit_accounts = Account.objects.filter(user=user).exclude(id=withdraw_account_id)
         deposit_choices = [(account.id, f"{account.account_number} - {account.balance}") for account in deposit_accounts]
         self.fields['deposit'] = forms.ChoiceField(choices=deposit_choices, label='Deposit Account', widget=forms.Select(attrs={'class': 'form-control'}))
+
+    def clean_amount(self):
+        amount = self.cleaned_data.get('amount')
+        if amount <= 0:
+            raise forms.ValidationError("Amount must be greater than zero.")
+        return amount
 
 class TransactionForm(forms.ModelForm):
     id = forms.CharField(label='Transaction ID', widget=forms.TextInput(attrs={'class': 'form-control', 'readonly': True}))
