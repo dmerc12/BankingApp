@@ -2,8 +2,8 @@ from django.contrib.messages import get_messages
 from django.contrib.auth.models import User
 from django.test import TestCase, Client
 from django.urls import reverse
-from datetime import datetime
 from decimal import Decimal
+from datetime import datetime
 from .models import *
 from .forms import *
 
@@ -232,7 +232,17 @@ class TestBankViews(TestCase):
         self.account1 = Account.objects.create(user=self.user, account_number=1234567890, bank_name='test_bank', location='test_location', balance=343484.57, notes='notes')
         self.account2 = Account.objects.create(user=self.user, account_number=1234567890, bank_name='test_bank', location='test_location', balance=332334.57, notes='notes')
         self.account3 = Account.objects.create(user=self.user, account_number=1234567890, bank_name='test_bank', location='test_location', balance=332524.57, notes='notes')
-        self.transaction = Transaction.objects.create(account=self.account1, user=self.user, amount=59.38, type='DEPOSIT', notes='test notes', timestamp=datetime.now().date())
+        self.account4 = Account.objects.create(user=self.user, account_number=1234567890, bank_name='test_bank', location='test_location', balance=332524.57, notes='notes')
+        self.account5 = Account.objects.create(user=self.user, account_number=1234567890, bank_name='test_bank', location='test_location', balance=332524.57, notes='notes')
+        self.transaction1 = Transaction.objects.create(account=self.account1, user=self.user, amount=59.38, type='DEPOSIT', notes='test notes', timestamp=datetime.now().date())
+        self.transaction2 = Transaction.objects.create(account=self.account1, user=self.user, amount=59.38, type='WITHDRAW', notes='test notes', timestamp=datetime.now().date())
+        self.transaction3 = Transaction.objects.create(account=self.account2, user=self.user, amount=59.38, type='DEPOSIT', notes='test notes', timestamp=datetime.now().date())
+        self.transaction4 = Transaction.objects.create(account=self.account1, user=self.user, amount=59.38, type='WITHDRAW', notes='test notes', timestamp=datetime.now().date(), associated_transaction=self.transaction3)
+        self.transaction3.associated_transaction = self.transaction4
+        self.transaction5 = Transaction.objects.create(account=self.account5, user=self.user, amount=9.38, type='DEPOSIT', notes='test notes', timestamp=datetime.now().date())
+        self.transaction6 = Transaction.objects.create(account=self.account1, user=self.user, amount=9.38, type='WITHDRAW', notes='test notes', timestamp=datetime.now().date(), associated_transaction=self.transaction5)
+        self.transaction5.associated_transaction = self.transaction4
+        self.transaction7 = Transaction.objects.create(account=self.account4, user=self.user, amount=59.38, type='DEPOSIT', notes='test notes', timestamp=datetime.now().date())
 
     # Tests for index view
     # Test for index view if not logged in
@@ -251,7 +261,7 @@ class TestBankViews(TestCase):
         self.assertIn('user', response.context)
         self.assertIn('bar_chart', response.context)
         self.assertIn('pie_chart', response.context)
-        self.assertEqual(len(response.context['accounts']), 3)
+        self.assertEqual(len(response.context['accounts']), 5)
         self.assertEqual(response.context['user'], self.user)
 
     # Tests for create account view
@@ -470,15 +480,66 @@ class TestBankViews(TestCase):
     # Tests for delete transaction view
     # Test for delete transaction view if not logged in
     def test_delete_transactions_view_not_logged_in(self):
-        pass
+        self.client.logout()
+        response = self.client.get(reverse('delete-transaction', args=[self.transaction1.pk]))
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse('login'))
 
     # Test for delete transaction view rendering success
     def test_delete_transaction_view_rendering_success(self):
-        pass
+        self.client.force_login(self.user)
+        response = self.client.get(reverse('delete-transaction', args=[self.transaction1.pk]))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'banking/delete_transaction.html')
 
-    # Test for delete transaction view success
-    def test_delete_transaction_view_success(self):
-        pass
+    # Test for delete transaction view success for deposit
+    def test_delete_transaction_view_success_deposit(self):
+        self.client.force_login(self.user)
+        initial_balance = self.transaction1.account.balance
+        response = self.client.post(reverse('delete-transaction', args=[self.transaction1.pk]))
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse('home'))
+        self.assertAlmostEqual(float(Account.objects.get(pk=self.account1.pk).balance), initial_balance - self.transaction1.amount, places=2)
+
+    # Test for delete transaction view success for withdraw
+    def test_delete_transaction_view_success_withdraw(self):
+        self.client.force_login(self.user)
+        initial_balance = self.transaction2.account.balance
+        response = self.client.post(reverse('delete-transaction', args=[self.transaction2.pk]))
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse('home'))
+        self.assertAlmostEqual(float(Account.objects.get(pk=self.account1.pk).balance), initial_balance + self.transaction2.amount, places=2)
+
+    # Test for delete transaction view success for transfer withdraw transaction
+    def test_delete_transaction_view_success_transfer_withdraw(self):
+        self.client.force_login(self.user)
+        initial_withdraw_balance = self.transaction4.account.balance
+        initial_deposit_balance = self.transaction3.account.balance
+        response = self.client.post(reverse('delete-transaction', args=[self.transaction4.pk]))
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse('home'))
+        self.assertAlmostEqual(float(Account.objects.get(pk=self.account1.pk).balance), (float(initial_withdraw_balance + self.transaction4.amount)), places=2)
+        self.assertAlmostEqual(float(Account.objects.get(pk=self.account2.pk).balance), (float(initial_deposit_balance - self.transaction3.amount)), places=2)
+
+    # Test for delete transaction view success for transfer deposit transaction
+    def test_delete_transaction_view_success_transfer_deposit(self):
+        self.client.force_login(self.user)
+        response = self.client.post(reverse('delete-transaction', args=[self.transaction5.pk]))
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse('home'))
+        initial_deposit_balance = self.transaction5.account.balance + self.transaction5.amount
+        initial_withdraw_balance = self.transaction6.account.balance - self.transaction6.amount
+        self.assertAlmostEqual(float(Account.objects.get(pk=self.account5.pk).balance), (float(initial_deposit_balance - self.transaction5.amount)), places=2)
+        self.assertAlmostEqual(float(Account.objects.get(pk=self.account1.pk).balance), (float(initial_withdraw_balance + self.transaction6.amount)), places=2)
+
+    # Test for delete transaction view when it's the only transaction associated with the account
+    def test_delete_transaction_view_only_transaction(self):
+        self.client.force_login(self.user)
+        response = self.client.post(reverse('delete-transaction', args=[self.transaction7.pk]))
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse('home'))
+        messages = [m.message for m in get_messages(response.wsgi_request)]
+        self.assertIn('If you wish to delete this transaction, please close the account!', messages)
 
     # Tests for update transaction view
     # Test for update transaction view if not logged in

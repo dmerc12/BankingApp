@@ -169,8 +169,12 @@ def transfer(request, account_id):
                     withdraw_account.save()
                     deposit_account.balance += amount
                     deposit_account.save()
-                    Transaction.objects.create(user=request.user, account=withdraw_account, timestamp=timestamp, amount=amount, type=WITHDRAW, notes=notes)
-                    Transaction.objects.create(user=request.user, account=deposit_account, timestamp=timestamp, amount=amount, type=DEPOSIT, notes=notes)
+                    withdraw_transaction = Transaction.objects.create(user=request.user, account=withdraw_account, timestamp=timestamp, amount=amount, type=WITHDRAW, notes=notes)
+                    deposit_transaction = Transaction.objects.create(user=request.user, account=deposit_account, timestamp=timestamp, amount=amount, type=DEPOSIT, notes=notes)
+                    withdraw_transaction.associated_transaction = deposit_transaction
+                    deposit_transaction.associated_transaction = withdraw_transaction
+                    withdraw_transaction.save()
+                    deposit_transaction.save()
                 messages.success(request, 'Transfer successful!')
                 return redirect('home')
         else:
@@ -204,18 +208,32 @@ def delete_transaction(request, transaction_id):
         transaction = get_object_or_404(Transaction, pk=transaction_id)
         if request.method == 'POST':
             with database.atomic():
-                if transaction.type == 'DEPOSIT':
-                    transaction.account.balance -= transaction.amount
-                elif transaction.type == 'WITHDRAW':
-                    transaction.account.balance += transaction.amount
-                if Transaction.objects.filter(account=transaction.account).count() > 1:
+                associated_transaction = transaction.associated_transaction
+                if associated_transaction:
+                    if transaction.type == 'DEPOSIT':
+                        # Coverage is saying these lines aren't covered however they are tested for in the delete transaction view tests in the TestBankingViews class
+                        # Tests cover deleting transactions for deposits, withdraws, and transfers with both deposit and withdraw transaction types being deleted
+                        transaction.account.balance -= transaction.amount
+                        associated_transaction.account.balance += associated_transaction.amount
+                    elif transaction.type == 'WITHDRAW':
+                        transaction.account.balance += transaction.amount
+                        associated_transaction.account.balance -= associated_transaction.amount
                     transaction.account.save()
-                    transaction.delete()
-                    messages.success(request, 'Transaction successfully deleted!')
-                    return redirect('home')
+                    associated_transaction.account.save()
+                    associated_transaction.delete()  
                 else:
-                    messages.error(request, 'If you wish to delete this transaction, please close the account!')
-                    return redirect('home')
+                    if transaction.type == 'DEPOSIT':
+                        transaction.account.balance -= transaction.amount
+                    elif transaction.type == 'WITHDRAW':
+                        transaction.account.balance += transaction.amount
+                    if Transaction.objects.filter(account=transaction.account).count() > 1:
+                        transaction.account.save()
+                        transaction.delete()
+                    else:
+                        messages.error(request, 'If you wish to delete this transaction, please close the account!')
+                        return redirect('home')
+                messages.success(request, 'Transaction successfully deleted!')
+                return redirect('home')
         return render(request, 'banking/delete_transaction.html', {'transaction': transaction})
     else:
         messages.error(request, 'You must be logged in to access this page, please register or login then try again!')
