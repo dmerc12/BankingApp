@@ -34,27 +34,31 @@ def index(request):
 
 # Create account view
 def create_account(request):
-    if request.method == 'POST':
-        form = CreateAccountForm(request.POST)
-        if form.is_valid():
-            opening_balance = form.cleaned_data['opening_balance']
-            timestamp = form.cleaned_data['timestamp']
-            notes = form.cleaned_data['opening_notes']
-            account_number = form.cleaned_data['account_number']
-            bank_name = form.cleaned_data['bank_name']
-            location = form.cleaned_data['location']
-            notes = form.cleaned_data['opening_notes']
-            if opening_balance <= 0:
-                messages.error(request, 'Opening balance must be positive and non-zero, please try again!')
-                return redirect('create-account')
-            with database.atomic():
-                account = Account.objects.create(user=request.user, account_number=account_number, bank_name=bank_name, location=location, balance=opening_balance, notes=notes)
-                Transaction.objects.create(user=request.user, account=account, amount=opening_balance, notes=notes, timestamp=timestamp, type=DEPOSIT)
-            messages.success(request, 'Account successfully created!')
-            return redirect('home')
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            form = CreateAccountForm(request.POST)
+            if form.is_valid():
+                opening_balance = form.cleaned_data['opening_balance']
+                timestamp = form.cleaned_data['timestamp']
+                notes = form.cleaned_data['opening_notes']
+                account_number = form.cleaned_data['account_number']
+                bank_name = form.cleaned_data['bank_name']
+                location = form.cleaned_data['location']
+                notes = form.cleaned_data['opening_notes']
+                if opening_balance <= 0:
+                    messages.error(request, 'Opening balance must be positive and non-zero, please try again!')
+                    return redirect('create-account')
+                with database.atomic():
+                    account = Account.objects.create(user=request.user, account_number=account_number, bank_name=bank_name, location=location, balance=opening_balance, notes=notes)
+                    Transaction.objects.create(user=request.user, account=account, amount=opening_balance, notes=notes, timestamp=timestamp, type=DEPOSIT)
+                messages.success(request, 'Account successfully created!')
+                return redirect('home')
+        else:
+            form = CreateAccountForm()
+        return render(request, 'banking/create_account.html', {'form': form})
     else:
-        form = CreateAccountForm()
-    return render(request, 'banking/create_account.html', {'form': form})
+        messages.error(request, 'You must be logged in to access this page, please register or login then try again!')
+        return redirect('login')
 
 # Update account view
 def update_account(request, account_id):

@@ -1,3 +1,4 @@
+from django.contrib.messages import get_messages
 from django.contrib.auth.models import User
 from django.test import TestCase, Client
 from django.urls import reverse
@@ -15,8 +16,8 @@ class TestBankForms(TestCase):
         self.account2 = Account.objects.create(user=self.user, account_number=1234567890, bank_name='test_bank', location='test_location', balance=34.57, notes='notes')
 
     # Tests for deposit form
-    def test_deposit_form(self):
-        # Test form initialization
+    # Test for deposit form initialization
+    def test_deposit_form_initializatoin(self):
         form = DepositForm()
         self.assertIn('account', form.fields.keys())
         self.assertIn('current_balance', form.fields.keys())
@@ -24,8 +25,8 @@ class TestBankForms(TestCase):
         self.assertIn('amount', form.fields.keys())
         self.assertIn('notes', form.fields.keys())
 
-        ## Test form validation
-        # Test amount negative
+    # Test deposit form validation with negative amount
+    def test_deposit_form_validation_amount_negative(self):
         data = {
             'account': self.account1.id,
             'current_balance': self.account1.balance,
@@ -37,7 +38,8 @@ class TestBankForms(TestCase):
         self.assertFalse(form.is_valid())
         self.assertIn('amount', form.errors)
 
-        # Test amount 0
+    # Test deposit form validation with amount 0
+    def test_deposit_form_validation_amount_0(self):
         data = {
             'account': self.account1.id,
             'current_balance': self.account1.balance,
@@ -49,7 +51,8 @@ class TestBankForms(TestCase):
         self.assertFalse(form.is_valid())
         self.assertIn('amount', form.errors)
 
-        # Test timestamp not date
+    # Test deposit form validation with timestamp not a date
+    def test_deposit_form_validation_timestamp_not_date(self):
         data = {
             'account': self.account1.id,
             'current_balance': self.account1.balance,
@@ -61,7 +64,8 @@ class TestBankForms(TestCase):
         self.assertFalse(form.is_valid())
         self.assertIn('timestamp', form.errors)
 
-        # Test success
+    # Test deposit form validation success
+    def test_deposit_form_validation_success(self):
         data = {
             'account': self.account1.id,
             'current_balance': self.account1.balance,
@@ -73,8 +77,8 @@ class TestBankForms(TestCase):
         self.assertTrue(form.is_valid())
 
     # Tests for withdraw form
-    def test_withdraw_form(self):
-        # Test form initialization
+    # Test for withdraw form initialization
+    def test_withdraw_form_initialization(self):
         form = WithdrawForm()
         self.assertIn('account', form.fields.keys())
         self.assertIn('current_balance', form.fields.keys())
@@ -82,8 +86,8 @@ class TestBankForms(TestCase):
         self.assertIn('amount', form.fields.keys())
         self.assertIn('notes', form.fields.keys())
 
-        ## Test form validation
-        # Test amount negative
+    # Test for withdraw form validation amount negative
+    def test_withdraw_form_validation_amount_negative(self):
         data = {
             'account': self.account1.id,
             'current_balance': self.account1.balance,
@@ -95,7 +99,8 @@ class TestBankForms(TestCase):
         self.assertFalse(form.is_valid())
         self.assertIn('amount', form.errors)
 
-        # Test amount 0
+    # Test for withdraw form validation amount 0
+    def test_withdraw_form_validation_amount_0(self):
         data = {
             'account': self.account1.id,
             'current_balance': self.account1.balance,
@@ -107,7 +112,8 @@ class TestBankForms(TestCase):
         self.assertFalse(form.is_valid())
         self.assertIn('amount', form.errors)
 
-        # Test timestamp not date
+    # Test for withdraw form validation timestamp not date
+    def test_withdraw_form_validation_timestamp_not_date(self):
         data = {
             'account': self.account1.id,
             'current_balance': self.account1.balance,
@@ -119,7 +125,8 @@ class TestBankForms(TestCase):
         self.assertFalse(form.is_valid())
         self.assertIn('timestamp', form.errors)
 
-        # Test success
+    # Test for withdraw form validation success
+    def test_withdraw_form_validation_success(self):
         data = {
             'account': self.account1.id,
             'current_balance': self.account1.balance,
@@ -130,9 +137,9 @@ class TestBankForms(TestCase):
         form = WithdrawForm(data=data)
         self.assertTrue(form.is_valid())
 
-    # Test for transfer form
-    def test_transfer_form(self):
-        # Test form initialization
+    # Tests for transfer form
+    # Test for transfer form initialization
+    def test_transfer_form_initialization(self):
         form = TransferForm(user=self.user, withdraw_account_id=self.account2.id)
         self.assertIn('withdraw', form.fields.keys())
         self.assertIn('deposit', form.fields.keys())
@@ -140,8 +147,8 @@ class TestBankForms(TestCase):
         self.assertIn('amount', form.fields.keys())
         self.assertIn('notes', form.fields.keys())
 
-        ## Test form validation
-        # Test amount negative
+    # Test for transfer form validation amount negative
+    def test_transfer_form_validation_amount_negative(self):
         data = {
             'withdraw': self.account2.id,
             'deposit': self.account1.id,
@@ -153,7 +160,8 @@ class TestBankForms(TestCase):
         self.assertFalse(form.is_valid())
         self.assertIn('amount', form.errors)
 
-        # Test amount 0
+    # Test for transfer form validation amount 0
+    def test_transfer_form_validation_amount_0(self):
         data = {
             'withdraw': self.account1.id,
             'deposit': self.account2.id,
@@ -165,7 +173,8 @@ class TestBankForms(TestCase):
         self.assertFalse(form.is_valid())
         self.assertIn('amount', form.errors)
 
-        # Test timestamp not date
+    # Test for transfer form validation timestamp not date
+    def test_transfer_form_validation_timestamp_not_date(self):
         data = {
             'withdraw': self.account1.id,
             'deposit': self.account2.id,
@@ -177,7 +186,8 @@ class TestBankForms(TestCase):
         self.assertFalse(form.is_valid())
         self.assertIn('timestamp', form.errors)
 
-        # Test success
+    # Test for transfer form validation success
+    def test_transfer_form_validation_success(self):
         data = {
             'withdraw': self.account2.id,
             'deposit': self.account1.id,
@@ -198,15 +208,15 @@ class TestBankModels(TestCase):
         self.transaction = Transaction.objects.create(user=self.user, account=self.account, amount=15.63, type='DEPOSIT', notes='test', timestamp=datetime.now().date())
     
     # Tests for account model
-    def test_account_model(self):
-        # Test account string method
+    # Test for account model string
+    def test_account_model_str(self):
         account_str = str(self.account)
         expected_str = f'{self.account.account_number} - {self.account.balance}'
         self.assertEqual(account_str, expected_str)
 
     # Tests for transaction model
-    def test_transaction_model(self):
-        # Test transaction string method
+    # Test for transaction model string
+    def test_transaction_model_str(self):
         transaction_str = str(self.transaction)
         expected_str = f'{self.transaction.id}'
         self.assertEqual(transaction_str, expected_str)
@@ -222,13 +232,14 @@ class TestBankViews(TestCase):
         self.account2 = Account.objects.create(user=self.user, account_number=1234567890, bank_name='test_bank', location='test_location', balance=34.57, notes='notes')
 
     # Tests for index view
-    def test_index_view(self):
-        # Test redirect if not logged in
+    # Test for index view if not logged in
+    def test_index_view_not_logged_in(self):
         response = self.client.get(reverse('home'))
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse('login'))
 
-        # Test success
+    # Test for index view when logged in
+    def test_index_view_success(self):
         self.client.force_login(self.user)
         response = self.client.get(reverse('home'))
         self.assertEqual(response.status_code, 200)
@@ -241,6 +252,53 @@ class TestBankViews(TestCase):
         self.assertEqual(response.context['user'], self.user)
 
     # Tests for create account view
+    # Test for create account view if not logged in
+    def test_create_account_view_not_logged_in(self):
+        self.client.logout()
+        response = self.client.get(reverse('create-account'))
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse('login'))
+
+    # Test for create account rendering success
+    def test_create_account_view_rendering_success(self):
+        self.client.force_login(self.user)
+        response = self.client.get(reverse('create-account'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'banking/create_account.html')
+        self.assertIsInstance(response.context['form'], CreateAccountForm)
+
+    # Test for create account success
+    def test_create_account_success(self):
+        self.client.force_login(self.user)
+        data = {
+            'account_number': 12472890127,
+            'bank_name': 'test bank',
+            'location': 'test location',
+            'timestamp': datetime.now().date(),
+            'opening_balance': 50.67,
+            'opening_notes': 'test notes'
+        }
+        response = self.client.post(reverse('create-account'), data=data)
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse('home'))
+        self.assertTrue(Account.objects.filter(account_number=data['account_number'], bank_name=data['bank_name'], location=data['location']).exists())
+
+    # Test for create account with invalid opening balance
+    def test_create_account_invalid_balance(self):
+        self.client.force_login(self.user)
+        data = {
+            'account_number': 12472890127,
+            'bank_name': 'test bank',
+            'location': 'test location',
+            'timestamp': datetime.now().date(),
+            'opening_balance': -50.67, 
+            'opening_notes': 'test notes'
+        }
+        response = self.client.post(reverse('create-account'), data=data)
+        self.assertEqual(response.status_code, 302) 
+        self.assertRedirects(response, reverse('create-account'))
+        messages = [m.message for m in get_messages(response.wsgi_request)]
+        self.assertIn('Opening balance must be positive and non-zero, please try again!', messages)
 
     # Tests for update account view
 
