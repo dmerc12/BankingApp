@@ -358,11 +358,17 @@ class TestBankViews(TestCase):
     # Tests for deposit view
     # Test for deposit view if not logged in
     def test_deposit_view_not_logged_in(self):
-        pass
+        self.client.logout()
+        response = self.client.get(reverse('deposit', args=[self.account1.pk]))
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse('login'))
 
     # Test for deposit view rendering success
     def test_deposit_view_rendering_success(self):
-        pass
+        self.client.force_login(self.user)
+        response = self.client.get(reverse('deposit', args=[self.account1.pk]))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'banking/deposit.html')
 
     # Test for deposit view success
     def test_deposit_view_success(self):
@@ -371,11 +377,17 @@ class TestBankViews(TestCase):
     # Tests for withdraw view
     # Test for withdraw view if not logged in
     def test_withdraw_view_not_logged_in(self):
-        pass
+        self.client.logout()
+        response = self.client.get(reverse('withdraw', args=[self.account1.pk]))
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse('login'))
 
     # Test for withdraw view rendering success
     def test_withdraw_view_rendering_success(self):
-        pass
+        self.client.force_login(self.user)
+        response = self.client.get(reverse('withdraw', args=[self.account1.pk]))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'banking/withdraw.html')
 
     # Test for withdraw view success
     def test_withdraw_view_success(self):
@@ -384,11 +396,17 @@ class TestBankViews(TestCase):
     # Tests for transfer view
     # Test for transfer view if not logged in
     def test_transfer_view_not_logged_in(self):
-        pass
+        self.client.logout()
+        response = self.client.get(reverse('transfer', args=[self.account1.pk]))
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse('login'))  
 
     # Test for transfer view rendering success
     def test_transfer_view_rendering_success(self):
-        pass
+        self.client.force_login(self.user)
+        response = self.client.get(reverse('transfer', args=[self.account1.pk]))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'banking/transfer.html')
 
     # Test for transfer view success
     def test_transfer_view_success(self):
@@ -397,11 +415,17 @@ class TestBankViews(TestCase):
     # Tests for view account transactions view
     # Test for view account transactions view if not logged in
     def test_view_account_transactions_view_not_logged_in(self):
-        pass
+        self.client.logout()
+        response = self.client.get(reverse('transactions', args=[self.account1.pk]))
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse('login'))
 
     # Test for view account transactions view rendering success
     def test_view_account_transactions_view_success(self):
-        pass
+        self.client.force_login(self.user)
+        response = self.client.get(reverse('transactions', args=[self.account1.pk]))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'banking/transaction_list.html')
 
     # Tests for delete transaction view
     # Test for delete transaction view if not logged in
