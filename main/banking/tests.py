@@ -384,7 +384,7 @@ class TestBankViews(TestCase):
         response = self.client.post(reverse('deposit', args=[self.account1.pk]), data=data)
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse('home'))
-        self.assertAlmostEqual(Account.objects.get(pk=self.account1.pk).balance, (Decimal(5.34) + Decimal(343484.57)))
+        self.assertAlmostEqual(Account.objects.get(pk=self.account1.pk).balance, (Decimal(5.34) + Decimal(343484.57)), places=2)
         self.assertTrue(Transaction.objects.filter(account=self.account1, amount=data['amount'], type='DEPOSIT', timestamp=data['timestamp'], notes=data['notes']).exists())
 
     # Tests for withdraw view
@@ -404,7 +404,19 @@ class TestBankViews(TestCase):
 
     # Test for withdraw view success
     def test_withdraw_view_success(self):
-        pass
+        self.client.force_login(self.user)
+        data = {
+            'account': self.account1.account_number,
+            'current_balance': self.account1.balance,
+            'timestamp': datetime.now().date(),
+            'amount': 5.34,
+            'notes': 'test notes'
+        }
+        response = self.client.post(reverse('withdraw', args=[self.account1.pk]), data=data)
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse('home'))
+        self.assertAlmostEqual(float(Account.objects.get(pk=self.account1.pk).balance), (float(self.account1.balance) - 5.34), places=2)
+        self.assertTrue(Transaction.objects.filter(account=self.account1, amount=data['amount'], type='WITHDRAW', timestamp=data['timestamp'], notes=data['notes']).exists())
 
     # Tests for transfer view
     # Test for transfer view if not logged in
