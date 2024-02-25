@@ -356,13 +356,75 @@ class TestBankViews(TestCase):
         self.assertFalse(Account.objects.filter(pk=self.account3.pk).exists())
 
     # Tests for deposit view
+    # Test for deposit view if not logged in
+    def test_deposit_view_not_logged_in(self):
+        pass
+
+    # Test for deposit view rendering success
+    def test_deposit_view_rendering_success(self):
+        pass
+
+    # Test for deposit view success
+    def test_deposit_view_success(self):
+        pass
 
     # Tests for withdraw view
+    # Test for withdraw view if not logged in
+    def test_withdraw_view_not_logged_in(self):
+        pass
+
+    # Test for withdraw view rendering success
+    def test_withdraw_view_rendering_success(self):
+        pass
+
+    # Test for withdraw view success
+    def test_withdraw_view_success(self):
+        pass
 
     # Tests for transfer view
+    # Test for transfer view if not logged in
+    def test_transfer_view_not_logged_in(self):
+        pass
+
+    # Test for transfer view rendering success
+    def test_transfer_view_rendering_success(self):
+        pass
+
+    # Test for transfer view success
+    def test_transfer_view_success(self):
+        pass
 
     # Tests for view account transactions view
+    # Test for view account transactions view if not logged in
+    def test_view_account_transactions_view_not_logged_in(self):
+        pass
+
+    # Test for view account transactions view rendering success
+    def test_view_account_transactions_view_success(self):
+        pass
 
     # Tests for delete transaction view
+    # Test for delete transaction view if not logged in
+    def test_delete_transactions_view_not_logged_in(self):
+        pass
+
+    # Test for delete transaction view rendering success
+    def test_delete_transaction_view_rendering_success(self):
+        pass
+
+    # Test for delete transaction view success
+    def test_delete_transaction_view_success(self):
+        pass
 
     # Tests for update transaction view
+    # Test for update transaction view if not logged in
+    def test_update_transactions_view_not_logged_in(self):
+        pass
+
+    # Test for update transaction view rendering success
+    def test_update_transaction_view_rendering_success(self):
+        pass
+
+    # Test for update transaction view success
+    def test_update_transaction_view_success(self):
+        pass
