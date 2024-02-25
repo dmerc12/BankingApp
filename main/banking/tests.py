@@ -301,7 +301,36 @@ class TestBankViews(TestCase):
         self.assertIn('Opening balance must be positive and non-zero, please try again!', messages)
 
     # Tests for update account view
+    # Test for update account view if not logged in
+    def test_update_account_view_not_logged_in(self):
+        self.client.logout()
+        response = self.client.get(reverse('update-account', args=[self.account1.pk]))
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse('login'))
 
+    # Test for update account rendering success
+    def test_update_account_view_rendering_success(self):
+        self.client.force_login(self.user)
+        response = self.client.get(reverse('update-account', args=[self.account1.pk]))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'banking/update_account.html')
+        self.assertIsInstance(response.context['form'], UpdateAccountForm)
+
+    # Test for update account success
+    def test_update_account_view_success(self):
+        self.client.force_login(self.user)
+        data = {
+            'account_number': self.account1.pk,
+            'bank_name': 'updated bank name',
+            'location': 'updated location',
+            'balance': self.account1.balance,
+            'notes': 'updated notes'
+        }
+        response = self.client.post(reverse('update-account', args=[self.account1.pk]), data=data)
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse('home'))
+        self.assertTrue(Account.objects.filter(account_number=data['account_number'], bank_name=data['bank_name'], location=data['location']).exists())
+        
     # Tests for delete account view
 
     # Tests for deposit view
