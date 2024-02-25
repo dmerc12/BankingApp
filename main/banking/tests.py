@@ -228,8 +228,9 @@ class TestBankViews(TestCase):
     def setUp(self):
         self.client = Client()
         self.user = User.objects.create(username='testuser', password='testpassword')
-        self.account1 = Account.objects.create(user=self.user, account_number=1234567890, bank_name='test_bank', location='test_location', balance=34.57, notes='notes')
-        self.account2 = Account.objects.create(user=self.user, account_number=1234567890, bank_name='test_bank', location='test_location', balance=34.57, notes='notes')
+        self.account1 = Account.objects.create(user=self.user, account_number=1234567890, bank_name='test_bank', location='test_location', balance=343484.57, notes='notes')
+        self.account2 = Account.objects.create(user=self.user, account_number=1234567890, bank_name='test_bank', location='test_location', balance=332334.57, notes='notes')
+        self.account3 = Account.objects.create(user=self.user, account_number=1234567890, bank_name='test_bank', location='test_location', balance=332524.57, notes='notes')
 
     # Tests for index view
     # Test for index view if not logged in
@@ -248,7 +249,7 @@ class TestBankViews(TestCase):
         self.assertIn('user', response.context)
         self.assertIn('bar_chart', response.context)
         self.assertIn('pie_chart', response.context)
-        self.assertEqual(len(response.context['accounts']), 2)
+        self.assertEqual(len(response.context['accounts']), 3)
         self.assertEqual(response.context['user'], self.user)
 
     # Tests for create account view
@@ -308,7 +309,7 @@ class TestBankViews(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse('login'))
 
-    # Test for update account rendering success
+    # Test for update account view rendering success
     def test_update_account_view_rendering_success(self):
         self.client.force_login(self.user)
         response = self.client.get(reverse('update-account', args=[self.account1.pk]))
@@ -316,7 +317,7 @@ class TestBankViews(TestCase):
         self.assertTemplateUsed(response, 'banking/update_account.html')
         self.assertIsInstance(response.context['form'], UpdateAccountForm)
 
-    # Test for update account success
+    # Test for update account view success
     def test_update_account_view_success(self):
         self.client.force_login(self.user)
         data = {
@@ -332,6 +333,27 @@ class TestBankViews(TestCase):
         self.assertTrue(Account.objects.filter(account_number=data['account_number'], bank_name=data['bank_name'], location=data['location']).exists())
         
     # Tests for delete account view
+    # Test for delete account view if not logged in
+    def test_delete_account_view_not_logged_in(self):
+        self.client.logout()
+        response = self.client.get(reverse('delete-account', args=[self.account3.pk]))
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse('login'))
+
+    # Test for delete account view rendering success
+    def test_delete_account_view_rendering_success(self):
+        self.client.force_login(self.user)
+        response = self.client.get(reverse('delete-account', args=[self.account3.pk]))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'banking/delete_account.html')
+
+    # Test for delete account view success
+    def test_delete_account_view_success(self):
+        self.client.force_login(self.user)
+        response = self.client.post(reverse('delete-account', args=[self.account3.pk]))
+        messages = [m.message for m in get_messages(response.wsgi_request)]
+        self.assertIn(f'Account {self.account3.account_number} deleted!', messages)
+        self.assertFalse(Account.objects.filter(pk=self.account3.pk).exists())
 
     # Tests for deposit view
 
