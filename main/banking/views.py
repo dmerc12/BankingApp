@@ -151,43 +151,7 @@ def withdraw(request, account_id):
     else:
         messages.error(request, 'You must be logged in to access this page, please register or login then try again!')
         return redirect('login')
-    
-# Transfer view
-def transfer(request, account_id):
-    if request.user.is_authenticated:
-        withdraw_account = get_object_or_404(Account, pk=account_id)
-        if request.method == 'POST':
-            form = TransferForm(request.user, withdraw_account.id, request.POST)
-            if form.is_valid():
-                deposit_account_id = form.cleaned_data['deposit']
-                amount = form.cleaned_data['amount']
-                timestamp = form.cleaned_data['timestamp']
-                notes = form.cleaned_data['notes']
-                deposit_account = Account.objects.get(pk=deposit_account_id)
-                with database.atomic():
-                    withdraw_account.balance -= amount
-                    withdraw_account.save()
-                    deposit_account.balance += amount
-                    deposit_account.save()
-                    withdraw_transaction = Transaction.objects.create(user=request.user, account=withdraw_account, timestamp=timestamp, amount=amount, type=WITHDRAW, notes=notes)
-                    deposit_transaction = Transaction.objects.create(user=request.user, account=deposit_account, timestamp=timestamp, amount=amount, type=DEPOSIT, notes=notes)
-                    withdraw_transaction.associated_transaction = deposit_transaction
-                    deposit_transaction.associated_transaction = withdraw_transaction
-                    withdraw_transaction.save()
-                    deposit_transaction.save()
-                messages.success(request, 'Transfer successful!')
-                return redirect('home')
-        else:
-            form = TransferForm(request.user, withdraw_account.id, initial={'withdraw': f'{withdraw_account.account_number} - {withdraw_account.balance}'})
-        context = {
-            'form': form,
-            'account': withdraw_account
-        }
-        return render(request, 'banking/transfer.html', context)
-    else:
-        messages.error(request, 'You must be logged in to access this page, please register or login then try again!')
-        return redirect('login')
-
+ 
 # View account transactions view
 def transactions(request, account_id):
     if request.user.is_authenticated:
@@ -208,32 +172,18 @@ def delete_transaction(request, transaction_id):
         transaction = get_object_or_404(Transaction, pk=transaction_id)
         if request.method == 'POST':
             with database.atomic():
-                associated_transaction = transaction.associated_transaction
-                if associated_transaction:
-                    if transaction.type == 'DEPOSIT':
-                        # Coverage is saying these lines aren't covered however they are tested for in the delete transaction view tests in the TestBankingViews class
-                        # Tests cover deleting transactions for deposits, withdraws, and transfers with both deposit and withdraw transaction types being deleted
-                        transaction.account.balance -= transaction.amount
-                        associated_transaction.account.balance += associated_transaction.amount
-                    elif transaction.type == 'WITHDRAW':
-                        transaction.account.balance += transaction.amount
-                        associated_transaction.account.balance -= associated_transaction.amount
+                if transaction.type == 'DEPOSIT':
+                    transaction.account.balance -= transaction.amount
+                elif transaction.type == 'WITHDRAW':
+                    transaction.account.balance += transaction.amount
+                if Transaction.objects.filter(account=transaction.account).count() > 1:
                     transaction.account.save()
-                    associated_transaction.account.save()
-                    associated_transaction.delete()  
+                    transaction.delete()
                 else:
-                    if transaction.type == 'DEPOSIT':
-                        transaction.account.balance -= transaction.amount
-                    elif transaction.type == 'WITHDRAW':
-                        transaction.account.balance += transaction.amount
-                    if Transaction.objects.filter(account=transaction.account).count() > 1:
-                        transaction.account.save()
-                        transaction.delete()
-                    else:
-                        messages.error(request, 'If you wish to delete this transaction, please close the account!')
-                        return redirect('home')
-                messages.success(request, 'Transaction successfully deleted!')
-                return redirect('home')
+                    messages.error(request, 'If you wish to delete this transaction, please close the account!')
+                    return redirect('home')
+            messages.success(request, 'Transaction successfully deleted!')
+            return redirect('home')
         return render(request, 'banking/delete_transaction.html', {'transaction': transaction})
     else:
         messages.error(request, 'You must be logged in to access this page, please register or login then try again!')
@@ -246,24 +196,29 @@ def update_transaction(request, transaction_id):
         if request.method == 'POST':
             form = TransactionForm(request.POST)
             if form.is_valid():
-                new_info = form.save(commit=False)
+                updated_amount = form.cleaned_data['amount']
+                updated_notes = form.cleaned_data['notes']
+                updated_timestamp = form.cleaned_data['timestamp']
                 # //fixme neither is returning old transaction amount but rather both the new amount, thus not triggering branch
-                if new_info.amount != transaction.amount:
+                if updated_amount != transaction.amount:
                     with database.atomic():
                         account = Account.objects.get(pk=transaction.account.id)
                         if transaction.type == 'DEPOSIT':
                             account.balance -= transaction.amount
+                            account.balance += updated_amount
                         elif transaction.type == 'WITHDRAW':
                             account.balance += transaction.amount
-                        if type == 'DEPOSIT':
-                            account.balance += new_info.amount
-                        elif type == 'WITHDRAW':
-                            account.balance -= new_info.amount
+                            account.balance -= updated_amount
                         account.save()
+                        transaction.amount = updated_amount
+                        transaction.notes = updated_notes
+                        transaction.timestamp = updated_timestamp
                         transaction.save()
                         messages.success(request, 'Transaction successfully updated!')
                         return redirect('home')
                 else:
+                    transaction.notes = updated_notes
+                    transaction.timestamp = updated_timestamp
                     transaction.save()
                     messages.success(request, 'Transaction successfully updated!')
                     return redirect('home')
