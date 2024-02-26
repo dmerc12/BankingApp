@@ -196,24 +196,29 @@ def update_transaction(request, transaction_id):
         if request.method == 'POST':
             form = TransactionForm(request.POST)
             if form.is_valid():
-                new_info = form.save(commit=False)
+                updated_amount = form.cleaned_data['amount']
+                updated_notes = form.cleaned_data['notes']
+                updated_timestamp = form.cleaned_data['timestamp']
                 # //fixme neither is returning old transaction amount but rather both the new amount, thus not triggering branch
-                if new_info.amount != transaction.amount:
+                if updated_amount != transaction.amount:
                     with database.atomic():
                         account = Account.objects.get(pk=transaction.account.id)
                         if transaction.type == 'DEPOSIT':
                             account.balance -= transaction.amount
+                            account.balance += updated_amount
                         elif transaction.type == 'WITHDRAW':
                             account.balance += transaction.amount
-                        if type == 'DEPOSIT':
-                            account.balance += new_info.amount
-                        elif type == 'WITHDRAW':
-                            account.balance -= new_info.amount
+                            account.balance -= updated_amount
                         account.save()
+                        transaction.amount = updated_amount
+                        transaction.notes = updated_notes
+                        transaction.timestamp = updated_timestamp
                         transaction.save()
                         messages.success(request, 'Transaction successfully updated!')
                         return redirect('home')
                 else:
+                    transaction.notes = updated_notes
+                    transaction.timestamp = updated_timestamp
                     transaction.save()
                     messages.success(request, 'Transaction successfully updated!')
                     return redirect('home')

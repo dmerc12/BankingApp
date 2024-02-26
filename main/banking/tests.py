@@ -1,9 +1,8 @@
 from django.contrib.messages import get_messages
 from django.contrib.auth.models import User
 from django.test import TestCase, Client
+from datetime import datetime, timedelta
 from django.urls import reverse
-from decimal import Decimal
-from datetime import datetime
 from .models import *
 from .forms import *
 
@@ -375,6 +374,68 @@ class TestBankViews(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'banking/transaction_list.html')
 
+    # Tests for update transaction view
+    # Test for update transaction view if not logged in
+    def test_update_transactions_view_not_logged_in(self):
+        self.client.logout()
+        response = self.client.get(reverse('update-transaction', args=[self.transaction2.pk]))
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse('login'))
+
+    # Test for update transaction view rendering success
+    def test_update_transaction_view_rendering_success(self):
+        self.client.force_login(self.user)
+        response = self.client.get(reverse('update-transaction', args=[self.transaction1.pk]))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'banking/update_transaction.html')
+
+    # Test for update transaction view success for deposit
+    def test_update_transaction_view_success_deposit(self):
+        self.client.force_login(self.user)
+        data = {
+            'id': self.transaction1.pk,
+            'type': self.transaction1.type,
+            'timestamp': (datetime.now().date() + timedelta(days=3)),
+            'amount': 29.38,
+            'notes': 'updated'
+        }
+        response = self.client.post(reverse('update-transaction', args=[self.transaction1.pk]), data=data)
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse('home'))
+        self.assertAlmostEqual(float(Account.objects.get(pk=self.transaction1.account.pk).balance), (self.transaction1.account.balance - self.transaction1.amount + data['amount']), places=2)
+
+    # Test for update transaction view success for withdraw
+    def test_update_transaction_view_success_withdraw(self):
+        self.client.force_login(self.user)
+        data = {
+            'id': self.transaction2.pk,
+            'type': self.transaction2.type,
+            'timestamp': (datetime.now().date() + timedelta(days=3)),
+            'amount': 28.32,
+            'notes': 'updated'
+        }
+        response = self.client.post(reverse('update-transaction', args=[self.transaction2.pk]), data=data)
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse('home'))
+        self.assertAlmostEqual(float(Account.objects.get(pk=self.transaction2.account.pk).balance), (self.transaction2.account.balance + self.transaction1.amount - data['amount']), places=2)
+
+    # Test for update transaction view success with amount unchanged
+    def test_update_transaction_view_success_amount_unchanged(self):
+        self.client.force_login(self.user)
+        data = {
+            'id': self.transaction2.pk,
+            'type': self.transaction2.type,
+            'timestamp': (datetime.now().date() + timedelta(days=3)),
+            'amount': self.transaction2.amount,
+            'notes': 'updated'
+        }
+        response = self.client.post(reverse('update-transaction', args=[self.transaction2.pk]), data=data)
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse('home'))
+        updated_transaction = Transaction.objects.get(pk=self.transaction2.pk)
+        self.assertEqual(updated_transaction.timestamp, data['timestamp'])
+        self.assertEqual(updated_transaction.notes, data['notes'])
+
     # Tests for delete transaction view
     # Test for delete transaction view if not logged in
     def test_delete_transactions_view_not_logged_in(self):
@@ -416,16 +477,3 @@ class TestBankViews(TestCase):
         self.assertRedirects(response, reverse('home'))
         messages = [m.message for m in get_messages(response.wsgi_request)]
         self.assertIn('If you wish to delete this transaction, please close the account!', messages)
-
-    # Tests for update transaction view
-    # Test for update transaction view if not logged in
-    def test_update_transactions_view_not_logged_in(self):
-        pass
-
-    # Test for update transaction view rendering success
-    def test_update_transaction_view_rendering_success(self):
-        pass
-
-    # Test for update transaction view success
-    def test_update_transaction_view_success(self):
-        pass
