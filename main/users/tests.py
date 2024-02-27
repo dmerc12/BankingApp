@@ -358,11 +358,63 @@ class TestUserViews(TestCase):
         response = self.client.post(reverse('register'), data=data)
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse('home'))
-        self.assertTrue(CustomUser.objects.filter(user__username=data['username'], user__first_name=data['first_name'], user__last_name=data['last_name'], user__email=data['email'], phone_number=data['phone_number']))
+        self.assertTrue(CustomUser.objects.filter(user__username=data['username'], user__first_name=data['first_name'], user__last_name=data['last_name'], user__email=data['email'], phone_number=data['phone_number']).exists())
         
     ## Tests for update user view
+    # Test for update user view when not logged in
+    def test_update_user_view_not_logged_in(self):
+        response = self.client.get(reverse('update-user'))
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse('login'))
+        
+    # Test for update user view rendering success
+    def test_update_user_view_rendering_success(self):
+        self.client.force_login(self.user.user)
+        response = self.client.get(reverse('update-user'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'users/update.html')
+        self.assertIsInstance(response.context['form'], UpdateUserForm)
+        
+    # Test for update user view success
+    def test_update_user_view_success(self):
+        data = {
+            'username': 'updateduser',
+            'email': 'updateduser@example.com',
+            'phone_number': '99-154-879-6749',
+            'first_name': 'updated',
+            'last_name': 'user'
+        }
+        self.client.force_login(self.user.user)
+        response = self.client.post(reverse('update-user'), data=data)
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse('home'))
+        self.assertTrue(CustomUser.objects.filter(user__username=data['username'], user__first_name=data['first_name'], user__last_name=data['last_name'], user__email=data['email'], phone_number=data['phone_number']).exists())
         
     ## Tests for change password view
+    # Test for change password view when not logged in
+    def test_change_password_view_not_logged_in(self):
+        response = self.client.get(reverse('change-password'))
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse('login'))
+
+    # Test for change password view rendering success
+    def test_change_password_view_rendering_success(self):
+        self.client.force_login(self.user.user)
+        response = self.client.get(reverse('change-password'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'users/change_password.html')
+        self.assertIsInstance(response.context['form'], ChangePasswordForm)
+
+    # Test for change password view success
+    def test_change_password_success(self):
+        data = {
+            'new_password1': 'updatedpassword123',
+            'new_password2': 'updatedpassword123'
+        }
+        self.client.force_login(self.user.user)
+        response = self.client.post(reverse('change-password'), data=data)
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse('home'))
         
     ## Tests for delete user view
         
