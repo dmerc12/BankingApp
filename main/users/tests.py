@@ -337,6 +337,28 @@ class TestUserViews(TestCase):
         self.assertIn('Goodbye!', messages)
         
     ## Tests for register view
+    # Test for register view rendering success
+    def test_register_view_rendering_success(self):
+        response = self.client.get(reverse('register'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'users/register.html')
+        self.assertIsInstance(response.context['form'], RegisterForm)
+        
+    # Test for register view success
+    def test_register_view_success(self):
+        data = {
+            'username': 'username',
+            'first_name': 'user',
+            'last_name': 'name',
+            'email': 'test@example.com',
+            'phone_number': '1-234-232-3495',
+            'password1': 'newpassword123',
+            'password2': 'newpassword123'
+        }
+        response = self.client.post(reverse('register'), data=data)
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse('home'))
+        self.assertTrue(CustomUser.objects.filter(user__username=data['username'], user__first_name=data['first_name'], user__last_name=data['last_name'], user__email=data['email'], phone_number=data['phone_number']))
         
     ## Tests for update user view
         
