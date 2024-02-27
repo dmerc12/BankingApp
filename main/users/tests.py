@@ -327,6 +327,14 @@ class TestUserViews(TestCase):
         self.assertTrue(user.is_authenticated)
 
     ## Tests for logout view
+    # Test for logout view success
+    def test_logout_view_success(self):
+        self.client.force_login(self.user)
+        response = self.client.post(reverse('logout'))
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse('login'))
+        messages = [m.message for m in get_messages(response.wsgi_request)]
+        self.assertIn('Goodbye!', messages)
         
     ## Tests for register view
         
