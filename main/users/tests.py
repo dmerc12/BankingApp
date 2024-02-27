@@ -1,4 +1,8 @@
-from django.test import TestCase
+from django.contrib.messages import get_messages
+from django.contrib.auth.models import User
+from django.test import TestCase, Client
+from django.contrib.auth import get_user
+from django.urls import reverse
 from .models import *
 from .forms import *
 
@@ -273,4 +277,62 @@ class TestUserForms(TestCase):
 
 # Tests for user views
 class TestUserViews(TestCase):
-    pass
+    
+    # Setup before tests
+    def setUp(self):
+        self.base_user = User.objects.create_user(first_name='first', last_name='last', username='firstlast', password='testuser', email='testuser@example.com')
+        self.user = CustomUser.objects.create(phone_number='1-234-567-8901', user=self.base_user)
+
+    ## Tests for login view
+    # Test for login view rendering success
+    def test_login_view_rendering_success(self):
+        response = self.client.get(reverse('login'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'users/login.html')
+
+    # Test for login view with empty fields
+    def test_login_view_empty_fields(self):
+        data = {
+            'username': '',
+            'password': ''
+        }
+        response = self.client.post(reverse('login'), data=data)
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse('login'))
+        messages = [m.message for m in get_messages(response.wsgi_request)]
+        self.assertIn('Incorrect username or password, please try again!', messages)
+
+    # Test for login view with incorrect credentials
+    def test_login_view_incorrect_credentials(self):
+        data = {
+            'username': 'firstlast',
+            'password': 'incorrect'
+        }
+        response = self.client.post(reverse('login'), data=data)
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse('login'))
+        messages = [m.message for m in get_messages(response.wsgi_request)]
+        self.assertIn('Incorrect username or password, please try again!', messages)
+
+    # Test for login view success
+    def test_login_view_success(self):
+        data = {
+            'username': 'firstlast',
+            'password': 'testuser'
+        }
+        response = self.client.post(reverse('login'), data=data)
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse('home'))
+        user = get_user(response.wsgi_request)
+        self.assertTrue(user.is_authenticated)
+
+    ## Tests for logout view
+        
+    ## Tests for register view
+        
+    ## Tests for update user view
+        
+    ## Tests for change password view
+        
+    ## Tests for delete user view
+        

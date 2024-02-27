@@ -7,6 +7,7 @@ class CustomUser(models.Model):
     user = models.OneToOneField(User, null=True, blank=True, on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
     last_modified = models.DateTimeField(auto_now=True)
+    last_login = models.DateTimeField(blank=True, null=True)
     
     def __str__(self):
         return f'{self.user.first_name} {self.user.last_name}'
