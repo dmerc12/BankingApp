@@ -38,7 +38,7 @@ echo "Database configuration updated."
 
 # Check database connection
 echo "Checking database connection..."
-if ! python3 manage.py check; then
+if ! python manage.py check; then
     echo "Failed to connect to the database. Aborting."
     exit 1
 fi
@@ -46,7 +46,7 @@ echo "Database connection successful."
 
 # Run unit tests
 echo "Running unit tests..."
-if ! python3 manage.py test; then
+if ! python manage.py test; then
     echo "Unit tests failed. Aborting."
     exit 1
 fi
@@ -63,7 +63,7 @@ echo "Selenium tests passed."
 
 # Create initial admin
 echo "Creating initial admin..."
-if ! python3 manage.py createsuperuser --noinput --username "$admin_username" --email "$admin_email"; then
+if ! python manage.py createsuperuser --noinput --username "$admin_username" --email "$admin_email"; then
     echo "Failed to create initial admin. Aborting."
     exit 1
 fi
