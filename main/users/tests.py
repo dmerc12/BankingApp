@@ -46,7 +46,7 @@ class TestUserForms(TestCase):
     
     ## Tests for register form
     # Test for form initializaion
-    def test_form_initializaton(self):
+    def test_register_form_initializaton(self):
         form = RegisterForm()
         self.assertIn('username', form.fields.keys())
         self.assertIn('first_name', form.fields.keys())
@@ -57,7 +57,7 @@ class TestUserForms(TestCase):
         self.assertIn('password2', form.fields.keys())
 
     # Test for form validation with empty fields
-    def test_form_validation_empty_fields(self):
+    def test_register_form_validation_empty_fields(self):
         data = {
             'username': '',
             'first_name': '',
@@ -78,7 +78,7 @@ class TestUserForms(TestCase):
         self.assertIn('password2', form.errors)
 
     # Test for form validation with fields too long
-    def test_form_validation_fields_too_long(self):
+    def test_register_form_validation_fields_too_long(self):
         data = {
             'username': 'this is too long and so the validation will fail and then the test will pass and be successful so for once I\'m hoping that the test fails so it checks my validation logic correctly',
             'first_name': 'this is too long and so the validation will fail and then the test will pass and be successful so for once I\'m hoping that the test fails so it checks my validation logic correctly',
@@ -97,7 +97,7 @@ class TestUserForms(TestCase):
         self.assertIn('phone_number', form.errors)
 
     # Test for form validation with invalid email
-    def test_form_validation_invalid_email(self):
+    def test_register_form_validation_invalid_email(self):
         data = {
             'username': 'username',
             'first_name': 'test',
@@ -112,7 +112,7 @@ class TestUserForms(TestCase):
         self.assertIn('email', form.errors)
 
     # Test for form validation with mismatching passwords
-    def test_form_validation_mismatching_passwords(self):
+    def test_register_form_validation_mismatching_passwords(self):
         data = {
             'username': 'username',
             'first_name': 'test',
@@ -127,7 +127,7 @@ class TestUserForms(TestCase):
         self.assertIn('password2', form.errors)
 
     # Test for form validation with invalid password
-    def test_form_validation_invalid_password(self):
+    def test_register_form_validation_invalid_password(self):
         data = {
             'username': 'username',
             'first_name': 'test',
@@ -142,7 +142,7 @@ class TestUserForms(TestCase):
         self.assertIn('password2', form.errors)
 
     # Test for form validation success
-    def test_form_validation_success(self):
+    def test_register_form_validation_success(self):
         data = {
             'username': 'username',
             'first_name': 'test',
@@ -157,7 +157,7 @@ class TestUserForms(TestCase):
 
     ## Tests for update user form
     # Test for form initializaion
-    def test_form_initializaton(self):
+    def test_update_user_form_initializaton(self):
         form = UpdateUserForm()
         self.assertIn('username', form.fields.keys())
         self.assertIn('first_name', form.fields.keys())
@@ -166,7 +166,7 @@ class TestUserForms(TestCase):
         self.assertIn('phone_number', form.fields.keys())
 
     # Test for form validation with empty fields
-    def test_form_validation_empty_fields(self):
+    def test_update_user_form_validation_empty_fields(self):
         data = {
             'username': '',
             'first_name': '',
@@ -183,7 +183,7 @@ class TestUserForms(TestCase):
         self.assertIn('phone_number', form.errors)
 
     # Test for form validation with fields too long
-    def test_form_validation_fields_too_long(self):
+    def test_update_user_form_validation_fields_too_long(self):
         data = {
             'username': 'this is too long and so the validation will fail and then the test will pass and be successful so for once I\'m hoping that the test fails so it checks my validation logic correctly',
             'first_name': 'this is too long and so the validation will fail and then the test will pass and be successful so for once I\'m hoping that the test fails so it checks my validation logic correctly',
@@ -200,7 +200,7 @@ class TestUserForms(TestCase):
         self.assertIn('phone_number', form.errors)
 
     # Test for form validation with invalid email
-    def test_form_validation_invalid_email(self):
+    def test_update_user_form_validation_invalid_email(self):
         data = {
             'username': 'username',
             'first_name': 'test',
@@ -213,7 +213,7 @@ class TestUserForms(TestCase):
         self.assertIn('email', form.errors)
 
     # Test for form validation success
-    def test_form_validation_success(self):
+    def test_update_user_form_validation_success(self):
         data = {
             'username': 'updated',
             'first_name': 'updated',
@@ -225,6 +225,51 @@ class TestUserForms(TestCase):
         self.assertTrue(form.is_valid())
 
     ## Tests for change password form
+    # Test for form initializaion
+    def test_change_password_form_initializaton(self):
+        form = ChangePasswordForm(user=self.user)
+        self.assertIn('new_password1', form.fields.keys())
+        self.assertIn('new_password2', form.fields.keys())
+
+    # Test for form validation with empty fields
+    def test_change_password_form_validation_empty_fields(self):
+        data = {
+            'new_password1': '',
+            'new_password2': ''
+        }
+        form = ChangePasswordForm(user=self.user, data=data)
+        self.assertFalse(form.is_valid())
+        self.assertIn('new_password1', form.errors)
+        self.assertIn('new_password2', form.errors)
+
+    # Test for form validation with mismatching passwords
+    def test_change_password_form_validation_mismatching_passwords(self):
+        data = {
+            'new_password1': 'nope',
+            'new_password2': 'this will not pass'
+        }
+        form = ChangePasswordForm(user=self.user, data=data)
+        self.assertFalse(form.is_valid())
+        self.assertIn('new_password2', form.errors)
+
+    # Test for form validation with invalid password
+    def test_change_password_form_validation_invalid_password(self):
+        data = {
+            'new_password1': 'updated',
+            'new_password2': 'updated'
+        }
+        form = ChangePasswordForm(user=self.user, data=data)
+        self.assertFalse(form.is_valid())
+        self.assertIn('new_password2', form.errors)
+
+    # Test for form validation success
+    def test_change_password_form_validation_success(self):
+        data = {
+            'new_password1': 'new_password',
+            'new_password2': 'new_password'
+        }
+        form = ChangePasswordForm(user=self.user, data=data)
+        self.assertTrue(form.is_valid())
 
 # Tests for user views
 class TestUserViews(TestCase):
