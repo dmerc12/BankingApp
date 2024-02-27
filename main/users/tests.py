@@ -156,6 +156,73 @@ class TestUserForms(TestCase):
         self.assertTrue(form.is_valid())
 
     ## Tests for update user form
+    # Test for form initializaion
+    def test_form_initializaton(self):
+        form = UpdateUserForm()
+        self.assertIn('username', form.fields.keys())
+        self.assertIn('first_name', form.fields.keys())
+        self.assertIn('last_name', form.fields.keys())
+        self.assertIn('email', form.fields.keys())
+        self.assertIn('phone_number', form.fields.keys())
+
+    # Test for form validation with empty fields
+    def test_form_validation_empty_fields(self):
+        data = {
+            'username': '',
+            'first_name': '',
+            'last_name': '',
+            'email': '',
+            'phone_number': '',
+        }
+        form = UpdateUserForm(data=data)
+        self.assertFalse(form.is_valid())
+        self.assertIn('username', form.errors)
+        self.assertIn('first_name', form.errors)
+        self.assertIn('last_name', form.errors)
+        self.assertIn('email', form.errors)
+        self.assertIn('phone_number', form.errors)
+
+    # Test for form validation with fields too long
+    def test_form_validation_fields_too_long(self):
+        data = {
+            'username': 'this is too long and so the validation will fail and then the test will pass and be successful so for once I\'m hoping that the test fails so it checks my validation logic correctly',
+            'first_name': 'this is too long and so the validation will fail and then the test will pass and be successful so for once I\'m hoping that the test fails so it checks my validation logic correctly',
+            'last_name': 'this is too long and so the validation will fail and then the test will pass and be successful so for once I\'m hoping that the test fails so it checks my validation logic correctly',
+            'email': 'thisistoolongandsothevalidationwillfailandthenthetestwillpassandbesuccessfulsoforonceI\'mhopingthatthetestfailssoitchecksmyvalidationlogiccorrectlysopleasefailsothistestwillpassandIwillbesohappy@email.com',
+            'phone_number': 'this is too long and so the validation will fail and then the test will pass and be successful so for once I\'m hoping that the test fails so it checks my validation logic correctly',
+        }
+        form = UpdateUserForm(data=data)
+        self.assertFalse(form.is_valid())
+        self.assertIn('username', form.errors)
+        self.assertIn('first_name', form.errors)
+        self.assertIn('last_name', form.errors)
+        self.assertIn('email', form.errors)
+        self.assertIn('phone_number', form.errors)
+
+    # Test for form validation with invalid email
+    def test_form_validation_invalid_email(self):
+        data = {
+            'username': 'username',
+            'first_name': 'test',
+            'last_name': 'user',
+            'email': 'test user email',
+            'phone_number': '1-234-234-2917',
+        }
+        form = UpdateUserForm(data=data)
+        self.assertFalse(form.is_valid())
+        self.assertIn('email', form.errors)
+
+    # Test for form validation success
+    def test_form_validation_success(self):
+        data = {
+            'username': 'updated',
+            'first_name': 'updated',
+            'last_name': 'updated',
+            'email': 'updated@email.com',
+            'phone_number': '91-999-237-4456',
+        }
+        form = UpdateUserForm(data=data)
+        self.assertTrue(form.is_valid())
 
     ## Tests for change password form
 
