@@ -29,7 +29,7 @@ def index(request):
         }
         return render(request, 'index.html', context)
     else:
-        messages.error(request, 'You must be logged in to access this page, please register or login then try again!')
+        messages.error(request, 'You must be logged in to access this page. Please register or login then try again!')
         return redirect('login')
 
 # Create account view
@@ -57,7 +57,7 @@ def create_account(request):
             form = CreateAccountForm()
         return render(request, 'banking/create_account.html', {'form': form})
     else:
-        messages.error(request, 'You must be logged in to access this page, please register or login then try again!')
+        messages.error(request, 'You must be logged in to access this page. Please register or login then try again!')
         return redirect('login')
 
 # Update account view
@@ -82,7 +82,7 @@ def update_account(request, account_id):
         }
         return render(request, 'banking/update_account.html', context)
     else:
-        messages.error(request, 'You must be logged in to access this page, please register or login then try again!')
+        messages.error(request, 'You must be logged in to access this page. Please register or login then try again!')
         return redirect('login')
     
 # Delete account view
@@ -95,7 +95,7 @@ def delete_account(request, account_id):
             return redirect('home')
         return  render(request, 'banking/delete_account.html', {'account': account})
     else:
-        messages.error(request, 'You must be logged in to access this page, please register or login then try again!')
+        messages.error(request, 'You must be logged in to access this page. Please register or login then try again!')
         return redirect('login')
 
 # Deposit view
@@ -122,7 +122,7 @@ def deposit(request, account_id):
         }
         return render(request, 'banking/deposit.html', context)
     else:
-        messages.error(request, 'You must be logged in to access this page, please register or login then try again!')
+        messages.error(request, 'You must be logged in to access this page. Please register or login then try again!')
         return redirect('login')
     
 # Withdraw view
@@ -149,7 +149,7 @@ def withdraw(request, account_id):
         }
         return render(request, 'banking/withdraw.html', context)
     else:
-        messages.error(request, 'You must be logged in to access this page, please register or login then try again!')
+        messages.error(request, 'You must be logged in to access this page. Please register or login then try again!')
         return redirect('login')
  
 # View account transactions view
@@ -163,7 +163,7 @@ def transactions(request, account_id):
         }
         return render(request, 'banking/transaction_list.html', context)
     else:
-        messages.error(request, 'You must be logged in to access this page, please register or login then try again!')
+        messages.error(request, 'You must be logged in to access this page. Please register or login then try again!')
         return redirect('login')
 
 # Delete transaction view
@@ -186,7 +186,7 @@ def delete_transaction(request, transaction_id):
             return redirect('home')
         return render(request, 'banking/delete_transaction.html', {'transaction': transaction})
     else:
-        messages.error(request, 'You must be logged in to access this page, please register or login then try again!')
+        messages.error(request, 'You must be logged in to access this page. Please register or login then try again!')
         return redirect('login')
 
 # Update transaction view
@@ -230,5 +230,5 @@ def update_transaction(request, transaction_id):
         }
         return render(request, 'banking/update_transaction.html', context)
     else:
-        messages.error(request, 'You must be logged in to access this page, please register or login then try again!')
+        messages.error(request, 'You must be logged in to access this page. Please register or login then try again!')
         return redirect('login')

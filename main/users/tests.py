@@ -325,6 +325,8 @@ class TestUserViews(TestCase):
         self.assertRedirects(response, reverse('home'))
         user = get_user(response.wsgi_request)
         self.assertTrue(user.is_authenticated)
+        messages = [m.message for m in get_messages(response.wsgi_request)]
+        self.assertIn(f'Welcome {self.user.user.first_name}!', messages)
 
     ## Tests for logout view
     # Test for logout view success
@@ -359,6 +361,8 @@ class TestUserViews(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse('home'))
         self.assertTrue(CustomUser.objects.filter(user__username=data['username'], user__first_name=data['first_name'], user__last_name=data['last_name'], user__email=data['email'], phone_number=data['phone_number']).exists())
+        messages = [m.message for m in get_messages(response.wsgi_request)]
+        self.assertIn('You have been successfully registered! Welcome!', messages)
         
     ## Tests for update user view
     # Test for update user view when not logged in
@@ -366,6 +370,8 @@ class TestUserViews(TestCase):
         response = self.client.get(reverse('update-user'))
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse('login'))
+        messages = [m.message for m in get_messages(response.wsgi_request)]
+        self.assertIn('You must be logged in to access this page. Please register or login then try again!', messages)
         
     # Test for update user view rendering success
     def test_update_user_view_rendering_success(self):
@@ -389,6 +395,8 @@ class TestUserViews(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse('home'))
         self.assertTrue(CustomUser.objects.filter(user__username=data['username'], user__first_name=data['first_name'], user__last_name=data['last_name'], user__email=data['email'], phone_number=data['phone_number']).exists())
+        messages = [m.message for m in get_messages(response.wsgi_request)]
+        self.assertIn('Your profile has been successfully updated!', messages)
         
     ## Tests for change password view
     # Test for change password view when not logged in
@@ -396,6 +404,8 @@ class TestUserViews(TestCase):
         response = self.client.get(reverse('change-password'))
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse('login'))
+        messages = [m.message for m in get_messages(response.wsgi_request)]
+        self.assertIn('You must be logged in to access this page. Please register or login then try again!', messages)
 
     # Test for change password view rendering success
     def test_change_password_view_rendering_success(self):
@@ -415,6 +425,32 @@ class TestUserViews(TestCase):
         response = self.client.post(reverse('change-password'), data=data)
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse('home'))
+        messages = [m.message for m in get_messages(response.wsgi_request)]
+        self.assertIn('Your password has been changed!', messages)
         
     ## Tests for delete user view
+    # Test for delete user view when not logged in
+    def test_delete_user_not_logged_in(self):
+        response = self.client.get(reverse('delete-user'))
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse('login'))
+        messages = [m.message for m in get_messages(response.wsgi_request)]
+        self.assertIn('You must be logged in to access this page. Please register or login then try again!', messages)
+
+    # Test for delete user rendering success
+    def test_delete_user_rendering_success(self):
+        self.client.force_login(self.user.user)
+        response = self.client.get(reverse('delete-user'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'users/delete.html')
+
+    # Test for delete user success
+    def test_delete_user_success(self):
+        self.client.force_login(self.user.user)
+        response = self.client.post(reverse('delete-user'))
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse('login'))
+        self.assertFalse(CustomUser.objects.filter(pk=self.user.pk).exists())
+        messages = [m.message for m in get_messages(response.wsgi_request)]
+        self.assertIn('Your profile has been successfully deleted, goodbye!', messages)
         
