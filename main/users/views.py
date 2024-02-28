@@ -66,9 +66,9 @@ def update_user(request):
             return redirect('home')
         else:
             form.initial['phone_number'] = current_user.phone_number
-            return render(request, 'users/update.html', {'form': form})
+        return render(request, 'users/update.html', {'form': form})
     else:
-        messages.error(request, 'You must be logged in to access this page. Please login then try again!')
+        messages.error(request, 'You must be logged in to access this page. Please register or login then try again!')
         return redirect('login')
     
 # Change password view
@@ -82,15 +82,11 @@ def change_password(request):
                 login(request, current_user)
                 messages.success(request, 'Your password has been changed!')
                 return redirect('home')
-            else:
-                for error in list(form.errors.values()):
-                    messages.error(request, error)
-                return redirect('change-password')
         else:
             form = ChangePasswordForm(current_user)
-            return render(request, 'users/change_password.html', {'form': form})
+        return render(request, 'users/change_password.html', {'form': form})
     else:
-        messages.error(request, 'You must be logged in to access this page. Please login then try again!')
+        messages.error(request, 'You must be logged in to access this page. Please register or login then try again!')
         return redirect('login')
 
 def delete_user(request):
@@ -102,6 +98,6 @@ def delete_user(request):
             return redirect('login')
         return render(request, 'users/delete.html')
     else:
-        messages.error(request, 'You must be logged in to access this page. Please login then try again!')
+        messages.error(request, 'You must be logged in to access this page. Please register or login then try again!')
         return redirect('login')
     

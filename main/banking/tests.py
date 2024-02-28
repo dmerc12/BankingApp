@@ -180,6 +180,8 @@ class TestBankViews(TestCase):
         response = self.client.get(reverse('home'))
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse('login'))
+        messages = [m.message for m in get_messages(response.wsgi_request)]
+        self.assertIn('You must be logged in to access this page. Please register or login then try again!', messages)
 
     # Test for index view when logged in
     def test_index_view_success(self):
@@ -201,6 +203,8 @@ class TestBankViews(TestCase):
         response = self.client.get(reverse('create-account'))
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse('login'))
+        messages = [m.message for m in get_messages(response.wsgi_request)]
+        self.assertIn('You must be logged in to access this page. Please register or login then try again!', messages)
 
     # Test for create account rendering success
     def test_create_account_view_rendering_success(self):
@@ -225,6 +229,8 @@ class TestBankViews(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse('home'))
         self.assertTrue(Account.objects.filter(account_number=data['account_number'], bank_name=data['bank_name'], location=data['location']).exists())
+        messages = [m.message for m in get_messages(response.wsgi_request)]
+        self.assertIn('Account successfully created!', messages)
 
     # Test for create account with invalid opening balance
     def test_create_account_invalid_balance(self):
@@ -250,6 +256,8 @@ class TestBankViews(TestCase):
         response = self.client.get(reverse('update-account', args=[self.account1.pk]))
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse('login'))
+        messages = [m.message for m in get_messages(response.wsgi_request)]
+        self.assertIn('You must be logged in to access this page. Please register or login then try again!', messages)
 
     # Test for update account view rendering success
     def test_update_account_view_rendering_success(self):
@@ -273,6 +281,8 @@ class TestBankViews(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse('home'))
         self.assertTrue(Account.objects.filter(account_number=data['account_number'], bank_name=data['bank_name'], location=data['location']).exists())
+        messages = [m.message for m in get_messages(response.wsgi_request)]
+        self.assertIn('Account successfully updated!', messages)
         
     # Tests for delete account view
     # Test for delete account view if not logged in
@@ -281,6 +291,8 @@ class TestBankViews(TestCase):
         response = self.client.get(reverse('delete-account', args=[self.account3.pk]))
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse('login'))
+        messages = [m.message for m in get_messages(response.wsgi_request)]
+        self.assertIn('You must be logged in to access this page. Please register or login then try again!', messages)
 
     # Test for delete account view rendering success
     def test_delete_account_view_rendering_success(self):
@@ -304,6 +316,8 @@ class TestBankViews(TestCase):
         response = self.client.get(reverse('deposit', args=[self.account1.pk]))
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse('login'))
+        messages = [m.message for m in get_messages(response.wsgi_request)]
+        self.assertIn('You must be logged in to access this page. Please register or login then try again!', messages)
 
     # Test for deposit view rendering success
     def test_deposit_view_rendering_success(self):
@@ -327,6 +341,8 @@ class TestBankViews(TestCase):
         self.assertRedirects(response, reverse('home'))
         self.assertAlmostEqual(float(Account.objects.get(pk=self.account1.pk).balance), (float(self.account1.balance) + 5.34), places=2)
         self.assertTrue(Transaction.objects.filter(account=self.account1, amount=data['amount'], type='DEPOSIT', timestamp=data['timestamp'], notes=data['notes']).exists())
+        messages = [m.message for m in get_messages(response.wsgi_request)]
+        self.assertIn('Deposit successful!', messages)
 
     # Tests for withdraw view
     # Test for withdraw view if not logged in
@@ -335,6 +351,8 @@ class TestBankViews(TestCase):
         response = self.client.get(reverse('withdraw', args=[self.account1.pk]))
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse('login'))
+        messages = [m.message for m in get_messages(response.wsgi_request)]
+        self.assertIn('You must be logged in to access this page. Please register or login then try again!', messages)
 
     # Test for withdraw view rendering success
     def test_withdraw_view_rendering_success(self):
@@ -358,6 +376,8 @@ class TestBankViews(TestCase):
         self.assertRedirects(response, reverse('home'))
         self.assertAlmostEqual(float(Account.objects.get(pk=self.account1.pk).balance), (float(self.account1.balance) - 5.34), places=2)
         self.assertTrue(Transaction.objects.filter(account=self.account1, amount=data['amount'], type='WITHDRAW', timestamp=data['timestamp'], notes=data['notes']).exists())
+        messages = [m.message for m in get_messages(response.wsgi_request)]
+        self.assertIn('Withdraw successful!', messages)
 
     # Tests for view account transactions view
     # Test for view account transactions view if not logged in
@@ -366,6 +386,8 @@ class TestBankViews(TestCase):
         response = self.client.get(reverse('transactions', args=[self.account1.pk]))
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse('login'))
+        messages = [m.message for m in get_messages(response.wsgi_request)]
+        self.assertIn('You must be logged in to access this page. Please register or login then try again!', messages)
 
     # Test for view account transactions view rendering success
     def test_view_account_transactions_view_success(self):
@@ -381,6 +403,8 @@ class TestBankViews(TestCase):
         response = self.client.get(reverse('update-transaction', args=[self.transaction2.pk]))
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse('login'))
+        messages = [m.message for m in get_messages(response.wsgi_request)]
+        self.assertIn('You must be logged in to access this page. Please register or login then try again!', messages)
 
     # Test for update transaction view rendering success
     def test_update_transaction_view_rendering_success(self):
@@ -403,6 +427,8 @@ class TestBankViews(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse('home'))
         self.assertAlmostEqual(float(Account.objects.get(pk=self.transaction1.account.pk).balance), (self.transaction1.account.balance - self.transaction1.amount + data['amount']), places=2)
+        messages = [m.message for m in get_messages(response.wsgi_request)]
+        self.assertIn('Transaction successfully updated!', messages)
 
     # Test for update transaction view success for withdraw
     def test_update_transaction_view_success_withdraw(self):
@@ -418,6 +444,8 @@ class TestBankViews(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse('home'))
         self.assertAlmostEqual(float(Account.objects.get(pk=self.transaction2.account.pk).balance), (self.transaction2.account.balance + self.transaction1.amount - data['amount']), places=2)
+        messages = [m.message for m in get_messages(response.wsgi_request)]
+        self.assertIn('Transaction successfully updated!', messages)
 
     # Test for update transaction view success with amount unchanged
     def test_update_transaction_view_success_amount_unchanged(self):
@@ -435,6 +463,8 @@ class TestBankViews(TestCase):
         updated_transaction = Transaction.objects.get(pk=self.transaction2.pk)
         self.assertEqual(updated_transaction.timestamp, data['timestamp'])
         self.assertEqual(updated_transaction.notes, data['notes'])
+        messages = [m.message for m in get_messages(response.wsgi_request)]
+        self.assertIn('Transaction successfully updated!', messages)
 
     # Tests for delete transaction view
     # Test for delete transaction view if not logged in
@@ -443,6 +473,8 @@ class TestBankViews(TestCase):
         response = self.client.get(reverse('delete-transaction', args=[self.transaction1.pk]))
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse('login'))
+        messages = [m.message for m in get_messages(response.wsgi_request)]
+        self.assertIn('You must be logged in to access this page. Please register or login then try again!', messages)
 
     # Test for delete transaction view rendering success
     def test_delete_transaction_view_rendering_success(self):
@@ -459,6 +491,8 @@ class TestBankViews(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse('home'))
         self.assertAlmostEqual(float(Account.objects.get(pk=self.account1.pk).balance), initial_balance - self.transaction1.amount, places=2)
+        messages = [m.message for m in get_messages(response.wsgi_request)]
+        self.assertIn('Transaction successfully deleted!', messages)
 
     # Test for delete transaction view success for withdraw
     def test_delete_transaction_view_success_withdraw(self):
@@ -468,6 +502,8 @@ class TestBankViews(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse('home'))
         self.assertAlmostEqual(float(Account.objects.get(pk=self.account1.pk).balance), initial_balance + self.transaction2.amount, places=2)
+        messages = [m.message for m in get_messages(response.wsgi_request)]
+        self.assertIn('Transaction successfully deleted!', messages)
 
     # Test for delete transaction view when it's the only transaction associated with the account
     def test_delete_transaction_view_only_transaction(self):
