@@ -71,3 +71,15 @@ def step_impl(context, password2):
 def step_impl(context):
     context.register_poms.click_register_button()
     
+
+# When step for clicking the navbar dropdown toggle
+@when(u'I click the navbar dropdown toggle')
+def step_impl(context):
+    context.navbar_poms.toggle_navbar_dropdown()
+
+
+# When step for clicking the logout button in the navbar dropdown
+@when(u'I click the logout button')
+def step_impl(context):
+    context.navbar_poms.click_logout_button()
+    
