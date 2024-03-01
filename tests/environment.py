@@ -1,6 +1,7 @@
 from selenium.webdriver.safari.webdriver import WebDriver
 # from selenium.webdriver.edge.webdriver import WebDriver
 from poms.users.change_password import ChangePasswordPage
+from poms.users.update import UpdateUserPage
 from poms.users.register import RegisterPage
 from poms.side_navbar import SideNavbarPOMs
 from poms.users.login import LoginPage
@@ -16,6 +17,7 @@ def before_all(context: Context):
     context.login_poms = LoginPage(context.driver)
     context.register_poms = RegisterPage(context.driver)
     context.change_password_poms = ChangePasswordPage(context.driver)
+    context.update_user_poms = UpdateUserPage(context.driver)
 
     # banking poms
 
