@@ -82,4 +82,28 @@ def step_impl(context):
 @when(u'I click the logout button')
 def step_impl(context):
     context.navbar_poms.click_logout_button()
+
+
+# When step for clicking change password button in dropdown
+@when(u'I click the change password dropdown button')
+def step_impl(context):
+    context.navbar_poms.click_change_password_button()
+
+
+# When step for entering password1 on change password page
+@when(u'I enter {new_password1} in the new password1 field')
+def step_impl(context, new_password1):
+    context.change_password_poms.enter_password1_input(new_password1)
+
+
+# When step for entering password2 on change password page
+@when(u'I ender {new_password2} in the new password2 field')
+def step_impl(context, new_password2):
+    context.change_password_poms.enter_password2_input(new_password2)
+
+
+# When step for clicking change password button
+@when(u'I click the change password button')
+def step_impl(context):
+    context.change_password_poms.click_change_password_button()
     
