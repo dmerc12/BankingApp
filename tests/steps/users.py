@@ -72,6 +72,7 @@ def step_impl(context):
     context.register_poms.click_register_button()
     
 
+## Logout steps
 # When step for clicking the navbar dropdown toggle
 @when(u'I click the navbar dropdown toggle')
 def step_impl(context):
@@ -84,6 +85,7 @@ def step_impl(context):
     context.navbar_poms.click_logout_button()
 
 
+## Change password steps
 # When step for clicking change password button in the navbar dropdown
 @when(u'I click the change password dropdown button')
 def step_impl(context):
@@ -108,6 +110,7 @@ def step_impl(context):
     context.change_password_poms.click_change_password_button()
 
 
+## Update steps
 # When step for clicking update user button in the navbar dropdown
 @when(u'I click the update user dropdown button')
 def step_impl(context):
@@ -148,3 +151,16 @@ def step_impl(context, phone_number):
 @when(u'I click the update user button')
 def step_impl(context):
     context.update_user_poms.click_update_user_button()
+
+
+## Delete steps
+# When step for clicking delete user button on update user page
+@when(u'I click the delete user button')
+def step_impl(context):
+    context.delete_user_poms.click_delete_user_button()
+
+    
+# When step for clicking delete user button on delete user page
+@when(u'I click the delete user confirmation button')
+def step_impl(context):
+    context.delete_user_poms.click_delete_user_confirm_button()
