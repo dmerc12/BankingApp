@@ -1,3 +1,4 @@
+from poms.banking.create_account import CreateAccountPagePOMs
 from selenium.webdriver.safari.webdriver import WebDriver
 # from selenium.webdriver.edge.webdriver import WebDriver
 from poms.users.change_password import ChangePasswordPage
@@ -22,6 +23,7 @@ def before_all(context: Context):
     context.delete_user_poms = DeleteUserPage(context.driver)
 
     # banking poms
+    context.create_account_poms = CreateAccountPagePOMs(context.driver)
 
     # navigation poms
     context.navbar_poms = NavbarPOMs(context.driver)
