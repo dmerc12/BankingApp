@@ -14,6 +14,12 @@ class CreateAccountForm(forms.ModelForm):
         model = Account
         fields = ['account_number', 'bank_name', 'location', 'timestamp', 'opening_balance', 'opening_notes']
 
+    def clean_opening_balance(self):
+        amount = self.cleaned_data.get('opening_balance')
+        if amount <= 0:
+            raise forms.ValidationError("Opening balance must be greater than zero.")
+        return amount
+
 # Update account form
 class UpdateAccountForm(forms.ModelForm):
     account_number = forms.IntegerField(label='Account Number', widget=forms.NumberInput(attrs={'class':'form-control', 'placeholder':'Account Number'}))
